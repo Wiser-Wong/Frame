@@ -12,12 +12,11 @@ public class IHomeBiz extends WISERBiz<HomeActivity> {
     @Override
     public void initBiz(Bundle savedInstanceState) {
         super.initBiz(savedInstanceState);
-        System.out.println("-------savedInstanceStateBIz---------");
     }
 
     public void bizMethod(String string) {
         WISERHelper.toast().show(string);
-        ui().homeMethod("ddddd");
+        ui().homeMethod(string);
     }
 
 }

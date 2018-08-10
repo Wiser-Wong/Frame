@@ -51,7 +51,7 @@ public class HomeActivity extends WISERActivity<IHomeBiz> {
         System.out.println("------IHomeBiz-name---->>" + IHomeBiz.class.getSimpleName());
         System.out.println("----isExistHome------->>" + WISERHelper.getStructureManage().isExist(IHomeBiz.class));
         System.out.println("-----isExistSecond------->>" + WISERHelper.getStructureManage().isExist(ISecondBiz.class));
-
+        tvJson.setText(s);
 
     }
 

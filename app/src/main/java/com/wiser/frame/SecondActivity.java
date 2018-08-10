@@ -23,4 +23,8 @@ public class SecondActivity extends WISERActivity<ISecondBiz> {
     public void back(View view) {
         biz().back();
     }
+
+    public void resetUi(View view){
+        biz().resetUi();
+    }
 }

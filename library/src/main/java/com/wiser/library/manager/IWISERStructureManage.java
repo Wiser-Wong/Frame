@@ -28,4 +28,11 @@ public interface IWISERStructureManage {
      */
     <B extends WISERBiz> boolean isExist(Class<B> bizClazz);
 
+    /**
+     * @param bizClazz 参数
+     * @param <B>      参数
+     * @return 返回值
+     */
+    <B extends WISERBiz> B biz(Class<B> bizClazz);
+
 }

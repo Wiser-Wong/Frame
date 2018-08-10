@@ -54,4 +54,18 @@ public class WISERStructureManage implements IWISERStructureManage {
         }
         return false;
     }
+
+    @Override
+    public <B extends WISERBiz> B biz(Class<B> bizClazz) {
+        if (bizClazz == null) return null;
+        if (bizs.size() == 0) return null;
+        Set<Map.Entry<Integer, Object>> entries = bizs.entrySet();
+        for (Map.Entry<Integer, Object> entry : entries) {
+            Object classB = entry.getValue();
+            if (classB != null) {
+                if (bizClazz.equals(classB.getClass())) return (B) classB;
+            }
+        }
+        return null;
+    }
 }
