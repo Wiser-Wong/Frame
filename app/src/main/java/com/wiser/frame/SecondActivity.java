@@ -1,30 +1,32 @@
 package com.wiser.frame;
 
+import com.wiser.library.base.WISERActivity;
+import com.wiser.library.base.WISERBuilder;
+import com.wiser.library.helper.WISERHelper;
+
 import android.os.Bundle;
 import android.view.View;
 
-import com.wiser.library.base.WISERActivity;
-import com.wiser.library.base.WISERBuilder;
-
-
 public class SecondActivity extends WISERActivity<ISecondBiz> {
 
-    @Override
-    protected WISERBuilder build(WISERBuilder builder) {
-        builder.layoutId(R.layout.activity_second);
-        return builder;
-    }
+	public static void intent() {
+		WISERHelper.display().intent(SecondActivity.class);
+	}
 
-    @Override
-    public void initData(Bundle savedInstanceState) {
+	@Override protected WISERBuilder build(WISERBuilder builder) {
+		builder.layoutId(R.layout.activity_second);
+		return builder;
+	}
 
-    }
+	@Override public void initData(Bundle savedInstanceState) {
 
-    public void back(View view) {
-        biz().back();
-    }
+	}
 
-    public void resetUi(View view){
-        biz().resetUi();
-    }
+	public void back(View view) {
+		biz().back();
+	}
+
+	public void resetUi(View view) {
+		biz().resetUi();
+	}
 }

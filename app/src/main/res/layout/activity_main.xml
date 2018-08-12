@@ -1,7 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="20dp"
+        android:text="@string/app_name"
+        android:gravity="center"
+        android:background="@color/colorAccent"/>
 
     <Button
         android:id="@+id/tv_json"
@@ -12,4 +21,4 @@
         android:text="解析"
         android:textSize="30sp" />
 
-</RelativeLayout>
+</LinearLayout>

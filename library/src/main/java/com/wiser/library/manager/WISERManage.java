@@ -2,67 +2,80 @@ package com.wiser.library.manager;
 
 import android.app.Application;
 
+import com.wiser.library.helper.WISERDisplay;
+
 /**
- * @author Wiser
- * 类管理器
+ * @author Wiser 类管理器
  */
 public class WISERManage {
 
-    /**
-     * 日志管理类
-     */
-    private WISERLogManage logManger;
+	/**
+	 * 日志管理类
+	 */
+	private WISERLogManage			logManger;
 
-    /**
-     * Toast管理类
-     */
-    private WISERToastMange toastManger;
+	/**
+	 * Toast管理类
+	 */
+	private WISERToastMange			toastManger;
 
-    /**
-     * 线程管理类
-     */
-    private WISERHandlerExecutor synchronousExecutor;
-    /**
-     * Biz管理类
-     */
-    private WISERStructureManage structureManage;
-    /**
-     * Activity管理类
-     */
-    private WISERActivityManage activityManage;
+	/**
+	 * 线程管理类
+	 */
+	private WISERHandlerExecutor	synchronousExecutor;
 
-    private Application application;
+	/**
+	 * Biz管理类
+	 */
+	private WISERBizManage			bizManage;
 
-    public WISERManage(Application application) {
-        this.application = application;
-        logManger = new WISERLogManage();
-        toastManger = new WISERToastMange();
-        synchronousExecutor = new WISERHandlerExecutor();
-        structureManage = new WISERStructureManage();
-        activityManage = new WISERActivityManage();
-    }
+	/**
+	 * Activity管理类
+	 */
+	private WISERActivityManage		activityManage;
 
-    public Application getApplication() {
-        return application;
-    }
+	/**
+	 * 
+	 */
+	private WISERDisplay			display;
 
-    public WISERLogManage getLogManger() {
-        return logManger;
-    }
+	private Application				application;
 
-    public WISERToastMange getToastManger() {
-        return toastManger;
-    }
+	public WISERManage(Application application) {
+		this.application = application;
+		logManger = new WISERLogManage();
+		toastManger = new WISERToastMange();
+		synchronousExecutor = new WISERHandlerExecutor();
+		bizManage = new WISERBizManage();
+		activityManage = new WISERActivityManage();
+		display = new WISERDisplay();
+	}
 
-    public WISERHandlerExecutor getSynchronousExecutor() {
-        return synchronousExecutor;
-    }
+	public Application getApplication() {
+		return application;
+	}
 
-    public WISERStructureManage getStructureManage() {
-        return structureManage;
-    }
+	public WISERLogManage getLogManger() {
+		return logManger;
+	}
 
-    public WISERActivityManage getActivityManage() {
-        return activityManage;
+	public WISERToastMange getToastManger() {
+		return toastManger;
+	}
+
+	public WISERHandlerExecutor getSynchronousExecutor() {
+		return synchronousExecutor;
+	}
+
+	public WISERBizManage getBizManage() {
+		return bizManage;
+	}
+
+	public WISERActivityManage getActivityManage() {
+		return activityManage;
+	}
+
+    public WISERDisplay getDisplay() {
+		return display;
     }
 }

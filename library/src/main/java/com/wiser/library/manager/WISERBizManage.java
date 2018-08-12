@@ -13,11 +13,11 @@ import java.util.concurrent.ConcurrentHashMap;
  * @version 版本
  */
 @SuppressWarnings("unchecked")
-public class WISERStructureManage implements IWISERStructureManage {
+public class WISERBizManage implements IWISERBizManage {
 
     private final Map<Integer, Object> bizs;
 
-    public WISERStructureManage() {
+    public WISERBizManage() {
         bizs = new ConcurrentHashMap<>();
     }
 

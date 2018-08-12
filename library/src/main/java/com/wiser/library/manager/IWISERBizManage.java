@@ -8,7 +8,7 @@ import com.wiser.library.model.WISERStructureModel;
  * @author Wiser
  * @version 版本
  */
-public interface IWISERStructureManage {
+public interface IWISERBizManage {
 
     /**
      * @param model 参数
