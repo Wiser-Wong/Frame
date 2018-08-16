@@ -2,9 +2,12 @@ package com.wiser.frame;
 
 import com.wiser.library.base.WISERActivity;
 import com.wiser.library.base.WISERBuilder;
+import com.wiser.library.base.WISERRecycleView;
 import com.wiser.library.helper.WISERHelper;
 
 import android.os.Bundle;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 import android.widget.Button;
 
@@ -22,14 +25,23 @@ public class HomeActivity extends WISERActivity<IHomeBiz> {
 
 	@Override protected WISERBuilder build(WISERBuilder builder) {
 		builder.layoutId(R.layout.activity_main);
-		builder.tintIs(true);
+		builder.tintFitsSystem(true);
+		builder.tintIs(false);
 		builder.tintColor(getResources().getColor(R.color.colorAccent));
+		builder.swipeBack(false);
+		builder.recycleView().recycleViewId(R.id.home_rlv);
+		builder.recycleView().recycleAdapter(new HomeAdapter(this));
+		builder.recycleView().recycleViewLinearManager(LinearLayoutManager.VERTICAL, new DefaultItemAnimator());
+		builder.layoutEmptyId(R.layout.view_empty);
+		builder.layoutErrorId(R.layout.view_error);
+		builder.layoutLoadingId(R.layout.view_loading);
 		return builder;
 	}
 
 	@Override public void initData(Bundle savedInstanceState) {
 		System.out.println("----tvJson--->>" + tvJson);
 		biz().bizMethod("dddd");
+		biz().addData();
 		WISERHelper.log().e(WISERHelper.getActivityManage().getCurrentActivity().getClass().getSimpleName());
 	}
 
@@ -44,15 +56,17 @@ public class HomeActivity extends WISERActivity<IHomeBiz> {
 		// List<ABean> tBeans = new Utils<ABean>().getDatas(gson.toJson(aBeans),
 		// ABean.class);
 		// homeMethod("aaa");
-		SecondActivity.intent();
-		this.finish();
+		// SecondActivity.intent();
+		 showEmptyView();
+		 showErrorView();
+		showLoading();
 	}
 
 	public void homeMethod(String s) {
 
 		System.out.println("------biz()---->>" + biz());
 		System.out.println("------biz-name---->>" + biz().getClass().getSimpleName());
-		System.out.println("------IHomeBdfcx   iz-name---->>" + IHomeBiz.class.getSimpleName());
+		System.out.println("------IHomeBiz-name---->>" + IHomeBiz.class.getSimpleName());
 		System.out.println("----isExistHome------->>" + WISERHelper.getBizManage().isExist(IHomeBiz.class));
 		System.out.println("-----isExistSecond------->>" + WISERHelper.getBizManage().isExist(ISecondBiz.class));
 		tvJson.setText(s);

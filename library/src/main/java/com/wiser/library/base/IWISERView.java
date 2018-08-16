@@ -1,33 +1,41 @@
 package com.wiser.library.base;
 
-import android.content.Context;
-
 /**
  * @author Wiser
  * @version 版本
  */
 public interface IWISERView {
 
-    /**
-     * 显示正在加载view
-     */
-    void showLoading();
+	int	STATE_CONTENT		= 1;
 
-    /**
-     * 隐藏正在加载View
-     */
-    void hideLoading();
+	int	STATE_LOADING		= 2;
 
-    /**
-     * 显示请求错误提示
-     */
-    void showErr();
+	int	STATE_EMPTY			= 3;
 
-    /**
-     * 获取上下文
-     *
-     * @return 上下文
-     */
-    Context getContext();
+	int	STATE_HTTP_ERROR	= 4;
 
+	/**
+	 * 显示正在加载view
+	 */
+	void showLoading();
+
+	/**
+	 * 隐藏正在加载View
+	 */
+	void hideLoading();
+
+	/**
+	 * 显示请求错误布局
+	 */
+	void showErrorView();
+
+	/**
+	 * 显示空布局
+	 */
+	void showEmptyView();
+
+	/**
+	 * 显示主布局
+	 */
+	void showContentView();
 }

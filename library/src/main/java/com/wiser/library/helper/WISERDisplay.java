@@ -32,6 +32,10 @@ public class WISERDisplay implements IWISERDisplay {
 		}
 	}
 
+	@Override public void finish() {
+		if (activity() != null) activity().finish();
+	}
+
 	@Override public void intent(Class clazz) {
 		intent(clazz, null);
 	}

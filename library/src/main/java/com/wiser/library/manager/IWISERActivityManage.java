@@ -1,9 +1,10 @@
 package com.wiser.library.manager;
 
-import android.app.Activity;
+import com.wiser.library.model.WISERActivityModel;
+
 import android.support.v4.app.FragmentActivity;
 
-import com.wiser.library.model.WISERActivityModel;
+import java.util.List;
 
 /**
  * @author Wiser
@@ -72,6 +73,18 @@ public interface IWISERActivityManage {
 	 * 运行
 	 */
 	void onResume(FragmentActivity activity);
+
+	/**
+	 * Activity集合size
+	 */
+	int size();
+
+	/**
+	 * 获取Activity集合对象
+	 * 
+	 * @return
+	 */
+	List<WISERActivityModel> getActivityModels();
 
 	/**
 	 * 打印Activity集合

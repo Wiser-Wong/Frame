@@ -30,7 +30,7 @@ public class WISERHelper {
 		public void Inject(Application application, boolean SWITCH) {
 			if (application == null) throw new RuntimeException("SKYLINE架构:Application没有设置");
 
-			IWISERConfig.SWITCH_CONFIG = SWITCH;
+			IWISERConfig.IS_DEBUG = SWITCH;
 			mWiserManage = new WISERManage(application);
 		}
 

@@ -5,13 +5,13 @@ package com.wiser.library.model;
  * @author Wiser
  * @version 版本
  */
-public class WISERStructureModel {
+public class WISERBizModel {
 
     private Object bizClass;
 
     private int key;
 
-    public WISERStructureModel(Object bizClass) {
+    public WISERBizModel(Object bizClass) {
         key = bizClass.hashCode();
         this.bizClass = bizClass;
     }

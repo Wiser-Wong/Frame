@@ -29,6 +29,11 @@ public interface IWISERDisplay {
 	<T extends FragmentActivity> T activity();
 
 	/**
+	 * 结束界面
+	 */
+	void finish();
+
+	/**
 	 * 跳转intent
 	 *
 	 * @param clazz

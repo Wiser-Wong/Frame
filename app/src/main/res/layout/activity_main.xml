@@ -1,24 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <TextView
+    <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="20dp"
-        android:text="@string/app_name"
-        android:gravity="center"
-        android:background="@color/colorAccent"/>
+        android:layout_height="match_parent"
+        android:background="@color/colorPrimary"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:elevation="2dp">
 
-    <Button
-        android:id="@+id/tv_json"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:onClick="parse"
-        android:text="解析"
-        android:textSize="30sp" />
+        <android.support.v7.widget.Toolbar
+            style="@style/AppBarOverlay"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@mipmap/antu_trip_first_bg"
+            android:paddingTop="@dimen/toolbar_fit_system">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:padding="20dp"
+                    android:text="@string/app_name"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="30sp" />
+
+                <Button
+                    android:id="@+id/tv_json"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:onClick="parse"
+                    android:text="解析"
+                    android:textSize="30sp" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/home_rlv"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+            </LinearLayout>
+
+        </android.support.v7.widget.Toolbar>
+
+    </android.support.design.widget.AppBarLayout>
 
 </LinearLayout>

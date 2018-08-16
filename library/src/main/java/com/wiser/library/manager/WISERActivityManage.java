@@ -2,11 +2,14 @@ package com.wiser.library.manager;
 
 import android.support.v4.app.FragmentActivity;
 
+import com.wiser.library.config.IWISERConfig;
 import com.wiser.library.helper.WISERHelper;
 import com.wiser.library.model.WISERActivityModel;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * @author Wiser activity的管理类
@@ -42,6 +45,7 @@ public class WISERActivityManage implements IWISERActivityManage {
 				model.destroyLog();
 			}
 			this.activities.remove(model);
+			WISERHelper.getBizManage().detach(model.getBizModel());
 		}
 	}
 
@@ -51,9 +55,8 @@ public class WISERActivityManage implements IWISERActivityManage {
 	@Override public void finishAllActivity() {
 		if (activities.size() == 0) return;
 		for (int i = 0; i < activities.size(); i++) {
-			this.activities.get(i).finish();
+			finishActivity(this.activities.get(i));
 		}
-		this.activities.clear();
 	}
 
 	/**
@@ -63,10 +66,9 @@ public class WISERActivityManage implements IWISERActivityManage {
 
 		for (WISERActivityModel model : activities) {
 			if (model != null) {
-				model.finish();
+				finishActivity(model);
 			}
 		}
-		this.activities.clear();
 		System.exit(0);
 
 	}
@@ -168,19 +170,39 @@ public class WISERActivityManage implements IWISERActivityManage {
 		}
 	}
 
-    /**
-     * 打印存在的Activity
-     */
+	@Override public int size() {
+		return activities.size();
+	}
+
+	@Override public List<WISERActivityModel> getActivityModels() {
+		return activities;
+	}
+
+	/**
+	 * 打印存在的Activity
+	 */
 	@Override public void logActivityList() {
-		StringBuilder log = new StringBuilder();
-		for (int i = 0; i < activities.size(); i++) {
-			if (i == activities.size() - 1) {
-				log.append(activities.get(i).getActivity());
-			} else {
-				log.append(activities.get(i).getActivity()).append("--->>");
+		if (IWISERConfig.IS_DEBUG) {
+			Map<Integer, Object> bizList = WISERHelper.getBizManage().bizList();
+			if (bizList == null || bizList.size() != activities.size()) {
+				return;
 			}
+			Set<Map.Entry<Integer, Object>> entries = bizList.entrySet();
+			StringBuilder activityListString = new StringBuilder();
+			StringBuilder bizListString = new StringBuilder();
+			for (Map.Entry<Integer, Object> entry : entries) {
+				bizListString.append(entry.getValue()).append("--->>");
+			}
+			for (int i = 0; i < activities.size(); i++) {
+				if (i == activities.size() - 1) {
+					activityListString.append(activities.get(i).getActivity());
+				} else {
+					activityListString.append(activities.get(i).getActivity()).append("--->>");
+				}
+			}
+			WISERHelper.log().e("activityList---:" + activityListString.toString());
+			WISERHelper.log().e("bizList---:" + bizListString.toString());
 		}
-		WISERHelper.log().e(log.toString());
 	}
 
 }

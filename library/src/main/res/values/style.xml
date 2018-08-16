@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- app toolbar 白色颜色背景-->
+    <style name="AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="contentInsetStart">0dp</item>
+        <item name="android:layout_height">56dp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:background">@android:color/white</item>
+        <!--<item name="android:textColorPrimaryInverse">@color/font</item>-->
+        <item name="titleTextAppearance">@style/ToolBarTitleText</item>
+    </style>
+    <!-- 标题字体颜色 -->
+    <style name="ToolBarTitleText" parent="TextAppearance.AppCompat.Medium">
+        <item name="android:textColor">#ffffffff</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+</resources>

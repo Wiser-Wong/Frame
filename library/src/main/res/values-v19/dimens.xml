@@ -1,0 +1,4 @@
+<resources>
+    <dimen name="toolbar_fit_system">25dp</dimen>
+    <dimen name="theme_top">95dp</dimen>
+</resources>

@@ -18,8 +18,11 @@ public class WISERActivityModel {
 
 	private String				activityName;
 
-	public WISERActivityModel(FragmentActivity activity, boolean isLanding) {
+	private WISERBizModel bizModel;
+
+	public WISERActivityModel(FragmentActivity activity, WISERBizModel bizModel, boolean isLanding) {
 		this.activity = activity;
+		this.bizModel = bizModel;
 		this.activityName = activity.getClass().getSimpleName();
 		this.isLanding = isLanding;
 		WISERHelper.log().e(this.activityName + " 创建.");
@@ -54,6 +57,10 @@ public class WISERActivityModel {
 
 	public boolean isRunning() {
 		return isRunning;
+	}
+
+	public WISERBizModel getBizModel() {
+		return bizModel;
 	}
 
 	public void finish() {
