@@ -20,6 +20,7 @@ import retrofit2.Retrofit;
 
 /**
  * @author Wiser 帮助类
+ * @version 版本
  */
 public class WISERHelper {
 
