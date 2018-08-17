@@ -22,6 +22,7 @@ import retrofit2.Retrofit;
  * @author Wiser 帮助类
  * @version 版本
  */
+@SuppressWarnings("unchecked")
 public class WISERHelper {
 
 	private static WISERManage mWiserManage = null;
@@ -61,6 +62,17 @@ public class WISERHelper {
 			mWiserManage.init(iwiserBind, application);
 		}
 
+	}
+
+	/**
+	 * 获取管理
+	 *
+	 * @param <M>
+	 *            参数
+	 * @return 返回值
+	 */
+	protected static <M> M getManage() {
+		return (M) mWiserManage;
 	}
 
 	/**
