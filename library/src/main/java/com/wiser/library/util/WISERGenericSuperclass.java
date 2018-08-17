@@ -2,6 +2,7 @@ package com.wiser.library.util;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.util.List;
 
 /**
  * @author Wiser
@@ -16,16 +17,15 @@ public class WISERGenericSuperclass {
 	 * @return
 	 */
 	public static Class<?> getActualTypeArgument(Class<?> clazz) {
-		Class<?> entitiClass = null;
+		Class<?> entityClass = null;
 		Type genericSuperclass = clazz.getGenericSuperclass();
 		if (genericSuperclass instanceof ParameterizedType) {
 			Type[] actualTypeArguments = ((ParameterizedType) genericSuperclass).getActualTypeArguments();
 			if (actualTypeArguments != null && actualTypeArguments.length > 0) {
-				entitiClass = (Class<?>) actualTypeArguments[0];
+				entityClass = (Class<?>) actualTypeArguments[0];
 			}
 		}
 
-		return entitiClass;
+		return entityClass;
 	}
-
 }

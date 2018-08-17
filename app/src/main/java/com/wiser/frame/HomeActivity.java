@@ -56,10 +56,10 @@ public class HomeActivity extends WISERActivity<IHomeBiz> {
 		// List<ABean> tBeans = new Utils<ABean>().getDatas(gson.toJson(aBeans),
 		// ABean.class);
 		// homeMethod("aaa");
-		// SecondActivity.intent();
-		 showEmptyView();
-		 showErrorView();
-		showLoading();
+		SecondActivity.intent();
+		// showEmptyView();
+		// showErrorView();
+		// showLoading();
 	}
 
 	public void homeMethod(String s) {

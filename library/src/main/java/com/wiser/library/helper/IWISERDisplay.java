@@ -5,8 +5,11 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.AnimRes;
+import android.support.annotation.IdRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+
+import org.jetbrains.annotations.NotNull;
 
 /**
  * @author Wiser
@@ -197,6 +200,34 @@ public interface IWISERDisplay {
 	 *            参数
 	 */
 	void commitReplace(int layoutId, Fragment fragment);
+
+	/**
+	 * @param srcFragment
+	 *            参数
+	 * @param layoutId
+	 *            参数
+	 * @param fragment
+	 *            参数
+	 */
+	void commitChildReplace(Fragment srcFragment, @IdRes int layoutId, Fragment fragment);
+
+	/**
+	 * @param layoutId
+	 *            参数
+	 * @param fragment
+	 *            参数
+	 */
+	void commitBackStack(@IdRes int layoutId, Fragment fragment);
+
+	/**
+	 * @param layoutId
+	 *            参数
+	 * @param fragment
+	 *            参数
+	 * @param animation
+	 *            参数
+	 */
+	void commitBackStack(@IdRes int layoutId, Fragment fragment, int animation);
 
 	/**
 	 * 

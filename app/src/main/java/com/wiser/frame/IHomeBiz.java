@@ -8,6 +8,8 @@ import com.wiser.library.helper.WISERHelper;
 import java.util.ArrayList;
 import java.util.List;
 
+import retrofit2.Call;
+
 public class IHomeBiz extends WISERBiz<HomeActivity> {
 
 	@Override public void initBiz(Bundle savedInstanceState) {
@@ -27,6 +29,11 @@ public class IHomeBiz extends WISERBiz<HomeActivity> {
 			aBeans.add(aBean);
 		}
 		ui().setItems(aBeans);
+	}
+
+	public void loadData() {
+		Call<ABean> call = http(IHttp.class).get();
+		ABean aBean = httpBody(call);
 	}
 
 }

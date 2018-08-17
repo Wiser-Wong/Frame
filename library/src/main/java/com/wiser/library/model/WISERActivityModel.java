@@ -18,7 +18,7 @@ public class WISERActivityModel {
 
 	private String				activityName;
 
-	private WISERBizModel bizModel;
+	private WISERBizModel		bizModel;
 
 	public WISERActivityModel(FragmentActivity activity, WISERBizModel bizModel, boolean isLanding) {
 		this.activity = activity;

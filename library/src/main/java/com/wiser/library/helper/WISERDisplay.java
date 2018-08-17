@@ -12,6 +12,11 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
+
+import com.wiser.library.util.WISERCheckUtil;
+
+import org.jetbrains.annotations.NotNull;
 
 /**
  * @author Wiser
@@ -161,6 +166,37 @@ public class WISERDisplay implements IWISERDisplay {
 		if (layoutId > 0 && fragment != null) {
 			activity().getSupportFragmentManager().beginTransaction().replace(layoutId, fragment).commit();
 		}
+	}
+
+	@SuppressLint("ResourceType") @Override public void commitChildReplace(Fragment srcFragment, int layoutId, Fragment fragment) {
+		WISERCheckUtil.checkArgument(layoutId > 0, "提交布局ID 不能为空~");
+		WISERCheckUtil.checkNotNull(fragment, "fragment不能为空~");
+		if (activity() == null) {
+			return;
+		}
+		srcFragment.getChildFragmentManager().beginTransaction().replace(layoutId, fragment, fragment.getClass().getName()).setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+				.commitAllowingStateLoss();
+	}
+
+	@SuppressLint("ResourceType") @Override public void commitBackStack(int layoutId, Fragment fragment) {
+		WISERCheckUtil.checkArgument(layoutId > 0, "提交布局ID 不能为空~");
+		WISERCheckUtil.checkNotNull(fragment, "fragment不能为空~");
+		if (activity() == null) {
+			return;
+		}
+		activity().getSupportFragmentManager().beginTransaction().add(layoutId, fragment, fragment.getClass().getName()).addToBackStack(fragment.getClass().getName())
+				.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).commitAllowingStateLoss();
+	}
+
+	@SuppressLint("ResourceType") @Override public void commitBackStack(int layoutId, Fragment fragment, int animation) {
+		WISERCheckUtil.checkArgument(layoutId > 0, "提交布局ID 不能为空~");
+		WISERCheckUtil.checkArgument(animation > 0, "动画 不能为空~");
+		WISERCheckUtil.checkNotNull(fragment, "fragment不能为空~");
+		if (activity() == null) {
+			return;
+		}
+		activity().getSupportFragmentManager().beginTransaction().add(layoutId, fragment, fragment.getClass().getName()).addToBackStack(fragment.getClass().getName())
+				.setTransition(animation != 0 ? animation : FragmentTransaction.TRANSIT_FRAGMENT_OPEN).commitAllowingStateLoss();
 	}
 
 	@Override public void commitRemove(Fragment fragment) {

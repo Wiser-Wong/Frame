@@ -45,7 +45,7 @@ public class WISERActivityManage implements IWISERActivityManage {
 				model.destroyLog();
 			}
 			this.activities.remove(model);
-			WISERHelper.getBizManage().detach(model.getBizModel());
+			if (model.getBizModel() != null) WISERHelper.getBizManage().detach(model.getBizModel());
 		}
 	}
 
@@ -184,7 +184,7 @@ public class WISERActivityManage implements IWISERActivityManage {
 	@Override public void logActivityList() {
 		if (IWISERConfig.IS_DEBUG) {
 			Map<Integer, Object> bizList = WISERHelper.getBizManage().bizList();
-			if (bizList == null || bizList.size() != activities.size()) {
+			if (bizList == null) {
 				return;
 			}
 			Set<Map.Entry<Integer, Object>> entries = bizList.entrySet();

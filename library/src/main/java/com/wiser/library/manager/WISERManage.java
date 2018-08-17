@@ -2,7 +2,10 @@ package com.wiser.library.manager;
 
 import android.app.Application;
 
+import com.wiser.library.base.IWISERBind;
 import com.wiser.library.helper.WISERDisplay;
+
+import retrofit2.Retrofit;
 
 /**
  * @author Wiser 类管理器
@@ -17,12 +20,12 @@ public class WISERManage {
 	/**
 	 * Toast管理类
 	 */
-	private WISERToastMange			toastManger;
+	private WISERToastManage		toastManger;
 
 	/**
 	 * 线程管理类
 	 */
-	private WISERHandlerExecutor	synchronousExecutor;
+	private WISERHandlerExecutor	handlerExecutor;
 
 	/**
 	 * Biz管理类
@@ -34,21 +37,32 @@ public class WISERManage {
 	 */
 	private WISERActivityManage		activityManage;
 
-	/**
-	 * 
-	 */
 	private WISERDisplay			display;
+
+	/**
+	 * 网络配置
+	 */
+	private Retrofit				retrofit;
+
+	/**
+	 * 网络管理
+	 */
+	private WISERHttpManage			httpManage;
 
 	private Application				application;
 
-	public WISERManage(Application application) {
+	public WISERManage() {}
+
+	public void init(IWISERBind iwiserBind, Application application) {
 		this.application = application;
 		logManger = new WISERLogManage();
-		toastManger = new WISERToastMange();
-		synchronousExecutor = new WISERHandlerExecutor();
+		toastManger = new WISERToastManage();
+		handlerExecutor = new WISERHandlerExecutor();
 		bizManage = new WISERBizManage();
 		activityManage = new WISERActivityManage();
 		display = new WISERDisplay();
+		httpManage = new WISERHttpManage();
+		retrofit = iwiserBind.getRetrofit(new Retrofit.Builder());
 	}
 
 	public Application getApplication() {
@@ -56,26 +70,83 @@ public class WISERManage {
 	}
 
 	public WISERLogManage getLogManger() {
+		if (logManger == null) {
+			synchronized (WISERLogManage.class) {
+				if (logManger == null) {
+					logManger = new WISERLogManage();
+				}
+			}
+		}
 		return logManger;
 	}
 
-	public WISERToastMange getToastManger() {
+	public WISERToastManage getToastManger() {
+		if (toastManger == null) {
+			synchronized (WISERToastManage.class) {
+				if (toastManger == null) {
+					toastManger = new WISERToastManage();
+				}
+			}
+		}
 		return toastManger;
 	}
 
 	public WISERHandlerExecutor getSynchronousExecutor() {
-		return synchronousExecutor;
+		if (handlerExecutor == null) {
+			synchronized (WISERHandlerExecutor.class) {
+				if (handlerExecutor == null) {
+					handlerExecutor = new WISERHandlerExecutor();
+				}
+			}
+		}
+		return handlerExecutor;
 	}
 
 	public WISERBizManage getBizManage() {
+		if (bizManage == null) {
+			synchronized (WISERBizManage.class) {
+				if (bizManage == null) {
+					bizManage = new WISERBizManage();
+				}
+			}
+		}
 		return bizManage;
 	}
 
 	public WISERActivityManage getActivityManage() {
+		if (activityManage == null) {
+			synchronized (WISERActivityManage.class) {
+				if (activityManage == null) {
+					activityManage = new WISERActivityManage();
+				}
+			}
+		}
 		return activityManage;
 	}
 
-    public WISERDisplay getDisplay() {
+	public WISERDisplay getDisplay() {
+		if (display == null) {
+			synchronized (WISERDisplay.class) {
+				if (display == null) {
+					display = new WISERDisplay();
+				}
+			}
+		}
 		return display;
-    }
+	}
+
+	public WISERHttpManage getHttpManage() {
+		if (httpManage == null) {
+			synchronized (WISERHttpManage.class) {
+				if (httpManage == null) {
+					httpManage = new WISERHttpManage();
+				}
+			}
+		}
+		return httpManage;
+	}
+
+	public Retrofit getRetrofit() {
+		return retrofit;
+	}
 }

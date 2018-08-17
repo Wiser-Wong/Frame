@@ -10,7 +10,7 @@ import com.wiser.library.helper.WISERHelper;
  * @author Wiser
  * Toast管理类
  */
-public class WISERToastMange {
+public class WISERToastManage {
 
     private Toast mToast = null;
 

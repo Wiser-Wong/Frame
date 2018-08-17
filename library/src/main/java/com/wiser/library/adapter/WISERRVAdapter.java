@@ -7,6 +7,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.wiser.library.base.WISERActivity;
+import com.wiser.library.base.WISERBiz;
+import com.wiser.library.base.WISERFragment;
+import com.wiser.library.base.WISERView;
+import com.wiser.library.helper.IWISERDisplay;
 import com.wiser.library.util.WISERCheckUtil;
 
 import java.util.List;
@@ -26,12 +30,18 @@ public abstract class WISERRVAdapter<T, V extends WISERHolder> extends RecyclerV
 	 */
 	private List			mItems;
 
-	private WISERActivity	mWiserActivity;
+	private WISERView		wiserView;
 
 	public WISERRVAdapter(WISERActivity mWiserActivity) {
 		WISERCheckUtil.checkNotNull(mWiserActivity, "View层不存在");
-		this.mWiserActivity = mWiserActivity;
+		wiserView = mWiserActivity.wiserView();
 		this.mInflater = LayoutInflater.from(mWiserActivity);
+	}
+
+	public WISERRVAdapter(WISERFragment mWiserFragment) {
+		WISERCheckUtil.checkNotNull(mWiserFragment, "View层不存在");
+		wiserView = mWiserFragment.wiserView();
+		this.mInflater = LayoutInflater.from(wiserView.activity());
 	}
 
 	// WiserHolder对象
@@ -46,7 +56,7 @@ public abstract class WISERRVAdapter<T, V extends WISERHolder> extends RecyclerV
 	}
 
 	public WISERActivity activity() {
-		return mWiserActivity;
+		return wiserView.activity();
 	}
 
 	public void setItems(List mItems) {
@@ -115,6 +125,39 @@ public abstract class WISERRVAdapter<T, V extends WISERHolder> extends RecyclerV
 	public void clear() {
 		mItems.clear();
 		notifyDataSetChanged();
+	}
+
+	/**
+	 * 获取fragment
+	 *
+	 * @param <U>
+	 *            参数
+	 * @param clazz
+	 *            参数
+	 * @return 返回值
+	 */
+	public <U> U findFragment(Class<U> clazz) {
+		WISERCheckUtil.checkNotNull(clazz, "class不能为空");
+		return (U) wiserView.manager().findFragmentByTag(clazz.getSimpleName());
+	}
+
+	public WISERView wiserView() {
+		return wiserView;
+	}
+
+	public <B extends WISERBiz> B biz() {
+		return wiserView.biz();
+	}
+
+	/**
+	 * 获取调度
+	 *
+	 * @param <E>
+	 *            参数
+	 * @return 返回值
+	 */
+	protected <E extends IWISERDisplay> E display() {
+		return wiserView.display();
 	}
 
 	@NonNull @Override public V onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {

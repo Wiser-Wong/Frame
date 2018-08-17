@@ -2,6 +2,8 @@ package com.wiser.library.base;
 
 import com.jude.swipbackhelper.SwipeBackHelper;
 import com.wiser.library.adapter.WISERRVAdapter;
+import com.wiser.library.helper.IWISERDisplay;
+import com.wiser.library.helper.WISERDisplay;
 import com.wiser.library.helper.WISERHelper;
 import com.wiser.library.model.WISERActivityModel;
 import com.wiser.library.model.WISERBizModel;
@@ -10,6 +12,7 @@ import com.wiser.library.util.WISERGenericSuperclass;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 
@@ -33,6 +36,8 @@ public abstract class WISERActivity<B extends IWISERBiz> extends AppCompatActivi
 	private WISERActivityModel	activityModel;
 
 	protected abstract WISERBuilder build(WISERBuilder builder);
+
+	public abstract void initData(Bundle savedInstanceState);
 
 	@Override protected void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -59,15 +64,15 @@ public abstract class WISERActivity<B extends IWISERBiz> extends AppCompatActivi
 
 		// 初始化所有组件
 		ButterKnife.bind(this);
-		// 将Activity对应的实例传给biz
-		biz().initActivity(this);
-		// 初始化Biz数据
-		biz().initBiz(savedInstanceState);
+		if (biz() != null) {
+			// 将Activity对应的实例传给biz
+			biz().initUi(this);
+			// 初始化Biz数据
+			biz().initBiz(savedInstanceState);
+		}
 		// 初始化数据
 		initData(savedInstanceState);
 	}
-
-	public abstract void initData(Bundle savedInstanceState);
 
 	// 显示空布局
 	@Override public void showEmptyView() {
@@ -89,33 +94,16 @@ public abstract class WISERActivity<B extends IWISERBiz> extends AppCompatActivi
 		if (mWiserBuilder != null) mWiserBuilder.showLoadingView();
 	}
 
-	// 隐藏加载动画
-	@Override public void hideLoading() {
-
-	}
-
+	// 获取Adapter实例
 	public WISERRVAdapter adapter() {
-		WISERCheckUtil.checkNotNull(mWiserBuilder.adapter(), "未找到注册的RecycleAdapter实例");
+		// WISERCheckUtil.checkNotNull(mWiserBuilder.adapter(),
+		// "未找到注册的RecycleAdapter实例");
 		return mWiserBuilder.adapter();
 	}
 
+	// 添加RecycleView 适配器
 	public void setItems(List list) {
 		if (adapter() != null) adapter().setItems(list);
-	}
-
-	/**
-	 * 通过对应类获取实例
-	 *
-	 * @param classB
-	 * @return
-	 */
-	public B biz(Class classB) {
-		try {
-			return (B) classB.newInstance();
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw new RuntimeException("WISER架构:获取biz对象失败");
-		}
 	}
 
 	/**
@@ -129,15 +117,35 @@ public abstract class WISERActivity<B extends IWISERBiz> extends AppCompatActivi
 			return b;
 		} catch (Exception e) {
 			e.printStackTrace();
-			throw new RuntimeException("WISER架构:获取biz对象失败");
+			return null;
 		}
+	}
+
+	public <D extends IWISERDisplay> D display() {
+		return (D) WISERHelper.display();
+	}
+
+	/**
+	 * @param <T>
+	 *            参数
+	 * @param clazz
+	 *            参数
+	 * @return 返回值
+	 */
+	public <T> T findFragment(Class<T> clazz) {
+		if (clazz == null) return null;
+		return (T) getSupportFragmentManager().findFragmentByTag(clazz.getName());
+	}
+
+	public WISERView wiserView() {
+		return mWiserBuilder == null ? null : mWiserBuilder.wiserView();
 	}
 
 	@Override protected void onResume() {
 		super.onResume();
 		// 更改Activity为运行状态
 		WISERHelper.getActivityManage().onResume(this);
-		// 打印存在Activity的日志
+		// 打印存在Activity和Biz的日志
 		WISERHelper.getActivityManage().logActivityList();
 	}
 

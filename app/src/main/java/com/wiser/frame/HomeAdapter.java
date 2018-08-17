@@ -8,6 +8,7 @@ import android.widget.TextView;
 import com.wiser.library.adapter.WISERHolder;
 import com.wiser.library.adapter.WISERRVAdapter;
 import com.wiser.library.base.WISERActivity;
+import com.wiser.library.helper.WISERHelper;
 
 import butterknife.BindView;
 

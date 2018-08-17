@@ -7,8 +7,8 @@ import android.os.Bundle;
  */
 public interface IWISERBiz {
 
-	// 为Biz类获取绑定Activity实例
-	void initActivity(WISERActivity activity);
+	// 为Biz类获取绑定视图实例
+	void initUi(Object object);
 
 	void initBiz(Bundle savedInstanceState);
 

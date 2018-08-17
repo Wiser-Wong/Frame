@@ -47,7 +47,7 @@ public class WISERBuilder {
 
 	private LayoutInflater			mInflater;
 
-	private WISERActivity			mWiserActivity;
+	private WISERView				wiserView;
 
 	private WISERRecycleView		mRecycleView;
 
@@ -62,7 +62,7 @@ public class WISERBuilder {
 
 	private boolean					navigationBarTintEnabled	= true;
 
-	private boolean					fitsSystem					= true;		// 是否填充系统状态栏
+	private boolean					fitsSystem					= false;	// 是否填充系统状态栏
 
 	private boolean					tint;									// 状态栏颜色
 
@@ -77,9 +77,29 @@ public class WISERBuilder {
 	 *            参数
 	 */
 	WISERBuilder(@NonNull WISERActivity mWiserActivity, @NonNull LayoutInflater inflater) {
-		this.mWiserActivity = mWiserActivity;
+		wiserView = new WISERView();
+		wiserView.initUI(mWiserActivity);
 		this.mInflater = inflater;
 		this.mRecycleView = new WISERRecycleView(mWiserActivity);
+	}
+
+	/**
+	 * 构造器
+	 *
+	 * @param mWiserFragment
+	 *            参数
+	 * @param inflater
+	 *            参数
+	 */
+	WISERBuilder(@NonNull WISERFragment mWiserFragment, @NonNull LayoutInflater inflater) {
+		wiserView = new WISERView();
+		wiserView.initUI(mWiserFragment);
+		this.mInflater = inflater;
+		this.mRecycleView = new WISERRecycleView(wiserView.activity());
+	}
+
+	public WISERView wiserView() {
+		return wiserView;
 	}
 
 	public WISERRecycleView recycleView() {
@@ -183,7 +203,7 @@ public class WISERBuilder {
 	 */
 	public void systemBarWindow() {
 		if (isFitsSystem()) {
-			ViewGroup contentFrameLayout = mWiserActivity.findViewById(Window.ID_ANDROID_CONTENT);
+			ViewGroup contentFrameLayout = wiserView.activity().findViewById(Window.ID_ANDROID_CONTENT);
 			View parentView = contentFrameLayout.getChildAt(0);
 			if (parentView != null && Build.VERSION.SDK_INT >= 15) {
 				parentView.setFitsSystemWindows(true);
@@ -196,7 +216,7 @@ public class WISERBuilder {
 	 */
 	void systemBarColor() {
 		if (isTint()) {
-			tintManager = new SystemBarTintManager(mWiserActivity);
+			tintManager = new SystemBarTintManager(wiserView.activity());
 			// enable status bar tint
 			tintManager.setStatusBarTintEnabled(getStatusBarTintEnabled());
 			// enable navigation bar tint
@@ -206,7 +226,7 @@ public class WISERBuilder {
 	}
 
 	@RequiresApi(api = Build.VERSION_CODES.KITKAT) private void setTranslucentStatus(boolean on) {
-		Window win = mWiserActivity.getWindow();
+		Window win = wiserView.activity().getWindow();
 		WindowManager.LayoutParams winParams = win.getAttributes();
 		final int bits = WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS;
 		if (on) {
@@ -223,9 +243,9 @@ public class WISERBuilder {
 	 */
 	void createSwipeBackActivity() {
 		if (isSwipeBack()) {
-			SwipeBackHelper.onCreate(mWiserActivity);
+			SwipeBackHelper.onCreate(wiserView.activity());
 			// SwipeBackHelper.getCurrentPage(this).setSwipeBackEnable(true).setScrimColor(android.R.color.transparent).setSwipeSensitivity(0.5f).setSwipeRelateEnable(true).setSwipeRelateOffset(300);
-			SwipeBackHelper.getCurrentPage(mWiserActivity)// 获取当前页面
+			SwipeBackHelper.getCurrentPage(wiserView.activity())// 获取当前页面
 					.setSwipeBackEnable(true)// 设置是否可滑动
 					.setSwipeEdge(200)// 可滑动的范围。px。200表示为左边200px的屏幕
 					.setSwipeEdgePercent(0.2f)// 可滑动的范围。百分比。0.2表示为左边20%的屏幕
@@ -248,7 +268,7 @@ public class WISERBuilder {
 
 								@Override public void run() {
 									// 需要手动取消Activity动画切换 否则会出现透明当前Activity再次动画切换
-									mWiserActivity.overridePendingTransition(0, 0);
+									wiserView.activity().overridePendingTransition(0, 0);
 								}
 							});
 						}
@@ -260,7 +280,7 @@ public class WISERBuilder {
 	 * 销毁滑动清除的Activity
 	 */
 	void destroySwipeBackActivity() {
-		if (isSwipeBack()) SwipeBackHelper.onDestroy(mWiserActivity);
+		if (isSwipeBack()) SwipeBackHelper.onDestroy(wiserView.activity());
 	}
 
 	/**
@@ -270,7 +290,7 @@ public class WISERBuilder {
 	 */
 	public WISERBuilder systemBarTheme() {
 		if (isFitsSystem()) {
-			mWiserActivity.setTheme(R.style.TranslucentStatus);
+			wiserView.activity().setTheme(R.style.TranslucentStatus);
 		}
 		return this;
 	}
@@ -281,7 +301,7 @@ public class WISERBuilder {
 	 * @return
 	 */
 	View createView() {
-		contentRoot = new FrameLayout(mWiserActivity);
+		contentRoot = new FrameLayout(wiserView.activity());
 		FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
 		contentRoot.setLayoutParams(layoutParams);
 		// 内容
@@ -398,15 +418,15 @@ public class WISERBuilder {
 				return;
 			}
 			view.setVisibility(View.VISIBLE);
-			anim = AnimationUtils.loadAnimation(mWiserActivity, android.R.anim.fade_in);
+			anim = AnimationUtils.loadAnimation(wiserView.activity(), android.R.anim.fade_in);
 		} else {
 			if (view.getVisibility() == View.GONE) {
 				return;
 			}
 			view.setVisibility(View.GONE);
-			anim = AnimationUtils.loadAnimation(mWiserActivity, android.R.anim.fade_out);
+			anim = AnimationUtils.loadAnimation(wiserView.activity(), android.R.anim.fade_out);
 		}
-		anim.setDuration(mWiserActivity.getResources().getInteger(android.R.integer.config_mediumAnimTime));
+		anim.setDuration(wiserView.activity().getResources().getInteger(android.R.integer.config_mediumAnimTime));
 		view.startAnimation(anim);
 	}
 
@@ -424,6 +444,10 @@ public class WISERBuilder {
 	 * 清除视图实例
 	 */
 	private void detachView() {
+		if (wiserView != null) wiserView.detach();
+		wiserView = null;
+		if (mRecycleView != null) mRecycleView.detach();
+		mRecycleView = null;
 		contentRoot = null;
 		layoutContent = null;
 		layoutError = null;
@@ -436,10 +460,7 @@ public class WISERBuilder {
 	 * 清除实例
 	 */
 	private void detachObj() {
-		mWiserActivity = null;
 		tintManager = null;
-		if (mRecycleView != null) mRecycleView.detach();
-		mRecycleView = null;
 	}
 
 }

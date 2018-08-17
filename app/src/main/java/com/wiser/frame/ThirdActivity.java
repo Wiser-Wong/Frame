@@ -1,28 +1,25 @@
 package com.wiser.frame;
 
+import android.os.Bundle;
+
 import com.wiser.library.base.WISERActivity;
 import com.wiser.library.base.WISERBuilder;
 import com.wiser.library.helper.WISERHelper;
 
-import android.graphics.Color;
-import android.os.Bundle;
-import android.view.View;
-
-public class SecondActivity extends WISERActivity<ISecondBiz> {
+public class ThirdActivity extends WISERActivity {
 
 	public static void intent() {
-		WISERHelper.display().intent(SecondActivity.class);
+		WISERHelper.display().intent(ThirdActivity.class);
 	}
 
 	@Override protected WISERBuilder build(WISERBuilder builder) {
-		builder.layoutId(R.layout.activity_second);
-		builder.swipeBack(true);
 		builder.tintFitsSystem(true);
+		builder.layoutId(R.layout.activity_third);
 		return builder;
 	}
 
 	@Override public void initData(Bundle savedInstanceState) {
-		WISERHelper.display().commitReplace(R.id.fl_second, new SecondFragment());
+		WISERHelper.display().commitReplace(R.id.fl_third, new ThirdFragment());
+		if (WISERHelper.isExistBiz(IHomeBiz.class)) WISERHelper.biz(IHomeBiz.class).bizMethod("哈哈哈");
 	}
-
 }
