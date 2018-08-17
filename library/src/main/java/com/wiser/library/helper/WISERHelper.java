@@ -67,12 +67,10 @@ public class WISERHelper {
 	/**
 	 * 获取管理
 	 *
-	 * @param <M>
-	 *            参数
 	 * @return 返回值
 	 */
-	protected static <M> M getManage() {
-		return (M) mWiserManage;
+	public static WISERManage getManage() {
+		return mWiserManage;
 	}
 
 	/**
