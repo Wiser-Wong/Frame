@@ -49,6 +49,11 @@ public class WISERManage {
 	 */
 	private WISERHttpManage			httpManage;
 
+	/**
+	 * 线程管理
+	 */
+	private WISERThreadPoolManage	threadPoolManage;
+
 	private Application				application;
 
 	public WISERManage() {}
@@ -62,6 +67,7 @@ public class WISERManage {
 		activityManage = new WISERActivityManage();
 		display = new WISERDisplay();
 		httpManage = new WISERHttpManage();
+		threadPoolManage = new WISERThreadPoolManage();
 		retrofit = iwiserBind.getRetrofit(new Retrofit.Builder());
 	}
 
@@ -146,7 +152,11 @@ public class WISERManage {
 		return httpManage;
 	}
 
-	public Retrofit getRetrofit() {
+    public WISERThreadPoolManage getThreadPoolManage() {
+		return threadPoolManage;
+    }
+
+    public Retrofit getRetrofit() {
 		return retrofit;
 	}
 }

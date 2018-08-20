@@ -1,6 +1,7 @@
 package com.wiser.library.helper;
 
 import android.app.Application;
+import android.os.Looper;
 
 import com.wiser.library.base.IWISERBind;
 import com.wiser.library.base.WISERBiz;
@@ -10,6 +11,7 @@ import com.wiser.library.manager.IWISERBizManage;
 import com.wiser.library.manager.WISERHandlerExecutor;
 import com.wiser.library.manager.WISERLogManage;
 import com.wiser.library.manager.WISERManage;
+import com.wiser.library.manager.WISERThreadPoolManage;
 import com.wiser.library.manager.WISERToastManage;
 
 import java.io.IOException;
@@ -117,7 +119,7 @@ public class WISERHelper {
 
 	/**
 	 * 获取biz对象
-	 * 
+	 *
 	 * @param clazz
 	 * @param <B>
 	 * @return
@@ -128,7 +130,7 @@ public class WISERHelper {
 
 	/**
 	 * 是否存在该biz对象
-	 * 
+	 *
 	 * @param clazz
 	 * @param <B>
 	 * @return
@@ -144,6 +146,15 @@ public class WISERHelper {
 	 */
 	public static IWISERActivityManage getActivityManage() {
 		return mWiserManage.getActivityManage();
+	}
+
+	/**
+	 * 获取线程管理
+	 * 
+	 * @return
+	 */
+	public static WISERThreadPoolManage threadPoolManage() {
+		return mWiserManage.getThreadPoolManage();
 	}
 
 	/**
@@ -209,6 +220,15 @@ public class WISERHelper {
 
 	public static Retrofit retrofit() {
 		return mWiserManage.getRetrofit();
+	}
+
+	/**
+	 * 判断是否是主线程
+	 *
+	 * @return true 子线程 false 主线程
+	 */
+	public static boolean isMainLooperThread() {
+		return Looper.getMainLooper().getThread() != Thread.currentThread();
 	}
 
 }

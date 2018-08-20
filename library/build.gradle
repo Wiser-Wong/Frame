@@ -47,5 +47,9 @@ dependencies {
     //retrofit2
     api 'com.squareup.retrofit2:retrofit:2.3.0'
     api 'com.squareup.retrofit2:converter-gson:2.3.0'
+    // progressbar
+    api 'com.github.rahatarmanahmed:circularprogressview:2.5.0'
+    // 公共方法
+    api 'org.apache.commons:commons-lang3:3.5'
 
 }
