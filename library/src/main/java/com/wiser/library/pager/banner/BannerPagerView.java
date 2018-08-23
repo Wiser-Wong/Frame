@@ -31,27 +31,29 @@ import java.util.List;
 @SuppressLint("RtlHardcoded")
 public class BannerPagerView extends FrameLayout implements ViewPager.OnPageChangeListener {
 
-	private BannerView		bannerView;
+	private BannerView				bannerView;
 
-	private LinearLayout	dotLayout;
+	private LinearLayout			dotLayout;
 
-	public static final int	LEFT_DOT	= Gravity.LEFT;		// 左侧指示点
+	public static final int			LEFT_DOT	= Gravity.LEFT;		// 左侧指示点
 
-	public static final int	CENTER_DOT	= Gravity.CENTER;	// 中间指示点
+	public static final int			CENTER_DOT	= Gravity.CENTER;	// 中间指示点
 
-	public static final int	RIGHT_DOT	= Gravity.RIGHT;	// 右侧指示点
+	public static final int			RIGHT_DOT	= Gravity.RIGHT;	// 右侧指示点
 
-	private int				firstColor	= Color.WHITE;
+	private int						firstColor	= Color.WHITE;
 
-	private int				secondColor	= Color.GRAY;
+	private int						secondColor	= Color.GRAY;
 
-	private int				firstRes;
+	private int						firstRes;
 
-	private int				secondRes;
+	private int						secondRes;
 
-	private boolean			isDot		= false;
+	private boolean					isDot		= false;
 
-	private boolean			isColor		= true;
+	private boolean					isColor		= true;
+
+	private OnPageChangeListener	onPageChangeListener;
 
 	public BannerPagerView(Context paramContext) {
 		super(paramContext);
@@ -65,7 +67,6 @@ public class BannerPagerView extends FrameLayout implements ViewPager.OnPageChan
 
 	private void init() {
 		bannerView = new BannerView(getContext());
-		bannerView.addOnPageChangeListener(this);
 		addView(bannerView);
 	}
 
@@ -223,6 +224,7 @@ public class BannerPagerView extends FrameLayout implements ViewPager.OnPageChan
 	private void createDot() {
 		this.isDot = true;
 		if (adapter() != null && adapter().getItems() != null && adapter().getItems().size() > 1) {
+			bannerView.addOnPageChangeListener(this);
 			dotLayout = new LinearLayout(getContext());
 			LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 			params.gravity = Gravity.BOTTOM;
@@ -419,14 +421,46 @@ public class BannerPagerView extends FrameLayout implements ViewPager.OnPageChan
 	}
 
 	@Override public void onPageScrolled(int i, float v, int i1) {
-
+		if (onPageChangeListener != null) onPageChangeListener.onPageScrolled(i, v, i1);
 	}
 
 	@Override public void onPageSelected(int i) {
 		if (isDot) changeDot(i);
+		if (onPageChangeListener != null) {
+			if (adapter() != null && adapter().getItems() != null && adapter().getItems().size() > 0) {
+				if (adapter().isCircle()) {
+					onPageChangeListener.onPageSelected(i % adapter().getItems().size());
+				} else {
+					onPageChangeListener.onPageSelected(i);
+				}
+			} else {
+				onPageChangeListener.onPageSelected(i);
+			}
+		}
 	}
 
 	@Override public void onPageScrollStateChanged(int i) {
+		if (onPageChangeListener != null) onPageChangeListener.onPageScrollStateChanged(i);
+	}
 
+	/**
+	 * 添加页面改变监听
+	 * 
+	 * @param onPageChangeListener
+	 * @return
+	 */
+	public BannerPagerView addOnPageChangeListener(BannerPagerView.OnPageChangeListener onPageChangeListener) {
+		if (bannerView != null) bannerView.addOnPageChangeListener(this);
+		this.onPageChangeListener = onPageChangeListener;
+		return this;
+	}
+
+	public interface OnPageChangeListener {
+
+		void onPageScrolled(int i, float v, int i1);
+
+		void onPageSelected(int i);
+
+		void onPageScrollStateChanged(int i);
 	}
 }
