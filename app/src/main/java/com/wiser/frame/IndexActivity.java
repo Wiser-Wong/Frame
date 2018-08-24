@@ -4,6 +4,7 @@ import com.wiser.library.base.WISERActivity;
 import com.wiser.library.base.WISERBuilder;
 
 import android.os.Bundle;
+import android.os.Looper;
 import android.support.v7.widget.LinearLayoutManager;
 
 public class IndexActivity extends WISERActivity<IndexBiz> {

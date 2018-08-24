@@ -109,7 +109,7 @@ public abstract class WISERActivity<B extends IWISERBiz> extends AppCompatActivi
 
     // 获取RecycleView实例
     public RecyclerView recyclerView() {
-        return mWiserBuilder.recyclerView();
+        return mWiserBuilder.wiserRecycleView();
     }
 
     // 添加RecycleView 适配器

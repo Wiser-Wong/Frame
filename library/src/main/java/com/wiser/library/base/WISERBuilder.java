@@ -99,7 +99,7 @@ public class WISERBuilder {
         return wiserView;
     }
 
-    public WISERRecycleView wiserRecycleView() {
+    public WISERRecycleView recycleView() {
         return mRecycleView;
     }
 
@@ -109,7 +109,7 @@ public class WISERBuilder {
         return null;
     }
 
-    public RecyclerView recyclerView() {
+    public RecyclerView wiserRecycleView() {
         if (mRecycleView != null)
             return mRecycleView.recyclerView();
         return null;

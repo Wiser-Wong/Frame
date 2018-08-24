@@ -81,7 +81,7 @@ public abstract class WISERFragment<B extends IWISERBiz> extends Fragment implem
 
     // 获取RecycleView实例
     public RecyclerView recyclerView() {
-        return mWiserBuilder.recyclerView();
+        return mWiserBuilder.wiserRecycleView();
     }
 
     // 添加RecycleView 适配器
