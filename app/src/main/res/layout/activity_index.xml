@@ -22,16 +22,28 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:background="#ffffff"
                 android:orientation="vertical">
 
-                <TextView
-                    android:layout_width="match_parent"
+                <android.support.v7.widget.CardView
+                    android:id="@+id/cardview"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:padding="20dp"
-                    android:text="@string/app_name"
-                    android:textColor="@color/colorAccent"
-                    android:textSize="30sp" />
+                    android:layout_gravity="center"
+                    android:layout_margin="10dp"
+                    app:cardCornerRadius="5dp"
+                    app:cardElevation="5dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:padding="20dp"
+                        android:text="@string/app_name"
+                        android:textColor="@color/colorAccent"
+                        android:textSize="30sp" />
+                </android.support.v7.widget.CardView>
+
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/home_rlv"
@@ -39,17 +51,17 @@
                     android:layout_height="match_parent" />
 
                 <!--<FrameLayout-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="160dp"-->
-                    <!--android:background="#aadc71ff"-->
-                    <!--android:clipChildren="false">-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="160dp"-->
+                <!--android:background="#aadc71ff"-->
+                <!--android:clipChildren="false">-->
 
-                    <!--<com.wiser.library.pager.banner.BannerPagerView-->
-                        <!--android:id="@+id/id_viewpager"-->
-                        <!--android:layout_width="match_parent"-->
-                        <!--android:layout_height="120dp"-->
-                        <!--android:layout_gravity="center"-->
-                        <!--android:clipChildren="false" />-->
+                <!--<com.wiser.library.pager.banner.BannerPagerView-->
+                <!--android:id="@+id/id_viewpager"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="120dp"-->
+                <!--android:layout_gravity="center"-->
+                <!--android:clipChildren="false" />-->
 
                 <!--</FrameLayout>-->
 

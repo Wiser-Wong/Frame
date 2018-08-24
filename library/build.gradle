@@ -55,4 +55,6 @@ dependencies {
     api 'com.bigkoo:convenientbanner:2.0.5'
     // glide
     api 'com.github.bumptech.glide:glide:3.8.0'
+    // 圆角
+    api 'com.makeramen:roundedimageview:2.3.0'
 }
