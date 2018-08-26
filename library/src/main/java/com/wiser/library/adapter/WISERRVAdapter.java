@@ -1,10 +1,6 @@
 package com.wiser.library.adapter;
 
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import java.util.List;
 
 import com.wiser.library.base.WISERActivity;
 import com.wiser.library.base.WISERBiz;
@@ -12,8 +8,13 @@ import com.wiser.library.base.WISERFragment;
 import com.wiser.library.base.WISERView;
 import com.wiser.library.helper.IWISERDisplay;
 import com.wiser.library.util.WISERCheckUtil;
+import com.wiser.library.view.FooterView;
 
-import java.util.List;
+import android.support.annotation.NonNull;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 /**
  * @author Wiser
@@ -23,7 +24,19 @@ import java.util.List;
 @SuppressWarnings("unchecked")
 public abstract class WISERRVAdapter<T, V extends WISERHolder> extends RecyclerView.Adapter<V> {
 
+	private final int		TYPE_FOOTER		= 1;			// 上拉加载TYPE
+
 	private LayoutInflater	mInflater;
+
+	private boolean			isFooter;						// 是否显示上拉加载
+
+	public final int		LOAD_RUNNING	= 1000;			// 加载中
+
+	public final int		LOAD_COMPLETE	= 1001;			// 加载完成
+
+	public final int		LOAD_END		= 1002;			// 加载结束
+
+	private int				loadState		= LOAD_RUNNING;
 
 	/**
 	 * 数据
@@ -57,6 +70,10 @@ public abstract class WISERRVAdapter<T, V extends WISERHolder> extends RecyclerV
 
 	public WISERActivity activity() {
 		return wiserView.activity();
+	}
+
+	public void isFooter(boolean isFooter) {
+		this.isFooter = isFooter;
 	}
 
 	public void setItems(List mItems) {
@@ -160,17 +177,67 @@ public abstract class WISERRVAdapter<T, V extends WISERHolder> extends RecyclerV
 		return wiserView.display();
 	}
 
-	@NonNull @Override public V onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-		V holder;
-		holder = newViewHolder(viewGroup, i);
-		return holder;
+	@Override public int getItemViewType(int position) {
+		if (isFooter) {
+			if (position + 1 == getItemCount()) return TYPE_FOOTER;
+		}
+		return super.getItemViewType(position);
 	}
 
-	@Override public void onBindViewHolder(@NonNull V v, int i) {
-		v.bindData(getItem(i), i);
+	@NonNull @Override public V onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
+		if (viewType == TYPE_FOOTER) {
+			return (V) new FooterHolder(new FooterView(activity()));
+		} else return newViewHolder(viewGroup, viewType);
+	}
+
+	@Override public void onBindViewHolder(@NonNull V v, int position) {
+		if (isFooter) {
+			if (position == getItemCount() - 1) {
+				v.bindData(null, position);
+			} else v.bindData(getItem(position), position);
+		} else {
+			v.bindData(getItem(position), position);
+		}
 	}
 
 	@Override public int getItemCount() {
+		if (isFooter) return mItems == null ? 0 : mItems.size() + 1;
 		return mItems == null ? 0 : mItems.size();
+	}
+
+	public void loadState(int loadState) {
+		this.loadState = loadState;
+		notifyDataSetChanged();
+	}
+
+	public int getLoadState() {
+		return loadState;
+	}
+
+	private class FooterHolder extends WISERHolder {
+
+		FooterView footerView;
+
+		public FooterHolder(@NonNull View itemView) {
+			super(itemView);
+			this.footerView = (FooterView) itemView;
+		}
+
+		@Override public void bindData(Object o, int position) {
+			switch (loadState) {
+				case LOAD_RUNNING:// 加载中
+					footerView.bar().setVisibility(View.VISIBLE);
+					footerView.text().setText("正在加载...");
+					break;
+				case LOAD_COMPLETE:// 加载完成
+					break;
+				case LOAD_END:// 加载结束
+					footerView.bar().setVisibility(View.GONE);
+					footerView.text().setText("已经到底了");
+					break;
+				default:
+					break;
+			}
+		}
 	}
 }

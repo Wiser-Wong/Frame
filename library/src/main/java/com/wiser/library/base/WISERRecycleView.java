@@ -28,6 +28,8 @@ public class WISERRecycleView {
 
 	private int							mRecycleViewId;							// RecycleView布局id
 
+	private boolean						isFooter;								// 是否有加载更多
+
 	private RecyclerView.LayoutManager	mLayoutManager;							// 布局管理器
 
 	private RecyclerView.ItemAnimator	mItemAnimator;							// 动画
@@ -66,6 +68,10 @@ public class WISERRecycleView {
 
 	public void recycleAdapter(WISERRVAdapter adapter) {
 		this.mAdapter = adapter;
+	}
+
+	public void isFooter(boolean isFooter) {
+		this.isFooter = isFooter;
 	}
 
 	/**
@@ -289,7 +295,13 @@ public class WISERRecycleView {
 			}
 			// 动画
 			if (mItemAnimator != null) mRecycleView.setItemAnimator(mItemAnimator);
-			mRecycleView.setAdapter(mAdapter);
+			if (mAdapter != null) {
+				mRecycleView.setAdapter(mAdapter);
+				if (isFooter) {
+					mAdapter.isFooter(true);
+					mRecycleView.addOnScrollListener(new IWISERRVScrollListener(activity));
+				}
+			}
 		}
 	}
 

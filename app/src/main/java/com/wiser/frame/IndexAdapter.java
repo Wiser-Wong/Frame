@@ -10,6 +10,7 @@ import com.wiser.library.adapter.WISERRVAdapter;
 import com.wiser.library.base.WISERActivity;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class IndexAdapter extends WISERRVAdapter<IndexModel, WISERHolder> {
 
@@ -23,10 +24,11 @@ public class IndexAdapter extends WISERRVAdapter<IndexModel, WISERHolder> {
 
 	public class IndexHolder extends WISERHolder<IndexModel> {
 
-		@BindView(R.id.tv_age) TextView textView;
+		TextView textView;
 
 		public IndexHolder(@NonNull View itemView) {
 			super(itemView);
+			textView = itemView.findViewById(R.id.tv_age);
 		}
 
 		@Override public void bindData(IndexModel indexModel, int position) {

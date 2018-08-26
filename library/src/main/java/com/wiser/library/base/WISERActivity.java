@@ -27,7 +27,7 @@ import butterknife.ButterKnife;
  * @version 版本
  */
 @SuppressWarnings("unchecked")
-public abstract class WISERActivity<B extends IWISERBiz> extends AppCompatActivity implements IWISERView, SwipeRefreshLayout.OnRefreshListener {
+public abstract class WISERActivity<B extends IWISERBiz> extends AppCompatActivity implements IWISERView, SwipeRefreshLayout.OnRefreshListener, IWISERRVScrollListener.OnLoadMoreListener {
 
 	private B					b;
 
@@ -102,9 +102,10 @@ public abstract class WISERActivity<B extends IWISERBiz> extends AppCompatActivi
 	}
 
 	// 正在刷新
-	@Override public void onRefresh() {
+	@Override public void onRefresh() {}
 
-	}
+	// 上拉加载
+	@Override public void onLoadMore() {}
 
 	// 获取Adapter实例
 	public WISERRVAdapter adapter() {
@@ -198,4 +199,5 @@ public abstract class WISERActivity<B extends IWISERBiz> extends AppCompatActivi
 		bizModel = null;
 		activityModel = null;
 	}
+
 }
