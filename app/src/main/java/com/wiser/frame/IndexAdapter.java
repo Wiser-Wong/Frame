@@ -8,6 +8,7 @@ import android.widget.TextView;
 import com.wiser.library.adapter.WISERHolder;
 import com.wiser.library.adapter.WISERRVAdapter;
 import com.wiser.library.base.WISERActivity;
+import com.wiser.library.base.WISERFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -16,6 +17,10 @@ public class IndexAdapter extends WISERRVAdapter<IndexModel, WISERHolder> {
 
 	public IndexAdapter(WISERActivity mWiserActivity) {
 		super(mWiserActivity);
+	}
+
+	public IndexAdapter(WISERFragment fragment){
+		super(fragment);
 	}
 
 	@Override public WISERHolder newViewHolder(ViewGroup viewGroup, int type) {

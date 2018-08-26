@@ -19,60 +19,76 @@
             android:background="@mipmap/antu_trip_first_bg"
             android:paddingTop="@dimen/toolbar_fit_system">
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="#ffffff"
-                android:orientation="vertical">
+                android:layout_height="match_parent">
 
-                <com.wiser.library.view.FooterView
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="match_parent"
+                    android:background="#ffffff"
+                    android:orientation="vertical">
+
+                    <com.wiser.library.view.FooterView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
 
 
-                <android.support.v7.widget.CardView
-                    android:id="@+id/cardview"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_margin="10dp"
-                    app:cardCornerRadius="5dp"
-                    app:cardElevation="5dp">
-
-                    <TextView
-                        android:id="@+id/tv_name"
+                    <android.support.v7.widget.CardView
+                        android:id="@+id/cardview"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:padding="20dp"
-                        android:text="@string/app_name"
-                        android:textColor="@color/colorAccent"
-                        android:textSize="30sp" />
-                </android.support.v7.widget.CardView>
+                        android:layout_gravity="center"
+                        android:layout_margin="10dp"
+                        app:cardCornerRadius="5dp"
+                        app:cardElevation="5dp">
+
+                        <TextView
+                            android:id="@+id/tv_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:padding="20dp"
+                            android:text="@string/app_name"
+                            android:textColor="@color/colorAccent"
+                            android:textSize="30sp" />
+                    </android.support.v7.widget.CardView>
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <android.support.v7.widget.RecyclerView
+                            android:id="@+id/home_rlv"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent" />
+
+                        <FrameLayout
+                            android:id="@+id/fl_content"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent" />
+
+                    </FrameLayout>
 
 
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/home_rlv"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+                    <!--<FrameLayout-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="160dp"-->
+                    <!--android:background="#aadc71ff"-->
+                    <!--android:clipChildren="false">-->
 
-                <!--<FrameLayout-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="160dp"-->
-                <!--android:background="#aadc71ff"-->
-                <!--android:clipChildren="false">-->
+                    <!--<com.wiser.library.pager.banner.BannerPagerView-->
+                    <!--android:id="@+id/id_viewpager"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="120dp"-->
+                    <!--android:layout_gravity="center"-->
+                    <!--android:clipChildren="false" />-->
 
-                <!--<com.wiser.library.pager.banner.BannerPagerView-->
-                <!--android:id="@+id/id_viewpager"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="120dp"-->
-                <!--android:layout_gravity="center"-->
-                <!--android:clipChildren="false" />-->
+                    <!--</FrameLayout>-->
 
-                <!--</FrameLayout>-->
+                </LinearLayout>
 
-
-            </LinearLayout>
+            </RelativeLayout>
 
         </android.support.v7.widget.Toolbar>
 

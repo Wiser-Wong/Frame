@@ -26,7 +26,7 @@ public class IndexActivity extends WISERActivity<IndexBiz> {
 		builder.recycleView().recycleViewId(R.id.home_rlv);
 		builder.recycleView().recycleViewLinearManager(LinearLayoutManager.VERTICAL, null);
 		builder.recycleView().recycleAdapter(new IndexAdapter(this));
-		builder.isRootLayoutRefresh(true, false);
+		builder.isRootLayoutRefresh(false, false);
 		builder.setColorSchemeColors(Color.BLUE, Color.RED, Color.GREEN);
 		builder.recycleView().isFooter(true);
 		// builder.setProgressBackgroundColorSchemeColor(Color.BLACK);
@@ -44,6 +44,7 @@ public class IndexActivity extends WISERActivity<IndexBiz> {
 //		tvName.setText(WISERDate.getLongForDateStr("2018-09-11",WISERDate.DATE_HG,true)+"");
 		tvName.setText(WISERDate.getDateStrForLong(1536595200000L,WISERDate.DATE_HZ,false)+"");
 		// onRefresh();
+		WISERHelper.display().commitReplace(R.id.fl_content,new IndexFragment());
 	}
 
 	@Override public void onRefresh() {

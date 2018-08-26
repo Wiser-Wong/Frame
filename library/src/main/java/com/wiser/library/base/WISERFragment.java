@@ -28,7 +28,7 @@ import butterknife.Unbinder;
  * @version 版本
  */
 @SuppressWarnings("unchecked")
-public abstract class WISERFragment<B extends IWISERBiz> extends Fragment implements IWISERView, SwipeRefreshLayout.OnRefreshListener {
+public abstract class WISERFragment<B extends IWISERBiz> extends Fragment implements IWISERView, SwipeRefreshLayout.OnRefreshListener, IWISERRVScrollListener.OnLoadMoreListener {
 
 	private B				b;
 
@@ -114,9 +114,10 @@ public abstract class WISERFragment<B extends IWISERBiz> extends Fragment implem
 	}
 
 	// 正在刷新
-	@Override public void onRefresh() {
+	@Override public void onRefresh() {}
 
-	}
+	// 上拉加载
+	@Override public void onLoadMore() {}
 
 	/**
 	 * 获取泛型实例
