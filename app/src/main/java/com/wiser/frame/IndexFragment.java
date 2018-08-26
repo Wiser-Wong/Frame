@@ -1,6 +1,7 @@
 package com.wiser.frame;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 
 import com.wiser.library.base.WISERBuilder;
@@ -21,5 +22,17 @@ public class IndexFragment extends WISERFragment<IndexFragmentBiz> {
 
 	@Override public void initData(Bundle savedInstanceState) {
 		biz().addAdapterData();
+	}
+
+	@Override public void onLoadMore() {
+		super.onLoadMore();
+		new Handler().postDelayed(new Runnable() {
+
+			@Override public void run() {
+				if (adapter().getLoadState() == adapter().LOAD_END) return;
+				adapter().addList(biz().addNewData());
+				adapter().loadState(adapter().LOAD_END);
+			}
+		}, 4000);
 	}
 }

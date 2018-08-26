@@ -26,7 +26,7 @@ public class IndexActivity extends WISERActivity<IndexBiz> {
 		builder.recycleView().recycleViewId(R.id.home_rlv);
 		builder.recycleView().recycleViewLinearManager(LinearLayoutManager.VERTICAL, null);
 		builder.recycleView().recycleAdapter(new IndexAdapter(this));
-		builder.isRootLayoutRefresh(false, false);
+		builder.isRootLayoutRefresh(true, false);
 		builder.setColorSchemeColors(Color.BLUE, Color.RED, Color.GREEN);
 		builder.recycleView().isFooter(true);
 		// builder.setProgressBackgroundColorSchemeColor(Color.BLACK);

@@ -113,7 +113,7 @@ public class WISERBuilder {
 		wiserView = new WISERView();
 		wiserView.initUI(mWiserFragment);
 		this.mInflater = inflater;
-		this.mRecycleView = new WISERRecycleView(wiserView.activity());
+		this.mRecycleView = new WISERRecycleView(mWiserFragment);
 	}
 
 	public WISERView wiserView() {

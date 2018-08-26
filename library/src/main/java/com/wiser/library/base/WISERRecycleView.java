@@ -54,8 +54,19 @@ public class WISERRecycleView {
 
 	private WISERActivity				activity;
 
+	private WISERFragment				fragment;
+
+	private boolean						isFragment;
+
 	WISERRecycleView(WISERActivity activity) {
+		this.isFragment = false;
 		this.activity = activity;
+	}
+
+	WISERRecycleView(WISERFragment fragment) {
+		this.isFragment = true;
+		this.activity = fragment.activity();
+		this.fragment = fragment;
 	}
 
 	public void recycleViewId(int recycleViewId) {
@@ -299,7 +310,8 @@ public class WISERRecycleView {
 				mRecycleView.setAdapter(mAdapter);
 				if (isFooter) {
 					mAdapter.isFooter(true);
-					mRecycleView.addOnScrollListener(new IWISERRVScrollListener(activity));
+					if (isFragment) mRecycleView.addOnScrollListener(new IWISERRVScrollListener(fragment));
+					else mRecycleView.addOnScrollListener(new IWISERRVScrollListener(activity));
 				}
 			}
 		}
