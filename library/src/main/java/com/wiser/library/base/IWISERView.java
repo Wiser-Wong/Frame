@@ -28,4 +28,8 @@ public interface IWISERView {
 	 */
 	void showContentView();
 
+	/**
+	 * 刷新完成
+	 */
+	void refreshComplete();
 }

@@ -1,9 +1,7 @@
 package com.wiser.library.base;
 
 import android.annotation.TargetApi;
-import android.app.Activity;
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
@@ -15,9 +13,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import com.wiser.library.R;
 import com.wiser.library.helper.WISERHelper;
-import com.wiser.library.manager.WISERLogManage;
 
 import java.util.Objects;
 
@@ -25,7 +21,7 @@ import java.util.Objects;
  * @author Wiser
  * @version 版本
  */
-public class RecycleViewDivider extends DividerItemDecoration {
+public class WISERRVDivider extends DividerItemDecoration {
 
 	private Paint		mPaint;
 
@@ -44,7 +40,7 @@ public class RecycleViewDivider extends DividerItemDecoration {
 	 * @param orientation
 	 *            列表方向
 	 */
-	RecycleViewDivider(Context context, int orientation) {
+	WISERRVDivider(Context context, int orientation) {
 		super(context, orientation);
 		this.mOrientation = orientation;
 	}
@@ -58,7 +54,8 @@ public class RecycleViewDivider extends DividerItemDecoration {
 	 * @param drawableId
 	 *            分割线图片
 	 */
-	@TargetApi(Build.VERSION_CODES.KITKAT) RecycleViewDivider(Context context, int orientation, int drawableId, int type) {
+	@TargetApi(Build.VERSION_CODES.KITKAT)
+	WISERRVDivider(Context context, int orientation, int drawableId, int type) {
 		this(context, orientation);
 		this.type = type;
 		try {
@@ -82,7 +79,7 @@ public class RecycleViewDivider extends DividerItemDecoration {
 	 * @param dividerColor
 	 *            分割线颜色
 	 */
-	RecycleViewDivider(Context context, int orientation, int dividerHeight, int dividerColor, int type) {
+	WISERRVDivider(Context context, int orientation, int dividerHeight, int dividerColor, int type) {
 		this(context, orientation);
 		this.type = type;
 		mDividerHeight = dividerHeight;
