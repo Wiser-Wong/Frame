@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="scan_bg">#60000000</color>
+    <color name="background">#b0000000</color>
+    <color name="scan_point_gold">#FFD700</color>
+    <color name="scan_corner_line_yellow">#ffff00</color>
+    <color name="scan_text_color">#B5B5B5</color>
+</resources>

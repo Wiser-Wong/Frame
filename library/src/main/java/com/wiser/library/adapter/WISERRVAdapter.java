@@ -24,7 +24,7 @@ import android.view.ViewGroup;
 @SuppressWarnings("unchecked")
 public abstract class WISERRVAdapter<T, V extends WISERHolder> extends RecyclerView.Adapter<V> {
 
-	private final int		TYPE_FOOTER		= 1;			// 上拉加载TYPE
+	private final int		TYPE_FOOTER		= 989898;		// 上拉加载TYPE
 
 	private LayoutInflater	mInflater;
 
@@ -185,9 +185,13 @@ public abstract class WISERRVAdapter<T, V extends WISERHolder> extends RecyclerV
 	}
 
 	@NonNull @Override public V onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
-		if (viewType == TYPE_FOOTER) {
-			return (V) new FooterHolder(new FooterView(activity()));
-		} else return newViewHolder(viewGroup, viewType);
+		if (isFooter) {
+			if (viewType == TYPE_FOOTER) {
+				return (V) new FooterHolder(new FooterView(activity()));
+			} else return newViewHolder(viewGroup, viewType);
+		} else {
+			return newViewHolder(viewGroup, viewType);
+		}
 	}
 
 	@Override public void onBindViewHolder(@NonNull V v, int position) {

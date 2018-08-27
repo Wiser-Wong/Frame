@@ -4,19 +4,25 @@ import com.wiser.library.base.WISERActivity;
 import com.wiser.library.base.WISERBuilder;
 import com.wiser.library.helper.WISERHelper;
 import com.wiser.library.util.WISERDate;
+import com.wiser.library.zxing.WISERQRCodeUtil;
 
 import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 public class IndexActivity extends WISERActivity<IndexBiz> {
 
-	@BindView(R.id.tv_name) TextView tvName;
+	@BindView(R.id.tv_name) TextView	tvName;
+
+	@BindView(R.id.iv_qr) ImageView		ivQR;
 
 	@Override protected WISERBuilder build(WISERBuilder builder) {
 		builder.layoutId(R.layout.activity_index);
@@ -38,13 +44,14 @@ public class IndexActivity extends WISERActivity<IndexBiz> {
 		return builder;
 	}
 
-	@SuppressLint("SetTextI18n")
-	@Override public void initData(Bundle savedInstanceState) {
+	@SuppressLint("SetTextI18n") @Override public void initData(Bundle savedInstanceState) {
 		biz().addAdapterData();
-//		tvName.setText(WISERDate.getLongForDateStr("2018-09-11",WISERDate.DATE_HG,true)+"");
-		tvName.setText(WISERDate.getDateStrForLong(1536595200000L,WISERDate.DATE_HZ,false)+"");
+		// tvName.setText(WISERDate.getLongForDateStr("2018-09-11",WISERDate.DATE_HG,true)+"");
+		tvName.setText(WISERDate.getDateStrForLong(1536595200000L, WISERDate.DATE_HZ, false) + "");
 		// onRefresh();
-		WISERHelper.display().commitReplace(R.id.fl_content,new IndexFragment());
+		WISERHelper.display().commitReplace(R.id.fl_content, new IndexFragment());
+
+		WISERQRCodeUtil.createQRCodeBitmapForUrl("", "WiserWong", R.mipmap.ic_launcher, ivQR, false);
 	}
 
 	@Override public void onRefresh() {
@@ -71,5 +78,9 @@ public class IndexActivity extends WISERActivity<IndexBiz> {
 				// adapter().loadState(adapter().LOAD_COMPLETE);
 			}
 		}, 4000);
+	}
+
+	@OnClick(R.id.tv_name) public void onClickView(View view) {
+		WISERHelper.display().intent(ScanActivity.class);
 	}
 }

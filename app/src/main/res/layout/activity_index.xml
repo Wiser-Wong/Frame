@@ -52,7 +52,15 @@
                             android:text="@string/app_name"
                             android:textColor="@color/colorAccent"
                             android:textSize="30sp" />
+
                     </android.support.v7.widget.CardView>
+
+                    <ImageView
+                        android:id="@+id/iv_qr"
+                        android:layout_width="200dp"
+                        android:layout_height="150dp"
+                        android:layout_gravity="center"
+                        android:adjustViewBounds="true" />
 
                     <FrameLayout
                         android:layout_width="match_parent"
