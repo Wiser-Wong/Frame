@@ -40,7 +40,7 @@ public abstract class WISERFragment<B extends IWISERBiz> extends Fragment implem
 
 	protected abstract WISERBuilder build(WISERBuilder builder);
 
-	public abstract void initData(Bundle savedInstanceState);
+	protected abstract void initData(Bundle savedInstanceState);
 
 	@Nullable @Override public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
