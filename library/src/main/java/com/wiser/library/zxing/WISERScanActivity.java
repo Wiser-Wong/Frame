@@ -2,6 +2,7 @@ package com.wiser.library.zxing;
 
 import java.io.IOException;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 
@@ -20,7 +21,11 @@ import com.wiser.library.zxing.camera.CameraManager;
 import com.wiser.library.zxing.decoding.CaptureActivityHandler;
 import com.wiser.library.zxing.decoding.InactivityTimer;
 import com.wiser.library.zxing.view.ViewfinderView;
+import com.wiser.permission.AndPermission;
+import com.wiser.permission.PermissionNo;
+import com.wiser.permission.PermissionYes;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.res.AssetFileDescriptor;
@@ -34,9 +39,11 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Vibrator;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.view.SurfaceHolder;
 import android.view.SurfaceHolder.Callback;
 import android.view.SurfaceView;
+import android.widget.Toast;
 
 /**
  * @author Wiser
@@ -70,6 +77,8 @@ public abstract class WISERScanActivity extends WISERActivity implements Callbac
 	private ViewfinderView			viewfinderView;
 
 	private SurfaceView				surfaceView;
+
+	private final int				PERMISSION_CAMERA	= 2222;
 
 	@Override protected WISERBuilder build(WISERBuilder builder) {
 		return buildScan(builder);
@@ -109,6 +118,32 @@ public abstract class WISERScanActivity extends WISERActivity implements Callbac
 	public void initScan(ViewfinderView viewfinderView, SurfaceView surfaceView) {
 		this.viewfinderView = viewfinderView;
 		this.surfaceView = surfaceView;
+		permission();
+	}
+
+	// 判断权限
+	private void permission() {
+		if (!AndPermission.hasPermission(this, Manifest.permission.CAMERA, Manifest.permission.VIBRATE)) {
+			// 申请权限
+			AndPermission.with(this).permission(Manifest.permission.CAMERA, Manifest.permission.VIBRATE).requestCode(PERMISSION_CAMERA).send();
+		}
+	}
+
+	@Override public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+		// 只需要调用这一句，第一个参数是当前Activity/Fragment，回调方法写在当前Activity/Fragment
+		AndPermission.onRequestPermissionsResult(this, requestCode, permissions, grantResults);
+	}
+
+	// 成功回调的方法，用注解即可，里面的数字是请求时的requestCode。
+	@PermissionYes(PERMISSION_CAMERA) private void getSucceed(List<String> grantedPermissions) {
+		// 申请权限成功。
+	}
+
+	@PermissionNo(PERMISSION_CAMERA) private void getDefeated(List<String> deniedPermissions) {
+		// 用户否勾选了不再提示并且拒绝了权限，那么提示用户到设置中授权。
+		if (AndPermission.hasAlwaysDeniedPermission(this, deniedPermissions)) {
+			WISERHelper.toast().show("请到设置中进行授权");
+		}
 	}
 
 	public ViewfinderView getViewfinderView() {
