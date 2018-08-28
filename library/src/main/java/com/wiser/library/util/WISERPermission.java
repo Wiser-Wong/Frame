@@ -110,7 +110,7 @@ public class WISERPermission {
 		// 6.0
 		if (ContextCompat.checkSelfPermission(activity, permission) == PackageManager.PERMISSION_GRANTED) {
 			// 该权限已经有了
-			if (resultListener != null) resultListener.executeBusiness(requestCode);
+			if (resultListener != null) resultListener.applyPermissionSuccess(requestCode);
 		} else {
 			// 申请该权限
 			applyPermission(requestCode, permission);
@@ -127,7 +127,7 @@ public class WISERPermission {
 	public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
 		if (resultListener != null) {
 			if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-				resultListener.executeBusiness(requestCode);
+				resultListener.applyPermissionSuccess(requestCode);
 			} else {
 				resultListener.applyPermissionFail(requestCode);
 			}
@@ -246,7 +246,7 @@ public class WISERPermission {
 
 	public interface PermissionResultListener {
 
-		void executeBusiness(int requestCode);
+		void applyPermissionSuccess(int requestCode);
 
 		void applyPermissionFail(int requestCode);
 	}

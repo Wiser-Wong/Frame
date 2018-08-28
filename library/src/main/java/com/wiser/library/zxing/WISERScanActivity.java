@@ -134,7 +134,7 @@ public abstract class WISERScanActivity extends WISERActivity implements Callbac
 		WISERPermission.with(this).onRequestPermissionsResult(requestCode, permissions, grantResults);
 	}
 
-	@Override public void executeBusiness(int requestCode) {
+	@Override public void applyPermissionSuccess(int requestCode) {
 		WISERHelper.log().e("权限申请成功开始执行业务");
 	}
 
