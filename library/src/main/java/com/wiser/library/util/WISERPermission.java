@@ -5,12 +5,16 @@ import org.apache.commons.lang3.StringUtils;
 import com.wiser.library.base.WISERActivity;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.pm.PackageManager;
 import android.hardware.Camera;
 import android.media.AudioFormat;
 import android.media.AudioRecord;
 import android.media.MediaRecorder;
 import android.os.Build;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 
 /**
@@ -20,9 +24,11 @@ import android.support.v4.content.ContextCompat;
  */
 public class WISERPermission {
 
-	private static WISERPermission	wiserPermission;
+	private static WISERPermission		wiserPermission;
 
-	private WISERActivity			activity;
+	private WISERActivity				activity;
+
+	private PermissionResultListener	resultListener;
 
 	WISERPermission(WISERActivity activity) {
 		this.activity = activity;
@@ -37,7 +43,36 @@ public class WISERPermission {
 		return wiserPermission;
 	}
 
-	// 判断是否有权限
+	public WISERPermission setPermissionResultListener(PermissionResultListener resultListener) {
+		this.resultListener = resultListener;
+		return with(activity);
+	}
+
+	/**
+	 * 是否有权限
+	 * 
+	 * @param permissions
+	 * @return
+	 */
+	public boolean hasPermission(String... permissions) {
+		if (permissions != null && permissions.length > 0) {
+			int length = 0;
+			for (String permission : permissions) {
+				if (hasPermission(permission)) {
+					length++;
+				}
+			}
+			return length == permissions.length;
+		}
+		return false;
+	}
+
+	/**
+	 * 判断是否有权限
+	 * 
+	 * @param permission
+	 * @return
+	 */
 	public boolean hasPermission(String permission) {
 		if (StringUtils.isBlank(permission) || activity == null) return false;
 		if (Build.VERSION.SDK_INT < 23) {
@@ -63,6 +98,75 @@ public class WISERPermission {
 				return false;
 			}
 		}
+	}
+
+	/**
+	 * 权限申请
+	 * 
+	 * @param requestCode
+	 * @param permission
+	 */
+	public void permission(int requestCode, String permission) {
+		// 6.0
+		if (ContextCompat.checkSelfPermission(activity, permission) == PackageManager.PERMISSION_GRANTED) {
+			// 该权限已经有了
+			if (resultListener != null) resultListener.executeBusiness(requestCode);
+		} else {
+			// 申请该权限
+			applyPermission(requestCode, permission);
+		}
+	}
+
+	/**
+	 * 权限申请结束处理
+	 * 
+	 * @param requestCode
+	 * @param permissions
+	 * @param grantResults
+	 */
+	public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+		if (resultListener != null) {
+			if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+				resultListener.executeBusiness(requestCode);
+			} else {
+				resultListener.applyPermissionFail(requestCode);
+			}
+		}
+	}
+
+	/**
+	 * 申请权限
+	 * 
+	 * @param requestCode
+	 * @param permission
+	 */
+	public void applyPermission(int requestCode, String... permission) {
+		ActivityCompat.requestPermissions(activity, permission, requestCode);
+	}
+
+	public boolean hasAlwaysDeniedPermission(@NonNull String... deniedPermissions) {
+		for (String deniedPermission : deniedPermissions) {
+			if (!shouldShowRationalePermissions(activity, deniedPermission)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	boolean shouldShowRationalePermissions(Object o, String... permissions) {
+		if (Build.VERSION.SDK_INT < 23) return false;
+		boolean rationale = false;
+		for (String permission : permissions) {
+			if (o instanceof Activity) {
+				rationale = ActivityCompat.shouldShowRequestPermissionRationale((Activity) o, permission);
+			} else if (o instanceof Fragment) {
+				rationale = ((Fragment) o).shouldShowRequestPermissionRationale(permission);
+			} else if (o instanceof android.app.Fragment) {
+				rationale = ((android.app.Fragment) o).shouldShowRequestPermissionRationale(permission);
+			}
+			if (rationale) return true;
+		}
+		return false;
 	}
 
 	/**
@@ -138,6 +242,13 @@ public class WISERPermission {
 		audioRecord.release();
 		audioRecord = null;
 		return true;
+	}
+
+	public interface PermissionResultListener {
+
+		void executeBusiness(int requestCode);
+
+		void applyPermissionFail(int requestCode);
 	}
 
 }

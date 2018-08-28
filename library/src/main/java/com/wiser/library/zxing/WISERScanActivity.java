@@ -17,6 +17,7 @@ import com.wiser.library.R;
 import com.wiser.library.base.WISERActivity;
 import com.wiser.library.base.WISERBuilder;
 import com.wiser.library.helper.WISERHelper;
+import com.wiser.library.util.WISERPermission;
 import com.wiser.library.zxing.camera.CameraManager;
 import com.wiser.library.zxing.decoding.CaptureActivityHandler;
 import com.wiser.library.zxing.decoding.InactivityTimer;
@@ -28,6 +29,7 @@ import com.wiser.permission.PermissionYes;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.AssetFileDescriptor;
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
@@ -50,7 +52,7 @@ import android.widget.Toast;
  *
  *         扫一扫
  */
-public abstract class WISERScanActivity extends WISERActivity implements Callback {
+public abstract class WISERScanActivity extends WISERActivity implements Callback, WISERPermission.PermissionResultListener {
 
 	private CaptureActivityHandler	handler;
 
@@ -123,27 +125,21 @@ public abstract class WISERScanActivity extends WISERActivity implements Callbac
 
 	// 判断权限
 	private void permission() {
-		if (!AndPermission.hasPermission(this, Manifest.permission.CAMERA, Manifest.permission.VIBRATE)) {
-			// 申请权限
-			AndPermission.with(this).permission(Manifest.permission.CAMERA, Manifest.permission.VIBRATE).requestCode(PERMISSION_CAMERA).send();
+		if (!WISERPermission.with(this).hasPermission(Manifest.permission.CAMERA, Manifest.permission.VIBRATE)) {
+			WISERPermission.with(this).setPermissionResultListener(this).applyPermission(PERMISSION_CAMERA, Manifest.permission.CAMERA, Manifest.permission.VIBRATE);
 		}
 	}
 
 	@Override public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-		// 只需要调用这一句，第一个参数是当前Activity/Fragment，回调方法写在当前Activity/Fragment
-		AndPermission.onRequestPermissionsResult(this, requestCode, permissions, grantResults);
+		WISERPermission.with(this).onRequestPermissionsResult(requestCode, permissions, grantResults);
 	}
 
-	// 成功回调的方法，用注解即可，里面的数字是请求时的requestCode。
-	@PermissionYes(PERMISSION_CAMERA) private void getSucceed(List<String> grantedPermissions) {
-		// 申请权限成功。
+	@Override public void executeBusiness(int requestCode) {
+		WISERHelper.log().e("权限申请成功开始执行业务");
 	}
 
-	@PermissionNo(PERMISSION_CAMERA) private void getDefeated(List<String> deniedPermissions) {
-		// 用户否勾选了不再提示并且拒绝了权限，那么提示用户到设置中授权。
-		if (AndPermission.hasAlwaysDeniedPermission(this, deniedPermissions)) {
-			WISERHelper.toast().show("请到设置中进行授权");
-		}
+	@Override public void applyPermissionFail(int requestCode) {
+		WISERHelper.log().e("权限申请失败，请前往设置页面进行授权，可自行设置弹窗提示");
 	}
 
 	public ViewfinderView getViewfinderView() {
