@@ -39,7 +39,7 @@ public abstract class WISERActivity<B extends IWISERBiz> extends AppCompatActivi
 
 	protected abstract WISERBuilder build(WISERBuilder builder);
 
-	public abstract void initData(Bundle savedInstanceState);
+	protected abstract void initData(Bundle savedInstanceState);
 
 	@Override protected void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);

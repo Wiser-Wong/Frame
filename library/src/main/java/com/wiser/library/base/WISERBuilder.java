@@ -11,7 +11,6 @@ import com.wiser.library.util.WISERCheckUtil;
 import android.graphics.Color;
 import android.os.Build;
 import android.support.annotation.ColorInt;
-import android.support.annotation.ColorRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -116,7 +115,7 @@ public class WISERBuilder {
 		this.mRecycleView = new WISERRecycleView(mWiserFragment);
 	}
 
-	public WISERView wiserView() {
+	WISERView wiserView() {
 		return wiserView;
 	}
 
@@ -124,12 +123,12 @@ public class WISERBuilder {
 		return mRecycleView;
 	}
 
-	public WISERRVAdapter adapter() {
+	WISERRVAdapter adapter() {
 		if (mRecycleView != null) return mRecycleView.adapter();
 		return null;
 	}
 
-	public RecyclerView wiserRecycleView() {
+	RecyclerView wiserRecycleView() {
 		if (mRecycleView != null) return mRecycleView.recyclerView();
 		return null;
 	}
@@ -195,14 +194,6 @@ public class WISERBuilder {
 		return statusBarEnabled;
 	}
 
-	public void tintStatusBarEnabled(boolean isStatusBar) {
-		this.statusBarEnabled = isStatusBar;
-	}
-
-	public void tintNavigationBarEnabled(boolean isNavigationBar) {
-		this.navigationBarTintEnabled = isNavigationBar;
-	}
-
 	private boolean getNavigationBarTintEnabled() {
 		return navigationBarTintEnabled;
 	}
@@ -227,7 +218,7 @@ public class WISERBuilder {
 		this.isSwipeBack = isSwipeBack;
 	}
 
-	public boolean isSwipeBack() {
+	boolean isSwipeBack() {
 		return isSwipeBack;
 	}
 
@@ -238,7 +229,7 @@ public class WISERBuilder {
 	/**
 	 * 状态栏高度
 	 */
-	public void systemBarWindow() {
+	void systemBarWindow() {
 		if (isFitsSystem()) {
 			ViewGroup contentFrameLayout = wiserView.activity().findViewById(Window.ID_ANDROID_CONTENT);
 			View parentView = contentFrameLayout.getChildAt(0);
@@ -325,7 +316,7 @@ public class WISERBuilder {
 	 *
 	 * @return
 	 */
-	public WISERBuilder systemBarTheme() {
+	WISERBuilder systemBarTheme() {
 		if (isFitsSystem()) {
 			wiserView.activity().setTheme(R.style.TranslucentStatus);
 		}
@@ -335,7 +326,7 @@ public class WISERBuilder {
 	/**
 	 * 刷新完成
 	 */
-	public void refreshComplete() {
+	void refreshComplete() {
 		if (isRefresh && layoutRefresh != null) {
 			layoutRefresh.setRefreshing(false);
 		}
