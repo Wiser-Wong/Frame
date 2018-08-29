@@ -5,3 +5,5 @@
     // 控件注册
     implementation 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+3、allprojects { repositories { ... maven { url 'https://jitpack.io' } } }
+dependencies { implementation 'com.github.Wiser-Wong:ShadowLayout:1.0.0' }
