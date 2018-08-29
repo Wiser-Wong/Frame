@@ -1,154 +1,59 @@
 package com.wiser.library.view;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.view.View;
-import android.widget.RelativeLayout;
+import android.widget.FrameLayout;
 
 import com.wiser.library.R;
 
 /**
  * @author Wiser
- * 
+ *         <p>
  *         阴影布局
  */
+public class ShadowLayout extends FrameLayout {
 
-public class ShadowLayout extends RelativeLayout {
-
-	public static final int	ALL				= 0x1111;
-
-	public static final int	LEFT			= 0x0001;
-
-	public static final int	TOP				= 0x0010;
-
-	public static final int	RIGHT			= 0x0100;
-
-	public static final int	BOTTOM			= 0x1000;
-
-	public static final int	SHAPE_RECTANGLE	= 0x0001;
-
-	public static final int	SHAPE_OVAL		= 0x0010;
-
-	private Paint			mPaint			= new Paint(Paint.ANTI_ALIAS_FLAG);
-
-	private RectF			mRectF			= new RectF();
+	private Paint	mPaint;
 
 	/**
 	 * 阴影的颜色
 	 */
-	private int				mShadowColor	= Color.TRANSPARENT;
+	private int		mShadowColor	= Color.GRAY;
 
 	/**
-	 * 阴影的大小范围
+	 * 阴影弧度 以及 边距
 	 */
-	private float			mShadowRadius	= 0;
+	private float	mShadowRadiusEdge;
 
 	/**
-	 * 阴影 x 轴的偏移量
+	 * y轴偏移量
 	 */
-	private float			mShadowDx		= 0;
+	private float	mShadowDy;
 
 	/**
-	 * 阴影 y 轴的偏移量
+	 * X轴偏移量
 	 */
-	private float			mShadowDy		= 0;
+	private float	mShadowDx;
 
-	/**
-	 * 阴影显示的边界
-	 */
-	private int				mShadowSide		= ALL;
+	private RectF	mRectF			= new RectF();
 
-	/**
-	 * 阴影的形状，圆形/矩形
-	 */
-	private int				mShadowShape	= SHAPE_RECTANGLE;
-
-	public ShadowLayout(Context context) {
-		this(context, null);
+	public ShadowLayout(@NonNull Context context) {
+		super(context);
 	}
 
-	public ShadowLayout(Context context, AttributeSet attrs) {
-		this(context, attrs, 0);
-	}
-
-	public ShadowLayout(Context context, AttributeSet attrs, int defStyleAttr) {
-		super(context, attrs, defStyleAttr);
+	public ShadowLayout(@NonNull Context context, @Nullable AttributeSet attrs) {
+		super(context, attrs);
 		init(attrs);
-	}
-
-	@Override protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-		super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-		float effect = mShadowRadius + dip2px(5);
-		float rectLeft = 0;
-		float rectTop = 0;
-		float rectRight = this.getMeasuredWidth();
-		float rectBottom = this.getMeasuredHeight();
-		int paddingLeft = 0;
-		int paddingTop = 0;
-		int paddingRight = 0;
-		int paddingBottom = 0;
-		this.getWidth();
-		if ((mShadowSide & LEFT) == LEFT) {
-			rectLeft = effect;
-			paddingLeft = (int) effect;
-		}
-		if ((mShadowSide & TOP) == TOP) {
-			rectTop = effect;
-			paddingTop = (int) effect;
-		}
-		if ((mShadowSide & RIGHT) == RIGHT) {
-			rectRight = this.getMeasuredWidth() - effect;
-			paddingRight = (int) effect;
-		}
-		if ((mShadowSide & BOTTOM) == BOTTOM) {
-			rectBottom = this.getMeasuredHeight() - effect;
-			paddingBottom = (int) effect;
-		}
-		if (mShadowDy != 0.0f) {
-			rectBottom = rectBottom - mShadowDy;
-			paddingBottom = paddingBottom + (int) mShadowDy;
-		}
-		if (mShadowDx != 0.0f) {
-			rectRight = rectRight - mShadowDx;
-			paddingRight = paddingRight + (int) mShadowDx;
-		}
-		mRectF.left = rectLeft;
-		mRectF.top = rectTop;
-		mRectF.right = rectRight;
-		mRectF.bottom = rectBottom;
-		this.setPadding(paddingLeft, paddingTop, paddingRight, paddingBottom);
-		super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-	}
-
-	/**
-	 * 真正绘制阴影的方法
-	 */
-	@Override protected void onDraw(Canvas canvas) {
-		super.onDraw(canvas);
-		setUpShadowPaint();
-		if (mShadowShape == SHAPE_RECTANGLE) {
-			canvas.drawRect(mRectF, mPaint);
-		} else if (mShadowShape == SHAPE_OVAL) {
-			canvas.drawCircle(mRectF.centerX(), mRectF.centerY(), Math.min(mRectF.width(), mRectF.height()) / 2, mPaint);
-		}
-	}
-
-	public void setShadowColor(int shadowColor) {
-		mShadowColor = shadowColor;
-		requestLayout();
-		postInvalidate();
-	}
-
-	public void setShadowRadius(float shadowRadius) {
-		mShadowRadius = shadowRadius;
-		requestLayout();
-		postInvalidate();
 	}
 
 	/**
@@ -161,36 +66,63 @@ public class ShadowLayout extends RelativeLayout {
 		setLayerType(View.LAYER_TYPE_SOFTWARE, null); // 关闭硬件加速
 		this.setWillNotDraw(false); // 调用此方法后，才会执行 onDraw(Canvas) 方法
 
+		@SuppressLint("CustomViewStyleable")
 		TypedArray typedArray = getContext().obtainStyledAttributes(attrs, R.styleable.ShadowLayout);
 		if (typedArray != null) {
-			mShadowColor = typedArray.getColor(R.styleable.ShadowLayout_shadowColor, getContext().getResources().getColor(android.R.color.black));
-			mShadowRadius = typedArray.getDimension(R.styleable.ShadowLayout_shadowRadius, dip2px(0));
-			mShadowDx = typedArray.getDimension(R.styleable.ShadowLayout_shadowDx, dip2px(0));
-			mShadowDy = typedArray.getDimension(R.styleable.ShadowLayout_shadowDy, dip2px(0));
-			mShadowSide = typedArray.getInt(R.styleable.ShadowLayout_shadowSide, ALL);
-			mShadowShape = typedArray.getInt(R.styleable.ShadowLayout_shadowShape, SHAPE_RECTANGLE);
+			mShadowColor = typedArray.getColor(R.styleable.ShadowLayout_shadowColor, getContext().getResources().getColor(android.R.color.darker_gray));
+			mShadowRadiusEdge = typedArray.getDimension(R.styleable.ShadowLayout_shadowRadiusEdge, dip2px());
+			mShadowDx = typedArray.getDimension(R.styleable.ShadowLayout_shadowDx, dip2px());
+			mShadowDy = typedArray.getDimension(R.styleable.ShadowLayout_shadowDy, dip2px());
 			typedArray.recycle();
 		}
-		setUpShadowPaint();
+		initPaint();
 	}
 
-	private void setUpShadowPaint() {
-		mPaint.reset();
-		mPaint.setAntiAlias(true);
-		mPaint.setColor(Color.TRANSPARENT);
-		mPaint.setShadowLayer(mShadowRadius, mShadowDx, mShadowDy, mShadowColor);
+	/**
+	 * 初始化画笔
+	 */
+	private void initPaint() {
+		mPaint = new Paint();
+		mPaint.setStyle(Paint.Style.FILL);
+		mPaint.setColor(mShadowColor);
+		mPaint.setStrokeWidth(0);
+		this.setWillNotDraw(false); // 调用此方法后，才会执行 onDraw(Canvas) 方法
+		mPaint.setAlpha(255);
+	}
+
+	@Override protected void onDraw(Canvas canvas) {
+		super.onDraw(canvas);
+		mPaint.setColor(mShadowColor);
+		// 设置阴影属性
+		mPaint.setShadowLayer(mShadowRadiusEdge, mShadowDx, mShadowDy, mShadowColor);// 设置光晕效果（mShadowRadiusEdge是光晕半径,第二个参数是x轴偏移量，第三个是Y轴偏移量，最后一个是颜色）
+		// 画阴影矩形背景
+		canvas.drawRoundRect(mRectF, mShadowRadiusEdge, mShadowRadiusEdge, mPaint);// 第二个参数是x半径，第三个参数是y半径
+	}
+
+	@Override protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+		if (this.getChildCount() == 1) {
+			View view = this.getChildAt(0);
+			mRectF.right = this.getMeasuredWidth() - mShadowRadiusEdge;
+			mRectF.bottom = this.getMeasuredHeight() - mShadowRadiusEdge;
+			mRectF.left = mShadowRadiusEdge;
+			mRectF.top = mShadowRadiusEdge;
+			MarginLayoutParams params = (MarginLayoutParams) view.getLayoutParams();
+			params.leftMargin = (int) mShadowRadiusEdge;
+			params.rightMargin = (int) mShadowRadiusEdge;
+			params.topMargin = (int) mShadowRadiusEdge;
+			params.bottomMargin = (int) mShadowRadiusEdge;
+		}
+		super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 	}
 
 	/**
 	 * dip2px dp 值转 px 值
 	 *
-	 * @param dpValue
-	 *            dp 值
 	 * @return px 值
 	 */
-	private float dip2px(float dpValue) {
+	private float dip2px() {
 		DisplayMetrics dm = getContext().getResources().getDisplayMetrics();
 		float scale = dm.density;
-		return (dpValue * scale + 0.5F);
+		return ((float) 0 * scale + 0.5F);
 	}
 }
