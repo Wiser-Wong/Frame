@@ -1,16 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.wiser.library.view.ShadowLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:shadowRadiusEdge="8dp"
+    app:shadowColor="@color/colorAccent"
     android:orientation="vertical">
 
     <TextView
         android:id="@+id/tv_age"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="#ffffff"
         android:gravity="center"
         android:padding="10dp"
         android:textColor="@color/colorAccent"
         android:textSize="30sp" />
 
-</LinearLayout>
+</com.wiser.library.view.ShadowLayout>

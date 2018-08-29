@@ -1,4 +1,4 @@
-package com.wiser.library.view;
+package com.wiser.library.view.shadow;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -21,7 +21,7 @@ import com.wiser.library.R;
  *         <p>
  *         阴影布局
  */
-public class ShadowLayout extends FrameLayout {
+public class ShadowFrameLayout extends FrameLayout {
 
 	private Paint	mPaint;
 
@@ -47,11 +47,11 @@ public class ShadowLayout extends FrameLayout {
 
 	private RectF	mRectF			= new RectF();
 
-	public ShadowLayout(@NonNull Context context) {
+	public ShadowFrameLayout(@NonNull Context context) {
 		super(context);
 	}
 
-	public ShadowLayout(@NonNull Context context, @Nullable AttributeSet attrs) {
+	public ShadowFrameLayout(@NonNull Context context, @Nullable AttributeSet attrs) {
 		super(context, attrs);
 		init(attrs);
 	}
@@ -67,12 +67,12 @@ public class ShadowLayout extends FrameLayout {
 		this.setWillNotDraw(false); // 调用此方法后，才会执行 onDraw(Canvas) 方法
 
 		@SuppressLint("CustomViewStyleable")
-		TypedArray typedArray = getContext().obtainStyledAttributes(attrs, R.styleable.ShadowLayout);
+		TypedArray typedArray = getContext().obtainStyledAttributes(attrs, R.styleable.ShadowFrameLayout);
 		if (typedArray != null) {
-			mShadowColor = typedArray.getColor(R.styleable.ShadowLayout_shadowColor, getContext().getResources().getColor(android.R.color.darker_gray));
-			mShadowRadiusEdge = typedArray.getDimension(R.styleable.ShadowLayout_shadowRadiusEdge, dip2px());
-			mShadowDx = typedArray.getDimension(R.styleable.ShadowLayout_shadowDx, dip2px());
-			mShadowDy = typedArray.getDimension(R.styleable.ShadowLayout_shadowDy, dip2px());
+			mShadowColor = typedArray.getColor(R.styleable.ShadowFrameLayout_shadowLayoutColor, getContext().getResources().getColor(android.R.color.darker_gray));
+			mShadowRadiusEdge = typedArray.getDimension(R.styleable.ShadowFrameLayout_shadowLayoutRadiusEdge, dip2px());
+			mShadowDx = typedArray.getDimension(R.styleable.ShadowFrameLayout_shadowLayoutDx, dip2px());
+			mShadowDy = typedArray.getDimension(R.styleable.ShadowFrameLayout_shadowLayoutDy, dip2px());
 			typedArray.recycle();
 		}
 		initPaint();
@@ -100,6 +100,19 @@ public class ShadowLayout extends FrameLayout {
 	}
 
 	@Override protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+		layoutMeasure();
+		super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+	}
+
+	@Override protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
+		layoutMeasure();
+		super.onLayout(changed, left, top, right, bottom);
+	}
+
+	/**
+	 * 布局计算
+	 */
+	private void layoutMeasure() {
 		if (this.getChildCount() == 1) {
 			View view = this.getChildAt(0);
 			mRectF.right = this.getMeasuredWidth() - mShadowRadiusEdge;
@@ -112,7 +125,6 @@ public class ShadowLayout extends FrameLayout {
 			params.topMargin = (int) mShadowRadiusEdge;
 			params.bottomMargin = (int) mShadowRadiusEdge;
 		}
-		super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 	}
 
 	/**

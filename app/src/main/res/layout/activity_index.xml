@@ -37,10 +37,7 @@
                            android:layout_width="match_parent"
                            android:layout_height="wrap_content"
                            app:shadowColor="#66000000"
-                           app:shadowDx="0dp"
-                           app:shadowDy="0dp"
-                           app:shadowRadius="10dp"
-                           app:shadowSide="all">
+                           app:shadowRadiusEdge="10dp">
                            <TextView
                                android:id="@+id/tv_name"
                                android:layout_width="wrap_content"
