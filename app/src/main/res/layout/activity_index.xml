@@ -33,27 +33,27 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
 
+                       <com.wiser.library.view.ShadowLayout
+                           android:layout_width="match_parent"
+                           android:layout_height="wrap_content"
+                           app:shadowColor="#66000000"
+                           app:shadowDx="0dp"
+                           app:shadowDy="0dp"
+                           app:shadowRadius="10dp"
+                           app:shadowSide="all">
+                           <TextView
+                               android:id="@+id/tv_name"
+                               android:layout_width="wrap_content"
+                               android:layout_height="wrap_content"
+                               android:layout_gravity="center"
+                               android:padding="20dp"
+                               android:background="#ffffff"
+                               android:text="@string/app_name"
+                               android:textColor="@color/colorAccent"
+                               android:textSize="30sp" />
 
-                    <android.support.v7.widget.CardView
-                        android:id="@+id/cardview"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="10dp"
-                        app:cardCornerRadius="5dp"
-                        app:cardElevation="5dp">
+                       </com.wiser.library.view.ShadowLayout>
 
-                        <TextView
-                            android:id="@+id/tv_name"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:padding="20dp"
-                            android:text="@string/app_name"
-                            android:textColor="@color/colorAccent"
-                            android:textSize="30sp" />
-
-                    </android.support.v7.widget.CardView>
 
                     <ImageView
                         android:id="@+id/iv_qr"
