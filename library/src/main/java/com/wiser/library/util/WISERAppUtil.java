@@ -178,6 +178,9 @@ public class WISERAppUtil {
 
 	/**
 	 * dip转换成px
+	 * 
+	 * @param dpValue
+	 * @return
 	 */
 	public static int dip2px(float dpValue) {
 		final float scale = WISERHelper.getInstance().getResources().getDisplayMetrics().density;
@@ -186,10 +189,51 @@ public class WISERAppUtil {
 
 	/**
 	 * px转换成dip
+	 * 
+	 * @param pxValue
+	 * @return
 	 */
 	public static int px2dip(float pxValue) {
 		final float scale = WISERHelper.getInstance().getResources().getDisplayMetrics().density;
 		return (int) (pxValue / scale + 0.5f);
+	}
+
+	/**
+	 * 将px值转换为sp值
+	 * 
+	 * @param pxValue
+	 * @return
+	 */
+	public static int px2sp(float pxValue) {
+		final float fontScale = WISERHelper.getInstance().getResources().getDisplayMetrics().scaledDensity;
+		return (int) (pxValue / fontScale + 0.5f);
+	}
+
+	/**
+	 * 将sp值转换为px值
+	 * 
+	 * @param spValue
+	 * @return
+	 */
+	public static int sp2px(float spValue) {
+		final float fontScale = WISERHelper.getInstance().getResources().getDisplayMetrics().scaledDensity;
+		return (int) (spValue * fontScale + 0.5f);
+	}
+
+	/**
+	 * 根据Unicode编码判断中文汉字和符号
+	 * 
+	 * @param c
+	 * @return
+	 */
+	private static boolean isChinese(char c) {
+		Character.UnicodeBlock ub = Character.UnicodeBlock.of(c);
+		if (ub == Character.UnicodeBlock.CJK_UNIFIED_IDEOGRAPHS || ub == Character.UnicodeBlock.CJK_COMPATIBILITY_IDEOGRAPHS || ub == Character.UnicodeBlock.CJK_UNIFIED_IDEOGRAPHS_EXTENSION_A
+				|| ub == Character.UnicodeBlock.CJK_UNIFIED_IDEOGRAPHS_EXTENSION_B || ub == Character.UnicodeBlock.CJK_SYMBOLS_AND_PUNCTUATION
+				|| ub == Character.UnicodeBlock.HALFWIDTH_AND_FULLWIDTH_FORMS || ub == Character.UnicodeBlock.GENERAL_PUNCTUATION) {
+			return true;
+		}
+		return false;
 	}
 
 	/**

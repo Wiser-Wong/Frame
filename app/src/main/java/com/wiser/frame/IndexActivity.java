@@ -4,6 +4,8 @@ import com.wiser.library.base.WISERActivity;
 import com.wiser.library.base.WISERBuilder;
 import com.wiser.library.helper.WISERHelper;
 import com.wiser.library.util.WISERDate;
+import com.wiser.library.view.marquee.MarqueeAdapter;
+import com.wiser.library.view.marquee.MarqueeView;
 import com.wiser.library.zxing.WISERQRCodeUtil;
 
 import android.annotation.SuppressLint;
@@ -20,9 +22,11 @@ import butterknife.OnClick;
 
 public class IndexActivity extends WISERActivity<IndexBiz> {
 
-	@BindView(R.id.tv_name) TextView	tvName;
+	@BindView(R.id.tv_name) TextView				tvName;
 
-	@BindView(R.id.iv_qr) ImageView		ivQR;
+	@BindView(R.id.iv_qr) ImageView					ivQR;
+
+	@BindView(R.id.marquee) MarqueeView<IndexModel>	marqueeView;
 
 	@Override protected WISERBuilder build(WISERBuilder builder) {
 		builder.layoutId(R.layout.activity_index);
@@ -52,6 +56,22 @@ public class IndexActivity extends WISERActivity<IndexBiz> {
 		WISERHelper.display().commitReplace(R.id.fl_content, new IndexFragment());
 
 		WISERQRCodeUtil.createQRCodeBitmapForUrl("", "WiserWong", R.mipmap.ic_launcher, ivQR, false);
+
+		marquee();
+	}
+
+	// 跑马灯
+	private void marquee() {
+		marqueeView.setMarquee(biz().indexModels, new MarqueeAdapter<IndexModel>(this) {
+
+			@Override protected View createItemView(IndexModel data) {
+				if (data == null) return null;
+				View view = inflate(R.layout.marquee_item);
+				TextView tvMarquee = view.findViewById(R.id.tv_marquee);
+				tvMarquee.setText(data.age);
+				return view;
+			}
+		}).setMarqueeAnim(R.anim.anim_bottom_in, R.anim.anim_top_out).start();
 	}
 
 	@Override public void onRefresh() {

@@ -64,7 +64,7 @@ public abstract class WISERRVAdapter<T, V extends WISERHolder> extends RecyclerV
 		return this;
 	}
 
-	public View inflate(ViewGroup viewGroup, int layoutId) {
+	protected View inflate(ViewGroup viewGroup, int layoutId) {
 		return mInflater.inflate(layoutId, viewGroup, false);
 	}
 

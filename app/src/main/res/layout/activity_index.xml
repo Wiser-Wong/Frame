@@ -52,6 +52,10 @@
 
                     </com.wiser.library.view.shadow.ShadowFrameLayout>
 
+                    <com.wiser.library.view.marquee.MarqueeView
+                        android:id="@+id/marquee"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
 
                     <ImageView
                         android:id="@+id/iv_qr"
