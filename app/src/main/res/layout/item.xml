@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.wiser.library.view.ShadowLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.wiser.library.view.shadow.ShadowFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:shadowRadiusEdge="8dp"
-    app:shadowColor="@color/colorAccent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    app:shadowLayoutColor="@color/colorAccent"
+    app:shadowLayoutRadiusEdge="8dp">
 
     <TextView
         android:id="@+id/tv_age"
@@ -17,4 +17,4 @@
         android:textColor="@color/colorAccent"
         android:textSize="30sp" />
 
-</com.wiser.library.view.ShadowLayout>
+</com.wiser.library.view.shadow.ShadowFrameLayout>

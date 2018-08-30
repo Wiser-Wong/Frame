@@ -33,23 +33,24 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
 
-                       <com.wiser.library.view.ShadowLayout
-                           android:layout_width="match_parent"
-                           android:layout_height="wrap_content"
-                           app:shadowColor="#66000000"
-                           app:shadowRadiusEdge="10dp">
-                           <TextView
-                               android:id="@+id/tv_name"
-                               android:layout_width="wrap_content"
-                               android:layout_height="wrap_content"
-                               android:layout_gravity="center"
-                               android:padding="20dp"
-                               android:background="#ffffff"
-                               android:text="@string/app_name"
-                               android:textColor="@color/colorAccent"
-                               android:textSize="30sp" />
+                    <com.wiser.library.view.shadow.ShadowFrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:shadowLayoutColor="#66000000"
+                        app:shadowLayoutRadiusEdge="10dp">
 
-                       </com.wiser.library.view.ShadowLayout>
+                        <TextView
+                            android:id="@+id/tv_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:background="#ffffff"
+                            android:padding="20dp"
+                            android:text="@string/app_name"
+                            android:textColor="@color/colorAccent"
+                            android:textSize="30sp" />
+
+                    </com.wiser.library.view.shadow.ShadowFrameLayout>
 
 
                     <ImageView
