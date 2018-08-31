@@ -171,22 +171,6 @@ public class MarqueeView<E> extends ViewFlipper implements Observer {
 	}
 
 	/**
-	 * 设置动画时间
-	 * 
-	 * @param animDuration
-	 */
-	public MarqueeView<E> setAnimDuration(long animDuration) {
-		if (getInAnimation() != null) {
-			getInAnimation().setDuration(animDuration);
-		}
-		if (getOutAnimation() != null) {
-			getOutAnimation().setDuration(animDuration);
-		}
-
-		return this;
-	}
-
-	/**
 	 * 启动跑马灯必须调用
 	 */
 	public void start() {
