@@ -101,6 +101,7 @@ public class IndexActivity extends WISERActivity<IndexBiz> {
 	}
 
 	@OnClick(R.id.tv_name) public void onClickView(View view) {
-		WISERHelper.display().intent(ScanActivity.class);
+		WISERHelper.display().intent(WebViewActivity.class);
+		// WISERHelper.display().intent(ScanActivity.class);
 	}
 }

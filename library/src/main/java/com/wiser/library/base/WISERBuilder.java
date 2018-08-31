@@ -23,12 +23,15 @@ import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 
 /**
  * @author Wiser
  * @version 版本
  */
 public class WISERBuilder {
+
+	private int						layoutBarId;								// 标题ID
 
 	private int						layoutId;									// 布局ID
 
@@ -50,7 +53,11 @@ public class WISERBuilder {
 
 	private FrameLayout				contentRoot;								// 根布局
 
+	private LinearLayout			contentContentToolBar;						// 带title带主布局
+
 	private SwipeRefreshLayout		layoutRefresh;								// 刷新布局
+
+	private View					layoutToolBar;								// 标题布局
 
 	private View					layoutContent;								// 主布局
 
@@ -146,6 +153,14 @@ public class WISERBuilder {
 		this.refreshBgColor = color;
 	}
 
+	public void layoutBarId(int layoutBarId) {
+		this.layoutBarId = layoutBarId;
+	}
+
+	private int getLayoutBarId() {
+		return layoutBarId;
+	}
+
 	public void layoutId(int layoutId) {
 		this.layoutId = layoutId;
 	}
@@ -176,6 +191,10 @@ public class WISERBuilder {
 
 	private int getLayoutLoadingId() {
 		return layoutLoadingId;
+	}
+
+	public void layoutView(View layoutView) {
+		this.layoutContent = layoutView;
 	}
 
 	private int getTintColor() {
@@ -343,11 +362,35 @@ public class WISERBuilder {
 		contentRoot.setLayoutParams(layoutParams);
 		// 下拉刷新布局
 		createRVRefreshView();
+		// toolBar
+		if (getLayoutBarId() > 0) {
+			contentContentToolBar = new LinearLayout(wiserView.activity());
+			LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
+			contentContentToolBar.setLayoutParams(params);
+			contentContentToolBar.setOrientation(LinearLayout.VERTICAL);
+			layoutToolBar = mInflater.inflate(getLayoutBarId(), contentContentToolBar, false);
+			contentContentToolBar.addView(layoutToolBar);
+			if (isRefresh) layoutRefresh.addView(contentContentToolBar);
+			else contentRoot.addView(contentContentToolBar);
+		}
 		// 内容
 		if (getLayoutId() > 0) {
 			layoutContent = mInflater.inflate(getLayoutId(), contentRoot, false);
-			if (isRefresh) layoutRefresh.addView(layoutContent);
-			else contentRoot.addView(layoutContent);
+			if (getLayoutBarId() > 0) {
+				contentContentToolBar.addView(layoutContent);
+			} else {
+				if (isRefresh) layoutRefresh.addView(layoutContent);
+				else contentRoot.addView(layoutContent);
+			}
+		} else {
+			if (layoutContent != null) {
+				if (getLayoutBarId() > 0) {
+					contentContentToolBar.addView(layoutContent);
+				} else {
+					if (isRefresh) layoutRefresh.addView(layoutContent);
+					else contentRoot.addView(layoutContent);
+				}
+			}
 		}
 		// RecycleView
 		mRecycleView.createRecycleView(contentRoot);
@@ -422,7 +465,7 @@ public class WISERBuilder {
 		if (layoutError == null) return;
 		changeShowLayoutAndAnim(layoutEmpty, false);
 		changeShowLayoutAndAnim(layoutLoading, false);
-		if (isRefresh) changeShowLayoutAndAnim(layoutRefresh, false);
+		if (getLayoutBarId() > 0) changeShowLayoutAndAnim(contentContentToolBar, true);
 		else changeShowLayoutAndAnim(layoutContent, false);
 		changeShowLayoutAndAnim(layoutError, true);
 	}
@@ -434,7 +477,7 @@ public class WISERBuilder {
 		if (layoutEmpty == null) return;
 		changeShowLayoutAndAnim(layoutError, false);
 		changeShowLayoutAndAnim(layoutLoading, false);
-		if (isRefresh) changeShowLayoutAndAnim(layoutRefresh, false);
+		if (getLayoutBarId() > 0) changeShowLayoutAndAnim(contentContentToolBar, true);
 		else changeShowLayoutAndAnim(layoutContent, false);
 		changeShowLayoutAndAnim(layoutEmpty, true);
 	}
@@ -443,11 +486,16 @@ public class WISERBuilder {
 	 * 显示主布局
 	 */
 	void showContentView() {
-		if (layoutContent == null) return;
+		// 判断存在toolBar的情况
+		if (getLayoutBarId() > 0) {
+			if (contentContentToolBar == null) return;
+		} else {
+			if (layoutContent == null) return;
+		}
 		changeShowLayoutAndAnim(layoutEmpty, false);
 		changeShowLayoutAndAnim(layoutError, false);
 		changeShowLayoutAndAnim(layoutLoading, false);
-		if (isRefresh) changeShowLayoutAndAnim(layoutRefresh, true);
+		if (getLayoutBarId() > 0) changeShowLayoutAndAnim(contentContentToolBar, true);
 		else changeShowLayoutAndAnim(layoutContent, true);
 	}
 
@@ -456,7 +504,7 @@ public class WISERBuilder {
 	 */
 	void showLoadingView() {
 		if (layoutLoading == null) return;
-		if (isRefresh) changeShowLayoutAndAnim(layoutRefresh, false);
+		if (getLayoutBarId() > 0) changeShowLayoutAndAnim(contentContentToolBar, true);
 		else changeShowLayoutAndAnim(layoutContent, false);
 		changeShowLayoutAndAnim(layoutEmpty, false);
 		changeShowLayoutAndAnim(layoutError, false);
