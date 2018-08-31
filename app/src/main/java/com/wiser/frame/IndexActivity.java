@@ -71,7 +71,7 @@ public class IndexActivity extends WISERActivity<IndexBiz> {
 				tvMarquee.setText(data.age);
 				return view;
 			}
-		}).setMarqueeAnim(R.anim.anim_bottom_in, R.anim.anim_top_out).start();
+		}).setMarqueeAnim(R.anim.anim_bottom_in, R.anim.anim_top_out).setTimeInterval(100).start();
 	}
 
 	@Override public void onRefresh() {

@@ -171,6 +171,22 @@ public class MarqueeView<E> extends ViewFlipper implements Observer {
 	}
 
 	/**
+	 * 设置切换页面时间间隔
+	 * 
+	 * @param duration
+	 * @return
+	 */
+	public MarqueeView<E> setTimeInterval(int duration) {
+		long animDuration = 0;
+		if (getInAnimation() != null) {
+			animDuration = getInAnimation().getDuration();
+		}
+		if (duration >= 30) setFlipInterval((int) (duration + animDuration));
+		else setFlipInterval((int) (30 + animDuration));
+		return this;
+	}
+
+	/**
 	 * 启动跑马灯必须调用
 	 */
 	public void start() {
