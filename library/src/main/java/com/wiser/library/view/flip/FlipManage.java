@@ -35,7 +35,7 @@ public class FlipManage implements Animator.AnimatorListener {
 
 	private boolean				isShowBack;			// 是否显示背面
 
-	public FlipManage(FragmentActivity activity, View frontView, View backView) {
+	private FlipManage(FragmentActivity activity, View frontView, View backView) {
 		this.frontView = frontView;
 		this.backView = backView;
 		if (activity != null) {

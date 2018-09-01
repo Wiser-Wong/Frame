@@ -1,11 +1,11 @@
 package com.wiser.frame;
 
-import android.os.Bundle;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.wiser.library.base.WISERBiz;
 
-import java.util.ArrayList;
-import java.util.List;
+import android.os.Bundle;
 
 public class IndexBiz extends WISERBiz<IndexActivity> {
 

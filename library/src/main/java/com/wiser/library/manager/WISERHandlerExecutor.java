@@ -6,11 +6,16 @@ import android.support.annotation.NonNull;
 
 import java.util.concurrent.Executor;
 
+import javax.inject.Inject;
+
 /**
  * @author Wiser
  * @version 版本
  */
 public class WISERHandlerExecutor implements Executor {
+
+    @Inject
+    WISERHandlerExecutor(){}
 
     private final Handler handler = new Handler(Looper.getMainLooper());
 

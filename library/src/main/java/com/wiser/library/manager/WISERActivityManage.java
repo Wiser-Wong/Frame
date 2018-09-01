@@ -11,11 +11,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.inject.Inject;
+
 /**
  * @author Wiser activity的管理类
  */
 @SuppressWarnings("unchecked")
 public class WISERActivityManage implements IWISERActivityManage {
+
+	@Inject
+	WISERActivityManage(){}
 
 	/**
 	 * 打开的activity

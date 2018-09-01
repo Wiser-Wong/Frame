@@ -2,6 +2,10 @@ package com.wiser.library.helper;
 
 import java.io.File;
 
+import javax.inject.Inject;
+
+import com.wiser.library.util.WISERCheckUtil;
+
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.Context;
@@ -14,15 +18,14 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 
-import com.wiser.library.util.WISERCheckUtil;
-
-import org.jetbrains.annotations.NotNull;
-
 /**
  * @author Wiser
  * @version 版本
  */
 public class WISERDisplay implements IWISERDisplay {
+
+	@Inject
+	public WISERDisplay(){}
 
 	@Override public Context context() {
 		return WISERHelper.getActivityManage().getCurrentActivity();

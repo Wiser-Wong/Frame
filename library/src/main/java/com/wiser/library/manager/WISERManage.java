@@ -1,43 +1,47 @@
 package com.wiser.library.manager;
 
-import android.app.Application;
+import javax.inject.Inject;
 
 import com.wiser.library.base.IWISERBind;
 import com.wiser.library.helper.WISERDisplay;
 
+import android.app.Application;
+
 import retrofit2.Retrofit;
 
 /**
- * @author Wiser 类管理器
+ * @author Wiser
+ *
+ * 		   类管理器
  */
 public class WISERManage {
 
 	/**
 	 * 日志管理类
 	 */
-	private WISERLogManage			logManger;
+	@Inject public WISERLogManage			logManger;
 
 	/**
 	 * Toast管理类
 	 */
-	private WISERToastManage		toastManger;
+	@Inject public WISERToastManage		toastManger;
 
 	/**
 	 * 线程管理类
 	 */
-	private WISERHandlerExecutor	handlerExecutor;
+	@Inject public WISERHandlerExecutor	handlerExecutor;
 
 	/**
 	 * Biz管理类
 	 */
-	private WISERBizManage			bizManage;
+	@Inject public WISERBizManage			bizManage;
 
 	/**
 	 * Activity管理类
 	 */
-	private WISERActivityManage		activityManage;
+	@Inject public WISERActivityManage		activityManage;
 
-	private WISERDisplay			display;
+	@Inject public WISERDisplay			display;
 
 	/**
 	 * 网络配置
@@ -47,27 +51,19 @@ public class WISERManage {
 	/**
 	 * 网络管理
 	 */
-	private WISERHttpManage			httpManage;
+	@Inject public WISERHttpManage			httpManage;
 
 	/**
 	 * 线程管理
 	 */
-	private WISERThreadPoolManage	threadPoolManage;
+	@Inject public WISERThreadPoolManage	threadPoolManage;
 
-	private Application				application;
+	public Application				application;
 
 	public WISERManage() {}
 
 	public void init(IWISERBind iwiserBind, Application application) {
 		this.application = application;
-		logManger = new WISERLogManage();
-		toastManger = new WISERToastManage();
-		handlerExecutor = new WISERHandlerExecutor();
-		bizManage = new WISERBizManage();
-		activityManage = new WISERActivityManage();
-		display = new WISERDisplay();
-		httpManage = new WISERHttpManage();
-		threadPoolManage = new WISERThreadPoolManage();
 		retrofit = iwiserBind.getRetrofit(new Retrofit.Builder());
 	}
 
@@ -153,6 +149,10 @@ public class WISERManage {
 	}
 
     public WISERThreadPoolManage getThreadPoolManage() {
+		if (threadPoolManage == null)
+			synchronized (WISERThreadPoolManage.class){
+				if (threadPoolManage == null) threadPoolManage = new WISERThreadPoolManage();
+			}
 		return threadPoolManage;
     }
 

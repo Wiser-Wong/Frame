@@ -4,6 +4,8 @@ import android.util.Log;
 
 import com.wiser.library.config.IWISERConfig;
 
+import javax.inject.Inject;
+
 
 /**
  * @author Wiser 日志管理
@@ -11,6 +13,9 @@ import com.wiser.library.config.IWISERConfig;
 public class WISERLogManage {
 
 	private String TAG = "WISER";
+
+	@Inject
+	WISERLogManage(){}
 
 	public void v(String msg) {
 		if (IWISERConfig.IS_DEBUG) {

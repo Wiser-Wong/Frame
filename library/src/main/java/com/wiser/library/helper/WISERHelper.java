@@ -50,6 +50,11 @@ public class WISERHelper {
 			return this;
 		}
 
+		/**
+		 * 注入架构
+		 * @param application
+		 * @param SWITCH
+		 */
 		public void Inject(Application application, boolean SWITCH) {
 			if (application == null) throw new RuntimeException("WISER架构:Application没有设置");
 
@@ -61,6 +66,8 @@ public class WISERHelper {
 			if (mWiserManage == null) {
 				throw new RuntimeException("WISER架构:WISERManage没有设置");
 			}
+			//注入Dagger
+			DaggerIWISERComponent.builder().build().inject(mWiserManage);
 			mWiserManage.init(iwiserBind, application);
 		}
 

@@ -6,12 +6,17 @@ import android.widget.Toast;
 
 import com.wiser.library.helper.WISERHelper;
 
+import javax.inject.Inject;
+
 /**
  * @author Wiser Toast管理类
  */
 public class WISERToastManage {
 
 	private Toast mToast = null;
+
+	@Inject
+	WISERToastManage(){}
 
 	/**
 	 * 简单Toast 消息弹出

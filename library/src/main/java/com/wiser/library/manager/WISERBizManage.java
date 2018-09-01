@@ -7,6 +7,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
+import javax.inject.Inject;
+
 /**
  * @author Wiser
  * @version 版本
@@ -16,6 +18,7 @@ public class WISERBizManage implements IWISERBizManage {
 
 	private final Map<Integer, Object> bizs;
 
+	@Inject
 	WISERBizManage() {
 		bizs = new ConcurrentHashMap<>();
 	}

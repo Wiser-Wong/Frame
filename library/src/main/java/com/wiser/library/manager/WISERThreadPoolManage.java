@@ -6,7 +6,12 @@ import com.wiser.library.core.WISERWorkExecutorService;
 
 import java.util.concurrent.ExecutorService;
 
+import javax.inject.Inject;
+
 public class WISERThreadPoolManage {
+
+	@Inject
+	WISERThreadPoolManage(){}
 
 	/**
 	 * 线程服务-网络线程池
