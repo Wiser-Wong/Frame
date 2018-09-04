@@ -12,7 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.wiser.library.util.WISERAppUtil;
+import com.wiser.library.util.WISERApp;
 
 /**
  * @author Wiser
@@ -47,7 +47,7 @@ public class FooterView extends LinearLayout {
 	// 创建loading
 	private void createLoading() {
 		bar = new ProgressBar(getContext());
-		LayoutParams params = new LayoutParams(WISERAppUtil.dip2px(40), WISERAppUtil.dip2px(40));
+		LayoutParams params = new LayoutParams(WISERApp.dip2px(40), WISERApp.dip2px(40));
 		bar.setLayoutParams(params);
 		bar.setPadding(10, 20, 10, 20);
 		int color = Color.GRAY;

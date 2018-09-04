@@ -7,7 +7,7 @@ import com.wiser.library.base.WISERBiz;
 import com.wiser.library.base.WISERFragment;
 import com.wiser.library.base.WISERView;
 import com.wiser.library.helper.IWISERDisplay;
-import com.wiser.library.util.WISERCheckUtil;
+import com.wiser.library.util.WISERCheck;
 import com.wiser.library.view.FooterView;
 
 import android.support.annotation.NonNull;
@@ -46,13 +46,13 @@ public abstract class WISERRVAdapter<T, V extends WISERHolder> extends RecyclerV
 	private WISERView		wiserView;
 
 	public WISERRVAdapter(WISERActivity mWiserActivity) {
-		WISERCheckUtil.checkNotNull(mWiserActivity, "View层不存在");
+		WISERCheck.checkNotNull(mWiserActivity, "View层不存在");
 		wiserView = mWiserActivity.wiserView();
 		this.mInflater = LayoutInflater.from(mWiserActivity);
 	}
 
 	public WISERRVAdapter(WISERFragment mWiserFragment) {
-		WISERCheckUtil.checkNotNull(mWiserFragment, "View层不存在");
+		WISERCheck.checkNotNull(mWiserFragment, "View层不存在");
 		wiserView = mWiserFragment.wiserView();
 		this.mInflater = LayoutInflater.from(wiserView.activity());
 	}
@@ -154,7 +154,7 @@ public abstract class WISERRVAdapter<T, V extends WISERHolder> extends RecyclerV
 	 * @return 返回值
 	 */
 	public <U> U findFragment(Class<U> clazz) {
-		WISERCheckUtil.checkNotNull(clazz, "class不能为空");
+		WISERCheck.checkNotNull(clazz, "class不能为空");
 		return (U) wiserView.manager().findFragmentByTag(clazz.getSimpleName());
 	}
 

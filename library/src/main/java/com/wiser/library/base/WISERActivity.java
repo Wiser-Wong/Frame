@@ -1,24 +1,21 @@
 package com.wiser.library.base;
 
+import java.util.List;
+
 import com.jude.swipbackhelper.SwipeBackHelper;
 import com.wiser.library.adapter.WISERRVAdapter;
 import com.wiser.library.helper.IWISERDisplay;
-import com.wiser.library.helper.WISERDisplay;
 import com.wiser.library.helper.WISERHelper;
 import com.wiser.library.model.WISERActivityModel;
 import com.wiser.library.model.WISERBizModel;
-import com.wiser.library.util.WISERCheckUtil;
 import com.wiser.library.util.WISERGenericSuperclass;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-
-import java.util.List;
 
 import butterknife.ButterKnife;
 
@@ -37,13 +34,15 @@ public abstract class WISERActivity<B extends IWISERBiz> extends AppCompatActivi
 
 	private WISERActivityModel	activityModel;
 
+	protected LayoutInflater	mInflater;
+
 	protected abstract WISERBuilder build(WISERBuilder builder);
 
 	protected abstract void initData(Bundle savedInstanceState);
 
 	@Override protected void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		LayoutInflater mInflater = LayoutInflater.from(this);
+		mInflater = LayoutInflater.from(this);
 		// 创建构建类
 		mWiserBuilder = new WISERBuilder(this, mInflater);
 		// 创建Biz储存对象

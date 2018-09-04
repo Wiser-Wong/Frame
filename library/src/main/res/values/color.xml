@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- 黑色 -->
+    <color name="black">#000000</color>
+
+    <!-- 白色 -->
+    <color name="white">#FFFFFF</color>
+
+    <!-- 象牙色 -->
+    <color name="ivory">#FFFFF0</color>
+
+    <!-- 亮黄色 -->
+    <color name="lightYellow">#FFFFE0</color>
+
+    <!-- 黄色 -->
+    <color name="yellow">#FFFF00</color>
+
+    <!-- 雪白色 -->
+    <color name="snow">#FFFAFA</color>
+
+    <!-- 花白色 -->
+    <color name="floralWhite">#FFFAF0</color>
+
+    <!-- 柠檬绸色 -->
+    <color name="lemonChiffon">#FFFACD</color>
+
+    <!-- 柠檬绸色+透明 -->
+    <color name="lemonChiffon_lu">#44FFFACD</color>
+
+    <!-- 米绸色 -->
+    <color name="cornSilk">#FFF8DC</color>
+
+    <!-- 海贝色 -->
+    <color name="seashell">#FFF5EE</color>
+
+    <!-- 淡紫红 -->
+    <color name="lavenderBlush">#FFF0F5</color>
+
+    <!-- 番木色 -->
+    <color name="papayaWhip">#FFEFD5</color>
+
+    <!-- 白杏色 -->
+    <color name="blanchealmond">#FFEBCD</color>
+
+    <!-- 浅玫瑰色 -->
+    <color name="mistyRose">#FFE4E1</color>
+
+    <!-- 桔黄色 -->
+    <color name="bisque">#FFE4C4</color>
+
+    <!-- 鹿皮色 -->
+    <color name="moccasin">#FFE4B5</color>
+
+    <!-- 纳瓦白 -->
+    <color name="navajoWhite">#FFDEAD</color>
+
+    <!-- 桃色 -->
+    <color name="peachPuff">#FFDAB9</color>
+
+    <!-- 金色 -->
+    <color name="gold">#FFD700</color>
+    <color name="viewfinder_mask">#60000000</color>
+
+    <!-- 粉红色 -->
+    <color name="pink">#FFC0CB</color>
+
+    <!-- 亮粉红色 -->
+    <color name="lightPink">#FFB6C1</color>
+
+    <!-- 橙色 -->
+    <color name="orange">#FFA500</color>
+
+    <!-- 亮肉色 -->
+    <color name="lightSalmon">#FFA07A</color>
+
+    <!-- 暗桔黄色 -->
+    <color name="darkOrange">#FF8C00</color>
+
+    <!-- 珊瑚色 -->
+    <color name="coral">#FF7F50</color>
+
+    <!-- 热粉红色 -->
+    <color name="hotPink">#FF69B4</color>
+
+    <!-- 西红柿色 -->
+    <color name="tomato">#FF6347</color>
+
+    <!-- 红橙色 -->
+    <color name="orangeRed">#FF4500</color>
+
+    <!-- 深粉红色 -->
+    <color name="deepPink">#FF1493</color>
+
+    <!-- 紫红色 -->
+    <color name="fuchsia">#FF00FF</color>
+
+    <!-- 红紫色 -->
+    <color name="magenta">#FF00FF</color>
+
+    <!-- 红色 -->
+    <color name="red">#FF0000</color>
+
+    <!-- 老花色 -->
+    <color name="oldLace">#FDF5E6</color>
+
+    <!-- 亮金黄色 -->
+    <color name="lightGoldenrodYellow">#FAFAD2</color>
+
+    <!-- 亚麻色 -->
+    <color name="linen">#FAF0E6</color>
+
+    <!-- 古董白 -->
+    <color name="antiqueWhite">#FAEBD7</color>
+
+    <!-- 鲜肉色 -->
+    <color name="salmon">#FA8072</color>
+
+    <!-- 幽灵白 -->
+    <color name="ghostWhite">#F8F8F8</color>
+
+    <!-- 薄荷色 -->
+    <color name="mintCream">#F5FFFA</color>
+
+    <!-- 烟白色 -->
+    <color name="whiteSmoke">#F5F5F5</color>
+
+    <!-- 米色 -->
+    <color name="beige">#F5F5DC</color>
+
+    <!-- 浅黄色 -->
+    <color name="wheat">#F5DEB3</color>
+
+    <!-- 沙褐色 -->
+    <color name="sandyBrown">#F4A460</color>
+
+    <!-- 天蓝色 -->
+    <color name="azure">#F0FFFF</color>
+
+    <!-- 蜜色 -->
+    <color name="honeydew">#F0FFF0</color>
+
+    <!-- 艾利斯兰 -->
+    <color name="aliceBlue">#F0F8FF</color>
+
+    <!-- 黄褐色 -->
+    <color name="khaki">#F0E68C</color>
+
+    <!-- 亮珊瑚色 -->
+    <color name="lightCoral">#F08080</color>
+
+    <!-- 苍麒麟色 -->
+    <color name="paleGoldenrod">#EEE8AA</color>
+
+    <!-- 紫罗兰色 -->
+    <color name="violet">#EE82EE</color>
+
+    <!-- 暗肉色 -->
+    <color name="darkSalmon">#E9967A</color>
+
+    <!-- 淡紫色 -->
+    <color name="lavender">#E6E6FA</color>
+
+    <!-- 亮青色 -->
+    <color name="lightCyan">#E0FFFF</color>
+
+    <!-- 实木色 -->
+    <color name="burlyWood">#DEB887</color>
+
+    <!-- 洋李色 -->
+    <color name="plum">#DDA0DD</color>
+
+    <!-- 淡灰色 -->
+    <color name="gainsboro">#DCDCDC</color>
+
+    <!-- 暗深红色 -->
+    <color name="crimson">#DC143C</color>
+
+    <!-- 苍紫罗兰色 -->
+    <color name="palevioletred">#DB7093</color>
+
+    <!-- 金麒麟色 -->
+    <color name="goldenrod">#DAA520</color>
+
+    <!-- 淡紫色 -->
+    <color name="orchid">#DA70D6</color>
+
+    <!-- 蓟色 -->
+    <color name="thistle">#D8BFD8</color>
+
+    <!-- 亮灰色 -->
+    <color name="lightGray">#D3D3D3</color>
+
+    <!-- 灰色-->
+    <color name="grey">#CCCCCC</color>
+
+    <color name="color_738ffe">#738ffe</color>
+
+</resources>

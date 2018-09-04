@@ -4,7 +4,7 @@ import java.io.File;
 
 import javax.inject.Inject;
 
-import com.wiser.library.util.WISERCheckUtil;
+import com.wiser.library.util.WISERCheck;
 
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
@@ -14,9 +14,11 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.provider.Settings;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
+import android.view.inputmethod.InputMethodManager;
 
 /**
  * @author Wiser
@@ -24,8 +26,7 @@ import android.support.v4.app.FragmentTransaction;
  */
 public class WISERDisplay implements IWISERDisplay {
 
-	@Inject
-	public WISERDisplay(){}
+	@Inject public WISERDisplay() {}
 
 	@Override public Context context() {
 		return WISERHelper.getActivityManage().getCurrentActivity();
@@ -172,8 +173,8 @@ public class WISERDisplay implements IWISERDisplay {
 	}
 
 	@SuppressLint("ResourceType") @Override public void commitChildReplace(Fragment srcFragment, int layoutId, Fragment fragment) {
-		WISERCheckUtil.checkArgument(layoutId > 0, "提交布局ID 不能为空~");
-		WISERCheckUtil.checkNotNull(fragment, "fragment不能为空~");
+		WISERCheck.checkArgument(layoutId > 0, "提交布局ID 不能为空~");
+		WISERCheck.checkNotNull(fragment, "fragment不能为空~");
 		if (activity() == null) {
 			return;
 		}
@@ -182,8 +183,8 @@ public class WISERDisplay implements IWISERDisplay {
 	}
 
 	@SuppressLint("ResourceType") @Override public void commitBackStack(int layoutId, Fragment fragment) {
-		WISERCheckUtil.checkArgument(layoutId > 0, "提交布局ID 不能为空~");
-		WISERCheckUtil.checkNotNull(fragment, "fragment不能为空~");
+		WISERCheck.checkArgument(layoutId > 0, "提交布局ID 不能为空~");
+		WISERCheck.checkNotNull(fragment, "fragment不能为空~");
 		if (activity() == null) {
 			return;
 		}
@@ -192,9 +193,9 @@ public class WISERDisplay implements IWISERDisplay {
 	}
 
 	@SuppressLint("ResourceType") @Override public void commitBackStack(int layoutId, Fragment fragment, int animation) {
-		WISERCheckUtil.checkArgument(layoutId > 0, "提交布局ID 不能为空~");
-		WISERCheckUtil.checkArgument(animation > 0, "动画 不能为空~");
-		WISERCheckUtil.checkNotNull(fragment, "fragment不能为空~");
+		WISERCheck.checkArgument(layoutId > 0, "提交布局ID 不能为空~");
+		WISERCheck.checkArgument(animation > 0, "动画 不能为空~");
+		WISERCheck.checkNotNull(fragment, "fragment不能为空~");
 		if (activity() == null) {
 			return;
 		}
@@ -391,6 +392,26 @@ public class WISERDisplay implements IWISERDisplay {
 	}
 
 	/**
+	 * 跳转设置
+	 */
+	@Override public void intentSetting() {
+		Intent localIntent = new Intent();
+		localIntent.setAction(Settings.ACTION_SETTINGS);
+		activity().startActivity(localIntent);
+	}
+
+	/**
+	 * 跳转App详情
+	 */
+	@Override public void intentAppDetails() {
+		Intent localIntent = new Intent();
+		localIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		localIntent.setAction("android.settings.APPLICATION_DETAILS_SETTINGS");
+		localIntent.setData(Uri.fromParts("package", activity().getPackageName(), null));
+		activity().startActivity(localIntent);
+	}
+
+	/**
 	 * 安装新的应用
 	 * 
 	 * @param path
@@ -402,4 +423,5 @@ public class WISERDisplay implements IWISERDisplay {
 		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		activity().startActivity(intent);
 	}
+
 }

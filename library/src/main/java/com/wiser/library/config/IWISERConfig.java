@@ -8,6 +8,6 @@ public class IWISERConfig {
 	/**
 	 * 环境开关设置 true线下 false线上
 	 */
-	public static boolean IS_DEBUG = false;
+	public static boolean	IS_DEBUG				= false;
 
 }

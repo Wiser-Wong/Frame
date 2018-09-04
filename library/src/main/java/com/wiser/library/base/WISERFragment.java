@@ -13,9 +13,7 @@ import android.view.ViewGroup;
 import com.wiser.library.adapter.WISERRVAdapter;
 import com.wiser.library.helper.IWISERDisplay;
 import com.wiser.library.helper.WISERHelper;
-import com.wiser.library.model.WISERActivityModel;
 import com.wiser.library.model.WISERBizModel;
-import com.wiser.library.util.WISERCheckUtil;
 import com.wiser.library.util.WISERGenericSuperclass;
 
 import java.util.List;

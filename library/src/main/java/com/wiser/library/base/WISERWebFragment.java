@@ -1,5 +1,9 @@
 package com.wiser.library.base;
 
+import com.wiser.library.R;
+import com.wiser.library.util.WISERApp;
+import com.wiser.library.util.WISERWebChromeClient;
+
 import android.annotation.SuppressLint;
 import android.os.Build;
 import android.os.Bundle;
@@ -13,16 +17,12 @@ import android.webkit.WebViewClient;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
-import com.wiser.library.R;
-import com.wiser.library.util.WISERApp;
-import com.wiser.library.util.WISERWebChromeClient;
-
 /**
  * @author Wiser
  * 
  *         WebView网页
  */
-public abstract class WISERWebActivity extends WISERActivity {
+public abstract class WISERWebFragment extends WISERFragment {
 
 	private boolean			isHandleBack	= false;	// 是否处理返回
 
@@ -85,7 +85,7 @@ public abstract class WISERWebActivity extends WISERActivity {
 	 * @return
 	 */
 	private void createLayout() {
-		rootLayout = new LinearLayout(this);
+		rootLayout = new LinearLayout(activity());
 		rootLayout.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
 		// 纵向
 		rootLayout.setOrientation(LinearLayout.VERTICAL);
@@ -97,16 +97,16 @@ public abstract class WISERWebActivity extends WISERActivity {
 	 * @return
 	 */
 	private void createProgressView() {
-		progressView = new ProgressBar(this, null, android.R.attr.progressBarStyleHorizontal);
+		progressView = new ProgressBar(activity(), null, android.R.attr.progressBarStyleHorizontal);
 		progressView.setIndeterminate(false);
 		progressView.setMax(100);
-		progressView.setProgressDrawable(ContextCompat.getDrawable(this, R.drawable.progress_line));
+		progressView.setProgressDrawable(ContextCompat.getDrawable(activity(), R.drawable.progress_line));
 		progressView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, WISERApp.dip2px(2)));
 	}
 
 	// 创建WebView
 	@SuppressLint({ "SetJavaScriptEnabled" }) private void createWebView() {
-		webView = new WebView(this);
+		webView = new WebView(activity());
 		webView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
 		// 设置内核是原生的
 		webView.getSettings().setUserAgentString(webView.getSettings().getUserAgentString() + " APP_Android");
@@ -150,7 +150,7 @@ public abstract class WISERWebActivity extends WISERActivity {
 		// 加载网络链接
 		webView.loadUrl(loadUrl());
 
-		webView.setWebChromeClient(new WISERWebChromeClient(this));
+		webView.setWebChromeClient(new WISERWebChromeClient(activity()));
 
 		webView.setWebChromeClient(setWebChromeClient());
 		webView.setWebViewClient(setWebViewClient());
@@ -217,18 +217,11 @@ public abstract class WISERWebActivity extends WISERActivity {
 		return false;
 	}
 
-	@Override public boolean onKeyUp(int keyCode, KeyEvent event) {
-		if (keyCode == KeyEvent.KEYCODE_BACK) {
-			return backHandle() || super.onKeyUp(keyCode, event);
-		}
-		return super.onKeyUp(keyCode, event);
-	}
-
-	@Override protected void onPause() {
+	@Override public void onPause() {
 		webView.onPause();
 		webView.pauseTimers();
 		super.onPause();
-		if (isFinishing()) {
+		if (activity().isFinishing()) {
 			if (webView != null) {
 				webView.destroy();
 				webView = null;
@@ -238,13 +231,10 @@ public abstract class WISERWebActivity extends WISERActivity {
 		}
 	}
 
-	@Override protected void onResume() {
+	@Override public void onResume() {
 		webView.onResume();
 		webView.resumeTimers();
 		super.onResume();
 	}
 
-	@Override protected void onDestroy() {
-		super.onDestroy();
-	}
 }

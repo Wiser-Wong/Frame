@@ -9,8 +9,6 @@ import android.support.annotation.IdRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 
-import org.jetbrains.annotations.NotNull;
-
 /**
  * @author Wiser
  * @version 版本
@@ -334,6 +332,16 @@ public interface IWISERDisplay {
 	 *            请求吗
 	 */
 	void cropPhoto(Uri uri, int requestCode);
+
+	/**
+	 * 跳转设置
+	 */
+	void intentSetting();
+
+	/**
+	 * 跳转app详情
+	 */
+	void intentAppDetails();
 
 	/**
 	 * 安装新的应用

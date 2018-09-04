@@ -10,7 +10,7 @@ import com.google.gson.Gson;
  * @author Wiser
  * @version 版本
  */
-public class WISERGsonUtil {
+public class WISERGson {
 
 	public static <T> List<T> getDataList(String json, Class classT) {
 		Gson gson = new Gson();

@@ -1,29 +1,35 @@
 package com.wiser.library.util;
 
-import android.annotation.SuppressLint;
-import android.content.Context;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.telephony.TelephonyManager;
-import android.util.DisplayMetrics;
-import android.view.Display;
-import android.view.WindowManager;
-
-import com.wiser.library.helper.WISERHelper;
-
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.util.Enumeration;
-import java.util.List;
+import java.util.Objects;
+
+import com.wiser.library.helper.WISERHelper;
+
+import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
+import android.app.Activity;
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
+import android.content.pm.ActivityInfo;
+import android.content.pm.PackageManager;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
+import android.telephony.TelephonyManager;
+import android.util.DisplayMetrics;
+import android.view.Display;
+import android.view.WindowManager;
 
 /**
  * @author Wiser
  * @version 版本
  */
-public class WISERAppUtil {
+public class WISERApp {
 
 	/**
 	 * 获取app的版本code
@@ -110,6 +116,27 @@ public class WISERAppUtil {
 			e.printStackTrace();
 		}
 		return strMacAddress;
+	}
+
+	/**
+	 * 底部虚拟按键栏的高度
+	 * 
+	 * @param activity
+	 * @return
+	 */
+	@TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1) public static int getSoftBottomBarHeight(Activity activity) {
+		DisplayMetrics metrics = new DisplayMetrics();
+		// 这个方法获取可能不是真实屏幕的高度
+		activity.getWindowManager().getDefaultDisplay().getMetrics(metrics);
+		int usableHeight = metrics.heightPixels;
+		// 获取当前屏幕的真实高度
+		activity.getWindowManager().getDefaultDisplay().getRealMetrics(metrics);
+		int realHeight = metrics.heightPixels;
+		if (realHeight > usableHeight) {
+			return realHeight - usableHeight;
+		} else {
+			return 0;
+		}
 	}
 
 	/**
@@ -269,36 +296,27 @@ public class WISERAppUtil {
 	}
 
 	/**
-	 * 判断 用户是否安装微信客户端
+	 * 复制文本内容到剪切板
+	 * 
+	 * @param copyText
 	 */
-	public static boolean isWXCanUse() {
-		final PackageManager packageManager = WISERHelper.getInstance().getPackageManager();
-		List<PackageInfo> pi = packageManager.getInstalledPackages(0);// 获取所有已安装程序的包信息
-		if (pi != null) {
-			for (int i = 0; i < pi.size(); i++) {
-				String pn = pi.get(i).packageName;
-				if (pn.equals("com.tencent.mm")) {
-					return true;
-				}
-			}
-		}
-		return false;
+	@RequiresApi(api = Build.VERSION_CODES.KITKAT) public static void copyText(String copyText) {
+		((ClipboardManager) Objects.requireNonNull(WISERHelper.getInstance().getSystemService(Context.CLIPBOARD_SERVICE))).setPrimaryClip(ClipData.newPlainText("text", copyText));
 	}
 
 	/**
-	 * 判断 用户是否安装QQ客户端
+	 * 为Activity设置横竖屏
+	 * 
+	 * @param act
 	 */
-	public static boolean isQQCanUse() {
-		final PackageManager packageManager = WISERHelper.getInstance().getPackageManager();
-		List<PackageInfo> pi = packageManager.getInstalledPackages(0);
-		if (pi != null) {
-			for (int i = 0; i < pi.size(); i++) {
-				String pn = pi.get(i).packageName;
-				if (pn.equalsIgnoreCase("com.tencent.qqlite") || pn.equalsIgnoreCase("com.tencent.mobileqq")) {
-					return true;
-				}
-			}
+	public static void setScreenOrientation(Activity act) {
+		final DisplayMetrics dm = new DisplayMetrics();
+		act.getWindowManager().getDefaultDisplay().getMetrics(dm);
+		if (dm.widthPixels < dm.heightPixels) {
+			act.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+		} else {
+			act.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		}
-		return false;
 	}
+
 }

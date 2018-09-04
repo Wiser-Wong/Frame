@@ -1,8 +1,8 @@
 package com.wiser.frame;
 
-import android.app.Application;
-
 import com.wiser.library.helper.WISERHelper;
+
+import android.app.Application;
 
 public class WiserApplication extends Application {
 

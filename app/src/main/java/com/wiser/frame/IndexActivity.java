@@ -58,6 +58,7 @@ public class IndexActivity extends WISERActivity<IndexBiz> {
 		WISERQRCodeUtil.createQRCodeBitmapForUrl("", "WiserWong", R.mipmap.ic_launcher, ivQR, false);
 
 		marquee();
+
 	}
 
 	// 跑马灯

@@ -28,7 +28,7 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.SurfaceHolder;
 
-import com.wiser.library.util.WISERAppUtil;
+import com.wiser.library.util.WISERApp;
 
 /**
  * @author Wiser
@@ -105,8 +105,8 @@ public final class CameraManager {
 	// 计算分辨率设置初始值
 	private static void setInitValueResolution() {
 		int resolution = 0;
-		if (WISERAppUtil.getScreenDisplay().length > 0) {
-			resolution = WISERAppUtil.getScreenDisplay()[0];
+		if (WISERApp.getScreenDisplay().length > 0) {
+			resolution = WISERApp.getScreenDisplay()[0];
 		}
 		if (resolution > 1080) {// 分辨率大于1080
 			MIN_FRAME_WIDTH = 600;

@@ -1,12 +1,17 @@
 package com.wiser.library.manager;
 
-import android.annotation.SuppressLint;
-import android.os.Looper;
-import android.widget.Toast;
-
-import com.wiser.library.helper.WISERHelper;
-
 import javax.inject.Inject;
+
+import com.wiser.library.R;
+import com.wiser.library.helper.WISERHelper;
+import com.wiser.library.util.WISERApp;
+
+import android.annotation.SuppressLint;
+import android.graphics.Color;
+import android.os.Looper;
+import android.view.Gravity;
+import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  * @author Wiser Toast管理类
@@ -15,8 +20,7 @@ public class WISERToastManage {
 
 	private Toast mToast = null;
 
-	@Inject
-	WISERToastManage(){}
+	@Inject WISERToastManage() {}
 
 	/**
 	 * 简单Toast 消息弹出
@@ -32,11 +36,11 @@ public class WISERToastManage {
 			WISERHelper.mainLooper().execute(new Runnable() {
 
 				@Override public void run() {
-					showToast(msg, Toast.LENGTH_SHORT);
+					frameToast(msg, Toast.LENGTH_SHORT);
 				}
 			});
 		} else {
-			showToast(msg, Toast.LENGTH_SHORT);
+			frameToast(msg, Toast.LENGTH_SHORT);
 		}
 	}
 
@@ -54,11 +58,11 @@ public class WISERToastManage {
 			WISERHelper.mainLooper().execute(new Runnable() {
 
 				@Override public void run() {
-					showToast(String.valueOf(msg), Toast.LENGTH_SHORT);
+					frameToast(String.valueOf(msg), Toast.LENGTH_SHORT);
 				}
 			});
 		} else {
-			showToast(String.valueOf(msg), Toast.LENGTH_SHORT);
+			frameToast(String.valueOf(msg), Toast.LENGTH_SHORT);
 		}
 	}
 
@@ -76,11 +80,11 @@ public class WISERToastManage {
 			WISERHelper.mainLooper().execute(new Runnable() {
 
 				@Override public void run() {
-					showToast(String.valueOf(msg), Toast.LENGTH_SHORT);
+					frameToast(String.valueOf(msg), Toast.LENGTH_SHORT);
 				}
 			});
 		} else {
-			showToast(String.valueOf(msg), Toast.LENGTH_SHORT);
+			frameToast(String.valueOf(msg), Toast.LENGTH_SHORT);
 		}
 	}
 
@@ -100,11 +104,11 @@ public class WISERToastManage {
 			WISERHelper.mainLooper().execute(new Runnable() {
 
 				@Override public void run() {
-					showToast(msg, duration);
+					frameToast(msg, duration);
 				}
 			});
 		} else {
-			showToast(msg, duration);
+			frameToast(msg, duration);
 		}
 	}
 
@@ -124,11 +128,11 @@ public class WISERToastManage {
 			WISERHelper.mainLooper().execute(new Runnable() {
 
 				@Override public void run() {
-					showToast(String.valueOf(msg), duration);
+					frameToast(String.valueOf(msg), duration);
 				}
 			});
 		} else {
-			showToast(String.valueOf(msg), duration);
+			frameToast(String.valueOf(msg), duration);
 		}
 	}
 
@@ -140,7 +144,7 @@ public class WISERToastManage {
 	 * @param duration
 	 *            参数
 	 */
-	@SuppressLint("ShowToast") private void showToast(String text, int duration) {
+	@SuppressLint("showToast") private void showToast(String text, int duration) {
 		if (mToast == null) {
 			mToast = Toast.makeText(WISERHelper.getInstance(), text, duration);
 		} else {
@@ -148,6 +152,27 @@ public class WISERToastManage {
 			mToast.setDuration(duration);
 		}
 
+		mToast.show();
+	}
+
+	/**
+	 * 带边框的Toast
+	 *
+	 * @param showMsg
+	 */
+	private void frameToast(String showMsg, int duration) {
+		TextView toastView = new TextView(WISERHelper.getInstance());
+		toastView.setPadding(WISERApp.dip2px(40), WISERApp.dip2px(20), WISERApp.dip2px(40), WISERApp.dip2px(20));
+		toastView.setBackgroundResource(R.drawable.toast_bg);
+		toastView.setText(showMsg);
+		toastView.setTextColor(Color.WHITE);
+		toastView.setTextSize(16.0f);
+		if (mToast == null) {
+			mToast = new Toast(WISERHelper.getInstance());
+		}
+		mToast.setView(toastView);
+		mToast.setGravity(Gravity.CENTER, 0, 0);
+		mToast.setDuration(duration);
 		mToast.show();
 	}
 

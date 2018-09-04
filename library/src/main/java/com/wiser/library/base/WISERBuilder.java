@@ -6,7 +6,7 @@ import com.readystatesoftware.systembartint.SystemBarTintManager;
 import com.wiser.library.R;
 import com.wiser.library.adapter.WISERRVAdapter;
 import com.wiser.library.helper.WISERHelper;
-import com.wiser.library.util.WISERCheckUtil;
+import com.wiser.library.util.WISERCheck;
 
 import android.graphics.Color;
 import android.os.Build;
@@ -428,7 +428,7 @@ public class WISERBuilder {
 	private void createEmptyView() {
 		if (getLayoutEmptyId() > 0) {
 			layoutEmpty = mInflater.inflate(getLayoutEmptyId(), contentRoot, false);
-			WISERCheckUtil.checkNotNull(layoutEmpty, "无法根据布局文件ID,获取layoutEmpty");
+			WISERCheck.checkNotNull(layoutEmpty, "无法根据布局文件ID,获取layoutEmpty");
 			contentRoot.addView(layoutEmpty);
 			layoutEmpty.setVisibility(View.GONE);
 		}
@@ -440,7 +440,7 @@ public class WISERBuilder {
 	private void createErrorView() {
 		if (getLayoutErrorId() > 0) {
 			layoutError = mInflater.inflate(getLayoutErrorId(), contentRoot, false);
-			WISERCheckUtil.checkNotNull(layoutError, "无法根据布局文件ID,获取layoutError");
+			WISERCheck.checkNotNull(layoutError, "无法根据布局文件ID,获取layoutError");
 			contentRoot.addView(layoutError);
 			layoutError.setVisibility(View.GONE);
 		}
@@ -452,7 +452,7 @@ public class WISERBuilder {
 	private void createLoadingView() {
 		if (getLayoutLoadingId() > 0) {
 			layoutLoading = mInflater.inflate(getLayoutLoadingId(), contentRoot, false);
-			WISERCheckUtil.checkNotNull(layoutLoading, "无法根据布局文件ID,获取layoutLoading");
+			WISERCheck.checkNotNull(layoutLoading, "无法根据布局文件ID,获取layoutLoading");
 			contentRoot.addView(layoutLoading);
 			layoutLoading.setVisibility(View.GONE);
 		}

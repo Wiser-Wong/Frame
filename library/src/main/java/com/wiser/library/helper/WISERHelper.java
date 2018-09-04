@@ -9,6 +9,7 @@ import com.wiser.library.config.IWISERConfig;
 import com.wiser.library.manager.IWISERActivityManage;
 import com.wiser.library.manager.IWISERBizManage;
 import com.wiser.library.manager.WISERHandlerExecutor;
+import com.wiser.library.manager.WISERInputManage;
 import com.wiser.library.manager.WISERLogManage;
 import com.wiser.library.manager.WISERManage;
 import com.wiser.library.manager.WISERThreadPoolManage;
@@ -52,6 +53,7 @@ public class WISERHelper {
 
 		/**
 		 * 注入架构
+		 * 
 		 * @param application
 		 * @param SWITCH
 		 */
@@ -66,7 +68,7 @@ public class WISERHelper {
 			if (mWiserManage == null) {
 				throw new RuntimeException("WISER架构:WISERManage没有设置");
 			}
-			//注入Dagger
+			// 注入Dagger
 			DaggerIWISERComponent.builder().build().inject(mWiserManage);
 			mWiserManage.init(iwiserBind, application);
 		}
@@ -94,6 +96,7 @@ public class WISERHelper {
 	}
 
 	public static Application getInstance() {
+		if (mWiserManage.getApplication() == null) throw new RuntimeException("WISER架构:没有初始化，不能使用其功能。");
 		return mWiserManage.getApplication();
 	}
 
@@ -113,6 +116,15 @@ public class WISERHelper {
 	 */
 	public static WISERLogManage log() {
 		return mWiserManage.getLogManger();
+	}
+
+	/**
+	 * 输入法对象
+	 * 
+	 * @return
+	 */
+	public static WISERInputManage inputManage() {
+		return mWiserManage.getInputManage();
 	}
 
 	/**

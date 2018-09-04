@@ -12,7 +12,7 @@ import retrofit2.Retrofit;
 /**
  * @author Wiser
  *
- * 		   类管理器
+ *         类管理器
  */
 public class WISERManage {
 
@@ -24,12 +24,12 @@ public class WISERManage {
 	/**
 	 * Toast管理类
 	 */
-	@Inject public WISERToastManage		toastManger;
+	@Inject public WISERToastManage			toastManger;
 
 	/**
 	 * 线程管理类
 	 */
-	@Inject public WISERHandlerExecutor	handlerExecutor;
+	@Inject public WISERHandlerExecutor		handlerExecutor;
 
 	/**
 	 * Biz管理类
@@ -41,12 +41,12 @@ public class WISERManage {
 	 */
 	@Inject public WISERActivityManage		activityManage;
 
-	@Inject public WISERDisplay			display;
+	@Inject public WISERDisplay				display;
 
 	/**
 	 * 网络配置
 	 */
-	private Retrofit				retrofit;
+	private Retrofit						retrofit;
 
 	/**
 	 * 网络管理
@@ -58,12 +58,18 @@ public class WISERManage {
 	 */
 	@Inject public WISERThreadPoolManage	threadPoolManage;
 
-	public Application				application;
+	private Application						application;
+
+	/**
+	 * 输入法管理
+	 */
+	private WISERInputManage				inputManage;
 
 	public WISERManage() {}
 
 	public void init(IWISERBind iwiserBind, Application application) {
 		this.application = application;
+		inputManage = new WISERInputManage(application);
 		retrofit = iwiserBind.getRetrofit(new Retrofit.Builder());
 	}
 
@@ -148,15 +154,18 @@ public class WISERManage {
 		return httpManage;
 	}
 
-    public WISERThreadPoolManage getThreadPoolManage() {
-		if (threadPoolManage == null)
-			synchronized (WISERThreadPoolManage.class){
-				if (threadPoolManage == null) threadPoolManage = new WISERThreadPoolManage();
-			}
+	public WISERThreadPoolManage getThreadPoolManage() {
+		if (threadPoolManage == null) synchronized (WISERThreadPoolManage.class) {
+			if (threadPoolManage == null) threadPoolManage = new WISERThreadPoolManage();
+		}
 		return threadPoolManage;
-    }
+	}
 
-    public Retrofit getRetrofit() {
+	public WISERInputManage getInputManage() {
+		return inputManage;
+	}
+
+	public Retrofit getRetrofit() {
 		return retrofit;
 	}
 }
