@@ -1,5 +1,6 @@
 package com.wiser.library.util;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -14,6 +15,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.wiser.library.config.IWISERConfig;
+import com.wiser.library.helper.WISERHelper;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -62,7 +64,7 @@ public class WISERCrashHandler implements UncaughtExceptionHandler {
 	/**
 	 * log日志存储路径
 	 */
-	private String														logFileDir;
+	private File														logFile;
 
 	/**
 	 * Creates a new instance of WISERCrashHandler.
@@ -84,9 +86,9 @@ public class WISERCrashHandler implements UncaughtExceptionHandler {
 	 * @param paramContext
 	 * @return void
 	 */
-	public void init(Context paramContext, String logFileDir) {
+	public void init(Context paramContext, String logFileName) {
 		mContext = paramContext;
-		this.logFileDir = logFileDir;
+		logFile = WISERFile.createAndroidDataFolder(paramContext, logFileName);
 		// 获取系统默认的UncaughtException处理器
 		mDefaultHandler = Thread.getDefaultUncaughtExceptionHandler();
 		// 设置该CrashHandler为程序的默认处理器
@@ -130,7 +132,7 @@ public class WISERCrashHandler implements UncaughtExceptionHandler {
 				Toast.makeText(mContext, "很抱歉,程序出现异常,即将退出", Toast.LENGTH_SHORT).show();
 
 				paramThrowable.printStackTrace();
-				// MApplication.exitAllActivity(mContext);
+				WISERHelper.getActivityManage().finishAllActivity();
 				Looper.loop();
 			}
 		}.start();
@@ -208,9 +210,9 @@ public class WISERCrashHandler implements UncaughtExceptionHandler {
 		mStringBuffer.append(mResult);
 		// 保存文件，设置文件名
 		String mTime = mSimpleDateFormat.format(new Date());
-		String mFileName = "CrashLog-" + mTime + ".log";
+		String mFileName = "CrashLog-" + mTime + ".txt";
 		try {
-			String mDirectory = logFileDir;
+			String mDirectory = logFile.getAbsolutePath() + "/";
 			FileOutputStream mFileOutputStream = new FileOutputStream(mDirectory + mFileName);
 			mFileOutputStream.write(mStringBuffer.toString().getBytes());
 			mFileOutputStream.close();

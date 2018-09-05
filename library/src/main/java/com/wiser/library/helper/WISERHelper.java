@@ -1,7 +1,6 @@
 package com.wiser.library.helper;
 
-import android.app.Application;
-import android.os.Looper;
+import java.io.IOException;
 
 import com.wiser.library.base.IWISERBind;
 import com.wiser.library.base.WISERBiz;
@@ -9,13 +8,14 @@ import com.wiser.library.config.IWISERConfig;
 import com.wiser.library.manager.IWISERActivityManage;
 import com.wiser.library.manager.IWISERBizManage;
 import com.wiser.library.manager.WISERHandlerExecutor;
-import com.wiser.library.manager.WISERInputManage;
 import com.wiser.library.manager.WISERLogManage;
 import com.wiser.library.manager.WISERManage;
 import com.wiser.library.manager.WISERThreadPoolManage;
 import com.wiser.library.manager.WISERToastManage;
+import com.wiser.library.util.WISERCrashHandler;
 
-import java.io.IOException;
+import android.app.Application;
+import android.os.Looper;
 
 import retrofit2.Call;
 import retrofit2.Response;
@@ -73,6 +73,15 @@ public class WISERHelper {
 			mWiserManage.init(iwiserBind, application);
 		}
 
+		/**
+		 * 捕获全局异常
+		 * 
+		 */
+		public Bind setCrashHandler(Application application, String logAndroidDataFileDir) {
+			WISERCrashHandler.getInstance().init(application, logAndroidDataFileDir);
+			return this;
+		}
+
 	}
 
 	/**
@@ -116,15 +125,6 @@ public class WISERHelper {
 	 */
 	public static WISERLogManage log() {
 		return mWiserManage.getLogManger();
-	}
-
-	/**
-	 * 输入法对象
-	 * 
-	 * @return
-	 */
-	public static WISERInputManage inputManage() {
-		return mWiserManage.getInputManage();
 	}
 
 	/**

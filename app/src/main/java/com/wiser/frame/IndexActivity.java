@@ -4,6 +4,7 @@ import com.wiser.library.base.WISERActivity;
 import com.wiser.library.base.WISERBuilder;
 import com.wiser.library.helper.WISERHelper;
 import com.wiser.library.util.WISERDate;
+import com.wiser.library.util.WISERInput;
 import com.wiser.library.view.marquee.MarqueeAdapter;
 import com.wiser.library.view.marquee.MarqueeView;
 import com.wiser.library.zxing.WISERQRCodeUtil;
@@ -12,6 +13,7 @@ import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 import android.widget.ImageView;
@@ -101,8 +103,14 @@ public class IndexActivity extends WISERActivity<IndexBiz> {
 		}, 4000);
 	}
 
-	@OnClick(R.id.tv_name) public void onClickView(View view) {
-		WISERHelper.display().intent(WebViewActivity.class);
-		// WISERHelper.display().intent(ScanActivity.class);
+	@OnClick({ R.id.tv_name, R.id.iv_qr }) public void onClickView(View view) {
+		switch (view.getId()) {
+			case R.id.tv_name:
+				WISERHelper.display().intent(WebViewActivity.class);
+				break;
+			case R.id.iv_qr:
+				WISERHelper.display().intent(ScanActivity.class);
+				break;
+		}
 	}
 }

@@ -60,16 +60,10 @@ public class WISERManage {
 
 	private Application						application;
 
-	/**
-	 * 输入法管理
-	 */
-	private WISERInputManage				inputManage;
-
 	public WISERManage() {}
 
 	public void init(IWISERBind iwiserBind, Application application) {
 		this.application = application;
-		inputManage = new WISERInputManage(application);
 		retrofit = iwiserBind.getRetrofit(new Retrofit.Builder());
 	}
 
@@ -159,10 +153,6 @@ public class WISERManage {
 			if (threadPoolManage == null) threadPoolManage = new WISERThreadPoolManage();
 		}
 		return threadPoolManage;
-	}
-
-	public WISERInputManage getInputManage() {
-		return inputManage;
 	}
 
 	public Retrofit getRetrofit() {

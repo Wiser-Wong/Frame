@@ -1,10 +1,9 @@
-package com.wiser.library.manager;
+package com.wiser.library.util;
 
 import java.util.Objects;
 
 import com.wiser.library.helper.WISERHelper;
 
-import android.app.Application;
 import android.content.Context;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
@@ -15,12 +14,21 @@ import android.widget.EditText;
  * @author Wiser
  * @version 版本
  */
-public class WISERInputManage {
+public class WISERInput {
 
-	private InputMethodManager manager;
+	private static WISERInput	input;
 
-	WISERInputManage(Application application) {
-		manager = (InputMethodManager) application.getSystemService(Context.INPUT_METHOD_SERVICE);
+	private InputMethodManager	manager;
+
+	private WISERInput() {
+		if (manager == null) manager = (InputMethodManager) WISERHelper.getInstance().getSystemService(Context.INPUT_METHOD_SERVICE);
+	}
+
+	public static WISERInput getInstance() {
+		synchronized (WISERInput.class) {
+			if (input == null) input = new WISERInput();
+		}
+		return input;
 	}
 
 	/**
