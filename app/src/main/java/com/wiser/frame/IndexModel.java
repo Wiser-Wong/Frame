@@ -1,7 +1,11 @@
 package com.wiser.frame;
 
-public class IndexModel {
+import com.wiser.library.model.WISERStaggerModel;
 
-	public String age;
+public class IndexModel extends WISERStaggerModel{
+
+	public String	age;
+
+	public String	photoUrl;
 
 }

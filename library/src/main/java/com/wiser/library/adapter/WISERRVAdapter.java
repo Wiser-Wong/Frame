@@ -2,6 +2,9 @@ package com.wiser.library.adapter;
 
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
+
+import com.wiser.library.R;
 import com.wiser.library.base.WISERActivity;
 import com.wiser.library.base.WISERBiz;
 import com.wiser.library.base.WISERFragment;
@@ -11,7 +14,9 @@ import com.wiser.library.util.WISERCheck;
 import com.wiser.library.view.FooterView;
 
 import android.support.annotation.NonNull;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,7 +41,9 @@ public abstract class WISERRVAdapter<T, V extends WISERHolder> extends RecyclerV
 
 	public final int		LOAD_END		= 1002;			// 加载结束
 
-	private int				loadState		= LOAD_RUNNING;
+	private int				loadState		= LOAD_COMPLETE;
+
+	private String			loadTip;						// 加载提示
 
 	/**
 	 * 数据
@@ -211,37 +218,104 @@ public abstract class WISERRVAdapter<T, V extends WISERHolder> extends RecyclerV
 
 	public void loadState(int loadState) {
 		this.loadState = loadState;
-		notifyDataSetChanged();
+		if (getItemCount() > 0) notifyItemChanged(getItemCount() - 1);
 	}
 
 	public int getLoadState() {
 		return loadState;
 	}
 
+	public void loadTip(String loadTip) {
+		this.loadTip = loadTip;
+	}
+
 	private class FooterHolder extends WISERHolder {
 
 		FooterView footerView;
 
-		public FooterHolder(@NonNull View itemView) {
+		FooterHolder(@NonNull View itemView) {
 			super(itemView);
 			this.footerView = (FooterView) itemView;
 		}
 
 		@Override public void bindData(Object o, int position) {
+			if (wiserView != null && wiserView.getFooterModel() != null) {
+				// 文本颜色
+				if (wiserView.getFooterModel().textColor != 0) footerView.text().setTextColor(wiserView.getFooterModel().textColor);
+				// loading颜色
+				if (wiserView.getFooterModel().barColor != 0) footerView.setBarColor(wiserView.getFooterModel().barColor);
+				// 背景色
+				if (wiserView.getFooterModel().backgroundColor != 0) footerView.setBackgroundColor(wiserView.getFooterModel().backgroundColor);
+				// 间距
+				if (wiserView.getFooterModel().leftPadding == 0 || wiserView.getFooterModel().topPadding == 0 || wiserView.getFooterModel().rightPadding == 0
+						|| wiserView.getFooterModel().bottomPadding == 0) {
+					footerView.setPadding(wiserView.getFooterModel().leftPadding, wiserView.getFooterModel().topPadding, wiserView.getFooterModel().rightPadding,
+							wiserView.getFooterModel().bottomPadding);
+				}
+			}
 			switch (loadState) {
 				case LOAD_RUNNING:// 加载中
+					footerView.setVisibility(View.VISIBLE);
 					footerView.bar().setVisibility(View.VISIBLE);
-					footerView.text().setText("正在加载...");
+					// 文本
+					if (StringUtils.isBlank(loadTip)) footerView.text().setText(activity().getResources().getText(R.string.load_running));
+					else footerView.text().setText(loadTip);
 					break;
 				case LOAD_COMPLETE:// 加载完成
+					footerView.setVisibility(View.GONE);
 					break;
 				case LOAD_END:// 加载结束
+					footerView.setVisibility(View.VISIBLE);
 					footerView.bar().setVisibility(View.GONE);
-					footerView.text().setText("已经到底了");
+					if (StringUtils.isBlank(loadTip)) footerView.text().setText(activity().getResources().getText(R.string.load_end));
+					else footerView.text().setText(loadTip);
 					break;
 				default:
 					break;
 			}
 		}
 	}
+
+	@Override public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
+		super.onAttachedToRecyclerView(recyclerView);
+		if (!isGridLayoutManage(recyclerView)) return;
+		final GridLayoutManager gridManager = ((GridLayoutManager) recyclerView.getLayoutManager());
+		assert gridManager != null;
+		gridManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+
+			@Override public int getSpanSize(int position) {
+				return position + 1 == getItemCount() ? gridManager.getSpanCount() : 1;
+			}
+		});
+	}
+
+	@Override public void onViewAttachedToWindow(@NonNull WISERHolder holder) {
+		super.onViewAttachedToWindow((V) holder);
+		if (isStaggerManage(holder)) handleLayoutIfStaggeredGridLayout(holder, holder.getLayoutPosition());
+	}
+
+	// 判断是否GridLayoutManage
+	private boolean isGridLayoutManage(@NonNull RecyclerView recyclerView) {
+		return recyclerView.getLayoutManager() instanceof GridLayoutManager;
+	}
+
+	// 判断是否瀑布流管理器
+	private boolean isStaggerManage(WISERHolder holder) {
+		ViewGroup.LayoutParams layoutParams = holder.itemView.getLayoutParams();
+		return layoutParams != null && layoutParams instanceof StaggeredGridLayoutManager.LayoutParams;
+	}
+
+	// 如果是footer,则占满
+	private void handleLayoutIfStaggeredGridLayout(WISERHolder holder, int position) {
+		try {
+			if (getItem(position) == null) {
+				StaggeredGridLayoutManager.LayoutParams p = (StaggeredGridLayoutManager.LayoutParams) holder.itemView.getLayoutParams();
+				p.setFullSpan(true);
+			}
+		} catch (IndexOutOfBoundsException e) {
+			StaggeredGridLayoutManager.LayoutParams p = (StaggeredGridLayoutManager.LayoutParams) holder.itemView.getLayoutParams();
+			p.setFullSpan(true);
+		}
+	}
+
 }

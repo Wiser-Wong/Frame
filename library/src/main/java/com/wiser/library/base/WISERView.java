@@ -5,6 +5,7 @@ import android.support.v4.app.FragmentManager;
 
 import com.wiser.library.helper.IWISERDisplay;
 import com.wiser.library.helper.WISERHelper;
+import com.wiser.library.model.WISERFooterModel;
 
 /**
  * @author Wiser
@@ -16,18 +17,20 @@ public class WISERView {
 	/**
 	 * 常量
 	 */
-	public static final int	STATE_ACTIVITY	= 99999;
+	private static final int	STATE_ACTIVITY	= 99999;
 
-	public static final int	STATE_FRAGMENT	= 88888;
+	private static final int	STATE_FRAGMENT	= 88888;
 
 	/** 类型 **/
-	private int				state;
+	private int					state;
 
-	private WISERActivity	mWiserActivity;
+	private WISERActivity		mWiserActivity;
 
-	private Context			context;
+	private Context				context;
 
-	private WISERFragment	mWiserFragment;
+	private WISERFragment		mWiserFragment;
+
+	private WISERFooterModel	footerModel;			// footer 风格数据
 
 	/**
 	 * 初始化
@@ -49,6 +52,14 @@ public class WISERView {
 
 	public Context context() {
 		return context;
+	}
+
+	public void setFooterModel(WISERFooterModel footerModel) {
+		this.footerModel = footerModel;
+	}
+
+	public WISERFooterModel getFooterModel() {
+		return footerModel;
 	}
 
 	public <A extends WISERActivity> A activity() {
@@ -97,5 +108,6 @@ public class WISERView {
 		this.mWiserActivity = null;
 		this.mWiserFragment = null;
 		this.context = null;
+		this.footerModel = null;
 	}
 }

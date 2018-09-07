@@ -20,6 +20,7 @@ public class IndexBiz extends WISERBiz<IndexActivity> {
 		for (int i = 0; i < 20; i++) {
 			IndexModel model = new IndexModel();
 			model.age = "年龄：-->>" + i;
+			model.photoUrl = "http://img07.tooopen.com/images/20170316/tooopen_sy_201956178977.jpg";
 			indexModels.add(model);
 		}
 		ui().setItems(indexModels);

@@ -1,5 +1,7 @@
 package com.wiser.library.view;
 
+import com.wiser.library.util.WISERApp;
+
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
@@ -11,8 +13,6 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
-import com.wiser.library.util.WISERApp;
 
 /**
  * @author Wiser
@@ -42,6 +42,8 @@ public class FooterView extends LinearLayout {
 
 		createLoading();
 		createText();
+
+		setBackgroundColor(Color.LTGRAY);
 	}
 
 	// 创建loading
@@ -49,9 +51,8 @@ public class FooterView extends LinearLayout {
 		bar = new ProgressBar(getContext());
 		LayoutParams params = new LayoutParams(WISERApp.dip2px(40), WISERApp.dip2px(40));
 		bar.setLayoutParams(params);
-		bar.setPadding(10, 20, 10, 20);
-		int color = Color.GRAY;
-		ColorStateList colorStateList = ColorStateList.valueOf(color);
+		bar.setPadding(WISERApp.dip2px(10), WISERApp.dip2px(20), WISERApp.dip2px(10), WISERApp.dip2px(20));
+		ColorStateList colorStateList = ColorStateList.valueOf(Color.GRAY);
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 			bar.setIndeterminateTintList(colorStateList);
 			bar.setIndeterminateTintMode(PorterDuff.Mode.SRC_ATOP);
@@ -64,11 +65,24 @@ public class FooterView extends LinearLayout {
 		text = new TextView(getContext());
 		LinearLayout.LayoutParams params = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 		text.setLayoutParams(params);
-		text.setPadding(10, 20, 10, 20);
-		text.setTextSize(16);
+		text.setPadding(WISERApp.dip2px(10), WISERApp.dip2px(20), WISERApp.dip2px(10), WISERApp.dip2px(20));
+		text.setTextSize(WISERApp.sp2px(6));
 		text.setTextColor(Color.GRAY);
-		text.setText("正在加载...");
 		addView(text);
+	}
+
+	public void setBarColor(int color) {
+		ColorStateList colorStateList = ColorStateList.valueOf(color);
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+			bar.setIndeterminateTintList(colorStateList);
+			bar.setIndeterminateTintMode(PorterDuff.Mode.SRC_ATOP);
+		}
+	}
+
+	public void setPadding(int leftPadding, int topPadding, int rightPadding, int bottomPadding) {
+		if (text == null) return;
+		text.setPadding(WISERApp.dip2px(leftPadding), WISERApp.dip2px(topPadding), WISERApp.dip2px(rightPadding), WISERApp.dip2px(bottomPadding));
+		bar.setPadding(WISERApp.dip2px(leftPadding), WISERApp.dip2px(topPadding), WISERApp.dip2px(rightPadding), WISERApp.dip2px(bottomPadding));
 	}
 
 	public ProgressBar bar() {

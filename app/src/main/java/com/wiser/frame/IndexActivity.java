@@ -2,18 +2,18 @@ package com.wiser.frame;
 
 import com.wiser.library.base.WISERActivity;
 import com.wiser.library.base.WISERBuilder;
+import com.wiser.library.base.WISERDialogFragment;
+import com.wiser.library.base.WISERStaggeredDivider;
 import com.wiser.library.helper.WISERHelper;
 import com.wiser.library.util.WISERDate;
-import com.wiser.library.util.WISERInput;
 import com.wiser.library.view.marquee.MarqueeAdapter;
 import com.wiser.library.view.marquee.MarqueeView;
-import com.wiser.library.zxing.WISERQRCodeUtil;
+import com.wiser.library.zxing.WISERQRCode;
 
 import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 import android.widget.ImageView;
@@ -30,16 +30,20 @@ public class IndexActivity extends WISERActivity<IndexBiz> {
 
 	@BindView(R.id.marquee) MarqueeView<IndexModel>	marqueeView;
 
+	@BindView(R.id.tv_d) TextView					textView;
+
 	@Override protected WISERBuilder build(WISERBuilder builder) {
 		builder.layoutId(R.layout.activity_index);
 		builder.layoutEmptyId(R.layout.view_empty);
 		builder.layoutErrorId(R.layout.view_error);
 		builder.layoutLoadingId(R.layout.view_loading);
 		builder.recycleView().recycleViewId(R.id.home_rlv);
-		builder.recycleView().recycleViewLinearManager(LinearLayoutManager.VERTICAL, null);
+		builder.recycleView().recycleViewStaggeredGridManager(2, LinearLayoutManager.VERTICAL, new WISERStaggeredDivider(20, 0, 20, 0), null);
 		builder.recycleView().recycleAdapter(new IndexAdapter(this));
 		builder.isRootLayoutRefresh(true, false);
 		builder.setColorSchemeColors(Color.BLUE, Color.RED, Color.GREEN);
+		builder.recycleView().setFooterStyle(Color.BLUE, Color.RED, Color.WHITE);
+		builder.recycleView().setFooterPadding(0, 5, 0, 5);
 		builder.recycleView().isFooter(true);
 		// builder.setProgressBackgroundColorSchemeColor(Color.BLACK);
 		// builder.setColorSchemeColors(getResources().getColor(R.color.colorAccent),getResources().getColor(R.color.cpv_default_color),getResources().getColor(R.color.design_default_color_primary));
@@ -55,9 +59,9 @@ public class IndexActivity extends WISERActivity<IndexBiz> {
 		// tvName.setText(WISERDate.getLongForDateStr("2018-09-11",WISERDate.DATE_HG,true)+"");
 		tvName.setText(WISERDate.getDateStrForLong(1536595200000L, WISERDate.DATE_HZ, false) + "");
 		// onRefresh();
-		WISERHelper.display().commitReplace(R.id.fl_content, new IndexFragment());
+		// WISERHelper.display().commitReplace(R.id.fl_content, new IndexFragment());
 
-		WISERQRCodeUtil.createQRCodeBitmapForUrl("", "WiserWong", R.mipmap.ic_launcher, ivQR, false);
+		WISERQRCode.createQRCodeBitmapForUrl("", "WiserWong", R.mipmap.ic_launcher, ivQR, false);
 
 		marquee();
 
@@ -74,7 +78,7 @@ public class IndexActivity extends WISERActivity<IndexBiz> {
 				tvMarquee.setText(data.age);
 				return view;
 			}
-		}).setMarqueeAnim(R.anim.anim_bottom_in, R.anim.anim_top_out).setTimeInterval(100).start();
+		}).setMarqueeAnim(R.anim.anim_marquee_bottom_in, R.anim.anim_marquee_top_out).setTimeInterval(100).start();
 	}
 
 	@Override public void onRefresh() {
@@ -91,25 +95,34 @@ public class IndexActivity extends WISERActivity<IndexBiz> {
 	@Override public void onLoadMore() {
 		super.onLoadMore();
 		WISERHelper.toast().show("上拉刷新");
+		if (adapter().getLoadState() == adapter().LOAD_END) return;
+		adapter().loadState(adapter().LOAD_RUNNING);
+		adapter().loadTip("上拉刷新");
 		new Handler(getMainLooper()).postDelayed(new Runnable() {
 
 			@Override public void run() {
-				if (adapter().getLoadState() == adapter().LOAD_END) return;
 				adapter().addList(biz().addNewData());
 				adapter().loadState(adapter().LOAD_END);
+				adapter().loadTip("已经到头了");
 				// showLoading();
 				// adapter().loadState(adapter().LOAD_COMPLETE);
 			}
 		}, 4000);
 	}
 
-	@OnClick({ R.id.tv_name, R.id.iv_qr }) public void onClickView(View view) {
+	@OnClick({ R.id.tv_name, R.id.iv_qr, R.id.tv_d }) public void onClickView(View view) {
 		switch (view.getId()) {
 			case R.id.tv_name:
 				WISERHelper.display().intent(WebViewActivity.class);
 				break;
 			case R.id.iv_qr:
 				WISERHelper.display().intent(ScanActivity.class);
+				break;
+			case R.id.tv_d:
+				int[] location = new int[2];
+				textView.getLocationInWindow(location); // 获取在当前窗体内的绝对坐标
+				textView.getLocationOnScreen(location);// 获取在整个屏幕内的绝对坐标
+				IndexDialogFragment.newInstance().setLocation(textView, WISERDialogFragment.CONTROL_FIT).showNow(getSupportFragmentManager(), "");
 				break;
 		}
 	}

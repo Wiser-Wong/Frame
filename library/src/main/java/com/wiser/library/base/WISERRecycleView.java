@@ -1,15 +1,14 @@
 package com.wiser.library.base;
 
 import com.wiser.library.adapter.WISERRVAdapter;
+import com.wiser.library.model.WISERFooterModel;
 
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.FrameLayout;
 
 import butterknife.ButterKnife;
 
@@ -22,51 +21,53 @@ public class WISERRecycleView {
 	/**
 	 * RecycleView
 	 */
-	private WISERRVAdapter				mAdapter;								// RecycleView适配器
+	private WISERRVAdapter				mAdapter;									// RecycleView适配器
 
-	private RecyclerView				mRecycleView;							// RecycleView实例
+	private RecyclerView				mRecycleView;								// RecycleView实例
 
-	private int							mRecycleViewId;							// RecycleView布局id
+	private int							mRecycleViewId;								// RecycleView布局id
 
-	private boolean						isFooter;								// 是否有加载更多
+	private boolean						isFooter;									// 是否有加载更多
 
-	private RecyclerView.LayoutManager	mLayoutManager;							// 布局管理器
+	private RecyclerView.LayoutManager	mLayoutManager;								// 布局管理器
 
-	private RecyclerView.ItemAnimator	mItemAnimator;							// 动画
+	private RecyclerView.ItemAnimator	mItemAnimator;								// 动画
 
-	public final static int				NULL_DECORATION		= 999;				// 空线
+	public final static int				NULL_DECORATION			= 999;				// 空线
 
-	public final static int				DEFAULT_DECORATION	= 1000;				// 默认分割线搞2px
+	public final static int				DEFAULT_DECORATION		= 1000;				// 默认分割线搞2px
 
-	public final static int				PHOTO_DECORATION	= 1001;				// 图片分割线
+	public final static int				PHOTO_DECORATION		= 1001;				// 图片分割线
 
-	public final static int				CUSTOM_DECORATION	= 1002;				// 自定义高度分割线
+	public final static int				CUSTOM_DECORATION		= 1002;				// 自定义高度分割线
 
-	private int							decorationType		= NULL_DECORATION;	// 分割线类型
+	public final static int				STAGGERED_DECORATION	= 1003;				// 瀑布流分割线
 
-	private int							mOrientation;							// 列表方向
+	private int							decorationType			= NULL_DECORATION;	// 分割线类型
 
-	private int							decorationPhoto;						// 分割线图片ID
+	private int							mOrientation;								// 列表方向
 
-	private int							decorationHeight;						// 分割线自定义高度
+	private int							decorationPhoto;							// 分割线图片ID
 
-	private int							decorationColor;						// 分割线自定义颜色
+	private int							decorationHeight;							// 分割线自定义高度
+
+	private int							decorationColor;							// 分割线自定义颜色
+
+	private RecyclerView.ItemDecoration	itemDecoration;								// 分割线
 
 	private WISERActivity				activity;
 
 	private WISERFragment				fragment;
 
+	private WISERView					wiserView;
+
 	private boolean						isFragment;
 
-	WISERRecycleView(WISERActivity activity) {
-		this.isFragment = false;
-		this.activity = activity;
-	}
-
-	WISERRecycleView(WISERFragment fragment) {
-		this.isFragment = true;
-		this.activity = fragment.activity();
-		this.fragment = fragment;
+	WISERRecycleView(WISERView wiserView, boolean isFragment) {
+		this.isFragment = isFragment;
+		this.wiserView = wiserView;
+		this.activity = wiserView.activity();
+		this.fragment = wiserView.fragment();
 	}
 
 	public void recycleViewId(int recycleViewId) {
@@ -83,6 +84,29 @@ public class WISERRecycleView {
 
 	public void isFooter(boolean isFooter) {
 		this.isFooter = isFooter;
+	}
+
+	public void setFooterStyle(int backgroundColor, int barColor, int textColor) {
+		if (wiserView != null) {
+			if (wiserView.getFooterModel() == null) {
+				wiserView.setFooterModel(new WISERFooterModel());
+			}
+			wiserView.getFooterModel().backgroundColor = backgroundColor;
+			wiserView.getFooterModel().barColor = barColor;
+			wiserView.getFooterModel().textColor = textColor;
+		}
+	}
+
+	public void setFooterPadding(int leftPadding, int topPadding, int rightPadding, int bottomPadding) {
+		if (wiserView != null) {
+			if (wiserView.getFooterModel() == null) {
+				wiserView.setFooterModel(new WISERFooterModel());
+			}
+			wiserView.getFooterModel().leftPadding = leftPadding;
+			wiserView.getFooterModel().topPadding = topPadding;
+			wiserView.getFooterModel().rightPadding = rightPadding;
+			wiserView.getFooterModel().bottomPadding = bottomPadding;
+		}
 	}
 
 	/**
@@ -273,6 +297,84 @@ public class WISERRecycleView {
 		this.decorationColor = decorationColor;
 	}
 
+	/**
+	 * 瀑布流
+	 * 
+	 * @param spanCount
+	 *            列
+	 * @param orientation
+	 *            方向
+	 * @param inversion
+	 *            是否反向
+	 */
+	public void recycleViewStaggeredGridManager(int spanCount, int orientation, boolean inversion) {
+		this.decorationType = STAGGERED_DECORATION;
+		this.mLayoutManager = new StaggeredGridLayoutManager(spanCount, orientation);
+		// 通过布局管理器控制条目排列的顺序 true:反向显示 false:正向显示
+		((StaggeredGridLayoutManager) this.mLayoutManager).setReverseLayout(inversion);
+		// 滑动中，不处理 gap 防止滑动移位
+		((StaggeredGridLayoutManager) this.mLayoutManager).setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_NONE);
+	}
+
+	/**
+	 * 瀑布流
+	 *
+	 * @param spanCount
+	 *            列
+	 * @param orientation
+	 *            方向
+	 */
+	public void recycleViewStaggeredGridManager(int spanCount, int orientation) {
+		this.decorationType = STAGGERED_DECORATION;
+		this.mLayoutManager = new StaggeredGridLayoutManager(spanCount, orientation);
+		// 滑动中，不处理 gap 防止滑动移位
+		((StaggeredGridLayoutManager) this.mLayoutManager).setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_NONE);
+	}
+
+	/**
+	 * 瀑布流
+	 *
+	 * @param spanCount
+	 *            列
+	 * @param orientation
+	 *            方向
+	 * @param itemDecoration
+	 *            分割线
+	 * @param itemAnimator
+	 *            动画
+	 */
+	public void recycleViewStaggeredGridManager(int spanCount, int orientation, RecyclerView.ItemDecoration itemDecoration, RecyclerView.ItemAnimator itemAnimator) {
+		this.decorationType = STAGGERED_DECORATION;
+		this.itemDecoration = itemDecoration;
+		this.mItemAnimator = itemAnimator;
+		this.mLayoutManager = new StaggeredGridLayoutManager(spanCount, orientation);
+		// 滑动中，不处理 gap 防止滑动移位
+		((StaggeredGridLayoutManager) this.mLayoutManager).setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_NONE);
+	}
+
+	/**
+	 * 瀑布流
+	 *
+	 * @param spanCount
+	 *            列
+	 * @param orientation
+	 *            方向
+	 * @param itemDecoration
+	 *            分割线
+	 * @param itemAnimator
+	 *            动画
+	 */
+	public void recycleViewStaggeredGridManager(int spanCount, int orientation, RecyclerView.ItemDecoration itemDecoration, RecyclerView.ItemAnimator itemAnimator, boolean inversion) {
+		this.decorationType = STAGGERED_DECORATION;
+		this.itemDecoration = itemDecoration;
+		this.mItemAnimator = itemAnimator;
+		this.mLayoutManager = new StaggeredGridLayoutManager(spanCount, orientation);
+		// 通过布局管理器控制条目排列的顺序 true:反向显示 false:正向显示
+		((StaggeredGridLayoutManager) this.mLayoutManager).setReverseLayout(inversion);
+		// 滑动中，不处理 gap 防止滑动移位
+		((StaggeredGridLayoutManager) this.mLayoutManager).setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_NONE);
+	}
+
 	WISERRVAdapter adapter() {
 		return mAdapter;
 	}
@@ -303,6 +405,9 @@ public class WISERRecycleView {
 				case CUSTOM_DECORATION:// 自定义高度分割线
 					mRecycleView.addItemDecoration(new WISERRVDivider(activity, mOrientation, decorationHeight, decorationColor, decorationType));
 					break;
+				case STAGGERED_DECORATION:// 瀑布流分割线
+					if (itemDecoration != null) mRecycleView.addItemDecoration(itemDecoration);
+					break;
 			}
 			// 动画
 			if (mItemAnimator != null) mRecycleView.setItemAnimator(mItemAnimator);
@@ -310,8 +415,8 @@ public class WISERRecycleView {
 				mRecycleView.setAdapter(mAdapter);
 				if (isFooter) {
 					mAdapter.isFooter(true);
-					if (isFragment) mRecycleView.addOnScrollListener(new IWISERRVScrollListener(fragment));
-					else mRecycleView.addOnScrollListener(new IWISERRVScrollListener(activity));
+					if (isFragment) mRecycleView.addOnScrollListener(new IWISERRVScrollListener(fragment, wiserView));
+					else mRecycleView.addOnScrollListener(new IWISERRVScrollListener(activity, wiserView));
 				}
 			}
 		}
@@ -325,5 +430,7 @@ public class WISERRecycleView {
 		mLayoutManager = null;
 		mRecycleViewId = 0;
 		activity = null;
+		if (wiserView != null) wiserView.detach();
+		wiserView = null;
 	}
 }

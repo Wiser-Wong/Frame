@@ -23,7 +23,7 @@ import android.widget.ImageView;
  * @author Wiser
  * @version 版本
  */
-public class WISERQRCodeUtil {
+public class WISERQRCode {
 
 	/**
 	 * 创建二维码

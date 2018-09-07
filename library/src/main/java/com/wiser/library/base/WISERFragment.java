@@ -115,7 +115,8 @@ public abstract class WISERFragment<B extends IWISERBiz> extends Fragment implem
 	@Override public void onRefresh() {}
 
 	// 上拉加载
-	@Override public void onLoadMore() {}
+	@Override public void onLoadMore() {
+	}
 
 	/**
 	 * 获取泛型实例

@@ -11,6 +11,6 @@ public class WiserApplication extends Application {
 
 	@Override public void onCreate() {
 		super.onCreate();
-		WISERHelper.newBind().setWiserBind(new AtBind()).setCrashHandler(this, "frame/error").Inject(this, BuildConfig.DEBUG);
+		WISERHelper.newBind().setWiserBind(new AtBind()).Inject(this, BuildConfig.DEBUG);
 	}
 }

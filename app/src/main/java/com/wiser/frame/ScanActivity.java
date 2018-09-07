@@ -48,4 +48,13 @@ public class ScanActivity extends WISERScanActivity {
 				break;
 		}
 	}
+
+	@Override public void applyPermissionFail(int requestCode) {
+		super.applyPermissionFail(requestCode);
+		WISERHelper.toast().show("请到设置页面进行授权");
+	}
+
+	@Override public void applyPermissionSuccess(int requestCode) {
+		super.applyPermissionSuccess(requestCode);
+	}
 }

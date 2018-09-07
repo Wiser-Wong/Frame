@@ -28,9 +28,9 @@ public class MarqueeView<E> extends ViewFlipper implements Observer {
 
 	protected MarqueeFactory<E>	factory;
 
-	private final int			DEFAULT_ANIM_RES_IN		= R.anim.anim_bottom_in;
+	private final int			DEFAULT_ANIM_RES_IN		= R.anim.anim_marquee_bottom_in;
 
-	private final int			DEFAULT_ANIM_RES_OUT	= R.anim.anim_top_out;
+	private final int			DEFAULT_ANIM_RES_OUT	= R.anim.anim_marquee_top_out;
 
 	public MarqueeView(Context context) {
 		this(context, null);

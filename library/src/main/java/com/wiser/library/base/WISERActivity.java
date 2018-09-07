@@ -104,7 +104,8 @@ public abstract class WISERActivity<B extends IWISERBiz> extends AppCompatActivi
 	@Override public void onRefresh() {}
 
 	// 上拉加载
-	@Override public void onLoadMore() {}
+	@Override public void onLoadMore() {
+	}
 
 	// 获取Adapter实例
 	public WISERRVAdapter adapter() {

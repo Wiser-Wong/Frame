@@ -15,4 +15,59 @@
         <item name="android:textSize">16sp</item>
         <item name="android:textStyle">bold</item>
     </style>
+
+    <!-- 默认Dialog弹窗风格-->
+    <style name="DefaultDialogTheme" parent="Theme.AppCompat.Light.DialogWhenLarge">
+        <item name="android:windowAnimationStyle">@style/DefaultDialogAnimation</item>
+        <!-- 有无边框 改变Dialog透明背景颜色-->
+        <item name="android:windowFrame">@null</item>
+        <!-- 是否浮现在activity之上 true 是适配Dialog弹窗，false是全屏展示背景默认白色 与windowFrame配合使用改变色值-->
+        <item name="android:windowIsFloating">true</item>
+        <!-- 有无标题-->
+        <item name="android:windowNoTitle">true</item>
+        <!-- 是否透明-->
+        <item name="android:windowIsTranslucent">true</item>
+        <!-- 不管是否在dialog xml中添加背景颜色 如果设置该属性background就会显示该背景颜色 但是如果设置Dialog宽充满屏幕 该属性还是会显示背景颜色是中心那块 不会充满宽度屏幕-->
+        <item name="android:background">@android:color/transparent</item>
+        <!-- 全屏-->
+        <item name="android:windowFullscreen">true</item>
+        <!-- 模糊 不加背景Dialog透明度背景不会显示-->
+        <item name="android:backgroundDimEnabled">true</item>
+        <!-- 模糊指数-->
+        <item name="android:backgroundDimAmount">0.6</item>
+    </style>
+
+    <!-- 默认定制位置Dialog弹窗风格-->
+    <style name="DefaultLocationDialogTheme" parent="Theme.AppCompat.Light.DialogWhenLarge">
+        <item name="android:windowAnimationStyle">@style/DefaultLocationDialogAnimation</item>
+        <!-- 有无边框 改变Dialog透明背景颜色-->
+        <item name="android:windowFrame">@null</item>
+        <!-- 是否浮现在activity之上 true 是适配Dialog弹窗，false是全屏展示背景默认白色 与windowFrame配合使用改变色值-->
+        <item name="android:windowIsFloating">true</item>
+        <!-- 有无标题-->
+        <item name="android:windowNoTitle">true</item>
+        <!-- 是否透明-->
+        <item name="android:windowIsTranslucent">true</item>
+        <!-- 不管是否在dialog xml中添加背景颜色 如果设置该属性background就会显示该背景颜色 但是如果设置Dialog宽充满屏幕 该属性还是会显示背景颜色是中心那块 不会充满宽度屏幕-->
+        <item name="android:background">@android:color/transparent</item>
+        <!-- 全屏-->
+        <item name="android:windowFullscreen">true</item>
+        <!-- 模糊 不加背景Dialog透明度背景不会显示-->
+        <item name="android:backgroundDimEnabled">true</item>
+        <!-- 模糊指数-->
+        <item name="android:backgroundDimAmount">0.6</item>
+    </style>
+
+    <!-- 默认Dialog动画-->
+    <style name="DefaultDialogAnimation">
+        <item name="android:windowEnterAnimation">@anim/anim_dialog_bottom_in</item>
+        <item name="android:windowExitAnimation">@anim/anim_dialog_bottom_out</item>
+    </style>
+    <!-- 默认定制位置Dialog动画-->
+    <style name="DefaultLocationDialogAnimation">
+        <item name="android:windowEnterAnimation">@anim/anim_push_in</item>
+        <item name="android:windowExitAnimation">@anim/anim_push_out</item>
+    </style>
+
+
 </resources>

@@ -1,5 +1,6 @@
 package com.wiser.frame;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,12 +12,13 @@ public class IndexFragment extends WISERFragment<IndexFragmentBiz> {
 
 	@Override protected WISERBuilder build(WISERBuilder builder) {
 		builder.layoutId(R.layout.fragment_index);
-		builder.recycleView().recycleViewId(R.id.rlv_fragment);
-		builder.recycleView().recycleViewLinearManager(LinearLayoutManager.VERTICAL, null);
-		builder.recycleView().recycleAdapter(new IndexAdapter(this));
+//		builder.recycleView().recycleViewId(R.id.rlv_fragment);
+//		builder.recycleView().recycleViewStaggeredGridManager(2, LinearLayoutManager.VERTICAL);
+//		builder.recycleView().recycleAdapter(new IndexAdapter(this));
 		builder.isRootLayoutRefresh(true, false);
+		builder.recycleView().setFooterStyle(Color.BLUE, Color.RED, Color.WHITE);
+		builder.recycleView().setFooterPadding(0,5,0,5);
 		builder.recycleView().isFooter(true);
-		builder.swipeBack(true);
 		return builder;
 	}
 
@@ -26,12 +28,14 @@ public class IndexFragment extends WISERFragment<IndexFragmentBiz> {
 
 	@Override public void onLoadMore() {
 		super.onLoadMore();
+		if (adapter().getLoadState() == adapter().LOAD_END) return;
+		adapter().loadState(adapter().LOAD_RUNNING);
 		new Handler().postDelayed(new Runnable() {
 
 			@Override public void run() {
-				if (adapter().getLoadState() == adapter().LOAD_END) return;
-				adapter().addList(biz().addNewData());
+				// adapter().addList(biz().addNewData());
 				adapter().loadState(adapter().LOAD_END);
+				adapter().loadTip("我们结束了");
 			}
 		}, 4000);
 	}
