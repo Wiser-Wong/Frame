@@ -6,6 +6,8 @@ package com.wiser.library.model;
  */
 public class WISERFooterModel {
 
+	public int	footerLayoutId;
+
 	public int	backgroundColor;
 
 	public int	textColor;

@@ -86,6 +86,15 @@ public class WISERRecycleView {
 		this.isFooter = isFooter;
 	}
 
+	public void footerLayoutId(int footerLayoutId) {
+		if (wiserView != null) {
+			if (wiserView.getFooterModel() == null) {
+				wiserView.setFooterModel(new WISERFooterModel());
+			}
+			wiserView.getFooterModel().footerLayoutId = footerLayoutId;
+		}
+	}
+
 	public void setFooterStyle(int backgroundColor, int barColor, int textColor) {
 		if (wiserView != null) {
 			if (wiserView.getFooterModel() == null) {

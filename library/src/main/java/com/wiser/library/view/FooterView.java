@@ -74,6 +74,7 @@ public class FooterView extends LinearLayout {
 	public void setBarColor(int color) {
 		ColorStateList colorStateList = ColorStateList.valueOf(color);
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+			if (bar == null) return;
 			bar.setIndeterminateTintList(colorStateList);
 			bar.setIndeterminateTintMode(PorterDuff.Mode.SRC_ATOP);
 		}
@@ -82,6 +83,7 @@ public class FooterView extends LinearLayout {
 	public void setPadding(int leftPadding, int topPadding, int rightPadding, int bottomPadding) {
 		if (text == null) return;
 		text.setPadding(WISERApp.dip2px(leftPadding), WISERApp.dip2px(topPadding), WISERApp.dip2px(rightPadding), WISERApp.dip2px(bottomPadding));
+		if (bar == null) return;
 		bar.setPadding(WISERApp.dip2px(leftPadding), WISERApp.dip2px(topPadding), WISERApp.dip2px(rightPadding), WISERApp.dip2px(bottomPadding));
 	}
 

@@ -29,28 +29,30 @@ import android.view.ViewGroup;
 @SuppressWarnings("unchecked")
 public abstract class WISERRVAdapter<T, V extends WISERHolder> extends RecyclerView.Adapter<V> {
 
-	private final int		TYPE_FOOTER		= 989898;		// 上拉加载TYPE
+	private final int				TYPE_FOOTER		= 989898;		// 上拉加载TYPE
 
-	private LayoutInflater	mInflater;
+	private LayoutInflater			mInflater;
 
-	private boolean			isFooter;						// 是否显示上拉加载
+	private boolean					isFooter;						// 是否显示上拉加载
 
-	public final int		LOAD_RUNNING	= 1000;			// 加载中
+	public static final int			LOAD_RUNNING	= 1000;			// 加载中
 
-	public final int		LOAD_COMPLETE	= 1001;			// 加载完成
+	public static final int			LOAD_COMPLETE	= 1001;			// 加载完成
 
-	public final int		LOAD_END		= 1002;			// 加载结束
+	public static final int			LOAD_END		= 1002;			// 加载结束
 
-	private int				loadState		= LOAD_COMPLETE;
+	private int						loadState		= LOAD_COMPLETE;
 
-	private String			loadTip;						// 加载提示
+	private String					loadTip;						// 加载提示
+
+	private FooterCustomListener	footerCustomListener;
 
 	/**
 	 * 数据
 	 */
-	private List			mItems;
+	private List					mItems;
 
-	private WISERView		wiserView;
+	private WISERView				wiserView;
 
 	public WISERRVAdapter(WISERActivity mWiserActivity) {
 		WISERCheck.checkNotNull(mWiserActivity, "View层不存在");
@@ -236,43 +238,73 @@ public abstract class WISERRVAdapter<T, V extends WISERHolder> extends RecyclerV
 		FooterHolder(@NonNull View itemView) {
 			super(itemView);
 			this.footerView = (FooterView) itemView;
+			if (wiserView != null && wiserView.getFooterModel() != null) {
+				// 定制footer
+				if (wiserView.getFooterModel().footerLayoutId > 0) {
+					if (footerCustomListener != null) {
+						this.footerView.removeAllViews();
+						this.footerView.addView(inflate(footerView, wiserView.getFooterModel().footerLayoutId));
+					}
+				}
+			}
 		}
 
 		@Override public void bindData(Object o, int position) {
 			if (wiserView != null && wiserView.getFooterModel() != null) {
-				// 文本颜色
-				if (wiserView.getFooterModel().textColor != 0) footerView.text().setTextColor(wiserView.getFooterModel().textColor);
-				// loading颜色
-				if (wiserView.getFooterModel().barColor != 0) footerView.setBarColor(wiserView.getFooterModel().barColor);
-				// 背景色
-				if (wiserView.getFooterModel().backgroundColor != 0) footerView.setBackgroundColor(wiserView.getFooterModel().backgroundColor);
-				// 间距
-				if (wiserView.getFooterModel().leftPadding == 0 || wiserView.getFooterModel().topPadding == 0 || wiserView.getFooterModel().rightPadding == 0
-						|| wiserView.getFooterModel().bottomPadding == 0) {
-					footerView.setPadding(wiserView.getFooterModel().leftPadding, wiserView.getFooterModel().topPadding, wiserView.getFooterModel().rightPadding,
-							wiserView.getFooterModel().bottomPadding);
+				// footerView 定制footer
+				if (wiserView.getFooterModel().footerLayoutId > 0) {
+					if (footerCustomListener != null) footerCustomListener.footerListener(footerView, loadState);
+					else {
+						footerThemeChange(footerView);
+						footerLoadState(footerView);
+					}
+				} else {// 默认footer
+					footerThemeChange(footerView);
+					footerLoadState(footerView);
 				}
+			} else {
+				footerLoadState(footerView);
 			}
-			switch (loadState) {
-				case LOAD_RUNNING:// 加载中
-					footerView.setVisibility(View.VISIBLE);
-					footerView.bar().setVisibility(View.VISIBLE);
-					// 文本
-					if (StringUtils.isBlank(loadTip)) footerView.text().setText(activity().getResources().getText(R.string.load_running));
-					else footerView.text().setText(loadTip);
-					break;
-				case LOAD_COMPLETE:// 加载完成
-					footerView.setVisibility(View.GONE);
-					break;
-				case LOAD_END:// 加载结束
-					footerView.setVisibility(View.VISIBLE);
-					footerView.bar().setVisibility(View.GONE);
-					if (StringUtils.isBlank(loadTip)) footerView.text().setText(activity().getResources().getText(R.string.load_end));
-					else footerView.text().setText(loadTip);
-					break;
-				default:
-					break;
-			}
+
+		}
+	}
+
+	// footer 属性变化
+	private void footerThemeChange(FooterView footerView) {
+		// 文本颜色
+		if (wiserView.getFooterModel().textColor != 0) footerView.text().setTextColor(wiserView.getFooterModel().textColor);
+		// loading颜色
+		if (wiserView.getFooterModel().barColor != 0) footerView.setBarColor(wiserView.getFooterModel().barColor);
+		// 背景色
+		if (wiserView.getFooterModel().backgroundColor != 0) footerView.setBackgroundColor(wiserView.getFooterModel().backgroundColor);
+		// 间距
+		if (wiserView.getFooterModel().leftPadding == 0 || wiserView.getFooterModel().topPadding == 0 || wiserView.getFooterModel().rightPadding == 0
+				|| wiserView.getFooterModel().bottomPadding == 0) {
+			footerView.setPadding(wiserView.getFooterModel().leftPadding, wiserView.getFooterModel().topPadding, wiserView.getFooterModel().rightPadding, wiserView.getFooterModel().bottomPadding);
+		}
+	}
+
+	// footer判断
+	private void footerLoadState(FooterView footerView) {
+		switch (loadState) {
+			case LOAD_RUNNING:// 加载中
+				footerView.setVisibility(View.VISIBLE);
+				footerView.bar().setVisibility(View.VISIBLE);
+				// 文本
+				if (StringUtils.isBlank(loadTip)) footerView.text().setText(activity().getResources().getText(R.string.load_running));
+				else footerView.text().setText(loadTip);
+				break;
+			case LOAD_COMPLETE:// 加载完成
+				footerView.setVisibility(View.GONE);
+				break;
+			case LOAD_END:// 加载结束
+				footerView.setVisibility(View.VISIBLE);
+				footerView.bar().setVisibility(View.GONE);
+				if (StringUtils.isBlank(loadTip)) footerView.text().setText(activity().getResources().getText(R.string.load_end));
+				else footerView.text().setText(loadTip);
+				break;
+			default:
+				break;
 		}
 	}
 
@@ -316,6 +348,15 @@ public abstract class WISERRVAdapter<T, V extends WISERHolder> extends RecyclerV
 			StaggeredGridLayoutManager.LayoutParams p = (StaggeredGridLayoutManager.LayoutParams) holder.itemView.getLayoutParams();
 			p.setFullSpan(true);
 		}
+	}
+
+	public void setFooterCustomListener(FooterCustomListener footerCustomListener) {
+		this.footerCustomListener = footerCustomListener;
+	}
+
+	public interface FooterCustomListener {
+
+		void footerListener(FooterView footerView, int state);
 	}
 
 }

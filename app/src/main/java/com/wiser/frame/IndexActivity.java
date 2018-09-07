@@ -1,11 +1,13 @@
 package com.wiser.frame;
 
+import com.wiser.library.adapter.WISERRVAdapter;
 import com.wiser.library.base.WISERActivity;
 import com.wiser.library.base.WISERBuilder;
 import com.wiser.library.base.WISERDialogFragment;
 import com.wiser.library.base.WISERStaggeredDivider;
 import com.wiser.library.helper.WISERHelper;
 import com.wiser.library.util.WISERDate;
+import com.wiser.library.view.FooterView;
 import com.wiser.library.view.marquee.MarqueeAdapter;
 import com.wiser.library.view.marquee.MarqueeView;
 import com.wiser.library.zxing.WISERQRCode;
@@ -22,7 +24,7 @@ import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class IndexActivity extends WISERActivity<IndexBiz> {
+public class IndexActivity extends WISERActivity<IndexBiz> implements WISERRVAdapter.FooterCustomListener {
 
 	@BindView(R.id.tv_name) TextView				tvName;
 
@@ -38,13 +40,16 @@ public class IndexActivity extends WISERActivity<IndexBiz> {
 		builder.layoutErrorId(R.layout.view_error);
 		builder.layoutLoadingId(R.layout.view_loading);
 		builder.recycleView().recycleViewId(R.id.home_rlv);
-		builder.recycleView().recycleViewStaggeredGridManager(2, LinearLayoutManager.VERTICAL, new WISERStaggeredDivider(20, 0, 20, 0), null);
+		// builder.recycleView().recycleViewStaggeredGridManager(2,
+		// LinearLayoutManager.VERTICAL, new WISERStaggeredDivider(20, 0, 20, 0), null);
+		builder.recycleView().recycleViewLinearManager(LinearLayoutManager.VERTICAL, null);
 		builder.recycleView().recycleAdapter(new IndexAdapter(this));
 		builder.isRootLayoutRefresh(true, false);
 		builder.setColorSchemeColors(Color.BLUE, Color.RED, Color.GREEN);
 		builder.recycleView().setFooterStyle(Color.BLUE, Color.RED, Color.WHITE);
 		builder.recycleView().setFooterPadding(0, 5, 0, 5);
 		builder.recycleView().isFooter(true);
+		builder.recycleView().footerLayoutId(R.layout.title_layout);
 		// builder.setProgressBackgroundColorSchemeColor(Color.BLACK);
 		// builder.setColorSchemeColors(getResources().getColor(R.color.colorAccent),getResources().getColor(R.color.cpv_default_color),getResources().getColor(R.color.design_default_color_primary));
 		builder.tintFitsSystem(true);
@@ -64,6 +69,8 @@ public class IndexActivity extends WISERActivity<IndexBiz> {
 		WISERQRCode.createQRCodeBitmapForUrl("", "WiserWong", R.mipmap.ic_launcher, ivQR, false);
 
 		marquee();
+
+		if (adapter() != null) adapter().setFooterCustomListener(this);
 
 	}
 
@@ -95,14 +102,14 @@ public class IndexActivity extends WISERActivity<IndexBiz> {
 	@Override public void onLoadMore() {
 		super.onLoadMore();
 		WISERHelper.toast().show("上拉刷新");
-		if (adapter().getLoadState() == adapter().LOAD_END) return;
-		adapter().loadState(adapter().LOAD_RUNNING);
+		if (adapter().getLoadState() == WISERRVAdapter.LOAD_END || adapter().getLoadState() == WISERRVAdapter.LOAD_RUNNING) return;
+		adapter().loadState(WISERRVAdapter.LOAD_RUNNING);
 		adapter().loadTip("上拉刷新");
 		new Handler(getMainLooper()).postDelayed(new Runnable() {
 
 			@Override public void run() {
 				adapter().addList(biz().addNewData());
-				adapter().loadState(adapter().LOAD_END);
+				adapter().loadState(WISERRVAdapter.LOAD_END);
 				adapter().loadTip("已经到头了");
 				// showLoading();
 				// adapter().loadState(adapter().LOAD_COMPLETE);
@@ -123,6 +130,25 @@ public class IndexActivity extends WISERActivity<IndexBiz> {
 				textView.getLocationInWindow(location); // 获取在当前窗体内的绝对坐标
 				textView.getLocationOnScreen(location);// 获取在整个屏幕内的绝对坐标
 				IndexDialogFragment.newInstance().setLocation(textView, WISERDialogFragment.CONTROL_FIT).showNow(getSupportFragmentManager(), "");
+				break;
+		}
+	}
+
+	@Override public void footerListener(FooterView footerView, int state) {
+		if (adapter() == null) return;
+		if (footerView == null) return;
+		TextView tvFooter = footerView.findViewById(R.id.tv_title_name);
+		switch (state) {
+			case WISERRVAdapter.LOAD_RUNNING:
+				footerView.setVisibility(View.VISIBLE);
+				tvFooter.setText("加载呢");
+				break;
+			case WISERRVAdapter.LOAD_COMPLETE:
+				footerView.setVisibility(View.GONE);
+				break;
+			case WISERRVAdapter.LOAD_END:
+				footerView.setVisibility(View.VISIBLE);
+				tvFooter.setText("没啥数据了");
 				break;
 		}
 	}
