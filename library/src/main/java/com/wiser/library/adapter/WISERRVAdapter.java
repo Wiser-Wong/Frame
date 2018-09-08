@@ -317,7 +317,7 @@ public abstract class WISERRVAdapter<T, V extends WISERHolder> extends RecyclerV
 
 	@Override public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
 		super.onAttachedToRecyclerView(recyclerView);
-		if (!isGridLayoutManage(recyclerView)) return;
+		if (!isGridLayoutManage(recyclerView) && !isFooter) return;
 		final GridLayoutManager gridManager = ((GridLayoutManager) recyclerView.getLayoutManager());
 		assert gridManager != null;
 		gridManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
@@ -330,7 +330,7 @@ public abstract class WISERRVAdapter<T, V extends WISERHolder> extends RecyclerV
 
 	@Override public void onViewAttachedToWindow(@NonNull WISERHolder holder) {
 		super.onViewAttachedToWindow((V) holder);
-		if (isStaggerManage(holder)) handleLayoutIfStaggeredGridLayout(holder, holder.getLayoutPosition());
+		if (isStaggerManage(holder) && isFooter) handleLayoutIfStaggeredGridLayout(holder, holder.getLayoutPosition());
 	}
 
 	// 判断是否GridLayoutManage
