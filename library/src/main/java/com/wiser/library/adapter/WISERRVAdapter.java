@@ -7,6 +7,7 @@ import org.apache.commons.lang3.StringUtils;
 import com.wiser.library.R;
 import com.wiser.library.base.WISERActivity;
 import com.wiser.library.base.WISERBiz;
+import com.wiser.library.base.WISERDialogFragment;
 import com.wiser.library.base.WISERFragment;
 import com.wiser.library.base.WISERView;
 import com.wiser.library.helper.IWISERDisplay;
@@ -63,6 +64,12 @@ public abstract class WISERRVAdapter<T, V extends WISERHolder> extends RecyclerV
 	public WISERRVAdapter(WISERFragment mWiserFragment) {
 		WISERCheck.checkNotNull(mWiserFragment, "View层不存在");
 		wiserView = mWiserFragment.wiserView();
+		this.mInflater = LayoutInflater.from(wiserView.activity());
+	}
+
+	public WISERRVAdapter(WISERDialogFragment mWiserDialogFragment) {
+		WISERCheck.checkNotNull(mWiserDialogFragment, "View层不存在");
+		wiserView = mWiserDialogFragment.wiserView();
 		this.mInflater = LayoutInflater.from(wiserView.activity());
 	}
 

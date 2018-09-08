@@ -126,10 +126,7 @@ public class IndexActivity extends WISERActivity<IndexBiz> implements WISERRVAda
 				WISERHelper.display().intent(ScanActivity.class);
 				break;
 			case R.id.tv_d:
-				int[] location = new int[2];
-				textView.getLocationInWindow(location); // 获取在当前窗体内的绝对坐标
-				textView.getLocationOnScreen(location);// 获取在整个屏幕内的绝对坐标
-				IndexDialogFragment.newInstance().setLocation(textView, WISERDialogFragment.CONTROL_FIT).showNow(getSupportFragmentManager(), "");
+				IndexDialogFragment.newInstance().setLocation(textView, WISERDialogFragment.CONTROL_FIT).show(getSupportFragmentManager(), "");
 				break;
 		}
 	}

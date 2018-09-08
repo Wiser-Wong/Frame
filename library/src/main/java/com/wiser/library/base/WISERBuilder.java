@@ -41,7 +41,7 @@ public class WISERBuilder {
 
 	private int						layoutLoadingId;							// loading布局ID
 
-	private boolean					isFragment;									// 显示的是Activity 还是 Fragment
+	private int						state;										// 显示的是Activity 还是 Fragment 或者DialogFragment
 
 	private boolean					isRefresh					= false;		// 是否下拉刷新
 
@@ -99,11 +99,11 @@ public class WISERBuilder {
 	 *            参数
 	 */
 	WISERBuilder(@NonNull WISERActivity mWiserActivity, @NonNull LayoutInflater inflater) {
-		this.isFragment = false;
+		this.state = WISERView.STATE_ACTIVITY;
 		wiserView = new WISERView();
 		wiserView.initUI(mWiserActivity);
 		this.mInflater = inflater;
-		this.mRecycleView = new WISERRecycleView(wiserView,isFragment);
+		this.mRecycleView = new WISERRecycleView(wiserView, state);
 	}
 
 	/**
@@ -115,11 +115,27 @@ public class WISERBuilder {
 	 *            参数
 	 */
 	WISERBuilder(@NonNull WISERFragment mWiserFragment, @NonNull LayoutInflater inflater) {
-		this.isFragment = true;
+		this.state = WISERView.STATE_FRAGMENT;
 		wiserView = new WISERView();
 		wiserView.initUI(mWiserFragment);
 		this.mInflater = inflater;
-		this.mRecycleView = new WISERRecycleView(wiserView,isFragment);
+		this.mRecycleView = new WISERRecycleView(wiserView, state);
+	}
+
+	/**
+	 * 构造器
+	 *
+	 * @param mWiserDialogFragment
+	 *            参数
+	 * @param inflater
+	 *            参数
+	 */
+	WISERBuilder(@NonNull WISERDialogFragment mWiserDialogFragment, @NonNull LayoutInflater inflater) {
+		this.state = WISERView.STATE_DIALOG_FRAGMENT;
+		wiserView = new WISERView();
+		wiserView.initUI(mWiserDialogFragment);
+		this.mInflater = inflater;
+		this.mRecycleView = new WISERRecycleView(wiserView, state);
 	}
 
 	WISERView wiserView() {
@@ -415,8 +431,17 @@ public class WISERBuilder {
 			if (refreshBgColor != -1) layoutRefresh.setProgressBackgroundColorSchemeColor(refreshBgColor);
 			layoutRefresh.setProgressViewEndTarget(true, 230);
 			if (refreshColors.length > 0) layoutRefresh.setColorSchemeColors(refreshColors);
-			if (isFragment) layoutRefresh.setOnRefreshListener(wiserView.fragment());
-			else layoutRefresh.setOnRefreshListener(wiserView.activity());
+			switch (state) {
+				case WISERView.STATE_ACTIVITY:
+					layoutRefresh.setOnRefreshListener(wiserView.activity());
+					break;
+				case WISERView.STATE_FRAGMENT:
+					layoutRefresh.setOnRefreshListener(wiserView.fragment());
+					break;
+				case WISERView.STATE_DIALOG_FRAGMENT:
+					layoutRefresh.setOnRefreshListener(wiserView.dialogFragment());
+					break;
+			}
 			// 默认刷新
 			if (isDFRefresh) layoutRefresh.setRefreshing(true);
 		}

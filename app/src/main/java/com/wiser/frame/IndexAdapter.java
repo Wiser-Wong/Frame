@@ -4,6 +4,7 @@ import com.bumptech.glide.Glide;
 import com.wiser.library.adapter.WISERHolder;
 import com.wiser.library.adapter.WISERRVAdapter;
 import com.wiser.library.base.WISERActivity;
+import com.wiser.library.base.WISERDialogFragment;
 import com.wiser.library.base.WISERFragment;
 
 import android.support.annotation.NonNull;
@@ -20,8 +21,12 @@ public class IndexAdapter extends WISERRVAdapter<IndexModel, WISERHolder> {
 		super(mWiserActivity);
 	}
 
-	public IndexAdapter(WISERFragment fragment) {
-		super(fragment);
+	public IndexAdapter(WISERFragment mWiserFragment) {
+		super(mWiserFragment);
+	}
+
+	public IndexAdapter(WISERDialogFragment mWiserDialogFragment) {
+		super(mWiserDialogFragment);
 	}
 
 	@Override public WISERHolder newViewHolder(ViewGroup viewGroup, int type) {

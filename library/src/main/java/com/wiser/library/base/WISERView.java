@@ -17,9 +17,11 @@ public class WISERView {
 	/**
 	 * 常量
 	 */
-	private static final int	STATE_ACTIVITY	= 99999;
+	public static final int	STATE_ACTIVITY			= 99999;
 
-	private static final int	STATE_FRAGMENT	= 88888;
+	public static final int	STATE_FRAGMENT			= 88888;
+
+	public static final int	STATE_DIALOG_FRAGMENT	= 77777;
 
 	/** 类型 **/
 	private int					state;
@@ -30,7 +32,9 @@ public class WISERView {
 
 	private WISERFragment		mWiserFragment;
 
-	private WISERFooterModel	footerModel;			// footer 风格数据
+	private WISERDialogFragment	mWiserDialogFragment;
+
+	private WISERFooterModel	footerModel;					// footer 风格数据
 
 	/**
 	 * 初始化
@@ -44,10 +48,26 @@ public class WISERView {
 		this.context = mWiserActivity;
 	}
 
+	/**
+	 * 初始化
+	 * 
+	 * @param mWiserFragment
+	 */
 	public void initUI(WISERFragment mWiserFragment) {
 		initUI((WISERActivity) mWiserFragment.getActivity());
 		this.state = STATE_FRAGMENT;
 		this.mWiserFragment = mWiserFragment;
+	}
+
+	/**
+	 * 初始化
+	 *
+	 * @param mWiserDialogFragment
+	 */
+	public void initUI(WISERDialogFragment mWiserDialogFragment) {
+		initUI((WISERActivity) mWiserDialogFragment.getActivity());
+		this.state = STATE_DIALOG_FRAGMENT;
+		this.mWiserDialogFragment = mWiserDialogFragment;
 	}
 
 	public Context context() {
@@ -74,6 +94,10 @@ public class WISERView {
 		return (F) mWiserFragment;
 	}
 
+	public <E extends WISERDialogFragment> E dialogFragment() {
+		return (E) mWiserDialogFragment;
+	}
+
 	public <B extends WISERBiz> B biz() {
 		B b = null;
 		switch (state) {
@@ -82,6 +106,9 @@ public class WISERView {
 				break;
 			case STATE_FRAGMENT:
 				b = (B) mWiserFragment.biz();
+				break;
+			case STATE_DIALOG_FRAGMENT:
+				b = (B) mWiserDialogFragment.biz();
 				break;
 		}
 		return b;
@@ -96,6 +123,9 @@ public class WISERView {
 			case STATE_FRAGMENT:
 				e = (E) mWiserFragment.display();
 				break;
+			case STATE_DIALOG_FRAGMENT:
+				e = (E) mWiserDialogFragment.display();
+				break;
 		}
 		return e;
 	}
@@ -107,6 +137,7 @@ public class WISERView {
 		this.state = 0;
 		this.mWiserActivity = null;
 		this.mWiserFragment = null;
+		this.mWiserDialogFragment = null;
 		this.context = null;
 		this.footerModel = null;
 	}

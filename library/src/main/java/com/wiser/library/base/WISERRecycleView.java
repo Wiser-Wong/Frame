@@ -59,15 +59,18 @@ public class WISERRecycleView {
 
 	private WISERFragment				fragment;
 
+	private WISERDialogFragment			dialogFragment;
+
 	private WISERView					wiserView;
 
-	private boolean						isFragment;
+	private int							state;
 
-	WISERRecycleView(WISERView wiserView, boolean isFragment) {
-		this.isFragment = isFragment;
+	WISERRecycleView(WISERView wiserView, int state) {
+		this.state = state;
 		this.wiserView = wiserView;
 		this.activity = wiserView.activity();
 		this.fragment = wiserView.fragment();
+		this.dialogFragment = wiserView.dialogFragment();
 	}
 
 	public void recycleViewId(int recycleViewId) {
@@ -424,8 +427,17 @@ public class WISERRecycleView {
 				mRecycleView.setAdapter(mAdapter);
 				if (isFooter) {
 					mAdapter.isFooter(true);
-					if (isFragment) mRecycleView.addOnScrollListener(new IWISERRVScrollListener(fragment, wiserView));
-					else mRecycleView.addOnScrollListener(new IWISERRVScrollListener(activity, wiserView));
+					switch (state) {
+						case WISERView.STATE_ACTIVITY:
+							mRecycleView.addOnScrollListener(new IWISERRVScrollListener(activity, wiserView));
+							break;
+						case WISERView.STATE_FRAGMENT:
+							mRecycleView.addOnScrollListener(new IWISERRVScrollListener(fragment, wiserView));
+							break;
+						case WISERView.STATE_DIALOG_FRAGMENT:
+							mRecycleView.addOnScrollListener(new IWISERRVScrollListener(dialogFragment, wiserView));
+							break;
+					}
 				}
 			}
 		}

@@ -160,16 +160,16 @@ public class WISERToastManage {
 	 *
 	 * @param showMsg
 	 */
-	private void frameToast(String showMsg, int duration) {
-		TextView toastView = new TextView(WISERHelper.getInstance());
+	@SuppressLint("ShowToast") private void frameToast(String showMsg, int duration) {
+		if (mToast == null) {
+			mToast = new Toast(WISERHelper.getActivityManage().getCurrentActivity());
+		}
+		TextView toastView = new TextView(WISERHelper.getActivityManage().getCurrentActivity());
 		toastView.setPadding(WISERApp.dip2px(40), WISERApp.dip2px(20), WISERApp.dip2px(40), WISERApp.dip2px(20));
 		toastView.setBackgroundResource(R.drawable.toast_bg);
 		toastView.setText(showMsg);
 		toastView.setTextColor(Color.WHITE);
 		toastView.setTextSize(16.0f);
-		if (mToast == null) {
-			mToast = new Toast(WISERHelper.getInstance());
-		}
 		mToast.setView(toastView);
 		mToast.setGravity(Gravity.CENTER, 0, 0);
 		mToast.setDuration(duration);
