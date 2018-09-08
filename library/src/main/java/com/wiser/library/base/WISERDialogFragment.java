@@ -53,6 +53,20 @@ public abstract class WISERDialogFragment<B extends IWISERBiz> extends DialogFra
 
 	protected final int		BOTTOM_END		= Gravity.BOTTOM | Gravity.END;
 
+	private boolean			isLocation;											// 是否定制位置
+
+	private int				x, y;												// 定制位置绝对坐标
+
+	public static final int	CONTROL_TOP		= 7777;								// 控件上
+
+	public static final int	CONTROL_BOTTOM	= 7778;								// 控件下
+
+	public static final int	CONTROL_FIT		= 7779;								// 适应控件上或者下
+
+	private int				widget			= CONTROL_BOTTOM;
+
+	private boolean			isLocationTop;										// 是否控件上
+
 	private B				b;
 
 	private WISERBuilder	mWiserBuilder;
@@ -72,20 +86,6 @@ public abstract class WISERDialogFragment<B extends IWISERBiz> extends DialogFra
 	protected abstract boolean isWidthFullScreen();
 
 	protected abstract boolean isCloseOnTouchOutside();
-
-	private boolean			isLocation;							// 是否定制位置
-
-	private int				x, y;								// 定制位置绝对坐标
-
-	public static final int	CONTROL_TOP		= 7777;				// 控件上
-
-	public static final int	CONTROL_BOTTOM	= 7778;				// 控件下
-
-	public static final int	CONTROL_FIT		= 7779;				// 适应控件上或者下
-
-	private int				widget			= CONTROL_BOTTOM;
-
-	private boolean			isLocationTop;						// 是否控件上
 
 	@Override public void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
