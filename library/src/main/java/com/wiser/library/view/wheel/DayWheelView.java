@@ -6,6 +6,8 @@ import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.util.SparseArray;
 
+import com.wiser.library.R;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;

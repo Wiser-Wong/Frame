@@ -1,6 +1,7 @@
 package com.wiser.library.base;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
@@ -36,7 +37,7 @@ public abstract class WISERWebActivity extends WISERActivity {
 
 	protected abstract WISERBuilder buildWeb(WISERBuilder builder);
 
-	protected abstract void initWebData(Bundle savedInstanceState);
+	protected abstract void initWebData(Intent intent);
 
 	protected abstract WISERWebChromeClient setWebChromeClient();
 
@@ -50,8 +51,8 @@ public abstract class WISERWebActivity extends WISERActivity {
 		return wiserBuilder;
 	}
 
-	@Override protected void initData(Bundle savedInstanceState) {
-		initWebData(savedInstanceState);
+	@Override protected void initData(Intent intent) {
+		initWebData(intent);
 	}
 
 	/**

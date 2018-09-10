@@ -80,11 +80,11 @@ public abstract class WISERScanActivity extends WISERActivity implements Callbac
 		return buildScan(builder);
 	}
 
-	@Override public void initData(Bundle savedInstanceState) {
+	@Override public void initData(Intent intent) {
 		CameraManager.init(getApplication());
 		hasSurface = false;
 		inactivityTimer = new InactivityTimer(this);
-		initDataScan(savedInstanceState);
+		initDataScan(intent);
 	}
 
 	// 获取bitmap
@@ -100,7 +100,7 @@ public abstract class WISERScanActivity extends WISERActivity implements Callbac
 
 	public abstract WISERBuilder buildScan(WISERBuilder builder);
 
-	public abstract void initDataScan(Bundle savedInstanceState);
+	public abstract void initDataScan(Intent intent);
 
 	public abstract void scanSuccess(String json);
 

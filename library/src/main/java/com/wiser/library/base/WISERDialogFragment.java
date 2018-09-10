@@ -129,8 +129,12 @@ public abstract class WISERDialogFragment<B extends IWISERBiz> extends DialogFra
 		}
 		// 初始化数据
 		initData(getArguments());
-
+		initAfterData(savedInstanceState);
 		return view;
+	}
+
+	public void initAfterData(Bundle savedInstanceState) {
+
 	}
 
 	// 当前Activity实例

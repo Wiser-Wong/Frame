@@ -75,6 +75,11 @@ public abstract class WISERActivity<B extends IWISERBiz> extends AppCompatActivi
 		}
 		// 初始化数据
 		initData(getIntent());
+		initAfterData(savedInstanceState);
+	}
+
+	public void initAfterData(Bundle savedInstanceState) {
+
 	}
 
 	// 显示空布局

@@ -4,7 +4,6 @@ import com.wiser.library.adapter.WISERRVAdapter;
 import com.wiser.library.base.WISERActivity;
 import com.wiser.library.base.WISERBuilder;
 import com.wiser.library.base.WISERDialogFragment;
-import com.wiser.library.base.WISERStaggeredDivider;
 import com.wiser.library.helper.WISERHelper;
 import com.wiser.library.util.WISERDate;
 import com.wiser.library.view.FooterView;
@@ -13,8 +12,8 @@ import com.wiser.library.view.marquee.MarqueeView;
 import com.wiser.library.zxing.WISERQRCode;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.graphics.Color;
-import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
@@ -59,7 +58,7 @@ public class IndexActivity extends WISERActivity<IndexBiz> implements WISERRVAda
 		return builder;
 	}
 
-	@SuppressLint("SetTextI18n") @Override public void initData(Bundle savedInstanceState) {
+	@SuppressLint("SetTextI18n") @Override public void initData(Intent intent) {
 		biz().addAdapterData();
 		// tvName.setText(WISERDate.getLongForDateStr("2018-09-11",WISERDate.DATE_HG,true)+"");
 		tvName.setText(WISERDate.getDateStrForLong(1536595200000L, WISERDate.DATE_HZ, false) + "");

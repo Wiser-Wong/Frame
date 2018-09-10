@@ -1,5 +1,6 @@
 package com.wiser.library.base;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.wiser.library.helper.WISERHelper;
@@ -29,7 +30,11 @@ public class WISERBiz<U> implements IWISERBiz {
 		callVector = new Vector<>();
 	}
 
-	@Override public void initBiz(Bundle savedInstanceState) {
+	@Override public void initBiz(Intent intent) {
+
+	}
+
+	@Override public void initBiz(Bundle bundle) {
 
 	}
 

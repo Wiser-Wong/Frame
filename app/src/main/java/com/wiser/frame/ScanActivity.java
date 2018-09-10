@@ -5,6 +5,7 @@ import com.wiser.library.helper.WISERHelper;
 import com.wiser.library.zxing.WISERScanActivity;
 import com.wiser.library.zxing.view.ViewfinderView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.SurfaceView;
 import android.view.View;
@@ -23,7 +24,7 @@ public class ScanActivity extends WISERScanActivity {
 		return builder;
 	}
 
-	@Override public void initDataScan(Bundle savedInstanceState) {
+	@Override public void initDataScan(Intent intent) {
 		initScan(viewfinderView, surfaceView);
 	}
 

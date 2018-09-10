@@ -5,6 +5,7 @@ import com.wiser.library.base.WISERWebActivity;
 import com.wiser.library.helper.WISERHelper;
 import com.wiser.library.util.WISERWebChromeClient;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -22,7 +23,7 @@ public class WebViewActivity extends WISERWebActivity {
 		return builder;
 	}
 
-	@Override protected void initWebData(Bundle savedInstanceState) {}
+	@Override protected void initWebData(Intent intent) {}
 
 	@Override protected WISERWebChromeClient setWebChromeClient() {
 		return new WISERWebChromeClient(this) {

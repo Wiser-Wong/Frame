@@ -11,10 +11,6 @@ public class IndexBiz extends WISERBiz<IndexActivity> {
 
 	public List<IndexModel> indexModels;
 
-	@Override public void initBiz(Bundle savedInstanceState) {
-		super.initBiz(savedInstanceState);
-	}
-
 	public void addAdapterData() {
 		indexModels = new ArrayList<>();
 		for (int i = 0; i < 20; i++) {
