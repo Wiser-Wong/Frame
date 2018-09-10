@@ -46,7 +46,7 @@ public class WISERDisplay implements IWISERDisplay {
 	}
 
 	@Override public void intent(Class clazz) {
-		intent(clazz, null);
+		intentBundle(clazz, null);
 	}
 
 	@Override public void intent(String clazzName) {
@@ -58,11 +58,19 @@ public class WISERDisplay implements IWISERDisplay {
 		activity().startActivity(intent);
 	}
 
-	@Override public void intent(Intent intent) {
-		intent(intent, null);
+	@Override public void intent(Class clazz, Intent intent) {
+		if (clazz == null) return;
+		if (activity() == null) return;
+		if (intent != null) {
+			intent.setClass(activity(), clazz);
+			activity().startActivity(intent);
+		} else {
+			intentBundle(clazz, null);
+		}
+
 	}
 
-	@Override public void intent(Class clazz, Bundle bundle) {
+	@Override public void intentBundle(Class clazz, Bundle bundle) {
 		if (clazz == null) return;
 		if (activity() == null) {
 			return;
@@ -73,7 +81,9 @@ public class WISERDisplay implements IWISERDisplay {
 	}
 
 	@Override public void intent(Intent intent, Bundle options) {
-		intentForResult(intent, options, -1);
+		if (intent == null) return;
+		if (options != null) intent.putExtras(options);
+		activity().startActivity(intent);
 	}
 
 	@Override public void intentForResult(Class clazz, int requestCode) {
@@ -141,7 +151,7 @@ public class WISERDisplay implements IWISERDisplay {
 	}
 
 	@Override public void intentAnimation(Class clazz, int in, int out, Bundle bundle) {
-		intent(clazz, bundle);
+		intentBundle(clazz, bundle);
 		if (activity() == null) {
 			return;
 		}
@@ -223,7 +233,7 @@ public class WISERDisplay implements IWISERDisplay {
 
 	/**
 	 * android用于打开HTML文件的intent跳转
-	 * 
+	 *
 	 * @param html
 	 */
 	@Override public void intentHtml(String html) {
@@ -235,7 +245,7 @@ public class WISERDisplay implements IWISERDisplay {
 
 	/**
 	 * android用于打开PDF文件的intent跳转
-	 * 
+	 *
 	 * @param path
 	 *            Pdf文件路径
 	 */
@@ -250,7 +260,7 @@ public class WISERDisplay implements IWISERDisplay {
 
 	/**
 	 * android用于打开文本文件的intent跳转
-	 * 
+	 *
 	 * @param path
 	 *            文本文件路径
 	 */
@@ -265,7 +275,7 @@ public class WISERDisplay implements IWISERDisplay {
 
 	/**
 	 * android用于打开音频文件的intent跳转
-	 * 
+	 *
 	 * @param path
 	 *            音频文件路径
 	 */
@@ -353,7 +363,7 @@ public class WISERDisplay implements IWISERDisplay {
 
 	/**
 	 * 跳转相册
-	 * 
+	 *
 	 * @param requestCode
 	 *            请求码
 	 */
@@ -413,7 +423,7 @@ public class WISERDisplay implements IWISERDisplay {
 
 	/**
 	 * 安装新的应用
-	 * 
+	 *
 	 * @param path
 	 *            apk路径
 	 */

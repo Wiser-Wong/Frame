@@ -51,9 +51,11 @@ public interface IWISERDisplay {
 
 	/**
 	 * @param intent
+	 *            clazz
+	 * @param intent
 	 *            参数
 	 */
-	void intent(Intent intent);
+	void intent(Class clazz, Intent intent);
 
 	/**
 	 * @param clazz
@@ -61,7 +63,7 @@ public interface IWISERDisplay {
 	 * @param bundle
 	 *            参数
 	 */
-	void intent(Class clazz, Bundle bundle);
+	void intentBundle(Class clazz, Bundle bundle);
 
 	/**
 	 * @param intent

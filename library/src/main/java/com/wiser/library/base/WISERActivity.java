@@ -10,6 +10,7 @@ import com.wiser.library.model.WISERActivityModel;
 import com.wiser.library.model.WISERBizModel;
 import com.wiser.library.util.WISERGenericSuperclass;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -38,7 +39,7 @@ public abstract class WISERActivity<B extends IWISERBiz> extends AppCompatActivi
 
 	protected abstract WISERBuilder build(WISERBuilder builder);
 
-	protected abstract void initData(Bundle savedInstanceState);
+	protected abstract void initData(Intent intent);
 
 	@Override protected void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -70,9 +71,10 @@ public abstract class WISERActivity<B extends IWISERBiz> extends AppCompatActivi
 			biz().initUi(this);
 			// 初始化Biz数据
 			biz().initBiz(savedInstanceState);
+			biz().initBiz(getIntent());
 		}
 		// 初始化数据
-		initData(savedInstanceState);
+		initData(getIntent());
 	}
 
 	// 显示空布局
@@ -104,8 +106,7 @@ public abstract class WISERActivity<B extends IWISERBiz> extends AppCompatActivi
 	@Override public void onRefresh() {}
 
 	// 上拉加载
-	@Override public void onLoadMore() {
-	}
+	@Override public void onLoadMore() {}
 
 	// 获取Adapter实例
 	public WISERRVAdapter adapter() {

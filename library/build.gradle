@@ -32,7 +32,8 @@ dependencies {
     //系统状态栏
     api 'com.readystatesoftware.systembartint:systembartint:1.0.4'
     //布局
-    api 'com.android.support:design:28.0.0-rc01'
+    //noinspection GradleCompatible
+    api 'com.android.support:design:28.0.0-rc02'
     //滑动Activity删除
     api 'com.jude:swipebackhelper:3.1.2'
     //Gson
