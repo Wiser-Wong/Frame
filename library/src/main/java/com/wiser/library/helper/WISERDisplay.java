@@ -4,6 +4,7 @@ import java.io.File;
 
 import javax.inject.Inject;
 
+import com.wiser.library.base.WISERActivity;
 import com.wiser.library.util.WISERCheck;
 
 import android.annotation.SuppressLint;
@@ -16,9 +17,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.provider.Settings;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
-import android.view.inputmethod.InputMethodManager;
 
 /**
  * @author Wiser
@@ -32,7 +31,7 @@ public class WISERDisplay implements IWISERDisplay {
 		return WISERHelper.getActivityManage().getCurrentActivity();
 	}
 
-	@Override public <T extends FragmentActivity> T activity() {
+	@Override public <T extends WISERActivity> T activity() {
 		T wiserActivity = WISERHelper.getActivityManage().getCurrentIsRunningActivity();
 		if (wiserActivity != null) {
 			return wiserActivity;

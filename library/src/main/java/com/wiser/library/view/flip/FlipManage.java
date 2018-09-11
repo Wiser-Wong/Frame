@@ -1,12 +1,12 @@
 package com.wiser.library.view.flip;
 
+import com.wiser.library.R;
+import com.wiser.library.base.WISERActivity;
+
 import android.animation.Animator;
 import android.animation.AnimatorInflater;
 import android.animation.AnimatorSet;
-import android.support.v4.app.FragmentActivity;
 import android.view.View;
-
-import com.wiser.library.R;
 
 /**
  * @author Wiser
@@ -35,7 +35,7 @@ public class FlipManage implements Animator.AnimatorListener {
 
 	private boolean				isShowBack;			// 是否显示背面
 
-	private FlipManage(FragmentActivity activity, View frontView, View backView) {
+	private FlipManage(WISERActivity activity, View frontView, View backView) {
 		this.frontView = frontView;
 		this.backView = backView;
 		if (activity != null) {
@@ -61,7 +61,7 @@ public class FlipManage implements Animator.AnimatorListener {
 	 * @param front
 	 * @param back
 	 */
-	public static void bind(FragmentActivity activity, View front, View back) {
+	public static void bind(WISERActivity activity, View front, View back) {
 		synchronized (FlipManage.class) {
 			if (flipManage == null) flipManage = new FlipManage(activity, front, back);
 		}

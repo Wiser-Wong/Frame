@@ -119,7 +119,8 @@ public class IndexActivity extends WISERActivity<IndexBiz> implements WISERRVAda
 	@OnClick({ R.id.tv_name, R.id.iv_qr, R.id.tv_d }) public void onClickView(View view) {
 		switch (view.getId()) {
 			case R.id.tv_name:
-				WISERHelper.display().intent(WebViewActivity.class);
+				WISERHelper.display().intent(TabPageActivity.class);
+//				WISERHelper.display().intent(WebViewActivity.class);
 				break;
 			case R.id.iv_qr:
 				WISERHelper.display().intent(ScanActivity.class);

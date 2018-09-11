@@ -1,7 +1,6 @@
 package com.wiser.library.model;
 
-import android.support.v4.app.FragmentActivity;
-
+import com.wiser.library.base.WISERActivity;
 import com.wiser.library.helper.WISERHelper;
 
 /**
@@ -10,17 +9,17 @@ import com.wiser.library.helper.WISERHelper;
  */
 public class WISERActivityModel {
 
-	private FragmentActivity	activity;
+	private WISERActivity	activity;
 
-	private boolean				isLanding	= false;
+	private boolean			isLanding	= false;
 
-	private boolean				isRunning	= true;
+	private boolean			isRunning	= true;
 
-	private String				activityName;
+	private String			activityName;
 
-	private WISERBizModel		bizModel;
+	private WISERBizModel	bizModel;
 
-	public WISERActivityModel(FragmentActivity activity, WISERBizModel bizModel, boolean isLanding) {
+	public WISERActivityModel(WISERActivity activity, WISERBizModel bizModel, boolean isLanding) {
 		this.activity = activity;
 		this.bizModel = bizModel;
 		this.activityName = activity.getClass().getSimpleName();
@@ -42,7 +41,7 @@ public class WISERActivityModel {
 		this.isRunning = true;
 	}
 
-	public FragmentActivity getActivity() {
+	public WISERActivity getActivity() {
 		return activity;
 	}
 

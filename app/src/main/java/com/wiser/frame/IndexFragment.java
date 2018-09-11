@@ -13,10 +13,9 @@ public class IndexFragment extends WISERFragment<IndexFragmentBiz> {
 
 	@Override protected WISERBuilder build(WISERBuilder builder) {
 		builder.layoutId(R.layout.fragment_index);
-		// builder.recycleView().recycleViewId(R.id.rlv_fragment);
-		// builder.recycleView().recycleViewStaggeredGridManager(2,
-		// LinearLayoutManager.VERTICAL);
-		// builder.recycleView().recycleAdapter(new IndexAdapter(this));
+		builder.recycleView().recycleViewId(R.id.rlv_fragment);
+		builder.recycleView().recycleViewLinearManager(LinearLayoutManager.VERTICAL, null);
+		builder.recycleView().recycleAdapter(new IndexAdapter(this));
 		builder.isRootLayoutRefresh(true, false);
 		builder.recycleView().setFooterStyle(Color.BLUE, Color.RED, Color.WHITE);
 		builder.recycleView().setFooterPadding(0, 5, 0, 5);

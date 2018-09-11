@@ -1,10 +1,9 @@
 package com.wiser.library.manager;
 
-import com.wiser.library.model.WISERActivityModel;
-
-import android.support.v4.app.FragmentActivity;
-
 import java.util.List;
+
+import com.wiser.library.base.WISERActivity;
+import com.wiser.library.model.WISERActivityModel;
 
 /**
  * @author Wiser
@@ -54,7 +53,7 @@ public interface IWISERActivityManage {
 	 * @param <T>
 	 * @return
 	 */
-	<T extends FragmentActivity> T getCurrentActivity();
+	<T extends WISERActivity> T getCurrentActivity();
 
 	/**
 	 * 获取当前运行的
@@ -62,17 +61,17 @@ public interface IWISERActivityManage {
 	 * @param <T>
 	 * @return
 	 */
-	<T extends FragmentActivity> T getCurrentIsRunningActivity();
+	<T extends WISERActivity> T getCurrentIsRunningActivity();
 
 	/**
 	 * 暂停
 	 */
-	void onPause(FragmentActivity activity);
+	void onPause(WISERActivity activity);
 
 	/**
 	 * 运行
 	 */
-	void onResume(FragmentActivity activity);
+	void onResume(WISERActivity activity);
 
 	/**
 	 * Activity集合size

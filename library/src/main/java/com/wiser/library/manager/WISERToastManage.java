@@ -18,7 +18,9 @@ import android.widget.Toast;
  */
 public class WISERToastManage {
 
-	private Toast mToast = null;
+	private Toast		mToast		= null;
+
+	private TextView	toastView	= null;
 
 	@Inject WISERToastManage() {}
 
@@ -161,15 +163,20 @@ public class WISERToastManage {
 	 * @param showMsg
 	 */
 	@SuppressLint("ShowToast") private void frameToast(String showMsg, int duration) {
+		clear();
 		if (mToast == null) {
 			mToast = new Toast(WISERHelper.getActivityManage().getCurrentActivity());
 		}
-		TextView toastView = new TextView(WISERHelper.getActivityManage().getCurrentActivity());
+		if (toastView == null) {
+			toastView = new TextView(WISERHelper.getActivityManage().getCurrentActivity());
+		}
 		toastView.setPadding(WISERApp.dip2px(40), WISERApp.dip2px(20), WISERApp.dip2px(40), WISERApp.dip2px(20));
 		toastView.setBackgroundResource(R.drawable.toast_bg);
 		toastView.setText(showMsg);
 		toastView.setTextColor(Color.WHITE);
 		toastView.setTextSize(16.0f);
+		mToast.setView(toastView);
+		mToast.setGravity(Gravity.CENTER, 0, 0);
 		mToast.setView(toastView);
 		mToast.setGravity(Gravity.CENTER, 0, 0);
 		mToast.setDuration(duration);

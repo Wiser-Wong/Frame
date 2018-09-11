@@ -1,5 +1,7 @@
 package com.wiser.library.helper;
 
+import com.wiser.library.base.WISERActivity;
+
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -7,7 +9,6 @@ import android.os.Bundle;
 import android.support.annotation.AnimRes;
 import android.support.annotation.IdRes;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 
 /**
  * @author Wiser
@@ -27,7 +28,7 @@ public interface IWISERDisplay {
 	 *            参数
 	 * @return 返回值
 	 */
-	<T extends FragmentActivity> T activity();
+	<T extends WISERActivity> T activity();
 
 	/**
 	 * 结束界面

@@ -13,8 +13,8 @@ import com.wiser.library.util.WISERGenericSuperclass;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 
@@ -25,7 +25,7 @@ import butterknife.ButterKnife;
  * @version 版本
  */
 @SuppressWarnings("unchecked")
-public abstract class WISERActivity<B extends IWISERBiz> extends AppCompatActivity implements IWISERView, SwipeRefreshLayout.OnRefreshListener, IWISERRVScrollListener.OnLoadMoreListener {
+public abstract class WISERActivity<B extends IWISERBiz> extends FragmentActivity implements IWISERView, SwipeRefreshLayout.OnRefreshListener, IWISERRVScrollListener.OnLoadMoreListener {
 
 	private B					b;
 

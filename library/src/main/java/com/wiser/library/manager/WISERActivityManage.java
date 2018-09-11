@@ -1,11 +1,5 @@
 package com.wiser.library.manager;
 
-import android.support.v4.app.FragmentActivity;
-
-import com.wiser.library.config.IWISERConfig;
-import com.wiser.library.helper.WISERHelper;
-import com.wiser.library.model.WISERActivityModel;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -13,14 +7,18 @@ import java.util.Set;
 
 import javax.inject.Inject;
 
+import com.wiser.library.base.WISERActivity;
+import com.wiser.library.config.IWISERConfig;
+import com.wiser.library.helper.WISERHelper;
+import com.wiser.library.model.WISERActivityModel;
+
 /**
  * @author Wiser activity的管理类
  */
 @SuppressWarnings("unchecked")
 public class WISERActivityManage implements IWISERActivityManage {
 
-	@Inject
-	WISERActivityManage(){}
+	@Inject WISERActivityManage() {}
 
 	/**
 	 * 打开的activity
@@ -117,7 +115,7 @@ public class WISERActivityManage implements IWISERActivityManage {
 	 * @param <T>
 	 * @return
 	 */
-	@Override public <T extends FragmentActivity> T getCurrentActivity() {
+	@Override public <T extends WISERActivity> T getCurrentActivity() {
 		if (activities.size() > 0) return (T) activities.get(activities.size() - 1).getActivity();
 		return null;
 	}
@@ -129,7 +127,7 @@ public class WISERActivityManage implements IWISERActivityManage {
 	 *            参数
 	 * @return 返回值
 	 */
-	public <T extends FragmentActivity> T getCurrentIsRunningActivity() {
+	public <T extends WISERActivity> T getCurrentIsRunningActivity() {
 		if (activities.size() > 0) {
 			synchronized (activities) {
 				for (int i = 0; i < activities.size(); i++) {
@@ -148,7 +146,7 @@ public class WISERActivityManage implements IWISERActivityManage {
 	 * @param activity
 	 *            参数
 	 */
-	@Override public void onPause(FragmentActivity activity) {
+	@Override public void onPause(WISERActivity activity) {
 		synchronized (activities) {
 			for (int i = activities.size() - 1; i >= 0; i--) {
 				if (activities.get(i).getActivity().equals(activity)) {
@@ -164,7 +162,7 @@ public class WISERActivityManage implements IWISERActivityManage {
 	 * 
 	 * @param activity
 	 */
-	@Override public void onResume(FragmentActivity activity) {
+	@Override public void onResume(WISERActivity activity) {
 		synchronized (activities) {
 			for (int i = activities.size() - 1; i >= 0; i--) {
 				if (activities.get(i).getActivity().equals(activity)) {

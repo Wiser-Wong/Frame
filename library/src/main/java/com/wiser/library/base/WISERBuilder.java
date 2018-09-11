@@ -221,7 +221,7 @@ public class WISERBuilder {
 		return tintColor > 0;
 	}
 
-	public void tintColor(int tintColor) {
+	public void tintColor(@ColorInt int tintColor) {
 		this.tintColor = tintColor;
 	}
 
