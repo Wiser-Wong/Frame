@@ -12,6 +12,7 @@ import android.widget.RelativeLayout;
 
 import com.wiser.library.base.WISERActivity;
 import com.wiser.library.base.WISERTabPageActivity;
+import com.wiser.library.base.WISERTabPageFragment;
 
 import butterknife.ButterKnife;
 
@@ -22,35 +23,68 @@ import butterknife.ButterKnife;
  */
 public class WISERTabView implements View.OnClickListener {
 
-	private List<View>						tabViews				= new ArrayList<>();	// Tab 视图列表
+	private List<View>				tabViews				= new ArrayList<>();	// Tab 视图列表
 
-	private WISERPageView					pageView;										// 页 布局
+	private WISERPageView			pageView;										// 页 布局
 
-	private LayoutInflater					mInflater;
+	private LayoutInflater			mInflater;
 
-	private int								tabLayoutId;									// Tab 布局 ID
+	private int						tabLayoutId;									// Tab 布局 ID
 
-	private View							tabLayoutView;									// Tab 布局视图
+	private View					tabLayoutView;									// Tab 布局视图
 
-	private FrameLayout						tabRootView;									// 根布局
+	private FrameLayout				tabRootView;									// 根布局
 
-	private int[]							tabIds					= new int[0];			// Tab ID列表
+	private int[]					tabIds					= new int[0];			// Tab ID列表
 
-	private OnTabClickListener				onTabClickListener;								// Tab 点击监听
+	private OnTabClickListener		onTabClickListener;								// Tab 点击监听
 
-	private boolean							isTabCanRepeatedlyClick	= false;				// 是否Tab 能多次点击
+	private boolean					isTabCanRepeatedlyClick	= false;				// 是否Tab 能多次点击
 
-	private boolean							isTabCutPageAnim		= false;				// 是否点击Tab Page可以滑动
+	private boolean					isTabCutPageAnim		= false;				// 是否点击Tab Page可以滑动
 
-	private WISERTabPageActivity			wiserTabPageActivity;
+	private WISERTabPageActivity	wiserTabPageActivity;
+
+	private WISERTabPageFragment	wiserTabPageFragment;
+
+	private boolean					isFragment;
 
 	WISERTabView(WISERTabPageActivity wiserTabPageActivity, LayoutInflater mInflater) {
+		isFragment = false;
 		this.wiserTabPageActivity = wiserTabPageActivity;
 		this.mInflater = mInflater;
 		tabRootView = new FrameLayout(wiserTabPageActivity);
 		tabRootView.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 		int TAB_VIEW_ID = 0X12030123;
-		tabRootView.setId(TAB_VIEW_ID);
+		if (wiserTabPageActivity != null) {
+			if (wiserTabPageActivity.findViewById(TAB_VIEW_ID) != null) {
+				int VIEW_ID = 0X12030124;
+				tabRootView.setId(VIEW_ID);
+			} else {
+				tabRootView.setId(TAB_VIEW_ID);
+			}
+		} else {
+			tabRootView.setId(TAB_VIEW_ID);
+		}
+	}
+
+	WISERTabView(WISERTabPageFragment wiserTabPageFragment, LayoutInflater mInflater) {
+		isFragment = true;
+		this.wiserTabPageFragment = wiserTabPageFragment;
+		this.mInflater = mInflater;
+		tabRootView = new FrameLayout(wiserTabPageFragment.activity());
+		tabRootView.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+		int TAB_VIEW_ID = 0X12030123;
+		if (wiserTabPageFragment.activity() != null) {
+			if (wiserTabPageFragment.activity().findViewById(TAB_VIEW_ID) != null) {
+				int VIEW_ID = 0X12030124;
+				tabRootView.setId(VIEW_ID);
+			} else {
+				tabRootView.setId(TAB_VIEW_ID);
+			}
+		} else {
+			tabRootView.setId(TAB_VIEW_ID);
+		}
 	}
 
 	public FrameLayout getTabRootView() {
@@ -141,8 +175,14 @@ public class WISERTabView implements View.OnClickListener {
 		for (int i = 0; i < tabIds.length; i++) {
 			if (view.getId() == tabIds[i]) {
 				if (pageView.getChildCount() > i) {
-					if (wiserTabPageActivity.CURRENT_INDEX != i) {
-						pageView.setCurrentItem(i, isTabCutPageAnim);
+					if (isFragment) {
+						if (wiserTabPageFragment.CURRENT_INDEX != i) {
+							pageView.setCurrentItem(i, isTabCutPageAnim);
+						}
+					} else {
+						if (wiserTabPageActivity.CURRENT_INDEX != i) {
+							pageView.setCurrentItem(i, isTabCutPageAnim);
+						}
 					}
 				}
 				if (isTabCanRepeatedlyClick) if (onTabClickListener != null) onTabClickListener.onTabClick(view);
@@ -173,5 +213,6 @@ public class WISERTabView implements View.OnClickListener {
 		isTabCanRepeatedlyClick = false;
 		isTabCutPageAnim = false;
 		wiserTabPageActivity = null;
+		wiserTabPageFragment = null;
 	}
 }

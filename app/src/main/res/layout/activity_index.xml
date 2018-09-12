@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/fl_index"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -55,25 +55,25 @@
                     <com.wiser.library.view.marquee.MarqueeView
                         android:id="@+id/marquee"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content" />
 
                     <ImageView
                         android:id="@+id/iv_qr"
                         android:layout_width="200dp"
                         android:layout_height="150dp"
                         android:layout_gravity="center"
-                        android:adjustViewBounds="true"/>
+                        android:adjustViewBounds="true" />
 
                     <TextView
                         android:id="@+id/tv_d"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="点击弹窗"
-                        android:textSize="30sp"
-                        android:textColor="@color/black"
                         android:layout_gravity="end"
                         android:layout_marginEnd="40dp"
-                        android:layout_marginRight="40dp" />
+                        android:layout_marginRight="40dp"
+                        android:text="点击弹窗"
+                        android:textColor="@color/black"
+                        android:textSize="30sp" />
 
                     <FrameLayout
                         android:layout_width="match_parent"
@@ -110,4 +110,4 @@
 
     </android.support.design.widget.AppBarLayout>
 
-</LinearLayout>
+</FrameLayout>

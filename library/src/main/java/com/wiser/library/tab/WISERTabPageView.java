@@ -1,7 +1,9 @@
 package com.wiser.library.tab;
 
+import java.lang.reflect.Method;
+
 import com.wiser.library.base.WISERTabPageActivity;
-import com.wiser.library.helper.WISERHelper;
+import com.wiser.library.base.WISERTabPageFragment;
 import com.wiser.library.util.WISERApp;
 
 import android.content.Context;
@@ -19,17 +21,35 @@ import android.widget.RelativeLayout;
  */
 public class WISERTabPageView extends RelativeLayout implements ViewPager.OnPageChangeListener {
 
-	private WISERPageView			pageView;				// 页 布局
+	private WISERPageView			pageView;						// 页 布局
 
-	private WISERTabView			tabView;				// tab 布局
+	private WISERTabView			tabView;						// tab 布局
 
 	private WISERTabPageActivity	wiserTabPageActivity;
 
+	private WISERTabPageFragment	wiserTabPageFragment;
+
 	private OnTabPageChangeListener	onTabPageChangeListener;
+
+	private boolean					isFragment;
+
+	private Fragment[]				fragments	= new Fragment[0];
+
+	private int						index;
+
+	private boolean					isResumePage;
 
 	public WISERTabPageView(WISERTabPageActivity wiserTabPageActivity) {
 		super(wiserTabPageActivity);
+		this.isFragment = false;
 		this.wiserTabPageActivity = wiserTabPageActivity;
+		init();
+	}
+
+	public WISERTabPageView(WISERTabPageFragment wiserTabPageFragment) {
+		super(wiserTabPageFragment.activity());
+		this.isFragment = true;
+		this.wiserTabPageFragment = wiserTabPageFragment;
 		init();
 	}
 
@@ -50,7 +70,8 @@ public class WISERTabPageView extends RelativeLayout implements ViewPager.OnPage
 		LayoutInflater mInflater = LayoutInflater.from(getContext());
 
 		pageView = new WISERPageView(getContext());
-		tabView = new WISERTabView((WISERTabPageActivity) WISERHelper.getActivityManage().getCurrentActivity(), mInflater);
+		if (isFragment) tabView = new WISERTabView(wiserTabPageFragment, mInflater);
+		else tabView = new WISERTabView(wiserTabPageActivity, mInflater);
 		tabView.setPageView(pageView);
 
 		pageView.addOnPageChangeListener(this);
@@ -117,6 +138,7 @@ public class WISERTabPageView extends RelativeLayout implements ViewPager.OnPage
 	 */
 	public void setPages(Fragment... fragments) {
 		if (pageView != null) pageView.setPageAdapter(fragments);
+		this.fragments = fragments;
 	}
 
 	/**
@@ -162,13 +184,35 @@ public class WISERTabPageView extends RelativeLayout implements ViewPager.OnPage
 		if (tabView != null) tabView.setOnTabClickListener(onTabClickListener);
 	}
 
+	public boolean isResumePage() {
+		return isResumePage;
+	}
+
+	public void isResumePage(boolean isResumePage) {
+		isResumePage = isResumePage;
+	}
+
 	@Override public void onPageScrolled(int i, float v, int i1) {
 		if (onTabPageChangeListener != null) onTabPageChangeListener.onPageScrolled(i, v, i1);
 	}
 
 	@Override public void onPageSelected(int i) {
-		if (wiserTabPageActivity != null) wiserTabPageActivity.CURRENT_INDEX = i;
+		if (isFragment) {
+			if (wiserTabPageFragment != null) wiserTabPageFragment.CURRENT_INDEX = i;
+		} else {
+			if (wiserTabPageActivity != null) wiserTabPageActivity.CURRENT_INDEX = i;
+		}
+
 		if (onTabPageChangeListener != null) onTabPageChangeListener.onPageSelected(i);
+
+		if (index == i) {
+			checkMethod("onShowCurrentPage", i);
+		} else {
+			checkMethod("onHideCurrentPage", index);
+			checkMethod("onShowCurrentPage", i);
+		}
+		index = i;
+		isResumePage = true;
 	}
 
 	@Override public void onPageScrollStateChanged(int i) {
@@ -188,12 +232,46 @@ public class WISERTabPageView extends RelativeLayout implements ViewPager.OnPage
 		void onPageScrollStateChanged(int i);
 	}
 
+	public interface OnTabShowCurrentPageListener {
+
+		void onShowCurrentPage(int position);
+
+		void onHideCurrentPage(int position);
+	}
+
 	public void detach() {
 		if (pageView != null) pageView.detach();
 		pageView = null;
 		if (tabView != null) tabView.detach();
 		tabView = null;
 		wiserTabPageActivity = null;
+		wiserTabPageFragment = null;
 		onTabPageChangeListener = null;
 	}
+
+	/**
+	 * 检查Tab Fragment 中是否存在显示该Fragment页面 方法
+	 * 
+	 * @param methodName
+	 * @param position
+	 */
+	public void checkMethod(String methodName, int position) {
+		try {
+			if (fragments != null && fragments.length > position) {
+				Class<?> fragmentClass = fragments[position].getClass();
+				if (fragmentClass != null) {
+					Method[] methods = fragmentClass.getMethods();
+					for (Method method : methods) {
+						if (method.getName().equals(methodName)) {
+							Object userInfo = fragmentClass.newInstance();
+							method.invoke(userInfo, position);
+						}
+					}
+				}
+			}
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
+	}
+
 }

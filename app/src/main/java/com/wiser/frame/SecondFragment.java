@@ -1,26 +1,27 @@
 package com.wiser.frame;
 
-import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
 import com.wiser.library.base.WISERBuilder;
 import com.wiser.library.base.WISERFragment;
+import com.wiser.library.tab.WISERTabPageView;
 
-public class SecondFragment extends WISERFragment {
+import android.os.Bundle;
 
-    @Override
-    protected WISERBuilder build(WISERBuilder builder) {
-        builder.layoutId(R.layout.fragment_second);
-        return builder;
+public class SecondFragment extends WISERFragment implements WISERTabPageView.OnTabShowCurrentPageListener {
+
+	@Override protected WISERBuilder build(WISERBuilder builder) {
+		builder.layoutId(R.layout.fragment_second);
+		return builder;
+	}
+
+	@Override protected void initData(Bundle savedInstanceState) {
+
+	}
+
+    @Override public void onShowCurrentPage(int position) {
+		System.out.println("-------SecondFragment-----Show");
     }
 
-    @Override
-    protected void initData(Bundle savedInstanceState) {
-
-    }
+    @Override public void onHideCurrentPage(int position) {
+		System.out.println("-------SecondFragment-----Hide");
+	}
 }

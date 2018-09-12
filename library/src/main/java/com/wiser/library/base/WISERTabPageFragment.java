@@ -5,13 +5,14 @@ import com.wiser.library.tab.WISERTabPageView;
 import com.wiser.library.tab.WISERTabView;
 
 import android.content.Intent;
+import android.os.Bundle;
 
 /**
  * @author Wiser
  * 
  *         tab page
  */
-public abstract class WISERTabPageActivity extends WISERActivity {
+public abstract class WISERTabPageFragment extends WISERFragment {
 
 	WISERTabPageView	tabPageView;
 
@@ -21,7 +22,7 @@ public abstract class WISERTabPageActivity extends WISERActivity {
 
 	protected abstract WISERBuilder buildFrame(WISERBuilder builder);
 
-	protected abstract void initTabPageViewData(Intent intent);
+	protected abstract void initTabPageViewData(Bundle bundle);
 
 	@Override protected WISERBuilder build(WISERBuilder builder) {
 		tabPageView = new WISERTabPageView(this);
@@ -30,8 +31,19 @@ public abstract class WISERTabPageActivity extends WISERActivity {
 		return buildFrame(builder);
 	}
 
-	@Override protected void initData(Intent intent) {
-		initTabPageViewData(intent);
+	@Override protected void initData(Bundle bundle) {
+		initTabPageViewData(bundle);
+	}
+
+	@Override public void onResume() {
+		super.onResume();
+		if (tabPageView() != null) {
+			if (tabPageView().isResumePage()) {
+				tabPageView().isResumePage(false);
+				return;
+			}
+			tabPageView().checkMethod("onShowCurrentPage", CURRENT_INDEX);
+		}
 	}
 
 	protected WISERTabView tabView() {
@@ -46,28 +58,15 @@ public abstract class WISERTabPageActivity extends WISERActivity {
 		return tabPageView;
 	}
 
-	@Override protected void onPause() {
-		super.onPause();
-		if (isFinishing()) {
-			detachTab();
-		}
+	@Override public void onDetach() {
+		super.onDetach();
+		detachTab();
 	}
 
 	private void detachTab() {
 		if (tabPageView != null) tabPageView.detach();
 		tabPageView = null;
 		CURRENT_INDEX = 0;
-	}
-
-	@Override protected void onResume() {
-		super.onResume();
-		if (tabPageView() != null) {
-			if (tabPageView().isResumePage()) {
-				tabPageView().isResumePage(false);
-				return;
-			}
-			tabPageView().checkMethod("onShowCurrentPage", CURRENT_INDEX);
-		}
 	}
 
 	/**

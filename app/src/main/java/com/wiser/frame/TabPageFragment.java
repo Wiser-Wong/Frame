@@ -1,21 +1,19 @@
 package com.wiser.frame;
 
+import android.graphics.Color;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageView;
+
 import com.wiser.library.base.WISERBuilder;
-import com.wiser.library.base.WISERTabPageActivity;
+import com.wiser.library.base.WISERTabPageFragment;
 import com.wiser.library.helper.WISERHelper;
 import com.wiser.library.tab.WISERTabPageView;
 import com.wiser.library.tab.WISERTabView;
 
-import android.content.Intent;
-import android.graphics.Color;
-import android.support.v4.view.ViewPager;
-import android.view.View;
-import android.widget.ImageView;
-
 import butterknife.BindView;
-import butterknife.OnClick;
 
-public class TabPageActivity extends WISERTabPageActivity implements WISERTabView.OnTabClickListener, WISERTabPageView.OnTabPageChangeListener {
+public class TabPageFragment extends WISERTabPageFragment implements WISERTabView.OnTabClickListener, WISERTabPageView.OnTabPageChangeListener{
 
 	@BindView(R.id.iv_tab1) ImageView	ivTab1;
 
@@ -29,7 +27,7 @@ public class TabPageActivity extends WISERTabPageActivity implements WISERTabVie
 		tabPageView.setTabBackgroundColor(Color.RED);
 		tabPageView.setTabHeight(300);
 		tabPageView.tabIds(R.layout.include_tab_bottom, R.id.iv_tab1, R.id.iv_tab2, R.id.iv_tab3, R.id.iv_tab4);
-		tabPageView.setPages(new IndexFragment(), new SecondFragment(), new ThreeFragment(), new TabPageFragment());
+		tabPageView.setPages(new IndexFragment(), new SecondFragment(), new ThreeFragment(), new IndexFragment());
 		tabPageView.setOnTabClickListener(this);
 		tabPageView.setOnTabPageChangeListener(this);
 		tabPageView.isPageCanScroll(false);
@@ -39,15 +37,11 @@ public class TabPageActivity extends WISERTabPageActivity implements WISERTabVie
 	}
 
 	@Override protected WISERBuilder buildFrame(WISERBuilder builder) {
-		builder.tintFitsSystem(true);
-		builder.tintIs(true);
-		builder.tintColor(Color.RED);
-		builder.swipeBack(true);
 		return builder;
 	}
 
-	@Override protected void initTabPageViewData(Intent intent) {
-		setCurrentItem(2);
+	@Override protected void initTabPageViewData(Bundle bundle) {
+
 	}
 
 	@Override public void onTabClick(View view) {

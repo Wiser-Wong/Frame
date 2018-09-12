@@ -63,7 +63,7 @@ public class IndexActivity extends WISERActivity<IndexBiz> implements WISERRVAda
 		// tvName.setText(WISERDate.getLongForDateStr("2018-09-11",WISERDate.DATE_HG,true)+"");
 		tvName.setText(WISERDate.getDateStrForLong(1536595200000L, WISERDate.DATE_HZ, false) + "");
 		// onRefresh();
-		// WISERHelper.display().commitReplace(R.id.fl_content, new IndexFragment());
+//		WISERHelper.display().commitReplace(R.id.fl_index, new TabPageFragment());
 
 		WISERQRCode.createQRCodeBitmapForUrl("", "WiserWong", R.mipmap.ic_launcher, ivQR, false);
 
@@ -120,7 +120,7 @@ public class IndexActivity extends WISERActivity<IndexBiz> implements WISERRVAda
 		switch (view.getId()) {
 			case R.id.tv_name:
 				WISERHelper.display().intent(TabPageActivity.class);
-//				WISERHelper.display().intent(WebViewActivity.class);
+				// WISERHelper.display().intent(WebViewActivity.class);
 				break;
 			case R.id.iv_qr:
 				WISERHelper.display().intent(ScanActivity.class);

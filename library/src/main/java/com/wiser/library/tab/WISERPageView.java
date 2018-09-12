@@ -1,5 +1,6 @@
 package com.wiser.library.tab;
 
+import com.wiser.library.base.WISERActivity;
 import com.wiser.library.helper.WISERHelper;
 
 import android.annotation.SuppressLint;
@@ -23,12 +24,15 @@ public class WISERPageView extends ViewPager {
 
 	private boolean				isScroll	= false;
 
+	private WISERActivity		activity;
+
 	public void isScroll(boolean isScroll) {
 		this.isScroll = isScroll;
 	}
 
 	public WISERPageView(@NonNull Context context) {
 		super(context);
+		if (context instanceof WISERActivity) this.activity = (WISERActivity) context;
 		init();
 	}
 
@@ -41,7 +45,16 @@ public class WISERPageView extends ViewPager {
 		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
 		setLayoutParams(params);
 		int PAGE_VIEW_ID = 0X222222;
-		setId(PAGE_VIEW_ID);
+		if (activity != null) {
+			if (activity.findViewById(PAGE_VIEW_ID) != null) {
+				int VIEW_ID = 0X222223;
+				setId(VIEW_ID);
+			} else {
+				setId(PAGE_VIEW_ID);
+			}
+		} else {
+			setId(PAGE_VIEW_ID);
+		}
 	}
 
 	/**
