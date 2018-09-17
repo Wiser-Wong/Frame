@@ -23,9 +23,11 @@
     <!-- ShadowFrameLayout 阴影 -->
     <declare-styleable name="ShadowFrameLayout">
         <attr name="shadowLayoutColor" format="color" />
-        <attr name="shadowLayoutRadiusEdge" format="dimension" />
+        <attr name="shadowLayoutEdge" format="dimension" />
         <attr name="shadowLayoutDx" format="dimension" />
         <attr name="shadowLayoutDy" format="dimension" />
+        <attr name="shadowLayoutRadius" format="dimension" />
+        <attr name="isRadius" format="boolean" />
     </declare-styleable>
 
 </resources>

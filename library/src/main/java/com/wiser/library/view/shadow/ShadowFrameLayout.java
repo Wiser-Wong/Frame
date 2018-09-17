@@ -1,5 +1,7 @@
 package com.wiser.library.view.shadow;
 
+import com.wiser.library.R;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -14,11 +16,9 @@ import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.FrameLayout;
 
-import com.wiser.library.R;
-
 /**
  * @author Wiser
- *         <p>
+ * 
  *         阴影布局
  */
 public class ShadowFrameLayout extends FrameLayout {
@@ -33,7 +33,7 @@ public class ShadowFrameLayout extends FrameLayout {
 	/**
 	 * 阴影弧度 以及 边距
 	 */
-	private float	mShadowRadiusEdge;
+	private float	mShadowEdge;
 
 	/**
 	 * y轴偏移量
@@ -44,6 +44,16 @@ public class ShadowFrameLayout extends FrameLayout {
 	 * X轴偏移量
 	 */
 	private float	mShadowDx;
+
+	/**
+	 * 阴影弧度半径
+	 */
+	private float	mShadowRadius;
+
+	/**
+	 * 是否需要阴影弧度
+	 */
+	private boolean	isRadius;
 
 	private RectF	mRectF			= new RectF();
 
@@ -70,9 +80,11 @@ public class ShadowFrameLayout extends FrameLayout {
 		TypedArray typedArray = getContext().obtainStyledAttributes(attrs, R.styleable.ShadowFrameLayout);
 		if (typedArray != null) {
 			mShadowColor = typedArray.getColor(R.styleable.ShadowFrameLayout_shadowLayoutColor, getContext().getResources().getColor(android.R.color.darker_gray));
-			mShadowRadiusEdge = typedArray.getDimension(R.styleable.ShadowFrameLayout_shadowLayoutRadiusEdge, dip2px());
+			mShadowEdge = typedArray.getDimension(R.styleable.ShadowFrameLayout_shadowLayoutEdge, dip2px());
 			mShadowDx = typedArray.getDimension(R.styleable.ShadowFrameLayout_shadowLayoutDx, dip2px());
 			mShadowDy = typedArray.getDimension(R.styleable.ShadowFrameLayout_shadowLayoutDy, dip2px());
+			mShadowRadius = typedArray.getDimension(R.styleable.ShadowFrameLayout_shadowLayoutRadius, dip2px());
+			isRadius = typedArray.getBoolean(R.styleable.ShadowFrameLayout_isRadius, true);
 			typedArray.recycle();
 		}
 		initPaint();
@@ -94,9 +106,14 @@ public class ShadowFrameLayout extends FrameLayout {
 		super.onDraw(canvas);
 		mPaint.setColor(mShadowColor);
 		// 设置阴影属性
-		mPaint.setShadowLayer(mShadowRadiusEdge, mShadowDx, mShadowDy, mShadowColor);// 设置光晕效果（mShadowRadiusEdge是光晕半径,第二个参数是x轴偏移量，第三个是Y轴偏移量，最后一个是颜色）
-		// 画阴影矩形背景
-		canvas.drawRoundRect(mRectF, mShadowRadiusEdge, mShadowRadiusEdge, mPaint);// 第二个参数是x半径，第三个参数是y半径
+		mPaint.setShadowLayer(mShadowEdge, mShadowDx, mShadowDy, mShadowColor);// 设置光晕效果（mShadowEdge是光晕半径,第二个参数是x轴偏移量，第三个是Y轴偏移量，最后一个是颜色）
+		if (isRadius) {
+			// 画阴影矩形背景
+			canvas.drawRoundRect(mRectF, mShadowRadius, mShadowRadius, mPaint);// 第二个参数是x半径，第三个参数是y半径
+		} else {
+			// 画阴影矩形背景
+			canvas.drawRoundRect(mRectF, 0, 0, mPaint);// 第二个参数是x半径，第三个参数是y半径
+		}
 	}
 
 	@Override protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
@@ -115,15 +132,15 @@ public class ShadowFrameLayout extends FrameLayout {
 	private void layoutMeasure() {
 		if (this.getChildCount() == 1) {
 			View view = this.getChildAt(0);
-			mRectF.right = this.getMeasuredWidth() - mShadowRadiusEdge;
-			mRectF.bottom = this.getMeasuredHeight() - mShadowRadiusEdge;
-			mRectF.left = mShadowRadiusEdge;
-			mRectF.top = mShadowRadiusEdge;
+			mRectF.right = this.getMeasuredWidth() - mShadowEdge;
+			mRectF.bottom = this.getMeasuredHeight() - mShadowEdge;
+			mRectF.left = mShadowEdge;
+			mRectF.top = mShadowEdge;
 			MarginLayoutParams params = (MarginLayoutParams) view.getLayoutParams();
-			params.leftMargin = (int) mShadowRadiusEdge;
-			params.rightMargin = (int) mShadowRadiusEdge;
-			params.topMargin = (int) mShadowRadiusEdge;
-			params.bottomMargin = (int) mShadowRadiusEdge;
+			params.leftMargin = (int) mShadowEdge;
+			params.rightMargin = (int) mShadowEdge;
+			params.topMargin = (int) mShadowEdge;
+			params.bottomMargin = (int) mShadowEdge;
 		}
 	}
 
