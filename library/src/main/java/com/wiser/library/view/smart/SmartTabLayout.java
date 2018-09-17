@@ -14,8 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.wiser.library.view.tab;
-
+package com.wiser.library.view.smart;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
@@ -39,6 +38,10 @@ import android.widget.TextView;
 
 import com.wiser.library.R;
 
+/**
+ * @author Wiser
+ * @version 版本
+ */
 @SuppressWarnings("ALL")
 public class SmartTabLayout extends HorizontalScrollView {
 
@@ -68,7 +71,7 @@ public class SmartTabLayout extends HorizontalScrollView {
 
 	private boolean							tabViewTextAllCaps;
 
-	private ColorStateList tabViewTextColors;
+	private ColorStateList					tabViewTextColors;
 
 	private float							tabViewTextSize;
 
@@ -76,7 +79,7 @@ public class SmartTabLayout extends HorizontalScrollView {
 
 	private int								tabViewTextMinWidth;
 
-	private ViewPager viewPager;
+	private ViewPager						viewPager;
 
 	private ViewPager.OnPageChangeListener	viewPagerPageChangeListener;
 
@@ -90,7 +93,7 @@ public class SmartTabLayout extends HorizontalScrollView {
 
 	private boolean							distributeEvenly;
 
-	private View customBackGound;
+	private View							customBackGound;
 
 	public SmartTabLayout(Context context) {
 		this(context, null);
@@ -174,16 +177,14 @@ public class SmartTabLayout extends HorizontalScrollView {
 		tabStrip.setState(is);
 	}
 
-	@Override
-    protected void onScrollChanged(int l, int t, int oldl, int oldt) {
+	@Override protected void onScrollChanged(int l, int t, int oldl, int oldt) {
 		super.onScrollChanged(l, t, oldl, oldt);
 		if (onScrollChangeListener != null) {
 			onScrollChangeListener.onScrollChanged(l, oldl);
 		}
 	}
 
-	@Override
-    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+	@Override protected void onSizeChanged(int w, int h, int oldw, int oldh) {
 		super.onSizeChanged(w, h, oldw, oldh);
 		if (tabStrip.isIndicatorAlwaysInCenter() && tabStrip.getChildCount() > 0) {
 			View firstTab = tabStrip.getChildAt(0);
@@ -196,8 +197,7 @@ public class SmartTabLayout extends HorizontalScrollView {
 		}
 	}
 
-	@Override
-    protected void onLayout(boolean changed, int l, int t, int r, int b) {
+	@Override protected void onLayout(boolean changed, int l, int t, int r, int b) {
 		super.onLayout(changed, l, t, r, b);
 		// Ensure first scroll
 		if (changed && viewPager != null) {
@@ -525,12 +525,10 @@ public class SmartTabLayout extends HorizontalScrollView {
 				temp += start - startMargin + extraOffset - width;
 			}
 
-//			customBackGound.setX(temp);
-
+			// customBackGound.setX(temp);
 
 		}
 	}
-
 
 	/**
 	 * Allows complete control over the colors drawn in the tab layout. Set with
@@ -598,7 +596,7 @@ public class SmartTabLayout extends HorizontalScrollView {
 
 	private static class SimpleTabProvider implements TabProvider {
 
-		private final LayoutInflater inflater;
+		private final LayoutInflater	inflater;
 
 		private final int				tabViewLayoutId;
 
@@ -610,8 +608,7 @@ public class SmartTabLayout extends HorizontalScrollView {
 			tabViewTextViewId = textViewId;
 		}
 
-		@Override
-        public View createTabView(ViewGroup container, int position, PagerAdapter adapter) {
+		@Override public View createTabView(ViewGroup container, int position, PagerAdapter adapter) {
 			View tabView = null;
 			TextView tabTitleView = null;
 
@@ -638,7 +635,7 @@ public class SmartTabLayout extends HorizontalScrollView {
 
 	private static class VerticalTabProvider implements TabProvider {
 
-		private final LayoutInflater inflater;
+		private final LayoutInflater	inflater;
 
 		private final int				tabViewLayoutId;
 
@@ -653,8 +650,7 @@ public class SmartTabLayout extends HorizontalScrollView {
 			tabViewTextViewBottomId = textViewButtomId;
 		}
 
-		@Override
-        public View createTabView(ViewGroup container, int position, PagerAdapter adapter) {
+		@Override public View createTabView(ViewGroup container, int position, PagerAdapter adapter) {
 			View tabView = null;
 			TextView tabTitleTopView = null;
 			TextView tabTitleBottomView = null;
@@ -698,8 +694,7 @@ public class SmartTabLayout extends HorizontalScrollView {
 
 		private int scrollState;
 
-		@Override
-        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+		@Override public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 			int tabStripChildCount = tabStrip.getChildCount();
 			if ((tabStripChildCount == 0) || (position < 0) || (position >= tabStripChildCount)) {
 				return;
@@ -714,8 +709,7 @@ public class SmartTabLayout extends HorizontalScrollView {
 			}
 		}
 
-		@Override
-        public void onPageScrollStateChanged(int state) {
+		@Override public void onPageScrollStateChanged(int state) {
 			scrollState = state;
 
 			if (viewPagerPageChangeListener != null) {
@@ -723,8 +717,7 @@ public class SmartTabLayout extends HorizontalScrollView {
 			}
 		}
 
-		@Override
-        public void onPageSelected(int position) {
+		@Override public void onPageSelected(int position) {
 			if (scrollState == ViewPager.SCROLL_STATE_IDLE) {
 				tabStrip.onViewPagerPageChanged(position, 0f);
 				scrollToTab(position, 0);
@@ -743,8 +736,7 @@ public class SmartTabLayout extends HorizontalScrollView {
 
 	private class InternalTabClickListener implements OnClickListener {
 
-		@Override
-        public void onClick(View v) {
+		@Override public void onClick(View v) {
 			for (int i = 0; i < tabStrip.getChildCount(); i++) {
 				if (v == tabStrip.getChildAt(i)) {
 					if (onTabClickListener != null) {

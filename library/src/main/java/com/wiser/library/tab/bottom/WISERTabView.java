@@ -1,4 +1,4 @@
-package com.wiser.library.tab;
+package com.wiser.library.tab.bottom;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,9 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-import android.widget.RelativeLayout;
 
-import com.wiser.library.base.WISERActivity;
 import com.wiser.library.base.WISERTabPageActivity;
 import com.wiser.library.base.WISERTabPageFragment;
 
@@ -56,16 +54,12 @@ public class WISERTabView implements View.OnClickListener {
 		tabRootView = new FrameLayout(wiserTabPageActivity);
 		tabRootView.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 		int TAB_VIEW_ID = 0X12030123;
-		if (wiserTabPageActivity != null) {
-			if (wiserTabPageActivity.findViewById(TAB_VIEW_ID) != null) {
-				int VIEW_ID = 0X12030124;
-				tabRootView.setId(VIEW_ID);
-			} else {
-				tabRootView.setId(TAB_VIEW_ID);
-			}
-		} else {
-			tabRootView.setId(TAB_VIEW_ID);
-		}
+		if (wiserTabPageActivity.findViewById(TAB_VIEW_ID) != null) {
+            int VIEW_ID = 0X12030124;
+            tabRootView.setId(VIEW_ID);
+        } else {
+            tabRootView.setId(TAB_VIEW_ID);
+        }
 	}
 
 	WISERTabView(WISERTabPageFragment wiserTabPageFragment, LayoutInflater mInflater) {

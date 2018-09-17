@@ -1,8 +1,8 @@
 package com.wiser.library.base;
 
-import com.wiser.library.tab.WISERPageView;
-import com.wiser.library.tab.WISERTabPageView;
-import com.wiser.library.tab.WISERTabView;
+import com.wiser.library.tab.bottom.WISERPageView;
+import com.wiser.library.tab.bottom.WISERTabPageView;
+import com.wiser.library.tab.bottom.WISERTabView;
 
 import android.content.Intent;
 
@@ -72,7 +72,7 @@ public abstract class WISERTabPageActivity extends WISERActivity {
 
 	/**
 	 * 设置当前页
-	 * 
+	 *
 	 * @param i
 	 *            位置
 	 */

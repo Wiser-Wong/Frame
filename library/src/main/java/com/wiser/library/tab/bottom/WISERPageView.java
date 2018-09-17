@@ -1,4 +1,4 @@
-package com.wiser.library.tab;
+package com.wiser.library.tab.bottom;
 
 import com.wiser.library.base.WISERActivity;
 import com.wiser.library.helper.WISERHelper;

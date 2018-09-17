@@ -1,10 +1,9 @@
 package com.wiser.library.base;
 
-import com.wiser.library.tab.WISERPageView;
-import com.wiser.library.tab.WISERTabPageView;
-import com.wiser.library.tab.WISERTabView;
+import com.wiser.library.tab.bottom.WISERPageView;
+import com.wiser.library.tab.bottom.WISERTabPageView;
+import com.wiser.library.tab.bottom.WISERTabView;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 /**

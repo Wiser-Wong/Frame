@@ -8,8 +8,8 @@ import android.widget.ImageView;
 import com.wiser.library.base.WISERBuilder;
 import com.wiser.library.base.WISERTabPageFragment;
 import com.wiser.library.helper.WISERHelper;
-import com.wiser.library.tab.WISERTabPageView;
-import com.wiser.library.tab.WISERTabView;
+import com.wiser.library.tab.bottom.WISERTabPageView;
+import com.wiser.library.tab.bottom.WISERTabView;
 
 import butterknife.BindView;
 

@@ -35,6 +35,7 @@ public class IndexFragment extends WISERFragment<IndexFragmentBiz> {
 
 			@Override public void run() {
 				// adapter().addList(biz().addNewData());
+				if (adapter() == null) return;
 				adapter().loadState(WISERRVAdapter.LOAD_END);
 				adapter().loadTip("我们结束了");
 			}

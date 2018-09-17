@@ -8,6 +8,8 @@ import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
 
+import com.wiser.library.util.WISERApp;
+
 /**
  * @author Wiser
  * @version 版本
@@ -37,6 +39,17 @@ public class PointView extends View {
 	public void setColor(int color) {
 		this.color = color;
 		mPaint.setColor(color);
+		postInvalidate();
+	}
+
+	/**
+	 * 设置点半径
+	 * 
+	 * @param dp
+	 * @param isDp
+	 */
+	public void setPointRadius(int dp, boolean isDp) {
+		this.radius = isDp ? WISERApp.dip2px(dp) : dp;
 		postInvalidate();
 	}
 

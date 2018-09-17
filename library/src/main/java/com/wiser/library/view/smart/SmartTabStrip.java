@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.wiser.library.view.tab;
+package com.wiser.library.view.smart;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -29,6 +29,10 @@ import android.widget.LinearLayout;
 
 import com.wiser.library.R;
 
+/**
+ * @author Wiser
+ * @version 版本
+ */
 class SmartTabStrip extends LinearLayout {
 
 	private static final int				GRAVITY_BOTTOM							= 0;

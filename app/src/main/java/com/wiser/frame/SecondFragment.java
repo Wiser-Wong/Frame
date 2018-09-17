@@ -2,7 +2,7 @@ package com.wiser.frame;
 
 import com.wiser.library.base.WISERBuilder;
 import com.wiser.library.base.WISERFragment;
-import com.wiser.library.tab.WISERTabPageView;
+import com.wiser.library.tab.bottom.WISERTabPageView;
 
 import android.os.Bundle;
 

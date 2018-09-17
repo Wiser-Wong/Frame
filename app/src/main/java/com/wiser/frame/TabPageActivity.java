@@ -3,17 +3,15 @@ package com.wiser.frame;
 import com.wiser.library.base.WISERBuilder;
 import com.wiser.library.base.WISERTabPageActivity;
 import com.wiser.library.helper.WISERHelper;
-import com.wiser.library.tab.WISERTabPageView;
-import com.wiser.library.tab.WISERTabView;
+import com.wiser.library.tab.bottom.WISERTabPageView;
+import com.wiser.library.tab.bottom.WISERTabView;
 
 import android.content.Intent;
 import android.graphics.Color;
-import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.ImageView;
 
 import butterknife.BindView;
-import butterknife.OnClick;
 
 public class TabPageActivity extends WISERTabPageActivity implements WISERTabView.OnTabClickListener, WISERTabPageView.OnTabPageChangeListener {
 
