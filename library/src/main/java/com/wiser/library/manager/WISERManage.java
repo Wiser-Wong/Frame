@@ -61,7 +61,7 @@ public class WISERManage {
 	/**
 	 * 权限管理
 	 */
-	@Inject public WISERPermissionManage	permissionManage;
+	public WISERPermissionManage			permissionManage;
 
 	private Application						application;
 

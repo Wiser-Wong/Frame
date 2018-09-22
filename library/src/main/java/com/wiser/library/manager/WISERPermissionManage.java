@@ -4,8 +4,6 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 
-import javax.inject.Inject;
-
 import android.app.Activity;
 import android.content.pm.PackageManager;
 import android.os.Build;
@@ -18,8 +16,6 @@ import android.support.v4.app.Fragment;
  *         权限管理
  */
 public class WISERPermissionManage implements IWISERPermissionManage {
-
-	@Inject WISERPermissionManage() {}
 
 	private Map<Integer, IWISERPermissionCallBack> hashMap = new ConcurrentHashMap<>();
 
