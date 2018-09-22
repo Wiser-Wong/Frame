@@ -7,10 +7,10 @@ import com.wiser.library.base.WISERBiz;
 import com.wiser.library.config.IWISERConfig;
 import com.wiser.library.manager.IWISERActivityManage;
 import com.wiser.library.manager.IWISERBizManage;
+import com.wiser.library.manager.IWISERPermissionManage;
 import com.wiser.library.manager.WISERHandlerExecutor;
 import com.wiser.library.manager.WISERLogManage;
 import com.wiser.library.manager.WISERManage;
-import com.wiser.library.manager.WISERPermissionManage;
 import com.wiser.library.manager.WISERThreadPoolManage;
 import com.wiser.library.manager.WISERToastManage;
 import com.wiser.library.util.WISERCrashHandler;
@@ -182,7 +182,7 @@ public class WISERHelper {
 	 * 
 	 * @return
 	 */
-	public static WISERPermissionManage permissionManage() {
+	public static IWISERPermissionManage permissionManage() {
 		return mWiserManage.getPermissionManage();
 	}
 
