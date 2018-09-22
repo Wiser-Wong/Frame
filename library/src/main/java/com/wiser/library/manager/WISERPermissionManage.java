@@ -17,7 +17,7 @@ import android.support.v4.app.Fragment;
  */
 public class WISERPermissionManage implements IWISERPermissionManage {
 
-	private Map<Integer, IWISERPermissionCallBack> hashMap = new ConcurrentHashMap<>();
+	protected Map<Integer, IWISERPermissionCallBack> hashMap = new ConcurrentHashMap<>();
 
 	/**
 	 * 请求权限
@@ -62,7 +62,7 @@ public class WISERPermissionManage implements IWISERPermissionManage {
 	 * @param request
 	 * @param permission
 	 */
-	private void permission(final Activity activity, final IWISERPermissionCallBack iwiserPermissionCallBack, final int request, final String permission) {
+	protected void permission(final Activity activity, final IWISERPermissionCallBack iwiserPermissionCallBack, final int request, final String permission) {
 		if (activity == null) {
 			return;
 		}
@@ -96,7 +96,7 @@ public class WISERPermissionManage implements IWISERPermissionManage {
 	 * @param request
 	 * @param permission
 	 */
-	private void permission(final Fragment fragment, final IWISERPermissionCallBack iwiserPermissionCallBack, final int request, final String permission) {
+	protected void permission(final Fragment fragment, final IWISERPermissionCallBack iwiserPermissionCallBack, final int request, final String permission) {
 		if (fragment == null) {
 			return;
 		}
