@@ -1,29 +1,34 @@
 package com.wiser.frame;
 
-import com.wiser.library.adapter.WISERRVAdapter;
-import com.wiser.library.base.WISERActivity;
-import com.wiser.library.base.WISERBuilder;
-import com.wiser.library.base.WISERDialogFragment;
-import com.wiser.library.helper.WISERHelper;
-import com.wiser.library.util.WISERDate;
-import com.wiser.library.view.FooterView;
-import com.wiser.library.view.marquee.MarqueeAdapter;
-import com.wiser.library.view.marquee.MarqueeView;
-import com.wiser.library.zxing.WISERQRCode;
-
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.wiser.library.adapter.WISERRVAdapter;
+import com.wiser.library.base.WISERActivity;
+import com.wiser.library.base.WISERBuilder;
+import com.wiser.library.base.WISERDialogFragment;
+import com.wiser.library.helper.WISERHelper;
+import com.wiser.library.manager.IWISERPermissionCallBack;
+import com.wiser.library.util.WISERDate;
+import com.wiser.library.util.WISERPermission;
+import com.wiser.library.view.FooterView;
+import com.wiser.library.view.marquee.MarqueeAdapter;
+import com.wiser.library.view.marquee.MarqueeView;
+import com.wiser.library.zxing.WISERQRCode;
+
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class IndexActivity extends WISERActivity<IndexBiz> implements WISERRVAdapter.FooterCustomListener {
+public class IndexActivity extends WISERActivity<IndexBiz> implements WISERRVAdapter.FooterCustomListener{
 
 	@BindView(R.id.tv_name) TextView				tvName;
 
@@ -71,6 +76,26 @@ public class IndexActivity extends WISERActivity<IndexBiz> implements WISERRVAda
 
 		if (adapter() != null) adapter().setFooterCustomListener(this);
 
+		WISERHelper.permissionManage().requestPermission(this, 11, Manifest.permission.CAMERA, new IWISERPermissionCallBack() {
+
+			@Override public void hadPermissionResult() {
+				WISERHelper.toast().show("请求权限成功");
+			}
+		});
+
+	}
+
+	@Override public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+		super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+		switch (requestCode) {
+			case 11:
+				if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+					WISERHelper.permissionManage().onPermission(requestCode);
+				} else {
+					WISERHelper.toast().show("错误权限");
+				}
+				break;
+		}
 	}
 
 	// 跑马灯
@@ -119,9 +144,9 @@ public class IndexActivity extends WISERActivity<IndexBiz> implements WISERRVAda
 	@OnClick({ R.id.tv_name, R.id.iv_qr, R.id.tv_d }) public void onClickView(View view) {
 		switch (view.getId()) {
 			case R.id.tv_name:
-				WISERHelper.display().intent(SmartActivity.class);
+				// WISERHelper.display().intent(SmartActivity.class);
 				// WISERHelper.display().intent(TabPageActivity.class);
-				// WISERHelper.display().intent(WebViewActivity.class);
+				WISERHelper.display().intent(WebViewActivity.class);
 				break;
 			case R.id.iv_qr:
 				WISERHelper.display().intent(ScanActivity.class);

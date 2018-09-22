@@ -2,6 +2,7 @@ package com.wiser.library.helper;
 
 import com.wiser.library.base.WISERActivity;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -353,4 +354,11 @@ public interface IWISERDisplay {
 	 *            apk路径
 	 */
 	void installApk(String path);
+
+	/**
+	 * 跳转到微信客户端
+	 * 
+	 * @param activity
+	 */
+	void intentWeChatClient(Activity activity);
 }

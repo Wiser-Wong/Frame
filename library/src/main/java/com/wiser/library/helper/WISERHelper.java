@@ -10,6 +10,7 @@ import com.wiser.library.manager.IWISERBizManage;
 import com.wiser.library.manager.WISERHandlerExecutor;
 import com.wiser.library.manager.WISERLogManage;
 import com.wiser.library.manager.WISERManage;
+import com.wiser.library.manager.WISERPermissionManage;
 import com.wiser.library.manager.WISERThreadPoolManage;
 import com.wiser.library.manager.WISERToastManage;
 import com.wiser.library.util.WISERCrashHandler;
@@ -174,6 +175,15 @@ public class WISERHelper {
 	 */
 	public static WISERThreadPoolManage threadPoolManage() {
 		return mWiserManage.getThreadPoolManage();
+	}
+
+	/**
+	 * 获取权限管理
+	 * 
+	 * @return
+	 */
+	public static WISERPermissionManage permissionManage() {
+		return mWiserManage.getPermissionManage();
 	}
 
 	/**

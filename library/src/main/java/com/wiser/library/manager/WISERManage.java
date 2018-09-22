@@ -58,6 +58,11 @@ public class WISERManage {
 	 */
 	@Inject public WISERThreadPoolManage	threadPoolManage;
 
+	/**
+	 * 权限管理
+	 */
+	@Inject public WISERPermissionManage	permissionManage;
+
 	private Application						application;
 
 	public WISERManage() {}
@@ -153,6 +158,13 @@ public class WISERManage {
 			if (threadPoolManage == null) threadPoolManage = new WISERThreadPoolManage();
 		}
 		return threadPoolManage;
+	}
+
+	public WISERPermissionManage getPermissionManage() {
+		if (permissionManage == null) synchronized (WISERPermissionManage.class) {
+			if (permissionManage == null) permissionManage = new WISERPermissionManage();
+		}
+		return permissionManage;
 	}
 
 	public Retrofit getRetrofit() {

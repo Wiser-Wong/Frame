@@ -9,6 +9,8 @@ import com.wiser.library.util.WISERCheck;
 
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
+import android.app.Activity;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -431,6 +433,21 @@ public class WISERDisplay implements IWISERDisplay {
 		intent.setDataAndType(Uri.fromFile(new File(path)), "application/vnd.android.package-archive");
 		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		activity().startActivity(intent);
+	}
+
+	/**
+	 * 跳转到微信客户端
+	 *
+	 * @param activity
+	 */
+	@Override public void intentWeChatClient(Activity activity) {
+		Intent intent = new Intent();
+		ComponentName cmp = new ComponentName("com.tencent.mm", "com.tencent.mm.ui.LauncherUI");
+		intent.setAction(Intent.ACTION_MAIN);
+		intent.addCategory(Intent.CATEGORY_LAUNCHER);
+		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		intent.setComponent(cmp);
+		activity.startActivity(intent);
 	}
 
 }

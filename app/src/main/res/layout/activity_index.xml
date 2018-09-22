@@ -37,7 +37,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         app:shadowLayoutColor="#66000000"
-                        app:shadowLayoutRadiusEdge="10dp">
+                        app:shadowLayoutEdge="10dp"
+                        app:shadowLayoutRadius="10dp">
 
                         <TextView
                             android:id="@+id/tv_name"

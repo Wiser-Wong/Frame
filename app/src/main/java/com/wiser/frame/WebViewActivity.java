@@ -1,14 +1,13 @@
 package com.wiser.frame;
 
+import android.content.Intent;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
+
 import com.wiser.library.base.WISERBuilder;
 import com.wiser.library.base.WISERWebActivity;
 import com.wiser.library.helper.WISERHelper;
 import com.wiser.library.util.WISERWebChromeClient;
-
-import android.content.Intent;
-import android.os.Bundle;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
 
 public class WebViewActivity extends WISERWebActivity {
 

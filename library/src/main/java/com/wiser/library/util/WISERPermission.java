@@ -153,7 +153,7 @@ public class WISERPermission {
 		return false;
 	}
 
-	boolean shouldShowRationalePermissions(Object o, String... permissions) {
+	private boolean shouldShowRationalePermissions(Object o, String... permissions) {
 		if (Build.VERSION.SDK_INT < 23) return false;
 		boolean rationale = false;
 		for (String permission : permissions) {

@@ -8,7 +8,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLConnection;
 import java.nio.ByteBuffer;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
@@ -33,6 +35,7 @@ import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.Build;
 import android.util.Base64;
+import android.view.View;
 
 /**
  * @author Wiser
@@ -526,6 +529,89 @@ public class WISERBitmap {
 			return Base64.encodeToString(bytes, Base64.DEFAULT);
 		} else {
 			return "";
+		}
+	}
+
+	/**
+	 * 根据网络URL转bitmap
+	 *
+	 * @param url
+	 * @return
+	 */
+	public static Bitmap getBitmapForUrl(String url) {
+		Bitmap bm = null;
+		try {
+			URL iconUrl = new URL(url);
+			URLConnection conn = iconUrl.openConnection();
+			HttpURLConnection http = (HttpURLConnection) conn;
+
+			int length = http.getContentLength();
+
+			conn.connect();
+			// 获得图像的字符流
+			InputStream is = conn.getInputStream();
+			BufferedInputStream bis = new BufferedInputStream(is, length);
+			bm = BitmapFactory.decodeStream(bis);
+			bis.close();
+			is.close();// 关闭流
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return bm;
+	}
+
+	/**
+	 * 将View转换成Bitmap
+	 *
+	 * @param addViewContent
+	 * @return
+	 */
+
+	public static Bitmap getViewBitmap(View addViewContent) {
+
+		addViewContent.setDrawingCacheEnabled(true);
+
+		addViewContent.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED), View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
+		addViewContent.layout(0, 0, addViewContent.getMeasuredWidth(), addViewContent.getMeasuredHeight());
+
+		addViewContent.buildDrawingCache();
+		Bitmap cacheBitmap = addViewContent.getDrawingCache();
+		Bitmap bitmap = Bitmap.createBitmap(cacheBitmap);
+
+		return bitmap;
+	}
+
+	/**
+	 * 图片转成string
+	 *
+	 * @param bitmap
+	 * @return
+	 */
+	public static String convertBitmapToString(Bitmap bitmap) {
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();// outputstream
+		bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+		byte[] appicon = baos.toByteArray();// 转为byte数组
+		return Base64.encodeToString(appicon, Base64.DEFAULT);
+
+	}
+
+	/**
+	 * string转成bitmap
+	 *
+	 * @param st
+	 */
+	public static Bitmap convertStringToBitmap(String st) {
+		// OutputStream out;
+		Bitmap bitmap = null;
+		try {
+			// out = new FileOutputStream("/sdcard/aa.jpg");
+			byte[] bitmapArray;
+			bitmapArray = Base64.decode(st, Base64.DEFAULT);
+			bitmap = BitmapFactory.decodeByteArray(bitmapArray, 0, bitmapArray.length);
+			// bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
+			return bitmap;
+		} catch (Exception e) {
+			return null;
 		}
 	}
 }

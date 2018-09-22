@@ -14,13 +14,11 @@ import javax.inject.Inject;
  */
 public class WISERHandlerExecutor implements Executor {
 
-    @Inject
-    WISERHandlerExecutor(){}
+	@Inject WISERHandlerExecutor() {}
 
-    private final Handler handler = new Handler(Looper.getMainLooper());
+	private final Handler handler = new Handler(Looper.getMainLooper());
 
-    @Override
-    public void execute(@NonNull Runnable runnable) {
-        handler.post(runnable);
-    }
+	@Override public void execute(@NonNull Runnable runnable) {
+		handler.post(runnable);
+	}
 }

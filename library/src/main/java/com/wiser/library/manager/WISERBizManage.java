@@ -18,8 +18,7 @@ public class WISERBizManage implements IWISERBizManage {
 
 	private final Map<Integer, Object> bizs;
 
-	@Inject
-	WISERBizManage() {
+	@Inject WISERBizManage() {
 		bizs = new ConcurrentHashMap<>();
 	}
 

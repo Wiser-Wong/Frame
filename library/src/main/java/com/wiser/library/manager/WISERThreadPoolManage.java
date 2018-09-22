@@ -8,10 +8,14 @@ import java.util.concurrent.ExecutorService;
 
 import javax.inject.Inject;
 
+/**
+ * @author Wiser
+ * 
+ *         线程池管理
+ */
 public class WISERThreadPoolManage {
 
-	@Inject
-	WISERThreadPoolManage(){}
+	@Inject WISERThreadPoolManage() {}
 
 	/**
 	 * 线程服务-网络线程池

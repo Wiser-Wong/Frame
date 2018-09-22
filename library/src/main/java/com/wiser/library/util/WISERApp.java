@@ -5,25 +5,39 @@ import java.lang.reflect.Method;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
+import java.net.URISyntaxException;
 import java.util.Enumeration;
 import java.util.Objects;
 
 import com.wiser.library.helper.WISERHelper;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
+import android.support.v4.app.ActivityCompat;
 import android.telephony.TelephonyManager;
+import android.text.TextUtils;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Display;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 /**
  * @author Wiser
@@ -317,6 +331,239 @@ public class WISERApp {
 		} else {
 			act.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		}
+	}
+
+	/**
+	 * 跳转百度地图
+	 *
+	 * @param context
+	 * @param location
+	 * @param mapTitle
+	 */
+	public static void goBaiduMap(Context context, double[] location, String mapTitle) {
+		Intent intent = null;
+		if (WISERCheck.isAvilible(context, "com.baidu.BaiduMap")) {// 传入指定应用包名
+			try {
+				// intent =
+				// Intent.getIntent("intent://map/direction?origin=latlng:34.264642646862,108.95108518068|name:我家&destination=大雁塔&mode=driving®ion=西安&src=yourCompanyName|yourAppName#Intent;scheme=bdapp;package=com.baidu.BaiduMap;end");
+				intent = Intent.getIntent("intent://map/direction?" +
+				// "origin=latlng:"+"34.264642646862,108.95108518068&" + //起点 此处不传值默认选择当前位置
+						"destination=latlng:" + location[0] + "," + location[1] + "|name:" + mapTitle + // 终点
+						"&mode=driving&" + // 导航路线方式
+						"region=北京" + //
+						"&src=慧医#Intent;scheme=bdapp;package=com.baidu.BaiduMap;end");
+				context.startActivity(intent); // 启动调用
+			} catch (URISyntaxException e) {
+				Log.e("intent", e.getMessage());
+			}
+		} else {// 未安装
+			// market为路径，id为包名
+			// 显示手机上所有的market商店
+			Toast.makeText(context, "您尚未安装百度地图", Toast.LENGTH_LONG).show();
+			Uri uri = Uri.parse("market://details?id=com.baidu.BaiduMap");
+			intent = new Intent(Intent.ACTION_VIEW, uri);
+			context.startActivity(intent);
+		}
+	}
+
+	/**
+	 * 跳转高德地图
+	 *
+	 * @param context
+	 * @param location
+	 * @param mapTitle
+	 */
+	public static void goGaoDeMap(Context context, double[] location, String mapTitle) {
+		Intent intent = null;
+		if (WISERCheck.isAvilible(context, "com.autonavi.minimap")) {
+			try {
+				intent = Intent.getIntent("androidamap://navi?sourceApplication=慧医&poiname=" + mapTitle + "&lat=" + location[0] + "&lon=" + location[1] + "&dev=0");
+				context.startActivity(intent);
+			} catch (URISyntaxException e) {
+				e.printStackTrace();
+			}
+		} else {
+			Toast.makeText(context, "您尚未安装高德地图", Toast.LENGTH_LONG).show();
+			Uri uri = Uri.parse("market://details?id=com.autonavi.minimap");
+			intent = new Intent(Intent.ACTION_VIEW, uri);
+			context.startActivity(intent);
+		}
+	}
+
+	/**
+	 * 跳转Google地图
+	 *
+	 * @param context
+	 * @param location
+	 * @param mapTitle
+	 */
+	public static void goGoogleMap(Context context, double[] location, String mapTitle) {
+		Intent intent = null;
+		if (WISERCheck.isAvilible(context, "com.google.android.apps.maps")) {
+			Uri gmmIntentUri = Uri.parse("google.navigation:q=" + location[0] + "," + location[1] + ", + Sydney +Australia");
+			Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+			mapIntent.setPackage("com.google.android.apps.maps");
+			context.startActivity(mapIntent);
+		} else {
+			Toast.makeText(context, "您尚未安装谷歌地图", Toast.LENGTH_LONG).show();
+
+			Uri uri = Uri.parse("market://details?id=com.google.android.apps.maps");
+			intent = new Intent(Intent.ACTION_VIEW, uri);
+			context.startActivity(intent);
+		}
+	}
+
+	/**
+	 * 打开网页版百度地图
+	 *
+	 * @param slat
+	 *            起点纬度
+	 * @param slon
+	 *            起点经度
+	 * @param sname
+	 *            poi名字
+	 * @param dlat
+	 *            终点纬度
+	 * @param dlon
+	 *            终点经度
+	 * @param dname
+	 *            mode=driving
+	 * @param city
+	 *            城市名
+	 */
+	public static void openBaiduWebMap(Context context, double slat, double slon, String sname, double dlat, double dlon, String dname, String city) {
+		Uri mapUri = Uri.parse(getWebBaiduMapUri(String.valueOf(slat), String.valueOf(slon), sname, String.valueOf(dlat), String.valueOf(dlon), dname, city, "游鱼"));
+		Intent loction = new Intent(Intent.ACTION_VIEW, mapUri);
+		loction.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		context.startActivity(loction);
+	}
+
+	/**
+	 * 网页版百度地图 有经纬度
+	 *
+	 * @param originLat
+	 * @param originLon
+	 * @param originName
+	 *            ->注：必填
+	 * @param desLat
+	 * @param desLon
+	 * @param destination
+	 * @param region
+	 *            : 当给定region时，认为起点和终点都在同一城市，除非单独给定起点或终点的城市。-->注：必填，不填不会显示导航路线
+	 * @param appName
+	 * @return
+	 */
+	public static String getWebBaiduMapUri(String originLat, String originLon, String originName, String desLat, String desLon, String destination, String region, String appName) {
+		String uri = "http://api.map.baidu.com/direction?origin=latlng:%1$s,%2$s|name:%3$s" + "&destination=latlng:%4$s,%5$s|name:%6$s&mode=driving&region=%7$s&output=html" + "&src=%8$s";
+		return String.format(uri, originLat, originLon, originName, desLat, desLon, destination, region, appName);
+	}
+
+	/**
+	 * 获取经纬度
+	 *
+	 * @param context
+	 * @return
+	 */
+	public static Location getLocation(Context context) {
+		LocationManager lm = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+		// 返回所有已知的位置提供者的名称列表，包括未获准访问或调用活动目前已停用的。
+		// List<String> lp = lm.getAllProviders();
+		Criteria criteria = new Criteria();
+		criteria.setCostAllowed(false);
+		// 设置位置服务免费
+		criteria.setAccuracy(Criteria.ACCURACY_COARSE); // 设置水平位置精度
+		// getBestProvider 只有允许访问调用活动的位置供应商将被返回
+		assert lm != null;
+		String providerName = lm.getBestProvider(criteria, true);
+
+		if (providerName != null) {
+			@SuppressLint("MissingPermission")
+			Location location = lm.getLastKnownLocation(providerName);
+			if (location != null) {
+				return location;
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Manifest中meta_data的字符串信息
+	 *
+	 * @param metaKey
+	 * @return
+	 */
+	public static String getMetaInfo(String metaKey, String defaultValue) {
+		PackageManager pManager = WISERHelper.getInstance().getPackageManager();
+		ApplicationInfo appInfo;
+		String msg = defaultValue;
+		try {
+			appInfo = pManager.getApplicationInfo(WISERHelper.getInstance().getPackageName(), PackageManager.GET_META_DATA);
+		} catch (PackageManager.NameNotFoundException e) {
+			return msg;
+		}
+		if (appInfo != null && appInfo.metaData != null) {
+
+			Object obj = appInfo.metaData.get(metaKey);
+			if (obj != null && !TextUtils.isEmpty(obj.toString())) {
+				msg = obj.toString();
+			}
+		}
+		return msg;
+	}
+
+	/**
+	 * 获取网络状态
+	 *
+	 * @return
+	 */
+	public static String getNetType() {
+		ConnectivityManager mConnectivityManager = (ConnectivityManager) WISERHelper.getInstance().getSystemService(Context.CONNECTIVITY_SERVICE);
+		assert mConnectivityManager != null;
+		@SuppressLint("MissingPermission")
+		NetworkInfo info = mConnectivityManager.getActiveNetworkInfo();
+		if (info == null || !info.isConnectedOrConnecting()) {
+			return "无网";
+		}
+		switch (info.getType()) {
+			case ConnectivityManager.TYPE_WIFI:
+			case ConnectivityManager.TYPE_WIMAX:
+			case ConnectivityManager.TYPE_ETHERNET:
+				return "WiFi";
+			case ConnectivityManager.TYPE_MOBILE:
+				switch (info.getSubtype()) {
+					case TelephonyManager.NETWORK_TYPE_LTE: // 4G
+					case TelephonyManager.NETWORK_TYPE_HSPAP:
+					case TelephonyManager.NETWORK_TYPE_EHRPD:
+						return "4G";
+					case TelephonyManager.NETWORK_TYPE_UMTS: // 3G
+					case TelephonyManager.NETWORK_TYPE_CDMA:
+					case TelephonyManager.NETWORK_TYPE_EVDO_0:
+					case TelephonyManager.NETWORK_TYPE_EVDO_A:
+					case TelephonyManager.NETWORK_TYPE_EVDO_B:
+						return "3G";
+					case TelephonyManager.NETWORK_TYPE_GPRS: // 2G
+					case TelephonyManager.NETWORK_TYPE_EDGE:
+						return "2G";
+				}
+				break;
+		}
+		return "无网";
+	}
+
+	/**
+	 * 获取Imei
+	 * 
+	 * @return
+	 */
+	@SuppressLint({ "MissingPermission", "HardwareIds" }) public static String getImei() {
+
+		String imei = "";
+		if (ActivityCompat.checkSelfPermission(WISERHelper.getInstance(), Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED) {
+			TelephonyManager tm = (TelephonyManager) WISERHelper.getInstance().getSystemService(Context.TELEPHONY_SERVICE);
+			assert tm != null;
+			imei = tm.getDeviceId();
+		}
+		return imei;
 	}
 
 }

@@ -1,6 +1,7 @@
 package com.wiser.library.util;
 
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -9,11 +10,13 @@ import com.wiser.library.helper.WISERHelper;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.Rect;
+import android.location.LocationManager;
 import android.os.Build;
 import android.text.TextUtils;
 
@@ -392,6 +395,103 @@ public class WISERCheck {
 	}
 
 	/**
+	 * 检查手机上是否安装了指定的软件
+	 *
+	 * @param context
+	 * @param packageName：应用包名
+	 * @return
+	 */
+	public static boolean isAvilible(Context context, String packageName) {
+		// 获取packagemanager
+		final PackageManager packageManager = context.getPackageManager();
+		// 获取所有已安装程序的包信息
+		List<PackageInfo> packageInfos = packageManager.getInstalledPackages(0);
+		// 用于存储所有已安装程序的包名
+		List<String> packageNames = new ArrayList<String>();
+		// 从pinfo中将包名字逐一取出，压入pName list中
+		if (packageInfos != null) {
+			for (int i = 0; i < packageInfos.size(); i++) {
+				String packName = packageInfos.get(i).packageName;
+				packageNames.add(packName);
+			}
+		}
+		// 判断packageNames中是否有目标程序的包名，有TRUE，没有FALSE
+		return packageNames.contains(packageName);
+	}
+
+	/**
+	 * 检查手机上是否安装了百度地图
+	 *
+	 * @param context
+	 * @return
+	 */
+	public static boolean isBaiDuMapAvilible(Context context) {
+		// 获取packagemanager
+		final PackageManager packageManager = context.getPackageManager();
+		// 获取所有已安装程序的包信息
+		List<PackageInfo> packageInfos = packageManager.getInstalledPackages(0);
+		// 用于存储所有已安装程序的包名
+		List<String> packageNames = new ArrayList<>();
+		// 从pinfo中将包名字逐一取出，压入pName list中
+		if (packageInfos != null) {
+			for (int i = 0; i < packageInfos.size(); i++) {
+				String packName = packageInfos.get(i).packageName;
+				packageNames.add(packName);
+			}
+		}
+		// 判断packageNames中是否有目标程序的包名，有TRUE，没有FALSE
+		return packageNames.contains("com.baidu.BaiduMap");
+	}
+
+	/**
+	 * 检查手机上是否安装了高德地图
+	 *
+	 * @param context
+	 * @return
+	 */
+	public static boolean isGaoDeMapAvilible(Context context) {
+		// 获取packagemanager
+		final PackageManager packageManager = context.getPackageManager();
+		// 获取所有已安装程序的包信息
+		List<PackageInfo> packageInfos = packageManager.getInstalledPackages(0);
+		// 用于存储所有已安装程序的包名
+		List<String> packageNames = new ArrayList<>();
+		// 从pinfo中将包名字逐一取出，压入pName list中
+		if (packageInfos != null) {
+			for (int i = 0; i < packageInfos.size(); i++) {
+				String packName = packageInfos.get(i).packageName;
+				packageNames.add(packName);
+			}
+		}
+		// 判断packageNames中是否有目标程序的包名，有TRUE，没有FALSE
+		return packageNames.contains("com.autonavi.minimap");
+	}
+
+	/**
+	 * 检查手机上是否安装了Google地图
+	 *
+	 * @param context
+	 * @return
+	 */
+	public static boolean isGoogleMapAvilible(Context context) {
+		// 获取packagemanager
+		final PackageManager packageManager = context.getPackageManager();
+		// 获取所有已安装程序的包信息
+		List<PackageInfo> packageInfos = packageManager.getInstalledPackages(0);
+		// 用于存储所有已安装程序的包名
+		List<String> packageNames = new ArrayList<>();
+		// 从pinfo中将包名字逐一取出，压入pName list中
+		if (packageInfos != null) {
+			for (int i = 0; i < packageInfos.size(); i++) {
+				String packName = packageInfos.get(i).packageName;
+				packageNames.add(packName);
+			}
+		}
+		// 判断packageNames中是否有目标程序的包名，有TRUE，没有FALSE
+		return packageNames.contains("com.google.android.apps.maps");
+	}
+
+	/**
 	 * 判断是否存在虚拟按键
 	 *
 	 * @return
@@ -417,5 +517,41 @@ public class WISERCheck {
 			e.printStackTrace();
 		}
 		return hasNavigationBar;
+	}
+
+	/**
+	 * 程序是否在前台运行
+	 *
+	 * @return
+	 */
+	public static boolean isAppOnForeground() {
+		ActivityManager activityManager = (ActivityManager) WISERHelper.getInstance().getSystemService(Context.ACTIVITY_SERVICE);
+		String packageName = WISERHelper.getInstance().getPackageName();
+
+		assert activityManager != null;
+		List<ActivityManager.RunningAppProcessInfo> appProcesses = activityManager.getRunningAppProcesses();
+		if (appProcesses == null) return false;
+
+		for (ActivityManager.RunningAppProcessInfo appProcess : appProcesses) {
+			if (appProcess.processName.equals(packageName) && appProcess.importance == ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * 判断GPS是否开启，GPS或者AGPS开启一个就认为是开启的
+	 * 
+	 * @return true 表示开启
+	 */
+	public static boolean isOPenGPS() {
+		LocationManager locationManager = (LocationManager) WISERHelper.getInstance().getSystemService(Context.LOCATION_SERVICE);
+		// 通过GPS卫星定位，定位级别可以精确到街（通过24颗卫星定位，在室外和空旷的地方定位准确、速度快）
+		assert locationManager != null;
+		boolean gps = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+		// 通过WLAN或移动网络(3G/2G)确定的位置（也称作AGPS，辅助GPS定位。主要用于在室内或遮盖物（建筑群或茂密的深林等）密集的地方定位）
+		boolean network = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+		return gps || network;
 	}
 }
