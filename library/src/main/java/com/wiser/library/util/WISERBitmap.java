@@ -442,7 +442,7 @@ public class WISERBitmap {
 		if (WISERString.cutSignString(uri.toString(), ":", true).equals("file")) {
 			path = WISERString.cutSignString(uri.toString(), ":", false);
 		} else {
-			path = WISERFile.getPathFromUri(context, uri);
+			path = WISERHelper.fileCacheManage().getPathFromUri(context, uri);
 		}
 		BitmapFactory.Options options = new BitmapFactory.Options();
 		options.inJustDecodeBounds = true;

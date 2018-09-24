@@ -10,15 +10,18 @@ import javax.inject.Inject;
 import com.wiser.library.base.WISERActivity;
 import com.wiser.library.config.IWISERConfig;
 import com.wiser.library.helper.WISERHelper;
+import com.wiser.library.manager.activity.IWISERActivityManage;
 import com.wiser.library.model.WISERActivityModel;
 
 /**
- * @author Wiser activity的管理类
+ * @author Wiser
+ * 
+ *         activity的管理类
  */
 @SuppressWarnings("unchecked")
 public class WISERActivityManage implements IWISERActivityManage {
 
-	@Inject WISERActivityManage() {}
+	@Inject public WISERActivityManage() {}
 
 	/**
 	 * 打开的activity

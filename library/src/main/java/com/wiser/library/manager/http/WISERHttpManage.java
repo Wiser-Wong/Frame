@@ -10,7 +10,7 @@ import javax.inject.Inject;
  */
 public class WISERHttpManage {
 
-	@Inject WISERHttpManage() {}
+	@Inject public WISERHttpManage() {}
 
 	public <H> H http(Class<H> hClass) {
 		return WISERHelper.retrofit().create(hClass);

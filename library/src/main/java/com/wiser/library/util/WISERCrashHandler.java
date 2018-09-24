@@ -88,7 +88,7 @@ public class WISERCrashHandler implements UncaughtExceptionHandler {
 	 */
 	public void init(Context paramContext, String logFileName) {
 		mContext = paramContext;
-		logFile = WISERFile.createAndroidDataFolder(paramContext, logFileName);
+		logFile = WISERHelper.fileCacheManage().createAndroidDataFolder(paramContext, logFileName);
 		// 获取系统默认的UncaughtException处理器
 		mDefaultHandler = Thread.getDefaultUncaughtExceptionHandler();
 		// 设置该CrashHandler为程序的默认处理器

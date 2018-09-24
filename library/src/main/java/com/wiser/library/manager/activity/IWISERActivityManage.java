@@ -1,4 +1,4 @@
-package com.wiser.library.manager;
+package com.wiser.library.manager.activity;
 
 import java.util.List;
 

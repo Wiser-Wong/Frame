@@ -33,6 +33,16 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
 
+                    <com.wiser.library.view.AlignTextLayoutView
+                        android:id="@+id/align_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:alignLayoutItemId="@layout/align_item"
+                        app:alignLayoutItemMargins="12dp"
+                        app:alignLayoutItemTextId="@+id/tv_align_text"
+                        app:alignLayoutLineMargins="12dp" />
+
                     <com.wiser.library.view.shadow.ShadowFrameLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

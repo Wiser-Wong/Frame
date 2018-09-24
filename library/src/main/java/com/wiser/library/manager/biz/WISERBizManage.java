@@ -1,6 +1,7 @@
 package com.wiser.library.manager;
 
 import com.wiser.library.base.WISERBiz;
+import com.wiser.library.manager.biz.IWISERBizManage;
 import com.wiser.library.model.WISERBizModel;
 
 import java.util.Map;
@@ -18,7 +19,7 @@ public class WISERBizManage implements IWISERBizManage {
 
 	private final Map<Integer, Object> bizs;
 
-	@Inject WISERBizManage() {
+	@Inject public WISERBizManage() {
 		bizs = new ConcurrentHashMap<>();
 	}
 

@@ -7,13 +7,15 @@ import com.wiser.library.config.IWISERConfig;
 import javax.inject.Inject;
 
 /**
- * @author Wiser 日志管理
+ * @author Wiser
+ * 
+ *         日志管理
  */
 public class WISERLogManage {
 
 	private String TAG = "WISER";
 
-	@Inject WISERLogManage() {}
+	@Inject public WISERLogManage() {}
 
 	public void v(String msg) {
 		if (IWISERConfig.IS_DEBUG) {

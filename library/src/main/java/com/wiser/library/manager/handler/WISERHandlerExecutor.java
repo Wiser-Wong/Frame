@@ -14,7 +14,7 @@ import javax.inject.Inject;
  */
 public class WISERHandlerExecutor implements Executor {
 
-	@Inject WISERHandlerExecutor() {}
+	@Inject public WISERHandlerExecutor() {}
 
 	private final Handler handler = new Handler(Looper.getMainLooper());
 

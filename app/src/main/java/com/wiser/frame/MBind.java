@@ -11,7 +11,7 @@ import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class AtBind implements IWISERBind {
+public class MBind implements IWISERBind {
 
 	@Override public Retrofit getRetrofit(Retrofit.Builder builder) {
 		OkHttpClient.Builder okHttpBuilder = new OkHttpClient.Builder();

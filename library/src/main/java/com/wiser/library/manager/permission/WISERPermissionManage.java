@@ -10,12 +10,19 @@ import android.os.Build;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 
+import com.wiser.library.manager.permission.IWISERPermissionCallBack;
+import com.wiser.library.manager.permission.IWISERPermissionManage;
+
+import javax.inject.Inject;
+
 /**
  * @author Wiser
  * 
  *         权限管理
  */
 public class WISERPermissionManage implements IWISERPermissionManage {
+
+	@Inject public WISERPermissionManage() {}
 
 	protected Map<Integer, IWISERPermissionCallBack> hashMap = new ConcurrentHashMap<>();
 

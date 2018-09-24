@@ -5,10 +5,13 @@ import java.io.IOException;
 import com.wiser.library.base.IWISERBind;
 import com.wiser.library.base.WISERBiz;
 import com.wiser.library.config.IWISERConfig;
-import com.wiser.library.manager.IWISERActivityManage;
-import com.wiser.library.manager.IWISERBizManage;
-import com.wiser.library.manager.IWISERPermissionManage;
+import com.wiser.library.manager.activity.IWISERActivityManage;
+import com.wiser.library.manager.biz.IWISERBizManage;
+import com.wiser.library.manager.permission.IWISERPermissionManage;
+import com.wiser.library.manager.WISERDownUploadManage;
+import com.wiser.library.manager.WISERFileCacheManage;
 import com.wiser.library.manager.WISERHandlerExecutor;
+import com.wiser.library.manager.WISERJobServiceManage;
 import com.wiser.library.manager.WISERLogManage;
 import com.wiser.library.manager.WISERManage;
 import com.wiser.library.manager.WISERThreadPoolManage;
@@ -184,6 +187,33 @@ public class WISERHelper {
 	 */
 	public static IWISERPermissionManage permissionManage() {
 		return mWiserManage.getPermissionManage();
+	}
+
+	/**
+	 * 获取文件管理
+	 * 
+	 * @return
+	 */
+	public static WISERFileCacheManage fileCacheManage() {
+		return mWiserManage.getFileCacheManage();
+	}
+
+	/**
+	 * 获取jobService服务管理
+	 * 
+	 * @return
+	 */
+	public static WISERJobServiceManage jobServiceManage() {
+		return mWiserManage.getJobServiceManage();
+	}
+
+	/**
+	 * 获取下载上传管理
+	 * 
+	 * @return
+	 */
+	public static WISERDownUploadManage downUploadManage() {
+		return mWiserManage.getDownUploadManage();
 	}
 
 	/**

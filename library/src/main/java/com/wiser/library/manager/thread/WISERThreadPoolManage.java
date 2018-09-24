@@ -1,8 +1,8 @@
 package com.wiser.library.manager;
 
-import com.wiser.library.core.WISERHttpExecutorService;
-import com.wiser.library.core.WISERSingleWorkExecutorService;
-import com.wiser.library.core.WISERWorkExecutorService;
+import com.wiser.library.manager.thread.WISERHttpExecutorService;
+import com.wiser.library.manager.thread.WISERSingleWorkExecutorService;
+import com.wiser.library.manager.thread.WISERWorkExecutorService;
 
 import java.util.concurrent.ExecutorService;
 
@@ -15,7 +15,7 @@ import javax.inject.Inject;
  */
 public class WISERThreadPoolManage {
 
-	@Inject WISERThreadPoolManage() {}
+	@Inject public WISERThreadPoolManage() {}
 
 	/**
 	 * 线程服务-网络线程池

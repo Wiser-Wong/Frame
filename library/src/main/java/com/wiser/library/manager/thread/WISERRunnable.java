@@ -1,4 +1,4 @@
-package com.wiser.library.core;
+package com.wiser.library.manager.thread;
 
 /**
  * @author Wiser

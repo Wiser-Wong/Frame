@@ -1,9 +1,14 @@
 package com.wiser.library.base;
 
+import com.wiser.library.R;
+import com.wiser.library.helper.WISERHelper;
+import com.wiser.library.util.WISERApp;
+import com.wiser.library.util.WISERWebChromeClient;
+
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Build;
-import android.os.Bundle;
+import android.support.annotation.DrawableRes;
 import android.support.v4.content.ContextCompat;
 import android.view.KeyEvent;
 import android.view.View;
@@ -14,10 +19,6 @@ import android.webkit.WebViewClient;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
-import com.wiser.library.R;
-import com.wiser.library.util.WISERApp;
-import com.wiser.library.util.WISERWebChromeClient;
-
 /**
  * @author Wiser
  * 
@@ -25,15 +26,17 @@ import com.wiser.library.util.WISERWebChromeClient;
  */
 public abstract class WISERWebActivity extends WISERActivity {
 
-	private boolean			isHandleBack	= false;	// 是否处理返回
+	private boolean				isHandleBack	= false;	// 是否处理返回
 
-	private boolean			isHaveProgress	= false;	// 是否有进度条
+	private boolean				isHaveProgress	= false;	// 是否有进度条
 
-	private WebView			webView;
+	private WebView				webView;
 
-	private LinearLayout	rootLayout;
+	private LinearLayout		rootLayout;
 
-	private ProgressBar		progressView;
+	private ProgressBar			progressView;
+
+	private @DrawableRes int	progressDrawableColorId;
 
 	protected abstract WISERBuilder buildWeb(WISERBuilder builder);
 
@@ -52,6 +55,8 @@ public abstract class WISERWebActivity extends WISERActivity {
 	}
 
 	@Override protected void initData(Intent intent) {
+		// 加载网络链接
+		webView.loadUrl(loadUrl());
 		initWebData(intent);
 	}
 
@@ -101,7 +106,11 @@ public abstract class WISERWebActivity extends WISERActivity {
 		progressView = new ProgressBar(this, null, android.R.attr.progressBarStyleHorizontal);
 		progressView.setIndeterminate(false);
 		progressView.setMax(100);
-		progressView.setProgressDrawable(ContextCompat.getDrawable(this, R.drawable.progress_line));
+		if (progressDrawableColorId != 0) {
+			progressView.setProgressDrawable(ContextCompat.getDrawable(this, progressDrawableColorId));
+		} else {
+			progressView.setProgressDrawable(ContextCompat.getDrawable(this, R.drawable.progress_line));
+		}
 		progressView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, WISERApp.dip2px(2)));
 	}
 
@@ -148,8 +157,6 @@ public abstract class WISERWebActivity extends WISERActivity {
 		webView.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
 		// 取消缩放控制条
 		webView.getSettings().setDisplayZoomControls(false);
-		// 加载网络链接
-		webView.loadUrl(loadUrl());
 
 		webView.setWebChromeClient(new WISERWebChromeClient(this));
 
@@ -167,6 +174,11 @@ public abstract class WISERWebActivity extends WISERActivity {
 				if (progressView.getVisibility() == View.INVISIBLE) progressView.setVisibility(View.VISIBLE);
 			}
 		}
+	}
+
+	public void progressDrawable(@DrawableRes int drawableColorId) {
+		this.progressDrawableColorId = drawableColorId;
+		if (progressView != null) progressView.setProgressDrawable(ContextCompat.getDrawable(this, drawableColorId));
 	}
 
 	// 判断进度条进度显示 #(当子类WebActivity需要扩展WebChromeClient的时候

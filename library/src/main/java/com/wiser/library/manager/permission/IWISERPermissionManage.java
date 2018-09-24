@@ -1,4 +1,4 @@
-package com.wiser.library.manager;
+package com.wiser.library.manager.permission;
 
 import android.app.Activity;
 import android.support.v4.app.Fragment;

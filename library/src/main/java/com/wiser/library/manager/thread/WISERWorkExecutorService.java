@@ -1,4 +1,4 @@
-package com.wiser.library.core;
+package com.wiser.library.manager.thread;
 
 import java.util.concurrent.SynchronousQueue;
 import java.util.concurrent.ThreadPoolExecutor;

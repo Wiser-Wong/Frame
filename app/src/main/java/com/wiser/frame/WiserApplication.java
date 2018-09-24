@@ -1,16 +1,21 @@
 package com.wiser.frame;
 
+import com.liulishuo.filedownloader.FileDownloader;
 import com.wiser.library.helper.WISERHelper;
-import com.wiser.library.util.WISERCrashHandler;
-import com.wiser.library.util.WISERFile;
 
-import android.annotation.SuppressLint;
 import android.app.Application;
+import android.os.Environment;
+
+import java.io.File;
 
 public class WiserApplication extends Application {
 
 	@Override public void onCreate() {
 		super.onCreate();
-		WISERHelper.newBind().setWiserBind(new AtBind()).Inject(this, BuildConfig.DEBUG);
+		WISERHelper.newBind().setWiserBind(new MBind()).Inject(this, BuildConfig.DEBUG);
+
+		WISERHelper.fileCacheManage().initConfigureStorageDirectoryFolder("frame");
+
+		WISERHelper.downUploadManage().initFileDownloader(this);
 	}
 }

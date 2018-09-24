@@ -22,7 +22,11 @@ public class WebViewActivity extends WISERWebActivity {
 		return builder;
 	}
 
-	@Override protected void initWebData(Intent intent) {}
+	@Override protected void initWebData(Intent intent) {
+//		WISERHelper.toast().show(new MShareConfig().getString("name", ""));
+		new MToast().show(new MShareConfig().getString("name", ""));
+		// WISERHelper.toast().show(new MConfig(this).name+"");
+	}
 
 	@Override protected WISERWebChromeClient setWebChromeClient() {
 		return new WISERWebChromeClient(this) {
@@ -31,10 +35,10 @@ public class WebViewActivity extends WISERWebActivity {
 				super.onProgressChanged(view, newProgress);
 				if (newProgress == 100) {
 					// showContentView();
-					WISERHelper.toast().show("已完成");
+					// WISERHelper.toast().show("已完成");
 				} else {
 					// showLoading();
-					WISERHelper.toast().show("未完成");
+					// WISERHelper.toast().show("未完成");
 				}
 			}
 

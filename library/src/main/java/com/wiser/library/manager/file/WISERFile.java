@@ -1,4 +1,4 @@
-package com.wiser.library.util;
+package com.wiser.library.manager.file;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -41,9 +41,19 @@ public class WISERFile {
 	 *
 	 * @return
 	 */
-	public static boolean isSDCardMounted() {
+	public boolean isSDCardMounted() {
 		// 判断SdCard是否存在并且是可用的
 		return Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState()) && Environment.getExternalStorageDirectory().canWrite();
+	}
+
+	/**
+	 * 检测SD卡状态判断SdCard存在并且是可用的
+	 *
+	 * @return
+	 */
+	public boolean isMounted() {
+		// 判断SdCard是否存在并且是可用的
+		return Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState()) || !Environment.isExternalStorageRemovable();
 	}
 
 	/**
@@ -51,7 +61,7 @@ public class WISERFile {
 	 *
 	 * @return
 	 */
-	public static boolean isSDCardMountedReadOnly() {
+	public boolean isSDCardMountedReadOnly() {
 		return Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED_READ_ONLY);
 	}
 
@@ -62,7 +72,7 @@ public class WISERFile {
 	 *            文件
 	 * @return
 	 */
-	public static byte[] fileToBytes(File file) {
+	public byte[] fileToBytes(File file) {
 		int byte_size = 1024;
 		byte[] b = new byte[byte_size];
 		try {
@@ -86,7 +96,7 @@ public class WISERFile {
 	 * @param filePath
 	 *            文件路径
 	 */
-	public static byte[] getBytes(String filePath) {
+	public byte[] getBytes(String filePath) {
 		byte[] buffer = null;
 		try {
 			File file = new File(filePath);
@@ -109,7 +119,7 @@ public class WISERFile {
 	/**
 	 * 根据byte数组，生成文件
 	 */
-	public static void getFileForBytes(byte[] bfile, String filePath, String fileName) {
+	public void getFileForBytes(byte[] bfile, String filePath, String fileName) {
 		BufferedOutputStream bos = null;
 		FileOutputStream fos = null;
 		File file;
@@ -148,23 +158,8 @@ public class WISERFile {
 	 * @param context
 	 * @param folderName
 	 */
-	public static File createAndroidDataFolder(Context context, String folderName) {
+	public File createAndroidDataFolder(Context context, String folderName) {
 		return context.getExternalFilesDir(folderName);
-	}
-
-	/**
-	 * SD卡创建一个文件夹
-	 *
-	 * @param path
-	 * @return
-	 */
-	public static void createFolder(String path) {
-		File localFile = new File(path);
-		if (((isSDCardMounted()) || (isSDCardMountedReadOnly()))) {
-			if (!localFile.exists()) {
-				localFile.mkdirs();
-			}
-		}
 	}
 
 	/**
@@ -173,10 +168,31 @@ public class WISERFile {
 	 * @param path
 	 * @return
 	 */
-	public static void createMemoryFolder(String path) {
+	public void createFolder(String path) {
 		File localFile = new File(path);
-		if (!localFile.exists()) {
-			localFile.mkdirs();
+		if (isMounted()) {
+			if (!localFile.exists()) {
+				localFile.mkdirs();
+			}
+		}
+	}
+
+	/**
+	 * 创建指定路径下文件
+	 * 
+	 * @param filePath
+	 * @param fileName
+	 */
+	public void createFile(String filePath, String fileName) {
+		File file = new File(filePath, fileName);
+		if (isMounted()) {
+			if (!file.exists()) {
+				try {
+					file.createNewFile();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
 		}
 	}
 
@@ -186,7 +202,7 @@ public class WISERFile {
 	 * @param file
 	 * @return
 	 */
-	public static boolean deleteFile(File file) {
+	public boolean deleteFile(File file) {
 		if (file.exists()) {
 			file.delete();
 			return true;
@@ -199,7 +215,7 @@ public class WISERFile {
 	 *
 	 * @param dirPath
 	 */
-	public static void clearFolder(String dirPath) {
+	public void clearFolder(String dirPath) {
 		File dir = new File(dirPath);// 清空文件夹
 		File[] files = dir.listFiles();
 		if (null != files && files.length > 0) {
@@ -216,7 +232,7 @@ public class WISERFile {
 	 * @param filePath
 	 * @return
 	 */
-	public static void deleteFolderAllFile(String filePath, boolean deleteThisPath) {
+	public void deleteFolderAllFile(String filePath, boolean deleteThisPath) {
 		if (!TextUtils.isEmpty(filePath)) {
 			try {
 				File file = new File(filePath);
@@ -242,11 +258,11 @@ public class WISERFile {
 	}
 
 	// 获取Assets文件夹中txt文件字符串
-	public static String getAssetsTxtFile(Activity activity) {
+	public String getAssetsFileForString(String assetsFileName, Activity activity) {
 		InputStream is; // 获得AssetManger 对象, 调用其open 方法取得 对应的inputStream对象
 		StringBuilder buffer = new StringBuilder();
 		try {
-			is = activity.getResources().getAssets().open("station_json.txt", AssetManager.ACCESS_BUFFER);
+			is = activity.getResources().getAssets().open(assetsFileName, AssetManager.ACCESS_BUFFER);
 			InputStreamReader isr = new InputStreamReader(is, "utf-8");
 			Reader in = new BufferedReader(isr);
 			int ch;
@@ -266,7 +282,7 @@ public class WISERFile {
 	 *
 	 * @param dirPath
 	 */
-	public static String getFileNamePath(String dirPath) {
+	public String getFileNamePath(String dirPath) {
 		File dir = new File(dirPath);// 清空文件夹
 		File[] files = dir.listFiles();
 		if (null != files && files.length > 0) {
@@ -280,7 +296,7 @@ public class WISERFile {
 	 *
 	 * @return
 	 */
-	public static long getAvailableStorage() {
+	public long getAvailableStorage() {
 		String storageDirectory = null;
 		storageDirectory = Environment.getExternalStorageDirectory().toString();
 		try {
@@ -298,7 +314,7 @@ public class WISERFile {
 	 *            文件路径
 	 * @return
 	 */
-	public static boolean isFileExist(String path) {
+	public boolean isFileExist(String path) {
 
 		try {
 			return new File(path).exists();
@@ -315,7 +331,7 @@ public class WISERFile {
 	 *            文件路径
 	 * @return
 	 */
-	public static boolean isFileExist(File file) {
+	public boolean isFileExist(File file) {
 
 		if (file == null) return false;
 		try {
@@ -333,7 +349,7 @@ public class WISERFile {
 	 * @param uri
 	 * @return
 	 */
-	public static String getPathFromUri(Context context, Uri uri) {
+	public String getPathFromUri(Context context, Uri uri) {
 		String res = null;
 		String[] datas = { MediaStore.Images.Media.DATA };
 		Cursor cursor = context.getContentResolver().query(uri, datas, null, null, null);
@@ -353,7 +369,7 @@ public class WISERFile {
 	 *            apk网络地址
 	 * @return
 	 */
-	public static String getApkNameFromUrl(String url) {
+	public String getApkNameFromUrl(String url) {
 		// 通过 ‘？’ 和 ‘/’ 判断文件名
 		int index = url.lastIndexOf('?');
 		String filename;
@@ -376,7 +392,7 @@ public class WISERFile {
 	 *            pdf网络地址
 	 * @return
 	 */
-	public static String getPdfNameFromUrl(String url) {
+	public String getPdfNameFromUrl(String url) {
 		// 通过 ‘？’ 和 ‘/’ 判断文件名
 		int index = url.lastIndexOf('?');
 		String filename;
@@ -399,7 +415,7 @@ public class WISERFile {
 	 * @param uri
 	 * @return
 	 */
-	public static String getRealFilePath(final Context context, final Uri uri) {
+	public String getRealFilePath(final Context context, final Uri uri) {
 		if (null == uri) return null;
 		final String scheme = uri.getScheme();
 		String data = null;
@@ -427,7 +443,7 @@ public class WISERFile {
 	 * @param folderPath
 	 * @return
 	 */
-	public static List<String> folderEntry(String folderPath) {
+	public List<String> folderEntry(String folderPath) {
 		List<String> mFileList = new ArrayList<>();
 		if (!TextUtils.isEmpty(folderPath)) {
 			try {
@@ -453,7 +469,7 @@ public class WISERFile {
 	 * @param filePath
 	 * @param fileName
 	 */
-	public static void deleteByFileName(String filePath, String fileName) {
+	public void deleteByFileName(String filePath, String fileName) {
 		File file = new File(filePath);
 		if (!TextUtils.isEmpty(filePath)) {
 			File[] files = file.listFiles();
@@ -473,7 +489,7 @@ public class WISERFile {
 	 * @param isDeleteFolder
 	 *            true删除，false 不删除
 	 */
-	public static void isDeleteEmptyFolder(String folderName, boolean isDeleteFolder) {
+	public void isDeleteEmptyFolder(String folderName, boolean isDeleteFolder) {
 
 		File file = new File(folderName);
 		if (isDeleteFolder) {
@@ -493,7 +509,7 @@ public class WISERFile {
 	 * @param fileName
 	 *            写入的文件名称
 	 */
-	public static boolean writeSdCardFile(String filePath, String fileName, String fileContent) {
+	public boolean writeSdCardFile(String filePath, String fileName, String fileContent) {
 		File file = new File(filePath, fileName);
 		if (isSDCardMounted()) {
 			try {
@@ -516,7 +532,7 @@ public class WISERFile {
 	 * @param fileName
 	 * @return
 	 */
-	public static String readSdCardFile(String fileName, String filePath) {
+	public String readSdCardFile(String fileName, String filePath) {
 		File file = new File(filePath, fileName);
 		if (isSDCardMounted()) {
 			try {
@@ -537,7 +553,7 @@ public class WISERFile {
 	/**
 	 * 取得内存文件空间大小
 	 */
-	@SuppressLint("NewApi") public static String getStorgeFileTotalSize(String path) {
+	@SuppressLint("NewApi") public String getStorgeFileTotalSize(String path) {
 		StatFs statFs = new StatFs(path); // 获得磁盘状态的对象
 		long blockSizeLong = statFs.getBlockSizeLong(); // 获得磁盘一个扇区的大小
 		long blockCountLong = statFs.getBlockCountLong(); // 获得磁盘空间总的扇区数
@@ -547,7 +563,7 @@ public class WISERFile {
 	/**
 	 * 取得内存文件可用大小
 	 */
-	@SuppressLint("NewApi") public static String getStorgeFileAvailableSize(String path) {
+	@SuppressLint("NewApi") public String getStorgeFileAvailableSize(String path) {
 		StatFs statFs = new StatFs(path); // 获得磁盘状态的对象
 		long blockSizeLong = statFs.getBlockSizeLong(); // 获得磁盘一个扇区的大小
 		long availableBlocksLong = statFs.getAvailableBlocksLong(); // 获得磁盘空间总的可用扇区数

@@ -1,5 +1,23 @@
 package com.wiser.frame;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.liulishuo.filedownloader.BaseDownloadTask;
+import com.liulishuo.filedownloader.FileDownloadListener;
+import com.wiser.library.adapter.WISERRVAdapter;
+import com.wiser.library.base.WISERActivity;
+import com.wiser.library.base.WISERBuilder;
+import com.wiser.library.base.WISERDialogFragment;
+import com.wiser.library.helper.WISERHelper;
+import com.wiser.library.manager.permission.IWISERPermissionCallBack;
+import com.wiser.library.util.WISERDate;
+import com.wiser.library.view.AlignTextLayoutView;
+import com.wiser.library.view.FooterView;
+import com.wiser.library.view.marquee.MarqueeAdapter;
+import com.wiser.library.view.marquee.MarqueeView;
+import com.wiser.library.zxing.WISERQRCode;
+
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -12,27 +30,16 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.wiser.library.adapter.WISERRVAdapter;
-import com.wiser.library.base.WISERActivity;
-import com.wiser.library.base.WISERBuilder;
-import com.wiser.library.base.WISERDialogFragment;
-import com.wiser.library.helper.WISERHelper;
-import com.wiser.library.manager.IWISERPermissionCallBack;
-import com.wiser.library.util.WISERDate;
-import com.wiser.library.util.WISERPermission;
-import com.wiser.library.view.FooterView;
-import com.wiser.library.view.marquee.MarqueeAdapter;
-import com.wiser.library.view.marquee.MarqueeView;
-import com.wiser.library.zxing.WISERQRCode;
-
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class IndexActivity extends WISERActivity<IndexBiz> implements WISERRVAdapter.FooterCustomListener{
+public class IndexActivity extends WISERActivity<IndexBiz> implements WISERRVAdapter.FooterCustomListener, AlignTextLayoutView.OnAlignItemListener {
 
 	@BindView(R.id.tv_name) TextView				tvName;
 
 	@BindView(R.id.iv_qr) ImageView					ivQR;
+
+	@BindView(R.id.align_view) AlignTextLayoutView	alignLayoutView;
 
 	@BindView(R.id.marquee) MarqueeView<IndexModel>	marqueeView;
 
@@ -82,6 +89,27 @@ public class IndexActivity extends WISERActivity<IndexBiz> implements WISERRVAda
 				WISERHelper.toast().show("请求权限成功");
 			}
 		});
+
+		List<String> list = new ArrayList<>();
+		list.add("2222");
+		list.add("22www22");
+		list.add("22ee22");
+		list.add("22dddd22");
+		list.add("222w2");
+		list.add("22eeeee22");
+
+		alignLayoutView.setData(list).setOnAlignItemListener(this);
+
+		// 存储数据
+		MConfig mConfig = new MConfig(this);
+		mConfig.name = "Wiser";
+		mConfig.commit();
+
+		// share存储
+		MShareConfig mShareConfig = new MShareConfig();
+		mShareConfig.saveString("name", "Wiser");
+
+		WISERHelper.fileCacheManage().writeFileContent("test1.log", "今天你好");
 
 	}
 
@@ -146,7 +174,39 @@ public class IndexActivity extends WISERActivity<IndexBiz> implements WISERRVAda
 			case R.id.tv_name:
 				// WISERHelper.display().intent(SmartActivity.class);
 				// WISERHelper.display().intent(TabPageActivity.class);
-				WISERHelper.display().intent(WebViewActivity.class);
+//				WISERHelper.display().intent(WebViewActivity.class);
+				WISERHelper.downUploadManage().fileDownloader().create("https://github.com/Wiser-Wong/MultidexRecord.git").setPath(WISERHelper.fileCacheManage().CACHE_PATH+"/bb.txt").setListener(new FileDownloadListener() {
+
+                    @Override
+                    protected void connected(BaseDownloadTask task, String etag, boolean isContinue, int soFarBytes, int totalBytes) {
+                        super.connected(task, etag, isContinue, soFarBytes, totalBytes);
+                        WISERHelper.toast().show("链接");
+                    }
+
+                    @Override protected void pending(BaseDownloadTask task, int soFarBytes, int totalBytes) {
+
+					}
+
+					@Override protected void progress(BaseDownloadTask task, int soFarBytes, int totalBytes) {
+						new MToast().show("soFarBytes:-->>" + soFarBytes + "totalBytes:-->>" + totalBytes);
+					}
+
+					@Override protected void completed(BaseDownloadTask task) {
+						WISERHelper.toast().show("下载完成");
+					}
+
+					@Override protected void paused(BaseDownloadTask task, int soFarBytes, int totalBytes) {
+
+					}
+
+					@Override protected void error(BaseDownloadTask task, Throwable e) {
+						WISERHelper.toast().show("下载错误");
+					}
+
+					@Override protected void warn(BaseDownloadTask task) {
+
+					}
+				}).start();
 				break;
 			case R.id.iv_qr:
 				WISERHelper.display().intent(ScanActivity.class);
@@ -174,5 +234,9 @@ public class IndexActivity extends WISERActivity<IndexBiz> implements WISERRVAda
 				tvFooter.setText("没啥数据了");
 				break;
 		}
+	}
+
+	@Override public void onItemClick(View view, int position, String text) {
+		WISERHelper.toast().show(text);
 	}
 }

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- AlignLayoutView 不规则布局 -->
+    <declare-styleable name="AlignLayout">
+        <attr name="alignLayoutItemId" format="reference" />
+        <attr name="alignLayoutItemTextId" format="reference" />
+        <attr name="alignLayoutItemMargins" format="dimension" />
+        <attr name="alignLayoutLineMargins" format="dimension" />
+    </declare-styleable>
+</resources>

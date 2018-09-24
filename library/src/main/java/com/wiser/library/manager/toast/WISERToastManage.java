@@ -14,15 +14,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 /**
- * @author Wiser Toast管理类
+ * @author Wiser
+ * 
+ *         Toast管理类
  */
 public class WISERToastManage {
 
-	private Toast		mToast		= null;
+	protected Toast mToast = null;
 
-	private TextView	toastView	= null;
-
-	@Inject WISERToastManage() {}
+	@Inject public WISERToastManage() {}
 
 	/**
 	 * 简单Toast 消息弹出
@@ -38,11 +38,11 @@ public class WISERToastManage {
 			WISERHelper.mainLooper().execute(new Runnable() {
 
 				@Override public void run() {
-					frameToast(msg, Toast.LENGTH_SHORT);
+					showToast(msg, Toast.LENGTH_SHORT);
 				}
 			});
 		} else {
-			frameToast(msg, Toast.LENGTH_SHORT);
+			showToast(msg, Toast.LENGTH_SHORT);
 		}
 	}
 
@@ -60,11 +60,11 @@ public class WISERToastManage {
 			WISERHelper.mainLooper().execute(new Runnable() {
 
 				@Override public void run() {
-					frameToast(String.valueOf(msg), Toast.LENGTH_SHORT);
+					showToast(String.valueOf(msg), Toast.LENGTH_SHORT);
 				}
 			});
 		} else {
-			frameToast(String.valueOf(msg), Toast.LENGTH_SHORT);
+			showToast(String.valueOf(msg), Toast.LENGTH_SHORT);
 		}
 	}
 
@@ -82,11 +82,11 @@ public class WISERToastManage {
 			WISERHelper.mainLooper().execute(new Runnable() {
 
 				@Override public void run() {
-					frameToast(String.valueOf(msg), Toast.LENGTH_SHORT);
+					showToast(String.valueOf(msg), Toast.LENGTH_SHORT);
 				}
 			});
 		} else {
-			frameToast(String.valueOf(msg), Toast.LENGTH_SHORT);
+			showToast(String.valueOf(msg), Toast.LENGTH_SHORT);
 		}
 	}
 
@@ -106,11 +106,11 @@ public class WISERToastManage {
 			WISERHelper.mainLooper().execute(new Runnable() {
 
 				@Override public void run() {
-					frameToast(msg, duration);
+					showToast(msg, duration);
 				}
 			});
 		} else {
-			frameToast(msg, duration);
+			showToast(msg, duration);
 		}
 	}
 
@@ -130,11 +130,11 @@ public class WISERToastManage {
 			WISERHelper.mainLooper().execute(new Runnable() {
 
 				@Override public void run() {
-					frameToast(String.valueOf(msg), duration);
+					showToast(String.valueOf(msg), duration);
 				}
 			});
 		} else {
-			frameToast(String.valueOf(msg), duration);
+			showToast(String.valueOf(msg), duration);
 		}
 	}
 
@@ -154,32 +154,6 @@ public class WISERToastManage {
 			mToast.setDuration(duration);
 		}
 
-		mToast.show();
-	}
-
-	/**
-	 * 带边框的Toast
-	 *
-	 * @param showMsg
-	 */
-	@SuppressLint("ShowToast") private void frameToast(String showMsg, int duration) {
-		clear();
-		if (mToast == null) {
-			mToast = new Toast(WISERHelper.getActivityManage().getCurrentActivity());
-		}
-		if (toastView == null) {
-			toastView = new TextView(WISERHelper.getActivityManage().getCurrentActivity());
-		}
-		toastView.setPadding(WISERApp.dip2px(40), WISERApp.dip2px(20), WISERApp.dip2px(40), WISERApp.dip2px(20));
-		toastView.setBackgroundResource(R.drawable.toast_bg);
-		toastView.setText(showMsg);
-		toastView.setTextColor(Color.WHITE);
-		toastView.setTextSize(16.0f);
-		mToast.setView(toastView);
-		mToast.setGravity(Gravity.CENTER, 0, 0);
-		mToast.setView(toastView);
-		mToast.setGravity(Gravity.CENTER, 0, 0);
-		mToast.setDuration(duration);
 		mToast.show();
 	}
 

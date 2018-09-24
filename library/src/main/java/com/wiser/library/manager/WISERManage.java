@@ -61,7 +61,22 @@ public class WISERManage {
 	/**
 	 * 权限管理
 	 */
-	public WISERPermissionManage			permissionManage;
+	@Inject public WISERPermissionManage	permissionManage;
+
+	/**
+	 * 文件管理
+	 */
+	@Inject public WISERFileCacheManage		fileCacheManage;
+
+	/**
+	 * jobService服务管理
+	 */
+	@Inject public WISERJobServiceManage	jobServiceManage;
+
+	/**
+	 * 下载上传管理
+	 */
+	@Inject public WISERDownUploadManage	downUploadManage;
 
 	private Application						application;
 
@@ -165,6 +180,27 @@ public class WISERManage {
 			if (permissionManage == null) permissionManage = new WISERPermissionManage();
 		}
 		return permissionManage;
+	}
+
+	public WISERFileCacheManage getFileCacheManage() {
+		if (fileCacheManage == null) synchronized (WISERFileCacheManage.class) {
+			if (fileCacheManage == null) fileCacheManage = new WISERFileCacheManage();
+		}
+		return fileCacheManage;
+	}
+
+	public WISERJobServiceManage getJobServiceManage() {
+		if (jobServiceManage == null) synchronized (WISERJobServiceManage.class) {
+			if (jobServiceManage == null) jobServiceManage = new WISERJobServiceManage();
+		}
+		return jobServiceManage;
+	}
+
+	public WISERDownUploadManage getDownUploadManage() {
+		if (downUploadManage == null) synchronized (WISERDownUploadManage.class) {
+			if (downUploadManage == null) downUploadManage = new WISERDownUploadManage();
+		}
+		return downUploadManage;
 	}
 
 	public Retrofit getRetrofit() {

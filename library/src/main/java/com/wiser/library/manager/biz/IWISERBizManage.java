@@ -1,4 +1,4 @@
-package com.wiser.library.manager;
+package com.wiser.library.manager.biz;
 
 import com.wiser.library.base.WISERBiz;
 import com.wiser.library.model.WISERBizModel;
