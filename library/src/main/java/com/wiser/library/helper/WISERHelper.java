@@ -93,7 +93,7 @@ public class WISERHelper {
 	/**
 	 * 捕获全局异常
 	 */
-	public void setCrashHandler(Application application, String logAndroidDataFileDir) {
+	public static void setCrashHandler(Application application, String logAndroidDataFileDir) {
 		WISERCrashHandler.getInstance().init(application, logAndroidDataFileDir);
 	}
 
