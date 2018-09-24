@@ -77,15 +77,6 @@ public class WISERHelper {
 			mWiserManage.init(iwiserBind, application);
 		}
 
-		/**
-		 * 捕获全局异常
-		 * 
-		 */
-		public Bind setCrashHandler(Application application, String logAndroidDataFileDir) {
-			WISERCrashHandler.getInstance().init(application, logAndroidDataFileDir);
-			return this;
-		}
-
 	}
 
 	/**
@@ -97,6 +88,13 @@ public class WISERHelper {
 	 */
 	protected static <M> M getManage() {
 		return (M) mWiserManage;
+	}
+
+	/**
+	 * 捕获全局异常
+	 */
+	public void setCrashHandler(Application application, String logAndroidDataFileDir) {
+		WISERCrashHandler.getInstance().init(application, logAndroidDataFileDir);
 	}
 
 	/**
