@@ -1,4 +1,4 @@
-package com.wiser.library.manager;
+package com.wiser.library.manager.activity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +10,6 @@ import javax.inject.Inject;
 import com.wiser.library.base.WISERActivity;
 import com.wiser.library.config.IWISERConfig;
 import com.wiser.library.helper.WISERHelper;
-import com.wiser.library.manager.activity.IWISERActivityManage;
 import com.wiser.library.model.WISERActivityModel;
 
 /**

@@ -1,14 +1,13 @@
-package com.wiser.library.manager;
-
-import com.wiser.library.base.WISERBiz;
-import com.wiser.library.manager.biz.IWISERBizManage;
-import com.wiser.library.model.WISERBizModel;
+package com.wiser.library.manager.biz;
 
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import javax.inject.Inject;
+
+import com.wiser.library.base.WISERBiz;
+import com.wiser.library.model.WISERBizModel;
 
 /**
  * @author Wiser

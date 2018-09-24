@@ -1,4 +1,4 @@
-package com.wiser.library.manager;
+package com.wiser.library.manager.http;
 
 import com.wiser.library.helper.WISERHelper;
 

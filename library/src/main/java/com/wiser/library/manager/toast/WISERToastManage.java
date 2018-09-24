@@ -1,16 +1,11 @@
-package com.wiser.library.manager;
+package com.wiser.library.manager.toast;
 
 import javax.inject.Inject;
 
-import com.wiser.library.R;
 import com.wiser.library.helper.WISERHelper;
-import com.wiser.library.util.WISERApp;
 
 import android.annotation.SuppressLint;
-import android.graphics.Color;
 import android.os.Looper;
-import android.view.Gravity;
-import android.widget.TextView;
 import android.widget.Toast;
 
 /**

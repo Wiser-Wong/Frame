@@ -1,11 +1,10 @@
-package com.wiser.library.manager;
-
-import android.content.Context;
-
-import com.liulishuo.filedownloader.FileDownloader;
-import com.wiser.library.manager.downloader.IWISERDownUploadManage;
+package com.wiser.library.manager.downloader;
 
 import javax.inject.Inject;
+
+import com.liulishuo.filedownloader.FileDownloader;
+
+import android.content.Context;
 
 /**
  * @author Wiser

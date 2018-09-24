@@ -1,8 +1,4 @@
-package com.wiser.library.manager;
-
-import com.wiser.library.manager.thread.WISERHttpExecutorService;
-import com.wiser.library.manager.thread.WISERSingleWorkExecutorService;
-import com.wiser.library.manager.thread.WISERWorkExecutorService;
+package com.wiser.library.manager.thread;
 
 import java.util.concurrent.ExecutorService;
 

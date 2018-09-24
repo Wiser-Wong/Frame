@@ -1,4 +1,4 @@
-package com.wiser.library.manager;
+package com.wiser.library.manager.handler;
 
 import android.os.Handler;
 import android.os.Looper;

@@ -4,6 +4,17 @@ import javax.inject.Inject;
 
 import com.wiser.library.base.IWISERBind;
 import com.wiser.library.helper.WISERDisplay;
+import com.wiser.library.manager.activity.WISERActivityManage;
+import com.wiser.library.manager.biz.WISERBizManage;
+import com.wiser.library.manager.downloader.WISERDownUploadManage;
+import com.wiser.library.manager.file.WISERFileCacheManage;
+import com.wiser.library.manager.handler.WISERHandlerExecutor;
+import com.wiser.library.manager.http.WISERHttpManage;
+import com.wiser.library.manager.job.WISERJobServiceManage;
+import com.wiser.library.manager.log.WISERLogManage;
+import com.wiser.library.manager.permission.WISERPermissionManage;
+import com.wiser.library.manager.thread.WISERThreadPoolManage;
+import com.wiser.library.manager.toast.WISERToastManage;
 
 import android.app.Application;
 

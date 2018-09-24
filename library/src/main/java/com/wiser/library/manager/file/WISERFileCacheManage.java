@@ -1,4 +1,4 @@
-package com.wiser.library.manager;
+package com.wiser.library.manager.file;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -10,19 +10,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.inject.Inject;
+
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import com.google.gson.reflect.TypeToken;
 import com.wiser.library.helper.WISERHelper;
-import com.wiser.library.manager.file.WISERFile;
 import com.wiser.library.util.WISERGson;
 
 import android.content.Context;
 import android.os.Environment;
-
-import javax.inject.Inject;
 
 /**
  * @author Wiser

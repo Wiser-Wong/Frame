@@ -1,4 +1,4 @@
-package com.wiser.library.manager;
+package com.wiser.library.manager.log;
 
 import android.util.Log;
 

@@ -2,7 +2,6 @@ package com.wiser.library.manager.toast;
 
 import com.wiser.library.R;
 import com.wiser.library.helper.WISERHelper;
-import com.wiser.library.manager.WISERToastManage;
 import com.wiser.library.util.WISERApp;
 
 import android.content.Context;

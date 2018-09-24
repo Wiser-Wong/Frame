@@ -1,21 +1,5 @@
 package com.wiser.library.manager.file;
 
-import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.content.ContentResolver;
-import android.content.Context;
-import android.content.res.AssetManager;
-import android.database.Cursor;
-import android.net.Uri;
-import android.os.Environment;
-import android.os.StatFs;
-import android.provider.MediaStore;
-import android.text.TextUtils;
-import android.text.format.Formatter;
-import android.util.Log;
-
-import com.wiser.library.helper.WISERHelper;
-
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
@@ -29,6 +13,21 @@ import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+
+import com.wiser.library.helper.WISERHelper;
+
+import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.content.ContentResolver;
+import android.content.Context;
+import android.content.res.AssetManager;
+import android.database.Cursor;
+import android.net.Uri;
+import android.os.Environment;
+import android.os.StatFs;
+import android.provider.MediaStore;
+import android.text.TextUtils;
+import android.text.format.Formatter;
 
 /**
  * @author Wiser

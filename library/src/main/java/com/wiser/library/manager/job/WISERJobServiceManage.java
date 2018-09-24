@@ -1,7 +1,8 @@
-package com.wiser.library.manager;
+package com.wiser.library.manager.job;
+
+import javax.inject.Inject;
 
 import com.wiser.library.helper.WISERHelper;
-import com.wiser.library.manager.job.IWISERJobServiceManage;
 
 import android.app.job.JobInfo;
 import android.app.job.JobScheduler;
@@ -9,8 +10,6 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
-
-import javax.inject.Inject;
 
 /**
  * @author Wiser
