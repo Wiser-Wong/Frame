@@ -124,7 +124,7 @@ public class WISERManage {
 		return toastManger;
 	}
 
-	public WISERHandlerExecutor getSynchronousExecutor() {
+	public WISERHandlerExecutor getHandlerExecutor() {
 		if (handlerExecutor == null) {
 			synchronized (WISERHandlerExecutor.class) {
 				if (handlerExecutor == null) {

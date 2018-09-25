@@ -92,9 +92,15 @@ public class WISERHelper {
 
 	/**
 	 * 捕获全局异常
+	 * 
+	 * @param application
+	 * @param logFile
+	 *            log名称或者log路径 取决于 isCustomPath
+	 * @param isCustomPath
+	 *            是否定制路径
 	 */
-	public static void setCrashHandler(Application application, String logAndroidDataFileDir) {
-		WISERCrashHandler.getInstance().init(application, logAndroidDataFileDir);
+	public static void setCrashHandler(Application application, String logFile, boolean isCustomPath) {
+		WISERCrashHandler.getInstance().init(application, logFile, isCustomPath);
 	}
 
 	/**
@@ -103,7 +109,7 @@ public class WISERHelper {
 	 * @return 返回值
 	 */
 	public static WISERHandlerExecutor mainLooper() {
-		return mWiserManage.getSynchronousExecutor();
+		return mWiserManage.getHandlerExecutor();
 	}
 
 	public static Application getInstance() {

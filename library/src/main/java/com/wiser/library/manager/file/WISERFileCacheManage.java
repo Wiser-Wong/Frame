@@ -18,6 +18,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.google.gson.reflect.TypeToken;
 import com.wiser.library.helper.WISERHelper;
+import com.wiser.library.util.WISERCheck;
 import com.wiser.library.util.WISERGson;
 
 import android.content.Context;
@@ -29,21 +30,45 @@ import android.os.Environment;
  */
 public class WISERFileCacheManage extends WISERFile {
 
-	private final String	ENCODING	= "utf8";
-
-	private final String	FILE_SUFFIX	= ".txt";
-
-	public String			CACHE_PATH;
+	private final String ENCODING = "utf8";
 
 	@Inject public WISERFileCacheManage() {}
 
 	/**
-	 * 初始化文件 创建Android/data/包名/files 文件夹
-	 * /storage/emulated/0/Android/data/com.wiser.frame/files
+	 * @param path
+	 */
+	public void initConfigureFile(String path) {
+		if (!WISERCheck.isEmpty(path)) {
+			createFolder(path);
+		}
+	}
+
+	/**
+	 * @param path
+	 */
+	public void initConfigureCache(String path) {
+		if (!WISERCheck.isEmpty(path)) {
+			createFolder(path);
+		}
+	}
+
+	/**
+	 * @param path
+	 * @param folderName
+	 */
+	public void initStorageDirectoryFolder(String path, String folderName) {
+		if (!WISERCheck.isEmpty(path)) {
+			createFolder(path + File.separator + folderName);
+		}
+	}
+
+	/**
+	 * 获取/storage/emulated/0/Android/data/com.wiser.frame/files路径
 	 * 
 	 * @param context
+	 * @return
 	 */
-	public void initConfigureFile(Context context) {
+	public String configureFileDir(Context context) {
 		// 文件初始化
 		File filesDir;
 		if (isMounted()) {
@@ -54,17 +79,18 @@ public class WISERFileCacheManage extends WISERFile {
 			filesDir = context.getFilesDir();
 		}
 		if (filesDir != null) {
-			configureCustomerCache(filesDir);
+			return filesDir.getAbsolutePath();
 		}
+		return null;
 	}
 
 	/**
-	 * 初始化文件 创建Android/data/包名/cache 文件夹
-	 * /storage/emulated/0/Android/data/com.wiser.frame/cache
+	 * 获取/storage/emulated/0/Android/data/com.wiser.frame/cache路径
 	 *
 	 * @param context
+	 * @return
 	 */
-	public void initConfigureCache(Context context) {
+	public String configureCacheDir(Context context) {
 		// 文件初始化
 		File filesDir;
 		if (isMounted()) {
@@ -75,17 +101,17 @@ public class WISERFileCacheManage extends WISERFile {
 			filesDir = context.getCacheDir();
 		}
 		if (filesDir != null) {
-			configureCustomerCache(filesDir);
+			return filesDir.getAbsolutePath();
 		}
+		return null;
 	}
 
 	/**
-	 * 初始化文件夹 创建 /storage/emulated/0文件夹 就是 我的文件/内部存储 的路径
-	 * 
-	 * @param folderName
-	 *            文件夹名称
+	 * 获取/storage/emulated/0文件夹 就是 我的文件/内部存储 的路径
+	 *
+	 * @return
 	 */
-	public void initConfigureStorageDirectoryFolder(String folderName) {
+	public String configureStorageDir() {
 		// 文件初始化
 		File filesDir = null;
 		if (isMounted()) {
@@ -93,64 +119,19 @@ public class WISERFileCacheManage extends WISERFile {
 			filesDir = Environment.getExternalStorageDirectory();
 		}
 		if (filesDir != null) {
-			configureCustomerCache(filesDir.getAbsolutePath() + "/" + folderName);
+			return filesDir.getAbsolutePath();
 		}
-	}
-
-	/**
-	 * @param file
-	 *            文件
-	 */
-	public void configureCustomerCache(File file) {
-		CACHE_PATH = file.getAbsolutePath();
-		if (!file.exists()) file.mkdirs();
+		return null;
 	}
 
 	/**
 	 * @param filePath
-	 *            文件路径
-	 */
-	public void configureCustomerCache(String filePath) {
-		CACHE_PATH = filePath;
-		File file = new File(CACHE_PATH);
-		if (!file.exists()) file.mkdirs();
-	}
-
-	/**
-	 * @param context
-	 *            参数
-	 */
-	public void configurePhoneCache(Context context) {
-		CACHE_PATH = context.getCacheDir().getAbsolutePath();
-	}
-
-	/**
-	 * @param name
-	 *            参数
-	 * @return 返回值
-	 */
-	private String pathForCacheEntry(String name) {
-		return CACHE_PATH + File.separator + name + FILE_SUFFIX;
-	}
-
-	/**
-	 * @param name
-	 *            参数
-	 * @param fileSuffix
-	 *            文件后缀
-	 * @return 返回值
-	 */
-	private String pathForCacheEntry(String name, String fileSuffix) {
-		return CACHE_PATH + File.separator + name + fileSuffix;
-	}
-
-	/**
 	 * @param nameSuffix
 	 *            参数
 	 * @return 返回值
 	 */
-	private String cachePath(String nameSuffix) {
-		return CACHE_PATH + File.separator + nameSuffix;
+	private String pathForCacheEntry(String filePath, String nameSuffix) {
+		return filePath + File.separator + nameSuffix;
 	}
 
 	/**
@@ -189,13 +170,14 @@ public class WISERFileCacheManage extends WISERFile {
 	}
 
 	/**
-	 * @param fileName
-	 *            the name of the file
+	 * @param filePath
+	 * @param nameSuffix
+	 *            the nameSuffix of the file
 	 * @return the content of the file, null if there is no such file
 	 */
-	public String readFile(String fileName) {
+	public String readFile(String filePath, String nameSuffix) {
 		try {
-			return IOUtils.toString(new FileInputStream(pathForCacheEntry(fileName)), ENCODING);
+			return IOUtils.toString(new FileInputStream(pathForCacheEntry(filePath, nameSuffix)), ENCODING);
 		} catch (IOException e) {
 			WISERHelper.log().e("read cache file failure" + e.toString());
 			return null;
@@ -203,74 +185,15 @@ public class WISERFileCacheManage extends WISERFile {
 	}
 
 	/**
+	 * @param filePath
 	 * @param fileName
 	 *            the name of the file
 	 * @param fileContent
 	 *            the content of the file
 	 */
-	public void writeFile(String fileName, String fileContent) {
+	public void writeFile(String filePath, String fileName, String fileContent) {
 		try {
-			IOUtils.write(fileContent, new FileOutputStream(pathForCacheEntry(fileName)), ENCODING);
-		} catch (IOException e) {
-			WISERHelper.log().e("write cache file failure" + e.toString());
-		}
-	}
-
-	/**
-	 * @param fileName
-	 *            the name of the file
-	 * @param fileSuffix
-	 *            this suffix of the file
-	 * @return the content of the file, null if there is no such file
-	 */
-	public String readFile(String fileName, String fileSuffix) {
-		try {
-			return IOUtils.toString(new FileInputStream(pathForCacheEntry(fileName, fileSuffix)), ENCODING);
-		} catch (IOException e) {
-			WISERHelper.log().e("read cache file failure" + e.toString());
-			return null;
-		}
-	}
-
-	/**
-	 * @param fileName
-	 *            the name of the file
-	 * @param fileSuffix
-	 *            this suffix of the file
-	 * @param fileContent
-	 *            the content of the file
-	 */
-	public void writeFile(String fileName, String fileSuffix, String fileContent) {
-		try {
-			IOUtils.write(fileContent, new FileOutputStream(pathForCacheEntry(fileName, fileSuffix)), ENCODING);
-		} catch (IOException e) {
-			WISERHelper.log().e("write cache file failure" + e.toString());
-		}
-	}
-
-	/**
-	 * @param fileNameSuffix
-	 *            the name of the file
-	 * @return the content of the file, null if there is no such file
-	 */
-	public String readFileContent(String fileNameSuffix) {
-		try {
-			return IOUtils.toString(new FileInputStream(cachePath(fileNameSuffix)), ENCODING);
-		} catch (IOException e) {
-			WISERHelper.log().e("read cache file failure" + e.toString());
-			return null;
-		}
-	}
-
-	/**
-	 * @param fileNameSuffix
-	 *            the name of the file
-	 * @param fileContent
-	 *            the content of the file
-	 */
-	public void writeFileContent(String fileNameSuffix, String fileContent) {
-		try {
-			IOUtils.write(fileContent, new FileOutputStream(cachePath(fileNameSuffix)), ENCODING);
+			IOUtils.write(fileContent, new FileOutputStream(pathForCacheEntry(filePath, fileName)), ENCODING);
 		} catch (IOException e) {
 			WISERHelper.log().e("write cache file failure" + e.toString());
 		}
@@ -279,25 +202,27 @@ public class WISERFileCacheManage extends WISERFile {
 	/**
 	 * @param <T>
 	 *            参数
+	 * @param filePath
 	 * @param fileName
 	 *            the name of the file
 	 * @param dataMaps
 	 *            the map list you want to store
 	 */
-	public <T> void writeDataMapsFile(String fileName, List<Map<String, T>> dataMaps) {
-		writeFile(fileName, dataMapsToJson(dataMaps));
+	public <T> void writeDataMapsFile(String filePath, String fileName, List<Map<String, T>> dataMaps) {
+		writeFile(filePath, fileName, dataMapsToJson(dataMaps));
 	}
 
 	/**
 	 * @param <T>
+	 * @param filePath
 	 *            参数
 	 * @param fileName
 	 *            the name of the file
 	 * @return the map list you previous stored, an empty {@link List} will be
 	 *         returned if there is no such file
 	 */
-	public <T> List<Map<String, T>> readDataMapsFile(String fileName) {
-		return dataMapsFromJson(readFile(fileName));
+	public <T> List<Map<String, T>> readDataMapsFile(String filePath, String fileName) {
+		return dataMapsFromJson(readFile(filePath, fileName));
 	}
 
 	/**
@@ -355,6 +280,7 @@ public class WISERFileCacheManage extends WISERFile {
 	}
 
 	/**
+	 * @param filePath
 	 * @param fileName
 	 *            the name of the file
 	 * @param object
@@ -362,11 +288,12 @@ public class WISERFileCacheManage extends WISERFile {
 	 * @param <T>
 	 *            a class extends from {@link Object}
 	 */
-	public <T> void writeObjectFile(String fileName, T object) {
-		writeFile(fileName, objectToJson(object));
+	public <T> void writeObjectFile(String filePath, String fileName, T object) {
+		writeFile(filePath, fileName, objectToJson(object));
 	}
 
 	/**
+	 * @param filePath
 	 * @param fileName
 	 *            the name of the file
 	 * @param type
@@ -375,11 +302,12 @@ public class WISERFileCacheManage extends WISERFile {
 	 *            参数
 	 * @return the {@link T} type object you previous stored
 	 */
-	public <T> T readObjectFile(String fileName, Type type) {
-		return objectFromJson(readFile(fileName), type);
+	public <T> T readObjectFile(String filePath, String fileName, Type type) {
+		return objectFromJson(readFile(filePath, fileName), type);
 	}
 
 	/**
+	 * @param filePath
 	 * @param fileName
 	 *            参数
 	 * @param clazz
@@ -388,8 +316,8 @@ public class WISERFileCacheManage extends WISERFile {
 	 *            参数
 	 * @return 返回值
 	 */
-	public <T> T readObjectFile(String fileName, Class<T> clazz) {
-		return objectFromJson(readFile(fileName), clazz);
+	public <T> T readObjectFile(String filePath, String fileName, Class<T> clazz) {
+		return objectFromJson(readFile(filePath, fileName), clazz);
 	}
 
 	/**
@@ -428,6 +356,7 @@ public class WISERFileCacheManage extends WISERFile {
 	}
 
 	/**
+	 * @param filePath
 	 * @param fileName
 	 *            the name of the file
 	 * @param dataMap
@@ -435,8 +364,8 @@ public class WISERFileCacheManage extends WISERFile {
 	 * @param <T>
 	 *            参数
 	 */
-	public <T> void writeDataMapFile(String fileName, Map<String, T> dataMap) {
-		writeFile(fileName, dataMaptoJson(dataMap));
+	public <T> void writeDataMapFile(String filePath, String fileName, Map<String, T> dataMap) {
+		writeFile(filePath, fileName, dataMaptoJson(dataMap));
 	}
 
 	/**
@@ -444,21 +373,22 @@ public class WISERFileCacheManage extends WISERFile {
 	 *            the name of the file
 	 * @param <T>
 	 *            参数
-	 * @return the map data you previous stored
+	 * @retur * @param filePath n the map data you previous stored
 	 */
-	public <T> Map<String, T> readDataMapFile(String fileName) {
-		return dataMapFromJson(readFile(fileName));
+	public <T> Map<String, T> readDataMapFile(String filePath, String fileName) {
+		return dataMapFromJson(readFile(filePath, fileName));
 	}
 
 	/**
 	 * delete the file with fileName
 	 *
+	 * @param filePath
 	 * @param fileName
 	 *            the name of the file
 	 */
-	public void deleteFile(String fileName) {
+	public void deleteFile(String filePath, String fileName) {
 		try {
-			FileUtils.forceDelete(new File(pathForCacheEntry(fileName)));
+			FileUtils.forceDelete(new File(pathForCacheEntry(filePath, fileName)));
 		} catch (IOException e) {
 			WISERHelper.log().e("not delete " + e.toString());
 		}
@@ -467,11 +397,12 @@ public class WISERFileCacheManage extends WISERFile {
 	/**
 	 * check if there is a cache file with fileName
 	 *
+	 * @param filePath
 	 * @param fileName
 	 *            the name of the file
 	 * @return true if the file exits, false otherwise
 	 */
-	public boolean hasCache(String fileName) {
-		return new File(pathForCacheEntry(fileName)).exists();
+	public boolean hasCache(String filePath, String fileName) {
+		return new File(pathForCacheEntry(filePath, fileName)).exists();
 	}
 }

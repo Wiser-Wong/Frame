@@ -1,5 +1,6 @@
 package com.wiser.frame;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -109,7 +110,7 @@ public class IndexActivity extends WISERActivity<IndexBiz> implements WISERRVAda
 		MShareConfig mShareConfig = new MShareConfig();
 		mShareConfig.saveString("name", "Wiser");
 
-		WISERHelper.fileCacheManage().writeFileContent("test1.log", "今天你好");
+		WISERHelper.fileCacheManage().writeFile(WISERHelper.fileCacheManage().configureFileDir(this), "log.txt", "今天你好");
 
 	}
 
@@ -174,39 +175,40 @@ public class IndexActivity extends WISERActivity<IndexBiz> implements WISERRVAda
 			case R.id.tv_name:
 				// WISERHelper.display().intent(SmartActivity.class);
 				// WISERHelper.display().intent(TabPageActivity.class);
-//				WISERHelper.display().intent(WebViewActivity.class);
-				WISERHelper.downUploadManage().fileDownloader().create("https://github.com/Wiser-Wong/MultidexRecord.git").setPath(WISERHelper.fileCacheManage().CACHE_PATH+"/bb.txt").setListener(new FileDownloadListener() {
+				// WISERHelper.display().intent(WebViewActivity.class);
+				WISERHelper.downUploadManage().fileDownloader().create("https://github.com/Wiser-Wong/MultidexRecord.git")
+						.setPath(WISERHelper.fileCacheManage().configureStorageDir() + File.separator + getResources().getString(R.string.app_name) + "/down.txt")
+						.setListener(new FileDownloadListener() {
 
-                    @Override
-                    protected void connected(BaseDownloadTask task, String etag, boolean isContinue, int soFarBytes, int totalBytes) {
-                        super.connected(task, etag, isContinue, soFarBytes, totalBytes);
-                        WISERHelper.toast().show("链接");
-                    }
+							@Override protected void connected(BaseDownloadTask task, String etag, boolean isContinue, int soFarBytes, int totalBytes) {
+								super.connected(task, etag, isContinue, soFarBytes, totalBytes);
+								WISERHelper.toast().show("链接");
+							}
 
-                    @Override protected void pending(BaseDownloadTask task, int soFarBytes, int totalBytes) {
+							@Override protected void pending(BaseDownloadTask task, int soFarBytes, int totalBytes) {
 
-					}
+						}
 
-					@Override protected void progress(BaseDownloadTask task, int soFarBytes, int totalBytes) {
-						new MToast().show("soFarBytes:-->>" + soFarBytes + "totalBytes:-->>" + totalBytes);
-					}
+							@Override protected void progress(BaseDownloadTask task, int soFarBytes, int totalBytes) {
+								new MToast().show("soFarBytes:-->>" + soFarBytes + "totalBytes:-->>" + totalBytes);
+							}
 
-					@Override protected void completed(BaseDownloadTask task) {
-						WISERHelper.toast().show("下载完成");
-					}
+							@Override protected void completed(BaseDownloadTask task) {
+								WISERHelper.toast().show("下载完成");
+							}
 
-					@Override protected void paused(BaseDownloadTask task, int soFarBytes, int totalBytes) {
+							@Override protected void paused(BaseDownloadTask task, int soFarBytes, int totalBytes) {
 
-					}
+						}
 
-					@Override protected void error(BaseDownloadTask task, Throwable e) {
-						WISERHelper.toast().show("下载错误");
-					}
+							@Override protected void error(BaseDownloadTask task, Throwable e) {
+								WISERHelper.toast().show("下载错误");
+							}
 
-					@Override protected void warn(BaseDownloadTask task) {
+							@Override protected void warn(BaseDownloadTask task) {
 
-					}
-				}).start();
+						}
+						}).start();
 				break;
 			case R.id.iv_qr:
 				WISERHelper.display().intent(ScanActivity.class);

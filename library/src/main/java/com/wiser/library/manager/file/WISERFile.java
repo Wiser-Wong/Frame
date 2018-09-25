@@ -152,13 +152,19 @@ public class WISERFile {
 	}
 
 	/**
-	 * 在路径内存存储-Android-data-包名中创建文件夹
-	 * 
+	 * 在路径内存存储-Android-data-包名-files中创建文件夹
+	 *
 	 * @param context
 	 * @param folderName
 	 */
-	public File createAndroidDataFolder(Context context, String folderName) {
-		return context.getExternalFilesDir(folderName);
+	public File createFilesDirFolder(Context context, String folderName) {
+		if (isMounted()) {
+			// We can read and write the media
+			return context.getExternalFilesDir(folderName);
+		} else {
+			// Load another directory, probably local memory
+			return new File(context.getFilesDir().getAbsolutePath() + "/" + folderName);
+		}
 	}
 
 	/**
@@ -177,8 +183,38 @@ public class WISERFile {
 	}
 
 	/**
+	 * 创建一个文件夹
+	 *
+	 * @param path
+	 * @return
+	 */
+	public File createFolderReturnFile(String path) {
+		File localFile = new File(path);
+		if (isMounted()) {
+			if (!localFile.exists()) {
+				localFile.mkdirs();
+			}
+		}
+		return localFile;
+	}
+
+	/**
+	 * 创建一个文件夹
+	 *
+	 * @param file
+	 * @return
+	 */
+	public void createFolder(File file) {
+		if (isMounted()) {
+			if (!file.exists()) {
+				file.mkdirs();
+			}
+		}
+	}
+
+	/**
 	 * 创建指定路径下文件
-	 * 
+	 *
 	 * @param filePath
 	 * @param fileName
 	 */

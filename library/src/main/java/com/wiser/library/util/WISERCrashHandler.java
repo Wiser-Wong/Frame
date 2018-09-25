@@ -28,7 +28,7 @@ import android.widget.Toast;
 
 /**
  * @author Wiser
- * 
+ *         <p>
  *         UncaughtException处理类,当程序发生Uncaught异常的时候,由该类来接管程序,并记录发送错误报告.
  */
 public class WISERCrashHandler implements UncaughtExceptionHandler {
@@ -73,7 +73,7 @@ public class WISERCrashHandler implements UncaughtExceptionHandler {
 
 	/**
 	 * getInstance:{获取WISERCrashHandler实例 ,单例模式 }
-	 * 
+	 *
 	 * @return WISERCrashHandler @throws
 	 */
 	public static WISERCrashHandler getInstance() {
@@ -82,22 +82,30 @@ public class WISERCrashHandler implements UncaughtExceptionHandler {
 
 	/**
 	 * init:{初始化}
-	 * 
+	 *
 	 * @param paramContext
+	 * @param logFile
+	 * @param isCustomPath
 	 * @return void
 	 */
-	public void init(Context paramContext, String logFileName) {
-		mContext = paramContext;
-		logFile = WISERHelper.fileCacheManage().createAndroidDataFolder(paramContext, logFileName);
-		// 获取系统默认的UncaughtException处理器
-		mDefaultHandler = Thread.getDefaultUncaughtExceptionHandler();
-		// 设置该CrashHandler为程序的默认处理器
-		Thread.setDefaultUncaughtExceptionHandler(this);
+	public void init(Context paramContext, String logFile, boolean isCustomPath) {
+		if (IWISERConfig.IS_DEBUG) {
+			mContext = paramContext;
+			if (isCustomPath) {
+				this.logFile = new File(logFile);
+			} else {
+				this.logFile = WISERHelper.fileCacheManage().createFilesDirFolder(paramContext, logFile);
+			}
+			// 获取系统默认的UncaughtException处理器
+			mDefaultHandler = Thread.getDefaultUncaughtExceptionHandler();
+			// 设置该CrashHandler为程序的默认处理器
+			Thread.setDefaultUncaughtExceptionHandler(this);
+		}
 	}
 
 	/**
 	 * 当UncaughtException发生时会转入该重写的方法来处理 (non-Javadoc)
-	 * 
+	 *
 	 * @see UncaughtExceptionHandler#uncaughtException(Thread, Throwable)
 	 */
 	public void uncaughtException(Thread paramThread, Throwable paramThrowable) {
@@ -119,7 +127,7 @@ public class WISERCrashHandler implements UncaughtExceptionHandler {
 
 	/**
 	 * 自定义错误处理,收集错误信息 发送错误报告等操作均在此完成
-	 * 
+	 *
 	 * @param paramThrowable
 	 * @return true:如果处理了该异常信息;否则返回false. @throws
 	 */
@@ -147,7 +155,7 @@ public class WISERCrashHandler implements UncaughtExceptionHandler {
 
 	/**
 	 * getDeviceInfo:获取设备参数信息
-	 * 
+	 *
 	 * @param paramContext @throws
 	 */
 	private void getDeviceInfo(Context paramContext) {
@@ -182,7 +190,7 @@ public class WISERCrashHandler implements UncaughtExceptionHandler {
 
 	/**
 	 * saveCrashLogToFile:{将崩溃的Log保存到本地} TODO 可拓展，将Log上传至指定服务器路径
-	 * 
+	 *
 	 * @param paramThrowable
 	 * @return FileName @throws
 	 */
