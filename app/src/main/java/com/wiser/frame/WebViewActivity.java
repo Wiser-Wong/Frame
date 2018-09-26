@@ -23,7 +23,7 @@ public class WebViewActivity extends WISERWebActivity {
 	}
 
 	@Override protected void initWebData(Intent intent) {
-//		WISERHelper.toast().show(new MShareConfig().getString("name", ""));
+		// WISERHelper.toast().show(new MShareConfig().getString("name", ""));
 		new MToast().show(new MShareConfig().getString("name", ""));
 		// WISERHelper.toast().show(new MConfig(this).name+"");
 	}
@@ -55,5 +55,13 @@ public class WebViewActivity extends WISERWebActivity {
 
 	@Override protected String loadUrl() {
 		return "https://www.baidu.com";
+	}
+
+	@Override protected boolean isCustomWebSetting() {
+		return false;
+	}
+
+	@Override protected WebView customWebSetting(WebView webView) {
+		return webView;
 	}
 }

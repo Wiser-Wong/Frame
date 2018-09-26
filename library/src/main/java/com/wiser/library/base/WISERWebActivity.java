@@ -13,6 +13,7 @@ import android.support.v4.content.ContextCompat;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.CookieManager;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -21,7 +22,7 @@ import android.widget.ProgressBar;
 
 /**
  * @author Wiser
- * 
+ *         <p>
  *         WebView网页
  */
 public abstract class WISERWebActivity extends WISERActivity {
@@ -48,6 +49,10 @@ public abstract class WISERWebActivity extends WISERActivity {
 
 	protected abstract String loadUrl();
 
+	protected abstract boolean isCustomWebSetting();// 是否自定义WebSetting 设置
+
+	protected abstract WebView customWebSetting(WebView webView);
+
 	@Override protected WISERBuilder build(WISERBuilder builder) {
 		WISERBuilder wiserBuilder = buildWeb(builder);
 		wiserBuilder.layoutView(createView());
@@ -62,7 +67,7 @@ public abstract class WISERWebActivity extends WISERActivity {
 
 	/**
 	 * 创建布局
-	 * 
+	 *
 	 * @return
 	 */
 	private View createView() {
@@ -118,47 +123,56 @@ public abstract class WISERWebActivity extends WISERActivity {
 	@SuppressLint({ "SetJavaScriptEnabled" }) private void createWebView() {
 		webView = new WebView(this);
 		webView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-		// 设置内核是原生的
-		webView.getSettings().setUserAgentString(webView.getSettings().getUserAgentString() + " APP_Android");
-		// 使用缓存WebSettings.LOAD_CACHE_ELSE_NETWORK（WebSettings.LOAD_NO_CACHE不是用缓存）
-		webView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
-		// 启用支持javascript
-		webView.getSettings().setJavaScriptEnabled(true);
-		// webView.addJavascriptInterface(new NativeClass(), "nativeClass");
-		// 解决加载图片不显示
-		webView.getSettings().setBlockNetworkImage(false);
-		// 设置可以支持缩放
-		webView.getSettings().setSupportZoom(true);
-		// 防止页面加载不全或者空白页
-		webView.getSettings().setDomStorageEnabled(true);
-		// 设置出现缩放工具
-		webView.getSettings().setBuiltInZoomControls(true);
-		// 扩大比例的缩放
-		webView.getSettings().setUseWideViewPort(true);
-		// 设置支持多窗口
-		webView.getSettings().setSupportMultipleWindows(true);
-		// 允许读取本地文件
-		webView.getSettings().setAllowFileAccess(true);
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-			webView.getSettings().setAllowFileAccessFromFileURLs(true);
+		if (isCustomWebSetting()) {
+			this.webView = customWebSetting(webView);
+		} else {
+			// 设置内核是原生的
+			webView.getSettings().setUserAgentString(webView.getSettings().getUserAgentString() + " APP_Android");
+			// 使用缓存WebSettings.LOAD_CACHE_ELSE_NETWORK（WebSettings.LOAD_NO_CACHE不是用缓存）
+			webView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
+			// 启用支持javascript
+			webView.getSettings().setJavaScriptEnabled(true);
+			// webView.addJavascriptInterface(new NativeClass(), "nativeClass");
+			// 解决加载图片不显示
+			webView.getSettings().setBlockNetworkImage(false);
+			// 设置可以支持缩放
+			webView.getSettings().setSupportZoom(true);
+			// 防止页面加载不全或者空白页
+			webView.getSettings().setDomStorageEnabled(true);
+			// 设置出现缩放工具
+			webView.getSettings().setBuiltInZoomControls(true);
+			// 扩大比例的缩放
+			webView.getSettings().setUseWideViewPort(true);
+			// 设置支持多窗口
+			webView.getSettings().setSupportMultipleWindows(true);
+			// 允许读取本地文件
+			webView.getSettings().setAllowFileAccess(true);
+			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+				webView.getSettings().setAllowFileAccessFromFileURLs(true);
+			}
+			// 自适应屏幕
+			webView.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
+			webView.getSettings().setLoadWithOverviewMode(true);
+			// 将图片调整到适合webview的大小
+			webView.getSettings().setUseWideViewPort(false);
+			// 支持通过JS打开新窗口
+			webView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
+			// 支持自动加载图片
+			webView.getSettings().setLoadsImagesAutomatically(true);
+			// 解决系统版本不同图片显示问题
+			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) webView.getSettings().setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
+			// 支持内容重新布局
+			webView.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
+			// 取消缩放控制条
+			webView.getSettings().setDisplayZoomControls(false);
+			// cookie
+			CookieManager cookieManager = CookieManager.getInstance();
+			if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+				cookieManager.setAcceptThirdPartyCookies(webView, true);
+			} else {
+				cookieManager.setAcceptCookie(true);
+			}
 		}
-		// 自适应屏幕
-		webView.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
-		webView.getSettings().setLoadWithOverviewMode(true);
-		// 将图片调整到适合webview的大小
-		webView.getSettings().setUseWideViewPort(false);
-		// 支持通过JS打开新窗口
-		webView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
-		// 支持自动加载图片
-		webView.getSettings().setLoadsImagesAutomatically(true);
-		// 解决系统版本不同图片显示问题
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) webView.getSettings().setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
-		// 支持内容重新布局
-		webView.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
-		// 取消缩放控制条
-		webView.getSettings().setDisplayZoomControls(false);
-
-		webView.setWebChromeClient(new WISERWebChromeClient(this));
 
 		webView.setWebChromeClient(setWebChromeClient());
 		webView.setWebViewClient(setWebViewClient());
@@ -200,7 +214,6 @@ public abstract class WISERWebActivity extends WISERActivity {
 	}
 
 	/**
-	 * 
 	 * @param isHandleBack
 	 *            是否处理返回
 	 */
@@ -209,7 +222,6 @@ public abstract class WISERWebActivity extends WISERActivity {
 	}
 
 	/**
-	 * 
 	 * @param isHaveProgress
 	 *            是否有进度条
 	 */

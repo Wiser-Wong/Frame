@@ -211,7 +211,8 @@ public class IndexActivity extends WISERActivity<IndexBiz> implements WISERRVAda
 						}).start();
 				break;
 			case R.id.iv_qr:
-				WISERHelper.display().intent(ScanActivity.class);
+				// WISERHelper.display().intent(ScanActivity.class);
+				WISERHelper.display().intent(WebViewActivity.class);
 				break;
 			case R.id.tv_d:
 				IndexDialogFragment.newInstance().setLocation(textView, WISERDialogFragment.CONTROL_FIT).show(getSupportFragmentManager(), "");
