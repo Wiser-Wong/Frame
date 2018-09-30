@@ -3,7 +3,7 @@ package com.wiser.library.helper;
 import java.io.IOException;
 
 import com.wiser.library.base.IWISERBind;
-import com.wiser.library.base.WISERBiz;
+import com.wiser.library.base.IWISERBiz;
 import com.wiser.library.config.IWISERConfig;
 import com.wiser.library.manager.WISERManage;
 import com.wiser.library.manager.activity.IWISERActivityManage;
@@ -13,6 +13,7 @@ import com.wiser.library.manager.file.WISERFileCacheManage;
 import com.wiser.library.manager.handler.WISERHandlerExecutor;
 import com.wiser.library.manager.job.WISERJobServiceManage;
 import com.wiser.library.manager.log.WISERLogManage;
+import com.wiser.library.manager.method.WISERMethodManage;
 import com.wiser.library.manager.permission.IWISERPermissionManage;
 import com.wiser.library.manager.thread.WISERThreadPoolManage;
 import com.wiser.library.manager.toast.WISERToastManage;
@@ -59,12 +60,12 @@ public class WISERHelper {
 		 * 注入架构
 		 * 
 		 * @param application
-		 * @param SWITCH
+		 * @param IS_DEBUG
 		 */
-		public void Inject(Application application, boolean SWITCH) {
+		public void Inject(Application application, boolean IS_DEBUG) {
 			if (application == null) throw new RuntimeException("WISER架构:Application没有设置");
 
-			IWISERConfig.IS_DEBUG = SWITCH;
+			IWISERConfig.IS_DEBUG = IS_DEBUG;
 			if (this.iwiserBind == null) {
 				this.iwiserBind = IWISERBind.IWISER_BIND;
 			}
@@ -98,9 +99,11 @@ public class WISERHelper {
 	 *            log名称或者log路径 取决于 isCustomPath
 	 * @param isCustomPath
 	 *            是否定制路径
+	 * @param isOpen
+	 *            是否打开
 	 */
-	public static void setCrashHandler(Application application, String logFile, boolean isCustomPath) {
-		WISERCrashHandler.getInstance().init(application, logFile, isCustomPath);
+	public static void setCrashHandler(Application application, String logFile, boolean isCustomPath, boolean isOpen) {
+		WISERCrashHandler.getInstance().init(application, logFile, isCustomPath, isOpen);
 	}
 
 	/**
@@ -151,7 +154,7 @@ public class WISERHelper {
 	 * @param <B>
 	 * @return
 	 */
-	public static <B extends WISERBiz> B biz(Class<B> clazz) {
+	public static <B extends IWISERBiz> B biz(Class<B> clazz) {
 		return getBizManage().biz(clazz);
 	}
 
@@ -162,7 +165,7 @@ public class WISERHelper {
 	 * @param <B>
 	 * @return
 	 */
-	public static <B extends WISERBiz> boolean isExistBiz(Class<B> clazz) {
+	public static <B extends IWISERBiz> boolean isExistBiz(Class<B> clazz) {
 		return getBizManage().isExist(clazz);
 	}
 
@@ -221,6 +224,15 @@ public class WISERHelper {
 	}
 
 	/**
+	 * 获取方法代理
+	 * 
+	 * @return
+	 */
+	public static WISERMethodManage methodManage() {
+		return mWiserManage.getMethodManage();
+	}
+
+	/**
 	 * @return
 	 */
 	public static IWISERDisplay display() {
@@ -244,15 +256,15 @@ public class WISERHelper {
 		if (call == null) {
 			return null;
 		}
-		Call<D> skyCall;
+		Call<D> wiserCall;
 		if (call.isExecuted()) {
-			skyCall = call.clone();
+			wiserCall = call.clone();
 		} else {
-			skyCall = call;
+			wiserCall = call;
 		}
 
 		try {
-			Response<D> response = skyCall.execute();
+			Response<D> response = wiserCall.execute();
 			if (!response.isSuccessful()) {
 				assert response.errorBody() != null;
 				String stringBuilder = "code:" + response.code() + " " + "message:" + response.message() + " " + "errorBody:" + response.errorBody().string();

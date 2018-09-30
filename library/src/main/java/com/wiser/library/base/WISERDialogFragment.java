@@ -113,7 +113,7 @@ public abstract class WISERDialogFragment<B extends IWISERBiz> extends DialogFra
 		// 创建构建类
 		mWiserBuilder = new WISERBuilder(this, inflater);
 		// 创建Biz储存对象
-		bizModel = new WISERBizModel(biz());
+		bizModel = new WISERBizModel(this);
 		// 管理Biz
 		WISERHelper.getBizManage().attach(bizModel);
 		// 填充视图
@@ -196,13 +196,8 @@ public abstract class WISERDialogFragment<B extends IWISERBiz> extends DialogFra
 	 * @return
 	 */
 	public B biz() {
-		try {
-			if (b == null) b = (B) WISERGenericSuperclass.getActualTypeArgument(this.getClass()).newInstance();
-			return b;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
+		if (bizModel != null) return (B) bizModel.biz();
+		return null;
 	}
 
 	public <D extends IWISERDisplay> D display() {

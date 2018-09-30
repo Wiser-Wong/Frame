@@ -8,7 +8,7 @@ import com.wiser.library.helper.IWISERDisplay;
 import com.wiser.library.helper.WISERHelper;
 import com.wiser.library.model.WISERActivityModel;
 import com.wiser.library.model.WISERBizModel;
-import com.wiser.library.util.WISERGenericSuperclass;
+import com.wiser.library.util.WISERCheck;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -26,8 +26,6 @@ import butterknife.ButterKnife;
  */
 @SuppressWarnings("unchecked")
 public abstract class WISERActivity<B extends IWISERBiz> extends FragmentActivity implements IWISERView, SwipeRefreshLayout.OnRefreshListener, IWISERRVScrollListener.OnLoadMoreListener {
-
-	private B					b;
 
 	private WISERBuilder		mWiserBuilder;
 
@@ -47,7 +45,7 @@ public abstract class WISERActivity<B extends IWISERBiz> extends FragmentActivit
 		// 创建构建类
 		mWiserBuilder = new WISERBuilder(this, mInflater);
 		// 创建Biz储存对象
-		bizModel = new WISERBizModel(biz());
+		bizModel = new WISERBizModel(this);
 		// Activity管理model
 		activityModel = new WISERActivityModel(this, bizModel, false);
 		// 管理Activity
@@ -115,8 +113,7 @@ public abstract class WISERActivity<B extends IWISERBiz> extends FragmentActivit
 
 	// 获取Adapter实例
 	public WISERRVAdapter adapter() {
-		// WISERCheckUtil.checkNotNull(mWiserBuilder.adapter(),
-		// "未找到注册的RecycleAdapter实例");
+		WISERCheck.checkNotNull(mWiserBuilder.adapter(), "未找到注册的RecycleAdapter实例");
 		return mWiserBuilder.adapter();
 	}
 
@@ -136,13 +133,10 @@ public abstract class WISERActivity<B extends IWISERBiz> extends FragmentActivit
 	 * @return
 	 */
 	public B biz() {
-		try {
-			if (b == null) b = (B) WISERGenericSuperclass.getActualTypeArgument(this.getClass()).newInstance();
-			return b;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
+		if (bizModel != null) {
+			return (B) bizModel.biz();
 		}
+		return null;
 	}
 
 	public <D extends IWISERDisplay> D display() {
@@ -200,7 +194,6 @@ public abstract class WISERActivity<B extends IWISERBiz> extends FragmentActivit
 	 */
 	public void detach() {
 		if (mWiserBuilder != null) mWiserBuilder.detach();
-		b = null;
 		mWiserBuilder = null;
 		bizModel = null;
 		activityModel = null;

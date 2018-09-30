@@ -22,10 +22,10 @@ import android.widget.ProgressBar;
 
 /**
  * @author Wiser
- *         <p>
+ * 
  *         WebView网页
  */
-public abstract class WISERWebActivity extends WISERActivity {
+public abstract class WISERWebActivity<T extends IWISERBiz> extends WISERActivity<T> {
 
 	private boolean				isHandleBack	= false;	// 是否处理返回
 
@@ -270,6 +270,10 @@ public abstract class WISERWebActivity extends WISERActivity {
 	}
 
 	@Override protected void onDestroy() {
+		if (webView != null) {
+			webView.destroy();
+			webView = null;
+		}
 		super.onDestroy();
 	}
 }

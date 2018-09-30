@@ -29,7 +29,7 @@ public abstract class WISERJobService<B extends WISERBiz> extends JobService {
 	@Override public void onCreate() {
 		super.onCreate();
 		// 创建Biz储存对象
-		bizModel = new WISERBizModel(biz());
+		bizModel = new WISERBizModel(this);
 		// 管理Biz
 		WISERHelper.getBizManage().attach(bizModel);
 	}
@@ -46,13 +46,8 @@ public abstract class WISERJobService<B extends WISERBiz> extends JobService {
 	 * @return
 	 */
 	public B biz() {
-		try {
-			if (b == null) b = (B) WISERGenericSuperclass.getActualTypeArgument(this.getClass()).newInstance();
-			return b;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
+		if (bizModel != null) return (B) bizModel.biz();
+		return null;
 	}
 
 	public <D extends IWISERDisplay> D display() {

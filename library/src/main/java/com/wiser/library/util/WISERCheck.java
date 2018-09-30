@@ -44,6 +44,23 @@ public class WISERCheck {
 	}
 
 	/**
+	 * 验证
+	 *
+	 * @param <T>
+	 *            参数
+	 *
+	 * @param service
+	 *            参数
+	 * @param <T>
+	 *            参数
+	 */
+	public static <T> void validateServiceImlp(Class<T> service) {
+		if (service.isInterface()) {
+			throw new IllegalArgumentException("该类不是实现类,需要接口类");
+		}
+	}
+
+	/**
 	 * 检查是否为空
 	 *
 	 * @param <T>
@@ -218,6 +235,19 @@ public class WISERCheck {
 		Pattern p = Pattern.compile(str);
 		Matcher m = p.matcher(chineseStr);
 		return m.matches();
+	}
+
+	/**
+	 * 根据Unicode编码判断中文汉字和符号
+	 *
+	 * @param c
+	 * @return
+	 */
+	private static boolean isChinese(char c) {
+		Character.UnicodeBlock ub = Character.UnicodeBlock.of(c);
+		return ub == Character.UnicodeBlock.CJK_UNIFIED_IDEOGRAPHS || ub == Character.UnicodeBlock.CJK_COMPATIBILITY_IDEOGRAPHS || ub == Character.UnicodeBlock.CJK_UNIFIED_IDEOGRAPHS_EXTENSION_A
+				|| ub == Character.UnicodeBlock.CJK_UNIFIED_IDEOGRAPHS_EXTENSION_B || ub == Character.UnicodeBlock.CJK_SYMBOLS_AND_PUNCTUATION
+				|| ub == Character.UnicodeBlock.HALFWIDTH_AND_FULLWIDTH_FORMS || ub == Character.UnicodeBlock.GENERAL_PUNCTUATION;
 	}
 
 	/**

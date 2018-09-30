@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 评分星星 -->
+    <declare-styleable name="StarBarView">
+        <attr name="starImageSize" format="dimension" />
+        <attr name="starDistances" format="dimension" />
+        <attr name="starCounts" format="integer" />
+        <attr name="starEmpty" format="reference" />
+        <attr name="starFill" format="reference" />
+        <attr name="starTouch" format="boolean" />
+        <attr name="starIntegerMark" format="boolean" />
+    </declare-styleable>
+</resources>

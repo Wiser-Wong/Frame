@@ -12,6 +12,7 @@ import com.wiser.library.manager.handler.WISERHandlerExecutor;
 import com.wiser.library.manager.http.WISERHttpManage;
 import com.wiser.library.manager.job.WISERJobServiceManage;
 import com.wiser.library.manager.log.WISERLogManage;
+import com.wiser.library.manager.method.WISERMethodManage;
 import com.wiser.library.manager.permission.WISERPermissionManage;
 import com.wiser.library.manager.thread.WISERThreadPoolManage;
 import com.wiser.library.manager.toast.WISERToastManage;
@@ -88,6 +89,11 @@ public class WISERManage {
 	 * 下载上传管理
 	 */
 	@Inject public WISERDownUploadManage	downUploadManage;
+
+	/**
+	 * 方法代理
+	 */
+	@Inject public WISERMethodManage		methodManage;
 
 	private Application						application;
 
@@ -212,6 +218,13 @@ public class WISERManage {
 			if (downUploadManage == null) downUploadManage = new WISERDownUploadManage();
 		}
 		return downUploadManage;
+	}
+
+	public WISERMethodManage getMethodManage() {
+		if (methodManage == null) synchronized (WISERMethodManage.class) {
+			if (methodManage == null) methodManage = new WISERMethodManage();
+		}
+		return methodManage;
 	}
 
 	public Retrofit getRetrofit() {

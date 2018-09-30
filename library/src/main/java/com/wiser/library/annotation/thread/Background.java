@@ -1,4 +1,4 @@
-package com.wiser.library.annotation;
+package com.wiser.library.annotation.thread;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -10,8 +10,8 @@ import java.lang.annotation.Target;
  * @version 版本
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.FIELD)
-public @interface Property {
+@Target(ElementType.METHOD)
+public @interface Background {
 
-	String value() default "";
+	BackgroundType value() default BackgroundType.HTTP;
 }

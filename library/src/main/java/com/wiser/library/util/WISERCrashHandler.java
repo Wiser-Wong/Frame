@@ -67,6 +67,11 @@ public class WISERCrashHandler implements UncaughtExceptionHandler {
 	private File														logFile;
 
 	/**
+	 * 是否打开日志
+	 */
+	private boolean														isOpen				= false;
+
+	/**
 	 * Creates a new instance of WISERCrashHandler.
 	 */
 	private WISERCrashHandler() {}
@@ -88,8 +93,9 @@ public class WISERCrashHandler implements UncaughtExceptionHandler {
 	 * @param isCustomPath
 	 * @return void
 	 */
-	public void init(Context paramContext, String logFile, boolean isCustomPath) {
-		if (IWISERConfig.IS_DEBUG) {
+	public void init(Context paramContext, String logFile, boolean isCustomPath, boolean isOpen) {
+		this.isOpen = isOpen;
+		if (isOpen) {
 			mContext = paramContext;
 			if (isCustomPath) {
 				this.logFile = new File(logFile);
@@ -144,7 +150,7 @@ public class WISERCrashHandler implements UncaughtExceptionHandler {
 				Looper.loop();
 			}
 		}.start();
-		if (IWISERConfig.IS_DEBUG) {
+		if (isOpen) {
 			// 获取设备参数信息
 			getDeviceInfo(mContext);
 			// 保存日志文件

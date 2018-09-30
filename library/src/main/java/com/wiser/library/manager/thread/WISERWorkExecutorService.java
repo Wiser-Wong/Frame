@@ -5,7 +5,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 /**
- * @author sky
+ * @author Wiser
  * @version 版本
  */
 public class WISERWorkExecutorService extends ThreadPoolExecutor {

@@ -14,6 +14,6 @@ public class WiserApplication extends Application {
 
 		WISERHelper.downUploadManage().initFileDownloader(this);
 
-		WISERHelper.setCrashHandler(this, "log", false);
+		WISERHelper.setCrashHandler(this, "log", false, false);
 	}
 }

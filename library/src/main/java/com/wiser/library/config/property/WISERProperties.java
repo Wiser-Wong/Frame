@@ -16,7 +16,7 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.support.annotation.NonNull;
 
-import com.wiser.library.annotation.Property;
+import com.wiser.library.annotation.property.Property;
 import com.wiser.library.helper.WISERHelper;
 import com.wiser.library.util.WISERCheck;
 

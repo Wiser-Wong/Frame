@@ -1,23 +1,76 @@
 package com.wiser.library.model;
 
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Proxy;
+
+import com.wiser.library.base.IWISERBiz;
+import com.wiser.library.proxy.WISERProxy;
+import com.wiser.library.util.WISERClass;
+import com.wiser.library.util.WISERGenericSuperclass;
+
 /**
  * @author Wiser
  * @version 版本
  */
-public class WISERBizModel {
+@SuppressWarnings("unchecked")
+public class WISERBizModel<B extends IWISERBiz> {
 
-	private Object	bizClass;
+	private Object	bizObj;		// 代理对象
 
-	private int		key;
+	private int		key;		// model key
 
-	public WISERBizModel(Object bizClass) {
-		if (bizClass == null) return;
-		key = bizClass.hashCode();
-		this.bizClass = bizClass;
+	private Object	o;			// 绑定类this
+
+	private Class	service;	// 泛型类
+
+	private B		b;			// 代理对象泛型
+
+	private Object	impl;		// 实现类
+
+	public WISERBizModel(Object o) {
+		this.o = o;
+		if (o != null) {
+			this.service = WISERClass.getClassGenricType(o.getClass(), 0);
+			if (this.service != null) {
+				if (this.service.isInterface()) this.impl = WISERClass.getImplClass(service);
+				else this.impl = service;
+			}
+		}
+		this.bizObj = biz();
+		key = this.hashCode();
 	}
 
-	public Object getBizClass() {
-		return bizClass;
+	/**
+	 * 泛型对象
+	 * 
+	 * @return
+	 */
+	public B biz() {
+		if (b == null) {
+			try {
+				if (service != null) {
+					if (service.isInterface()) {
+						InvocationHandler handler = new WISERProxy(impl);
+						b = (B) Proxy.newProxyInstance(handler.getClass().getClassLoader(), new Class[] { service }, handler);
+					} else {
+						b = (B) WISERGenericSuperclass.getActualTypeArgument(o.getClass()).newInstance();
+					}
+				} else {
+					b = (B) WISERGenericSuperclass.getActualTypeArgument(o.getClass()).newInstance();
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return b;
+	}
+
+	public Object getBizObj() {
+		return bizObj;
+	}
+
+	public Class getService() {
+		return service;
 	}
 
 	public int getKey() {
@@ -25,6 +78,10 @@ public class WISERBizModel {
 	}
 
 	public void clearAll() {
-		bizClass = null;
+		bizObj = null;
+		service = null;
+		key = 0;
+		b = null;
+		o = null;
 	}
 }

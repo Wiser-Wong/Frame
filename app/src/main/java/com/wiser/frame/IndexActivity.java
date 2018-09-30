@@ -239,6 +239,10 @@ public class IndexActivity extends WISERActivity<IndexBiz> implements WISERRVAda
 		}
 	}
 
+	public void showT(String s) {
+		WISERHelper.toast().show(s);
+	}
+
 	@Override public void onItemClick(View view, int position, String text) {
 		WISERHelper.toast().show(text);
 	}

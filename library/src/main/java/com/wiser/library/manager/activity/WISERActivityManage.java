@@ -11,6 +11,7 @@ import com.wiser.library.base.WISERActivity;
 import com.wiser.library.config.IWISERConfig;
 import com.wiser.library.helper.WISERHelper;
 import com.wiser.library.model.WISERActivityModel;
+import com.wiser.library.model.WISERBizModel;
 
 /**
  * @author Wiser
@@ -188,15 +189,15 @@ public class WISERActivityManage implements IWISERActivityManage {
 	 */
 	@Override public void logActivityList() {
 		if (IWISERConfig.IS_DEBUG) {
-			Map<Integer, Object> bizList = WISERHelper.getBizManage().bizList();
+			Map<Integer, WISERBizModel> bizList = WISERHelper.getBizManage().bizList();
 			if (bizList == null) {
 				return;
 			}
-			Set<Map.Entry<Integer, Object>> entries = bizList.entrySet();
+			Set<Map.Entry<Integer, WISERBizModel>> entries = bizList.entrySet();
 			StringBuilder activityListString = new StringBuilder();
 			StringBuilder bizListString = new StringBuilder();
-			for (Map.Entry<Integer, Object> entry : entries) {
-				bizListString.append(entry.getValue()).append("--->>");
+			for (Map.Entry<Integer, WISERBizModel> entry : entries) {
+				bizListString.append(entry.getValue().getService()).append("--->>");
 			}
 			for (int i = 0; i < activities.size(); i++) {
 				if (i == activities.size() - 1) {

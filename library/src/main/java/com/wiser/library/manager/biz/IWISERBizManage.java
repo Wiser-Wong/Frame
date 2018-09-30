@@ -1,9 +1,9 @@
 package com.wiser.library.manager.biz;
 
-import com.wiser.library.base.WISERBiz;
-import com.wiser.library.model.WISERBizModel;
-
 import java.util.Map;
+
+import com.wiser.library.base.IWISERBiz;
+import com.wiser.library.model.WISERBizModel;
 
 /**
  * @author Wiser
@@ -35,7 +35,7 @@ public interface IWISERBizManage {
 	 *            参数
 	 * @return 返回值
 	 */
-	<B extends WISERBiz> boolean isExist(Class<B> bizClazz);
+	<B extends IWISERBiz> boolean isExist(Class<B> bizClazz);
 
 	/**
 	 * @param bizClazz
@@ -44,13 +44,13 @@ public interface IWISERBizManage {
 	 *            参数
 	 * @return 返回值
 	 */
-	<B extends WISERBiz> B biz(Class<B> bizClazz);
+	<B extends IWISERBiz> B biz(Class<B> bizClazz);
 
 	/**
 	 * 获取biz列表
 	 * 
 	 * @return
 	 */
-	Map<Integer, Object> bizList();
+	Map<Integer, WISERBizModel> bizList();
 
 }

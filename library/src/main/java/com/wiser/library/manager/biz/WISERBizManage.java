@@ -6,7 +6,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import javax.inject.Inject;
 
-import com.wiser.library.base.WISERBiz;
+import com.wiser.library.base.IWISERBiz;
 import com.wiser.library.model.WISERBizModel;
 
 /**
@@ -16,7 +16,7 @@ import com.wiser.library.model.WISERBizModel;
 @SuppressWarnings("unchecked")
 public class WISERBizManage implements IWISERBizManage {
 
-	private final Map<Integer, Object> bizs;
+	private final Map<Integer, WISERBizModel> bizs;
 
 	@Inject public WISERBizManage() {
 		bizs = new ConcurrentHashMap<>();
@@ -25,16 +25,14 @@ public class WISERBizManage implements IWISERBizManage {
 	@Override public void attach(WISERBizModel model) {
 		synchronized (bizs) {
 			if (model == null) return;
-			if (model.getBizClass() == null) return;
 
-			bizs.put(model.getKey(), model.getBizClass());
+			bizs.put(model.getKey(), model);
 		}
 	}
 
 	@Override public void detach(WISERBizModel model) {
 		synchronized (bizs) {
 			if (model == null) return;
-			if (model.getBizClass() == null) return;
 			bizs.remove(model.getKey());
 			model.clearAll();
 		}
@@ -44,33 +42,33 @@ public class WISERBizManage implements IWISERBizManage {
 		bizs.clear();
 	}
 
-	@Override public <B extends WISERBiz> boolean isExist(Class<B> bizClazz) {
+	@Override public <B extends IWISERBiz> boolean isExist(Class<B> bizClazz) {
 		if (bizClazz == null) return false;
 		if (bizs.size() == 0) return false;
-		Set<Map.Entry<Integer, Object>> entries = bizs.entrySet();
-		for (Map.Entry<Integer, Object> entry : entries) {
-			Object classB = entry.getValue();
-			if (classB != null) {
-				if (bizClazz.equals(classB.getClass())) return true;
+		Set<Map.Entry<Integer, WISERBizModel>> entries = bizs.entrySet();
+		for (Map.Entry<Integer, WISERBizModel> entry : entries) {
+			WISERBizModel model = entry.getValue();
+			if (model != null) {
+				if (bizClazz.equals(model.getService())) return true;
 			}
 		}
 		return false;
 	}
 
-	@Override public <B extends WISERBiz> B biz(Class<B> bizClazz) {
+	@Override public <B extends IWISERBiz> B biz(Class<B> bizClazz) {
 		if (bizClazz == null) return null;
 		if (bizs.size() == 0) return null;
-		Set<Map.Entry<Integer, Object>> entries = bizs.entrySet();
-		for (Map.Entry<Integer, Object> entry : entries) {
-			Object classB = entry.getValue();
-			if (classB != null) {
-				if (bizClazz.equals(classB.getClass())) return (B) classB;
+		Set<Map.Entry<Integer, WISERBizModel>> entries = bizs.entrySet();
+		for (Map.Entry<Integer, WISERBizModel> entry : entries) {
+			WISERBizModel model = entry.getValue();
+			if (model != null) {
+				if (bizClazz.equals(model.getService())) return (B) model.getBizObj();
 			}
 		}
 		return null;
 	}
 
-	@Override public Map<Integer, Object> bizList() {
+	@Override public Map<Integer, WISERBizModel> bizList() {
 		return bizs;
 	}
 }
