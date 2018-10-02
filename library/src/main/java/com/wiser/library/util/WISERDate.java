@@ -39,9 +39,8 @@ public class WISERDate {
 
 	/**
 	 * 获取系统时间
-	 * 
-	 * @param type
 	 *
+	 * @param type
 	 * @return
 	 */
 	public static String getCurrentDateStr(int type, boolean isShort) {
@@ -98,6 +97,27 @@ public class WISERDate {
 		ParsePosition pos = new ParsePosition(8);
 		sdf.setTimeZone(timezone);
 		return sdf.parse(dateString, pos);
+	}
+
+	/**
+	 * 获取时间格式转化
+	 *
+	 * @param dateStr
+	 * @param pattern1
+	 *            需要转化的模型
+	 * @param pattern2
+	 *            转化之后的模型
+	 * @return pattern2
+	 */
+	public static String getDateCovert(String dateStr, String pattern1, String pattern2) {
+		Date date;
+		try {
+			date = new SimpleDateFormat(pattern1).parse(dateStr);
+			return new SimpleDateFormat(pattern2).format(date);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return "";
 	}
 
 	/**
@@ -184,12 +204,11 @@ public class WISERDate {
 
 	/**
 	 * 获取两个日期之间的间隔天数
-	 * 
+	 *
 	 * @param startDate
 	 *            yyyy-mm-dd
 	 * @param endDate
 	 *            yyyy-mm-dd
-	 *
 	 * @return
 	 */
 	public static int daysBetweenForDate(String startDate, String endDate, int type, boolean isShort) {

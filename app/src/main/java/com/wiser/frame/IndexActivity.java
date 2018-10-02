@@ -112,6 +112,8 @@ public class IndexActivity extends WISERActivity<IndexBiz> implements WISERRVAda
 
 		WISERHelper.fileCacheManage().writeFile(WISERHelper.fileCacheManage().configureFileDir(this), "log.txt", "今天你好");
 
+		WISERHelper.toast().show(WISERDate.getDateCovert("2011-4-1", "yyyy-m-d", "yyyy-mm-dd"));
+
 	}
 
 	@Override public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
