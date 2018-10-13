@@ -3,7 +3,6 @@ package com.wiser.frame.slidingmenu;
 import com.wiser.frame.R;
 import com.wiser.library.base.WISERBuilder;
 import com.wiser.library.base.WISERSlidingMenuActivity;
-import com.wiser.library.helper.WISERHelper;
 import com.wiser.library.view.slidingmenu.SlidingMenu;
 
 import android.content.Intent;
