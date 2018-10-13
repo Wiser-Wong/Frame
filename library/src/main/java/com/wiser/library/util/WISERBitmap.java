@@ -614,4 +614,12 @@ public class WISERBitmap {
 			return null;
 		}
 	}
+
+	public static void postOnAnimation(View view, Runnable runnable) {
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+			view.postOnAnimation(runnable);
+		} else {
+			view.postDelayed(runnable, 1000 / 60);
+		}
+	}
 }

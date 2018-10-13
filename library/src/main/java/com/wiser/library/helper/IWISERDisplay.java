@@ -194,6 +194,13 @@ public interface IWISERDisplay {
 	 *            参数
 	 */
 	void commitAdd(int layoutId, Fragment fragment);
+	/**
+	 * @param layoutId
+	 *            参数
+	 * @param fragment
+	 *            参数
+	 */
+	void commitAdd(int layoutId, Fragment fragment,String tag);
 
 	/**
 	 * @param layoutId
@@ -202,6 +209,14 @@ public interface IWISERDisplay {
 	 *            参数
 	 */
 	void commitReplace(int layoutId, Fragment fragment);
+
+	/**
+	 * @param layoutId
+	 *            参数
+	 * @param fragment
+	 *            参数
+	 */
+	void commitReplace(int layoutId, Fragment fragment, String tag);
 
 	/**
 	 * @param srcFragment
@@ -311,13 +326,16 @@ public interface IWISERDisplay {
 
 	/**
 	 * 调用系统照相机拍照
-	 *
-	 * @param uri
-	 *            照片路径Uri
+	 * 
+	 * @param outPath
+	 *            输出路径String
+	 * @param authority
+	 *            7.0以上需要
 	 * @param requestCode
 	 *            请求码
+	 * @return 返回文件绝对路径 file.getAbsolutePath();
 	 */
-	void intentCamera(Uri uri, int requestCode);
+	String intentCamera(String outPath, String authority, int requestCode);
 
 	/**
 	 * 跳转相册

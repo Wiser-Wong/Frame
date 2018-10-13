@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 滚动放大图片-->
+    <declare-styleable name="ZoomScrollView">
+        <attr name="zoomId" format="reference|integer" />
+        <attr name="maxZoom" format="dimension" />
+        <attr name="dragSize" format="float" />
+    </declare-styleable>
+</resources>

@@ -80,6 +80,15 @@ public abstract class WISERActivity<B extends IWISERBiz> extends FragmentActivit
 
 	}
 
+	public WISERBuilder builder() {
+		return mWiserBuilder;
+	}
+
+	public int getLayoutId() {
+		if (mWiserBuilder != null) return mWiserBuilder.getLayoutId();
+		return 0;
+	}
+
 	// 显示空布局
 	@Override public void showEmptyView() {
 		if (mWiserBuilder != null) mWiserBuilder.showEmptyView();

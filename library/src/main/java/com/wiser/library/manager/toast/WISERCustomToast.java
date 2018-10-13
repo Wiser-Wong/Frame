@@ -21,8 +21,6 @@ import android.widget.Toast;
  */
 public abstract class WISERCustomToast extends WISERToastManage {
 
-	private View		v;
-
 	private TextView	toastView	= null;
 
 	protected abstract @LayoutRes int toastLayoutId();
@@ -150,14 +148,11 @@ public abstract class WISERCustomToast extends WISERToastManage {
 	 */
 	private void customTextToast(String showMsg, int duration) {
 		clear();
-		if (mToast == null) {
-			mToast = new Toast(WISERHelper.getActivityManage().getCurrentActivity());
-		}
+		mToast = new Toast(WISERHelper.getActivityManage().getCurrentActivity());
 		if (toastView == null) {
 			toastView = new TextView(WISERHelper.getActivityManage().getCurrentActivity());
 		}
 		toastView.setPadding(WISERApp.dip2px(40), WISERApp.dip2px(20), WISERApp.dip2px(40), WISERApp.dip2px(20));
-
 		if (toastDrawableBackgroundId() != 0) {
 			try {
 				toastView.setBackgroundResource(toastDrawableBackgroundId());
@@ -186,20 +181,14 @@ public abstract class WISERCustomToast extends WISERToastManage {
 	 */
 	private void customLayoutToast(String showMsg, int duration) {
 		clear();
-		if (mToast == null) {
-			mToast = new Toast(WISERHelper.getInstance());
-			LayoutInflater inflate = (LayoutInflater) WISERHelper.getInstance().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			assert inflate != null;
-			v = inflate.inflate(toastLayoutId(), null);
-			mToast.setView(v);
-			initView(v, showMsg);
-			mToast.setDuration(duration);
-			mToast.setGravity(gravity(), 0, 0);
-		} else {
-			initView(v, showMsg);
-			mToast.setDuration(duration);
-			mToast.setGravity(gravity(), 0, 0);
-		}
+		mToast = new Toast(WISERHelper.getInstance());
+		LayoutInflater inflate = (LayoutInflater) WISERHelper.getInstance().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		assert inflate != null;
+		View v = inflate.inflate(toastLayoutId(), null);
+		mToast.setView(v);
+		initView(v, showMsg);
+		mToast.setDuration(duration);
+		mToast.setGravity(gravity(), 0, 0);
 		mToast.show();
 	}
 

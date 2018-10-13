@@ -181,7 +181,7 @@ public class WISERBuilder {
 		this.layoutId = layoutId;
 	}
 
-	private int getLayoutId() {
+	protected int getLayoutId() {
 		return layoutId;
 	}
 

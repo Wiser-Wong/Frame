@@ -25,7 +25,7 @@ public class WISERBizManage implements IWISERBizManage {
 	@Override public void attach(WISERBizModel model) {
 		synchronized (bizs) {
 			if (model == null) return;
-
+			if (model.biz() == null) return;
 			bizs.put(model.getKey(), model);
 		}
 	}

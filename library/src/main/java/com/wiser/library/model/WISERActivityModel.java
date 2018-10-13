@@ -11,7 +11,7 @@ public class WISERActivityModel {
 
 	private WISERActivity	activity;
 
-	private boolean			isLanding	= false;
+	private boolean			isLanding;
 
 	private boolean			isRunning	= true;
 

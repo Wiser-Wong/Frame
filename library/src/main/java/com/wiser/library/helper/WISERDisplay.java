@@ -6,6 +6,7 @@ import javax.inject.Inject;
 
 import com.wiser.library.base.WISERActivity;
 import com.wiser.library.util.WISERCheck;
+import com.wiser.library.util.WISERDate;
 
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
@@ -16,10 +17,12 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.provider.Settings;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.FileProvider;
 
 /**
  * @author Wiser
@@ -177,9 +180,23 @@ public class WISERDisplay implements IWISERDisplay {
 		}
 	}
 
+	@Override
+	public void commitAdd(int layoutId, Fragment fragment, String tag) {
+		if (layoutId > 0 && fragment != null) {
+			activity().getSupportFragmentManager().beginTransaction().add(layoutId, fragment,tag).commit();
+		}
+	}
+
 	@Override public void commitReplace(int layoutId, Fragment fragment) {
 		if (layoutId > 0 && fragment != null) {
 			activity().getSupportFragmentManager().beginTransaction().replace(layoutId, fragment).commit();
+		}
+	}
+
+	@Override
+	public void commitReplace(int layoutId, Fragment fragment, String tag) {
+		if (layoutId > 0 && fragment != null) {
+			activity().getSupportFragmentManager().beginTransaction().replace(layoutId, fragment,tag).commit();
 		}
 	}
 
@@ -351,15 +368,31 @@ public class WISERDisplay implements IWISERDisplay {
 	/**
 	 * 调用系统照相机拍照
 	 *
-	 * @param uri
-	 *            照片路径Uri
+	 * @param outPath
+	 *            输出路径String
+	 * @param authority
+	 *            7.0以上需要
 	 * @param requestCode
 	 *            请求码
+	 * @return 返回文件绝对路径 file.getAbsolutePath();
 	 */
-	@Override public void intentCamera(Uri uri, int requestCode) {
-		Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-		intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
-		activity().startActivityForResult(intent, requestCode);
+	@Override public String intentCamera(String outPath, String authority, int requestCode) {
+		if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
+			Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+			File outDir = new File(outPath);
+			if (!outDir.exists()) {
+				outDir.mkdirs();
+			}
+			File outFile = new File(outDir, System.currentTimeMillis() + ".jpg");
+			if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(outFile));
+			else {
+				intent.putExtra(MediaStore.EXTRA_OUTPUT, FileProvider.getUriForFile(activity(), authority, outFile));
+			}
+			intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1);
+			activity().startActivityForResult(intent, requestCode);
+			return outFile.getAbsolutePath();
+		}
+		return "";
 	}
 
 	/**

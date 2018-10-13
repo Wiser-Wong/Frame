@@ -33,7 +33,7 @@ dependencies {
     api 'com.readystatesoftware.systembartint:systembartint:1.0.4'
     //布局
     //noinspection GradleCompatible
-    api 'com.android.support:design:28.0.0-rc02'
+    api 'com.android.support:design:28.0.0'
     //滑动Activity删除
     api 'com.jude:swipebackhelper:3.1.2'
     //Gson
@@ -67,4 +67,6 @@ dependencies {
     api 'org.apache.commons.io:commonsIO:2.5.0'
     //下载器 fileDownloader
     api 'com.liulishuo.filedownloader:library:1.7.5'
+    //photoView
+    api 'com.github.chrisbanes:PhotoView:2.0.0'
 }

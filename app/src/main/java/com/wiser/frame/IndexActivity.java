@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.liulishuo.filedownloader.BaseDownloadTask;
 import com.liulishuo.filedownloader.FileDownloadListener;
+import com.wiser.frame.slidingmenu.SlidingMenuActivity;
 import com.wiser.library.adapter.WISERRVAdapter;
 import com.wiser.library.base.WISERActivity;
 import com.wiser.library.base.WISERBuilder;
@@ -214,7 +215,9 @@ public class IndexActivity extends WISERActivity<IndexBiz> implements WISERRVAda
 				break;
 			case R.id.iv_qr:
 				// WISERHelper.display().intent(ScanActivity.class);
-				WISERHelper.display().intent(WebViewActivity.class);
+//				WISERHelper.display().intent(WebViewActivity.class);
+//				WISERHelper.display().intent(ZoomScrollViewActivity.class);
+				WISERHelper.display().intent(SlidingMenuActivity.class);
 				break;
 			case R.id.tv_d:
 				IndexDialogFragment.newInstance().setLocation(textView, WISERDialogFragment.CONTROL_FIT).show(getSupportFragmentManager(), "");
@@ -246,6 +249,7 @@ public class IndexActivity extends WISERActivity<IndexBiz> implements WISERRVAda
 	}
 
 	@Override public void onItemClick(View view, int position, String text) {
-		WISERHelper.toast().show(text);
+//		WISERHelper.toast().show(text);
+		new MToast().show(text);
 	}
 }

@@ -142,13 +142,8 @@ public class WISERToastManage {
 	 *            参数
 	 */
 	@SuppressLint("showToast") private void showToast(String text, int duration) {
-		if (mToast == null) {
-			mToast = Toast.makeText(WISERHelper.getInstance(), text, duration);
-		} else {
-			mToast.setText(text);
-			mToast.setDuration(duration);
-		}
-
+		clear();
+		mToast = Toast.makeText(WISERHelper.getActivityManage().getCurrentActivity(), text, duration);
 		mToast.show();
 	}
 

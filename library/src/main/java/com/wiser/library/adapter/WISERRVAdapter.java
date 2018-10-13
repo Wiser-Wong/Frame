@@ -102,6 +102,7 @@ public abstract class WISERRVAdapter<T, V extends WISERHolder> extends RecyclerV
 	}
 
 	public Object getItem(int position) {
+		if (mItems == null) return null;
 		return mItems.get(position);
 	}
 
