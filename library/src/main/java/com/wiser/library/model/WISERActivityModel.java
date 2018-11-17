@@ -65,6 +65,7 @@ public class WISERActivityModel {
 	public void finish() {
 		activity.finish();
 		WISERHelper.log().e(this.activityName + " 销毁.");
+		activity = null;
 	}
 
 	public void destroyLog() {

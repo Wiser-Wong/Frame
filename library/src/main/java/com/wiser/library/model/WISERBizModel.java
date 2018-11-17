@@ -4,6 +4,7 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Proxy;
 
 import com.wiser.library.base.IWISERBiz;
+import com.wiser.library.base.WISERBiz;
 import com.wiser.library.proxy.WISERProxy;
 import com.wiser.library.util.WISERClass;
 import com.wiser.library.util.WISERGenericSuperclass;
@@ -78,10 +79,17 @@ public class WISERBizModel<B extends IWISERBiz> {
 	}
 
 	public void clearAll() {
-		bizObj = null;
-		service = null;
 		key = 0;
 		b = null;
 		o = null;
+		if (impl != null) {
+			if (impl instanceof WISERBiz) ((WISERBiz) impl).detach();
+		}
+		if (bizObj != null) {
+			if (bizObj instanceof WISERBiz) ((WISERBiz) bizObj).detach();
+		}
+		impl = null;
+		bizObj = null;
+		service = null;
 	}
 }

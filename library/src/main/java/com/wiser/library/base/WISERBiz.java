@@ -10,9 +10,9 @@ import java.util.Vector;
 import retrofit2.Call;
 
 /**
+ * @param <U>
  * @author Wiser
  * @version 版本
- * @param <U>
  */
 @SuppressWarnings("unchecked")
 public class WISERBiz<U> implements IWISERBiz {
@@ -38,6 +38,15 @@ public class WISERBiz<U> implements IWISERBiz {
 
 	}
 
+	/**
+	 * View 层是否存在
+	 * 
+	 * @return
+	 */
+	protected boolean isUi() {
+		return u != null;
+	}
+
 	protected <H> H http(Class<H> hClass) {
 		return WISERHelper.http(hClass);
 	}
@@ -58,14 +67,22 @@ public class WISERBiz<U> implements IWISERBiz {
 	 * 网络取消
 	 */
 	protected void httpCancel() {
-		int count = callVector.size();
-		if (count < 1) {
-			return;
+		if (callVector != null) {
+			int count = callVector.size();
+			if (count < 1) {
+				return;
+			}
+			for (int i = 0; i < count; i++) {
+				Call call = callVector.get(i);
+				WISERHelper.httpCancel(call);
+			}
+			callVector.removeAllElements();
+			callVector = null;
 		}
-		for (int i = 0; i < count; i++) {
-			Call call = callVector.get(i);
-			WISERHelper.httpCancel(call);
-		}
-		callVector.removeAllElements();
+	}
+
+	public void detach() {
+		u = null;
+		httpCancel();
 	}
 }

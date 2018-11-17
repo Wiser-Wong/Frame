@@ -4,7 +4,10 @@
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="android:windowIsTranslucent">true</item>
-
+    </style>
+    <style name="NoTranslucentStatus" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:background">@null</item>
+        <item name="android:windowIsTranslucent">false</item>
     </style>
 
     <style name="BottomDialog" parent="Theme.AppCompat.Light.DialogWhenLarge">

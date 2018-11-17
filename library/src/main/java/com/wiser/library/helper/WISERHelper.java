@@ -266,7 +266,6 @@ public class WISERHelper {
 		try {
 			Response<D> response = wiserCall.execute();
 			if (!response.isSuccessful()) {
-				assert response.errorBody() != null;
 				String stringBuilder = "code:" + response.code() + " " + "message:" + response.message() + " " + "errorBody:" + response.errorBody().string();
 				throw new RuntimeException(stringBuilder);
 			}

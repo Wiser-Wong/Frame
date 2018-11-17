@@ -1,12 +1,19 @@
 package com.wiser.frame;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
+import android.Manifest;
+import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.os.Handler;
+import android.support.annotation.NonNull;
+import android.support.v7.widget.LinearLayoutManager;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.liulishuo.filedownloader.BaseDownloadTask;
 import com.liulishuo.filedownloader.FileDownloadListener;
-import com.wiser.frame.slidingmenu.SlidingMenuActivity;
 import com.wiser.library.adapter.WISERRVAdapter;
 import com.wiser.library.base.WISERActivity;
 import com.wiser.library.base.WISERBuilder;
@@ -20,17 +27,9 @@ import com.wiser.library.view.marquee.MarqueeAdapter;
 import com.wiser.library.view.marquee.MarqueeView;
 import com.wiser.library.zxing.WISERQRCode;
 
-import android.Manifest;
-import android.annotation.SuppressLint;
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.graphics.Color;
-import android.os.Handler;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.LinearLayoutManager;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -214,10 +213,10 @@ public class IndexActivity extends WISERActivity<IndexBiz> implements WISERRVAda
 						}).start();
 				break;
 			case R.id.iv_qr:
-				// WISERHelper.display().intent(ScanActivity.class);
-//				WISERHelper.display().intent(WebViewActivity.class);
+//				 WISERHelper.display().intent(ScanActivity.class);
+				WISERHelper.display().intent(WebViewActivity.class);
 //				WISERHelper.display().intent(ZoomScrollViewActivity.class);
-				WISERHelper.display().intent(SlidingMenuActivity.class);
+//				WISERHelper.display().intent(SlidingMenuActivity.class);
 				break;
 			case R.id.tv_d:
 				IndexDialogFragment.newInstance().setLocation(textView, WISERDialogFragment.CONTROL_FIT).show(getSupportFragmentManager(), "");

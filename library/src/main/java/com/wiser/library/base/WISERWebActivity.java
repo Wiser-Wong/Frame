@@ -13,6 +13,7 @@ import android.support.v4.content.ContextCompat;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewParent;
 import android.webkit.CookieManager;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -255,7 +256,7 @@ public abstract class WISERWebActivity<T extends IWISERBiz> extends WISERActivit
 		super.onPause();
 		if (isFinishing()) {
 			if (webView != null) {
-				webView.destroy();
+				destroyWebView();
 				webView = null;
 			}
 			rootLayout = null;
@@ -269,11 +270,31 @@ public abstract class WISERWebActivity<T extends IWISERBiz> extends WISERActivit
 		super.onResume();
 	}
 
-	@Override protected void onDestroy() {
-		if (webView != null) {
-			webView.destroy();
-			webView = null;
+	/**
+	 * 销毁WebView
+	 */
+	private void destroyWebView() {
+		// webview引起的内存泄漏主要是因为org.chromium.android_webview.AwContents 类中注册了component
+		// callbacks，但是未正常反注册而导致的。
+		// org.chromium.android_webview.AwContents 类中有这两个方法 onAttachedToWindow 和
+		// onDetachedFromWindow；系统会在attach和detach处进行注册和反注册component callback；
+		// 在onDetachedFromWindow() 方法的第一行中：
+		// if (isDestroyed()) return;
+		// 如果 isDestroyed() 返回 true
+		// 的话，那么后续的逻辑就不能正常走到，所以就不会执行unregister的操作；我们的activity退出的时候，都会主动调用
+		// WebView.destroy() 方法，这会导致 isDestroyed() 返回
+		// true；destroy()的执行时间又在onDetachedFromWindow之前，所以就会导致不能正常进行unregister()。
+		// 然后解决方法就是：让onDetachedFromWindow先走，在主动调用destroy()之前，把webview从它的parent上面移除掉。
+		ViewParent parent = webView.getParent();
+		if (parent != null) {
+			((ViewGroup) parent).removeView(webView);
 		}
-		super.onDestroy();
+		webView.stopLoading();
+		webView.getSettings().setJavaScriptEnabled(false);
+		webView.clearHistory();
+		webView.clearView();
+		webView.removeAllViews();
+		webView.destroy();
+		webView = null;
 	}
 }
