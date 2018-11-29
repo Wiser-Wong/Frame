@@ -4,8 +4,9 @@
 #### 1、Application中onCreate方法中初始化框架：
 `WISERHelper.newBind().setWiserBind(new MyBind()).Inject(this, BuildConfig.DEBUG);`
 setWiserBind()方法扩展自己的Bind类 如果不需要可直接初始化WiserFrame架构的Bind 去掉该方法就可以了。
-#### 2、需要在自己的app module的build.gradle中注入butterknife依赖库：implementation 'com.jakewharton:butterknife:8.8.1'   annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
-    
+#### 2、需要在自己的app module的build.gradle中注入butterknife依赖库：
+`implementation 'com.jakewharton:butterknife:8.8.1'`
+`annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'`
 #### 3、allprojects { repositories { ... maven { url 'https://jitpack.io' } } } dependencies { implementation 'com.github.Wiser-Wong:Frame:1.2.9' }
 
 ## WiserFrame使用说明
