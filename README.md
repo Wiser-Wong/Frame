@@ -13,7 +13,9 @@
     dependencies { implementation 'com.github.Wiser-Wong:Frame:1.2.9' }
 ## WiserFrame使用说明
 #### 1.所有自己App项目中的Activity 继承 WISERActivity 可传递泛型Biz类也可以传递IBiz接口类，是处理业务逻辑类，例如：  
-    public class MyActivity expand WISERActivity<MyBiz>{}或者public class MyActivity expand WISERActivity<IMyBiz>{}   
+    public class MyActivity expand WISERActivity<MyBiz>{}  
+    或者  
+    public class MyActivity expand WISERActivity<IMyBiz>{}   
     MyBiz是你的业务类实现类,IMyBiz是你的业务接口类，所有的业务实现类都要继承WISERBiz，所有的业务接口类需要继承IWISERBiz。   
 #### 业务实现类需要传递Activity，例如：
     public class MyBiz expand WISERBiz<MyActivity>{}  
