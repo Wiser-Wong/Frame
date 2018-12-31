@@ -1,5 +1,5 @@
 # Frame
-一个轻量级Android MVP框架
+一个高级Android MVP框架
 ## WiserFrame集成
 #### 1、Application中onCreate方法中初始化框架：
     WISERHelper.newBind().setWiserBind(new MyBind()).Inject(this, BuildConfig.DEBUG);  
