@@ -22,6 +22,10 @@ import com.wiser.library.util.WISERCrashHandler;
 import android.app.Application;
 import android.os.Looper;
 
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.observers.DisposableObserver;
+import io.reactivex.schedulers.Schedulers;
 import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.Retrofit;
@@ -277,18 +281,66 @@ public class WISERHelper {
 	}
 
 	/**
+	 * RxJava 方式
+	 *
+	 * @param observable
+	 *            参数
+	 * @param <D>
+	 *            参数
+	 * @return 返回值
+	 */
+	public static <D> Observable<D> httpObservableIO(Observable<D> observable) {
+		if (observable != null) {
+			return observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+		}
+		return null;
+	}
+
+	/**
+	 * RxJava 方式
+	 *
+	 * @param observable
+	 *            参数
+	 * @param <D>
+	 *            参数
+	 * @return 返回值
+	 */
+	public static <D> Observable<D> httpObservableThread(Observable<D> observable) {
+		if (observable != null) {
+			return observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+		}
+		return null;
+	}
+
+	/**
 	 * 取消网络请求
 	 *
 	 * @param call
 	 *            参数
 	 */
-	public static void httpCancel(Call call) {
+	public static void httpCallCancel(Call call) {
 		if (call == null) {
 			return;
 		}
 
 		if (call.isExecuted()) {
 			call.cancel();
+		}
+	}
+
+	/**
+	 * 取消网络请求
+	 *
+	 * @param observer
+	 *            参数
+	 */
+	public static void httpObserverCancel(DisposableObserver observer) {
+		if (observer == null) {
+			return;
+		}
+
+		if (observer.isDisposed()) {
+			observer.dispose();
 		}
 	}
 

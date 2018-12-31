@@ -11,6 +11,7 @@ import com.wiser.library.util.WISERDate;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.ActivityOptions;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -23,6 +24,8 @@ import android.provider.Settings;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.FileProvider;
+import android.util.Pair;
+import android.view.View;
 
 /**
  * @author Wiser
@@ -162,6 +165,23 @@ public class WISERDisplay implements IWISERDisplay {
 		activity().overridePendingTransition(in, out);
 	}
 
+	@Override @TargetApi(Build.VERSION_CODES.LOLLIPOP) public void intentTransitionAnimation(Class clazz, Intent intent, Pair<View, String>... sharedElements) {
+		if (clazz == null) return;
+		if (activity() == null) {
+			return;
+		}
+		if (intent != null) {
+			intent.setClass(activity(), clazz);
+			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) activity().startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(activity(), sharedElements).toBundle());
+			else activity().startActivity(intent);
+		} else {
+			Intent createIntent = new Intent();
+			createIntent.setClass(activity(), clazz);
+			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) activity().startActivity(createIntent, ActivityOptions.makeSceneTransitionAnimation(activity(), sharedElements).toBundle());
+			else activity().startActivity(createIntent);
+		}
+	}
+
 	@Override public void intentForResultAnimation(Class clazz, int in, int out, int requestCode) {
 		intentForResultAnimation(clazz, in, out, null, requestCode);
 	}
@@ -180,10 +200,9 @@ public class WISERDisplay implements IWISERDisplay {
 		}
 	}
 
-	@Override
-	public void commitAdd(int layoutId, Fragment fragment, String tag) {
+	@Override public void commitAdd(int layoutId, Fragment fragment, String tag) {
 		if (layoutId > 0 && fragment != null) {
-			activity().getSupportFragmentManager().beginTransaction().add(layoutId, fragment,tag).commit();
+			activity().getSupportFragmentManager().beginTransaction().add(layoutId, fragment, tag).commit();
 		}
 	}
 
@@ -193,10 +212,9 @@ public class WISERDisplay implements IWISERDisplay {
 		}
 	}
 
-	@Override
-	public void commitReplace(int layoutId, Fragment fragment, String tag) {
+	@Override public void commitReplace(int layoutId, Fragment fragment, String tag) {
 		if (layoutId > 0 && fragment != null) {
-			activity().getSupportFragmentManager().beginTransaction().replace(layoutId, fragment,tag).commit();
+			activity().getSupportFragmentManager().beginTransaction().replace(layoutId, fragment, tag).commit();
 		}
 	}
 

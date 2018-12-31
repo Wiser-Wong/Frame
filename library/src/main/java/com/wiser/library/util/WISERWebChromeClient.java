@@ -12,7 +12,7 @@ import com.wiser.library.base.WISERWebActivity;
  */
 public class WISERWebChromeClient extends WebChromeClient {
 
-	WISERWebActivity activity;
+	private WISERWebActivity activity;
 
 	public WISERWebChromeClient(WISERActivity activity) {
 		super();
@@ -22,5 +22,9 @@ public class WISERWebChromeClient extends WebChromeClient {
 	@Override public void onProgressChanged(WebView view, int newProgress) {
 		super.onProgressChanged(view, newProgress);
 		if (activity != null) activity.setWebProgress(newProgress);
+	}
+
+	public void detach() {
+		this.activity = null;
 	}
 }

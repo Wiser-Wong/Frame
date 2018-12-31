@@ -85,6 +85,20 @@ public class IWISERRVScrollListener extends RecyclerView.OnScrollListener {
 		return max;
 	}
 
+    //    //判断顶部底部
+//    private int judgeTopAndBottom() {
+//        if (recyclerView == null) return -1;
+//        //滑动到底部
+//        if (!recyclerView.canScrollVertically(1)) {
+//            return BOTTOM;
+//        }
+//        //滑动到顶部
+//        if (!recyclerView.canScrollVertically(-1)) {
+//            return TOP;
+//        }
+//        return -1;
+//    }
+
 	/**
 	 * 加载更多回调
 	 */

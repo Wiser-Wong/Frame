@@ -17,11 +17,11 @@ public class WISERView {
 	/**
 	 * 常量
 	 */
-	public static final int	STATE_ACTIVITY			= 99999;
+	public static final int		STATE_ACTIVITY			= 99999;
 
-	public static final int	STATE_FRAGMENT			= 88888;
+	public static final int		STATE_FRAGMENT			= 88888;
 
-	public static final int	STATE_DIALOG_FRAGMENT	= 77777;
+	public static final int		STATE_DIALOG_FRAGMENT	= 77777;
 
 	/** 类型 **/
 	private int					state;
@@ -50,7 +50,7 @@ public class WISERView {
 
 	/**
 	 * 初始化
-	 * 
+	 *
 	 * @param mWiserFragment
 	 */
 	public void initUI(WISERFragment mWiserFragment) {
@@ -98,20 +98,8 @@ public class WISERView {
 		return (E) mWiserDialogFragment;
 	}
 
-	public <B extends WISERBiz> B biz() {
-		B b = null;
-		switch (state) {
-			case STATE_ACTIVITY:
-				b = (B) mWiserActivity.biz();
-				break;
-			case STATE_FRAGMENT:
-				b = (B) mWiserFragment.biz();
-				break;
-			case STATE_DIALOG_FRAGMENT:
-				b = (B) mWiserDialogFragment.biz();
-				break;
-		}
-		return b;
+	public <B extends WISERBiz> B biz(Class<B> clazz) {
+		return WISERHelper.biz(clazz);
 	}
 
 	public <E extends IWISERDisplay> E display() {

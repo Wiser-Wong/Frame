@@ -3,6 +3,7 @@ package com.wiser.library.base;
 import com.wiser.library.R;
 import com.wiser.library.helper.WISERHelper;
 import com.wiser.library.util.WISERApp;
+import com.wiser.library.util.WISERCheck;
 import com.wiser.library.util.WISERWebChromeClient;
 
 import android.annotation.SuppressLint;
@@ -23,22 +24,26 @@ import android.widget.ProgressBar;
 
 /**
  * @author Wiser
- * 
+ *         <p>
  *         WebView网页
  */
 public abstract class WISERWebActivity<T extends IWISERBiz> extends WISERActivity<T> {
 
-	private boolean				isHandleBack	= false;	// 是否处理返回
+	private boolean					isHandleBack	= false;				// 是否处理返回
 
-	private boolean				isHaveProgress	= false;	// 是否有进度条
+	private boolean					isHaveProgress	= false;				// 是否有进度条
 
-	private WebView				webView;
+	private WebView					webView;
 
-	private LinearLayout		rootLayout;
+	private LinearLayout			rootLayout;
 
-	private ProgressBar			progressView;
+	private ProgressBar				progressView;
 
-	private @DrawableRes int	progressDrawableColorId;
+	private @DrawableRes int		progressDrawableColorId;
+
+	private WISERWebChromeClient	webChromeClient	= setWebChromeClient();
+
+	private WebViewClient			webViewClient	= setWebViewClient();
 
 	protected abstract WISERBuilder buildWeb(WISERBuilder builder);
 
@@ -121,7 +126,7 @@ public abstract class WISERWebActivity<T extends IWISERBiz> extends WISERActivit
 	}
 
 	// 创建WebView
-	@SuppressLint({ "SetJavaScriptEnabled" }) private void createWebView() {
+	@SuppressLint("SetJavaScriptEnabled") private void createWebView() {
 		webView = new WebView(this);
 		webView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
 		if (isCustomWebSetting()) {
@@ -131,9 +136,6 @@ public abstract class WISERWebActivity<T extends IWISERBiz> extends WISERActivit
 			webView.getSettings().setUserAgentString(webView.getSettings().getUserAgentString() + " APP_Android");
 			// 使用缓存WebSettings.LOAD_CACHE_ELSE_NETWORK（WebSettings.LOAD_NO_CACHE不是用缓存）
 			webView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
-			// 启用支持javascript
-			webView.getSettings().setJavaScriptEnabled(true);
-			// webView.addJavascriptInterface(new NativeClass(), "nativeClass");
 			// 解决加载图片不显示
 			webView.getSettings().setBlockNetworkImage(false);
 			// 设置可以支持缩放
@@ -146,11 +148,23 @@ public abstract class WISERWebActivity<T extends IWISERBiz> extends WISERActivit
 			webView.getSettings().setUseWideViewPort(true);
 			// 设置支持多窗口
 			webView.getSettings().setSupportMultipleWindows(true);
+			// 关闭密码保存
+			webView.getSettings().setSavePassword(false);
 			// 允许读取本地文件
 			webView.getSettings().setAllowFileAccess(true);
 			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-				webView.getSettings().setAllowFileAccessFromFileURLs(true);
+				webView.getSettings().setAllowFileAccessFromFileURLs(false);
+				webView.getSettings().setAllowUniversalAccessFromFileURLs(false);
 			}
+			// 启用支持javascript
+			if (WISERCheck.isEmpty(loadUrl())) {
+				if (loadUrl().startsWith("file://")) {
+					webView.getSettings().setJavaScriptEnabled(false);
+				} else {
+					webView.getSettings().setJavaScriptEnabled(true);
+				}
+			}
+			// webView.addJavascriptInterface(new NativeClass(), "nativeClass");
 			// 自适应屏幕
 			webView.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
 			webView.getSettings().setLoadWithOverviewMode(true);
@@ -175,8 +189,8 @@ public abstract class WISERWebActivity<T extends IWISERBiz> extends WISERActivit
 			}
 		}
 
-		webView.setWebChromeClient(setWebChromeClient());
-		webView.setWebViewClient(setWebViewClient());
+		webView.setWebChromeClient(webChromeClient);
+		webView.setWebViewClient(webViewClient);
 
 	}
 
@@ -202,10 +216,8 @@ public abstract class WISERWebActivity<T extends IWISERBiz> extends WISERActivit
 		if (newProgress == 100) {
 			isHideProgress(true);
 		} else {
-			if (isHaveProgress) {
-				if (progressView.getVisibility() == View.INVISIBLE) isHideProgress(false);
-				progressView.setProgress(newProgress);
-			}
+			isHideProgress(false);
+			if (isHaveProgress) progressView.setProgress(newProgress);
 		}
 	}
 
@@ -261,6 +273,11 @@ public abstract class WISERWebActivity<T extends IWISERBiz> extends WISERActivit
 			}
 			rootLayout = null;
 			progressView = null;
+			webViewClient = null;
+			if (webChromeClient != null) {
+				webChromeClient.detach();
+				webChromeClient = null;
+			}
 		}
 	}
 

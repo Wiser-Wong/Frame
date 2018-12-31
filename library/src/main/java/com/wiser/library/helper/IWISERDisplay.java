@@ -10,6 +10,8 @@ import android.os.Bundle;
 import android.support.annotation.AnimRes;
 import android.support.annotation.IdRes;
 import android.support.v4.app.Fragment;
+import android.util.Pair;
+import android.view.View;
 
 /**
  * @author Wiser
@@ -164,6 +166,16 @@ public interface IWISERDisplay {
 	/**
 	 * @param clazz
 	 *            参数
+	 * @param intent
+	 *            参数
+	 * @param sharedElements
+	 *            参数
+	 */
+	void intentTransitionAnimation(Class clazz, Intent intent, Pair<View, String>... sharedElements);
+
+	/**
+	 * @param clazz
+	 *            参数
 	 * @param in
 	 *            参数
 	 * @param out
@@ -194,13 +206,14 @@ public interface IWISERDisplay {
 	 *            参数
 	 */
 	void commitAdd(int layoutId, Fragment fragment);
+
 	/**
 	 * @param layoutId
 	 *            参数
 	 * @param fragment
 	 *            参数
 	 */
-	void commitAdd(int layoutId, Fragment fragment,String tag);
+	void commitAdd(int layoutId, Fragment fragment, String tag);
 
 	/**
 	 * @param layoutId
@@ -247,7 +260,6 @@ public interface IWISERDisplay {
 	void commitBackStack(@IdRes int layoutId, Fragment fragment, int animation);
 
 	/**
-	 * 
 	 * @param fragment
 	 *            参数
 	 */
@@ -255,7 +267,7 @@ public interface IWISERDisplay {
 
 	/**
 	 * 调用拨打电话页
-	 * 
+	 *
 	 * @param phoneNumber
 	 *            手机号
 	 */
@@ -263,7 +275,7 @@ public interface IWISERDisplay {
 
 	/**
 	 * android用于打开HTML文件的intent跳转
-	 * 
+	 *
 	 * @param html
 	 *            Html网址路径
 	 */
@@ -271,14 +283,13 @@ public interface IWISERDisplay {
 
 	/**
 	 * android用于打开PDF文件的intent跳转
-	 * 
+	 *
 	 * @param path
 	 *            pdf路径
 	 */
 	void intentPdf(String path);
 
 	/**
-	 * 
 	 * @param path
 	 *            txt文本路径
 	 */
@@ -286,7 +297,7 @@ public interface IWISERDisplay {
 
 	/**
 	 * android用于打开音频文件的intent跳转
-	 * 
+	 *
 	 * @param path
 	 *            音频路径
 	 */
@@ -326,7 +337,7 @@ public interface IWISERDisplay {
 
 	/**
 	 * 调用系统照相机拍照
-	 * 
+	 *
 	 * @param outPath
 	 *            输出路径String
 	 * @param authority
@@ -375,7 +386,7 @@ public interface IWISERDisplay {
 
 	/**
 	 * 跳转到微信客户端
-	 * 
+	 *
 	 * @param activity
 	 */
 	void intentWeChatClient(Activity activity);

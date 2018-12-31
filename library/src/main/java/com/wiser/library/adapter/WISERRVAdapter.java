@@ -131,6 +131,11 @@ public abstract class WISERRVAdapter<T, V extends WISERHolder> extends RecyclerV
 		notifyItemRangeInserted(position, list.size());
 	}
 
+	public void updateList(int position, T t) {
+		getItems().set(position, t);
+		notifyItemChanged(position);
+	}
+
 	public void delete(int position) {
 		if (getItems() == null || position < 0 || getItems().size() < position) {
 			return;
@@ -179,8 +184,8 @@ public abstract class WISERRVAdapter<T, V extends WISERHolder> extends RecyclerV
 		return wiserView;
 	}
 
-	public <B extends WISERBiz> B biz() {
-		return wiserView.biz();
+	public <B extends WISERBiz> B biz(Class<B> clazz) {
+		return wiserView.biz(clazz);
 	}
 
 	/**
@@ -344,7 +349,7 @@ public abstract class WISERRVAdapter<T, V extends WISERHolder> extends RecyclerV
 	// 判断是否瀑布流管理器
 	private boolean isStaggerManage(WISERHolder holder) {
 		ViewGroup.LayoutParams layoutParams = holder.itemView.getLayoutParams();
-		return layoutParams != null && layoutParams instanceof StaggeredGridLayoutManager.LayoutParams;
+		return layoutParams instanceof StaggeredGridLayoutManager.LayoutParams;
 	}
 
 	// 如果是footer,则占满

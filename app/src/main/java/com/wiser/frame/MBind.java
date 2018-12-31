@@ -4,6 +4,7 @@ import java.util.concurrent.TimeUnit;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import com.wiser.library.base.IWISERBind;
 import com.wiser.library.manager.WISERManage;
 
@@ -54,10 +55,11 @@ public class MBind implements IWISERBind {
 		builder.client(okHttpBuilder.build());
 
 		// 服务器地址域名
-		builder.baseUrl("http://116.204.24.77:10000/");
+		builder.baseUrl("https://www.baidu.com");
 		// Gson转换器
 		Gson gson = new GsonBuilder().setLenient().create();
 		builder.addConverterFactory(GsonConverterFactory.create(gson));
+		builder.addCallAdapterFactory(RxJava2CallAdapterFactory.create());
 
 		return builder.build();
 	}

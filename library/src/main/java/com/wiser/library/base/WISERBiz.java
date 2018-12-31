@@ -1,12 +1,17 @@
 package com.wiser.library.base;
 
+import java.util.Vector;
+
+import com.wiser.library.helper.WISERHelper;
+import com.wiser.library.network.WISERRxJavaDisposableObserver;
+
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.wiser.library.helper.WISERHelper;
-
-import java.util.Vector;
-
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.observers.DisposableObserver;
+import io.reactivex.schedulers.Schedulers;
 import retrofit2.Call;
 
 /**
@@ -23,11 +28,14 @@ public class WISERBiz<U> implements IWISERBiz {
 		return u;
 	}
 
-	private Vector<Call> callVector;
+	private Vector<Call>				callVector;
+
+	private Vector<DisposableObserver>	observerVector;
 
 	@Override public void initUi(Object object) {
 		this.u = (U) object;
 		callVector = new Vector<>();
+		observerVector = new Vector<>();
 	}
 
 	@Override public void initBiz(Intent intent) {
@@ -52,6 +60,8 @@ public class WISERBiz<U> implements IWISERBiz {
 	}
 
 	/**
+	 * Retrofit方式
+	 * 
 	 * @param call
 	 *            参数
 	 * @param <D>
@@ -63,10 +73,47 @@ public class WISERBiz<U> implements IWISERBiz {
 		return WISERHelper.httpBody(call);
 	}
 
+	protected <D> WISERRxJavaDisposableObserver<D> httpDisposableObserver(WISERRxJavaDisposableObserver<D> observer) {
+		observerVector.add(observer);
+		return observer;
+	}
+
+	/**
+	 * RxJava 方式
+	 * 
+	 * @param observable
+	 *            参数
+	 * @param <D>
+	 *            参数
+	 * @return 返回值
+	 */
+	protected <D> Observable<D> httpObservableIO(Observable<D> observable) {
+		if (observable != null) {
+			return observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+		}
+		return null;
+	}
+
+	/**
+	 * RxJava 方式
+	 *
+	 * @param observable
+	 *            参数
+	 * @param <D>
+	 *            参数
+	 * @return 返回值
+	 */
+	protected <D> Observable<D> httpObservableThread(Observable<D> observable) {
+		if (observable != null) {
+			return observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+		}
+		return null;
+	}
+
 	/**
 	 * 网络取消
 	 */
-	protected void httpCancel() {
+	private void httpCallCancel() {
 		if (callVector != null) {
 			int count = callVector.size();
 			if (count < 1) {
@@ -74,15 +121,34 @@ public class WISERBiz<U> implements IWISERBiz {
 			}
 			for (int i = 0; i < count; i++) {
 				Call call = callVector.get(i);
-				WISERHelper.httpCancel(call);
+				WISERHelper.httpCallCancel(call);
 			}
 			callVector.removeAllElements();
 			callVector = null;
 		}
 	}
 
+	/**
+	 * 网络取消
+	 */
+	private void httpObserverCancel() {
+		if (observerVector != null) {
+			int count = observerVector.size();
+			if (count < 1) {
+				return;
+			}
+			for (int i = 0; i < count; i++) {
+				DisposableObserver observer = observerVector.get(i);
+				WISERHelper.httpObserverCancel(observer);
+			}
+			observerVector.removeAllElements();
+			observerVector = null;
+		}
+	}
+
 	public void detach() {
 		u = null;
-		httpCancel();
+		httpCallCancel();
+		httpObserverCancel();
 	}
 }

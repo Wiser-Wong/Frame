@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
+import android.util.Pair;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -217,6 +218,7 @@ public class IndexActivity extends WISERActivity<IndexBiz> implements WISERRVAda
 				WISERHelper.display().intent(WebViewActivity.class);
 //				WISERHelper.display().intent(ZoomScrollViewActivity.class);
 //				WISERHelper.display().intent(SlidingMenuActivity.class);
+//				WISERHelper.display().intentTransitionAnimation(ZoomScrollViewActivity.class,null,Pair.create((View)ivQR,""));
 				break;
 			case R.id.tv_d:
 				IndexDialogFragment.newInstance().setLocation(textView, WISERDialogFragment.CONTROL_FIT).show(getSupportFragmentManager(), "");

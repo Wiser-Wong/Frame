@@ -31,71 +31,71 @@ public class WISERManage {
 	/**
 	 * 日志管理类
 	 */
-	@Inject public WISERLogManage			logManger;
+	@Inject WISERLogManage			logManger;
 
 	/**
 	 * Toast管理类
 	 */
-	@Inject public WISERToastManage			toastManger;
+	@Inject WISERToastManage		toastManger;
 
 	/**
 	 * 线程管理类
 	 */
-	@Inject public WISERHandlerExecutor		handlerExecutor;
+	@Inject WISERHandlerExecutor	handlerExecutor;
 
 	/**
 	 * Biz管理类
 	 */
-	@Inject public WISERBizManage			bizManage;
+	@Inject WISERBizManage			bizManage;
 
 	/**
 	 * Activity管理类
 	 */
-	@Inject public WISERActivityManage		activityManage;
+	@Inject WISERActivityManage		activityManage;
 
-	@Inject public WISERDisplay				display;
+	@Inject public WISERDisplay		display;
 
 	/**
 	 * 网络配置
 	 */
-	private Retrofit						retrofit;
+	private Retrofit				retrofit;
 
 	/**
 	 * 网络管理
 	 */
-	@Inject public WISERHttpManage			httpManage;
+	@Inject WISERHttpManage			httpManage;
 
 	/**
 	 * 线程管理
 	 */
-	@Inject public WISERThreadPoolManage	threadPoolManage;
+	@Inject WISERThreadPoolManage	threadPoolManage;
 
 	/**
 	 * 权限管理
 	 */
-	@Inject public WISERPermissionManage	permissionManage;
+	@Inject WISERPermissionManage	permissionManage;
 
 	/**
 	 * 文件管理
 	 */
-	@Inject public WISERFileCacheManage		fileCacheManage;
+	@Inject WISERFileCacheManage	fileCacheManage;
 
 	/**
 	 * jobService服务管理
 	 */
-	@Inject public WISERJobServiceManage	jobServiceManage;
+	@Inject WISERJobServiceManage	jobServiceManage;
 
 	/**
 	 * 下载上传管理
 	 */
-	@Inject public WISERDownUploadManage	downUploadManage;
+	@Inject WISERDownUploadManage	downUploadManage;
 
 	/**
 	 * 方法代理
 	 */
-	@Inject public WISERMethodManage		methodManage;
+	@Inject WISERMethodManage		methodManage;
 
-	private Application						application;
+	private Application				application;
 
 	public WISERManage() {}
 

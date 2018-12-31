@@ -37,7 +37,7 @@ public interface IWISERBind {
 		 * @return 返回值
 		 */
 		@Override public Retrofit getRetrofit(Retrofit.Builder builder) {
-			builder.baseUrl("http://www.jincanshen.com");
+			builder.baseUrl("http://www.wiser.com");
 			return builder.build();
 		}
 

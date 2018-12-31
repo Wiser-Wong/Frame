@@ -1,16 +1,16 @@
 package com.wiser.frame;
 
-import android.content.Intent;
-import android.support.annotation.MainThread;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
-
 import com.wiser.library.base.WISERBuilder;
 import com.wiser.library.base.WISERWebActivity;
 import com.wiser.library.helper.WISERHelper;
 import com.wiser.library.util.WISERWebChromeClient;
 
-public class WebViewActivity extends WISERWebActivity<IWebBiz> {
+import android.content.Intent;
+import android.support.annotation.MainThread;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
+
+public class WebViewActivity extends WISERWebActivity<WebViewBiz> {
 
 	@Override protected WISERBuilder buildWeb(WISERBuilder builder) {
 		builder.layoutBarId(R.layout.title_layout);
@@ -31,8 +31,7 @@ public class WebViewActivity extends WISERWebActivity<IWebBiz> {
 		// WISERHelper.toast().show(new MShareConfig().getString("name", ""));
 		// new MToast().show(new MShareConfig().getString("name", ""));
 		// WISERHelper.toast().show(new MConfig(this).name+"");
-
-		biz().netMethod();
+		biz().observableMethod();
 	}
 
 	@Override protected WISERWebChromeClient setWebChromeClient() {
@@ -40,13 +39,13 @@ public class WebViewActivity extends WISERWebActivity<IWebBiz> {
 
 			@Override public void onProgressChanged(WebView view, int newProgress) {
 				super.onProgressChanged(view, newProgress);
-				if (newProgress == 100) {
-					// showContentView();
-					// WISERHelper.toast().show("已完成");
-				} else {
-					// showLoading();
-					// WISERHelper.toast().show("未完成");
-				}
+//				if (newProgress == 100) {
+//					// showContentView();
+//					// WISERHelper.toast().show("已完成");
+//				} else {
+//					// showLoading();
+//					// WISERHelper.toast().show("未完成");
+//				}
 			}
 
 			@Override public void onReceivedTitle(WebView view, String title) {
@@ -57,7 +56,7 @@ public class WebViewActivity extends WISERWebActivity<IWebBiz> {
 	}
 
 	@Override protected WebViewClient setWebViewClient() {
-		return null;
+		return new WebViewClient();
 	}
 
 	@Override protected String loadUrl() {
