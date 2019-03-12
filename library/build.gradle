@@ -69,9 +69,7 @@ dependencies {
     api 'com.makeramen:roundedimageview:2.3.0'
 
     //zxing二维码
-
-    //    api 'com.google.zxing:core:3.3.0'
-    api files('libs/core-3.3.0.jar')
+    api 'com.google.zxing:core:3.3.3'
 
     //权限
     api 'com.github.Wiser-Wong:AndroidPermission:master'
