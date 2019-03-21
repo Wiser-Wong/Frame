@@ -1,17 +1,8 @@
 package com.wiser.frame;
 
-import android.Manifest;
-import android.annotation.SuppressLint;
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.graphics.Color;
-import android.os.Handler;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.LinearLayoutManager;
-import android.util.Pair;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.liulishuo.filedownloader.BaseDownloadTask;
 import com.liulishuo.filedownloader.FileDownloadListener;
@@ -28,9 +19,17 @@ import com.wiser.library.view.marquee.MarqueeAdapter;
 import com.wiser.library.view.marquee.MarqueeView;
 import com.wiser.library.zxing.WISERQRCode;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
+import android.Manifest;
+import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.os.Handler;
+import android.support.annotation.NonNull;
+import android.support.v7.widget.LinearLayoutManager;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -214,12 +213,12 @@ public class IndexActivity extends WISERActivity<IndexBiz> implements WISERRVAda
 						}).start();
 				break;
 			case R.id.iv_qr:
-				 WISERHelper.display().intent(TabPageActivity.class);
-//				WISERHelper.display().intent(ScanActivity.class);
-//				WISERHelper.display().intent(WebViewActivity.class);
-//				WISERHelper.display().intent(ZoomScrollViewActivity.class);
-//				WISERHelper.display().intent(SlidingMenuActivity.class);
-//				WISERHelper.display().intentTransitionAnimation(ZoomScrollViewActivity.class,null,Pair.create((View)ivQR,""));
+				// WISERHelper.display().intent(TabPageActivity.class);
+				// WISERHelper.display().intent(ScanActivity.class);
+				WISERHelper.display().intent(WebViewActivity.class);
+				// WISERHelper.display().intent(ZoomScrollViewActivity.class);
+				// WISERHelper.display().intent(SlidingMenuActivity.class);
+				// WISERHelper.display().intentTransitionAnimation(ZoomScrollViewActivity.class,null,Pair.create((View)ivQR,""));
 				break;
 			case R.id.tv_d:
 				IndexDialogFragment.newInstance().setLocation(textView, WISERDialogFragment.CONTROL_FIT).show(getSupportFragmentManager(), "");
@@ -251,7 +250,7 @@ public class IndexActivity extends WISERActivity<IndexBiz> implements WISERRVAda
 	}
 
 	@Override public void onItemClick(View view, int position, String text) {
-//		WISERHelper.toast().show(text);
+		// WISERHelper.toast().show(text);
 		new MToast().show(text);
 	}
 }

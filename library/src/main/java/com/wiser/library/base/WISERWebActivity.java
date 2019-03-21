@@ -24,7 +24,7 @@ import android.widget.ProgressBar;
 
 /**
  * @author Wiser
- *         <p>
+ * 
  *         WebView网页
  */
 public abstract class WISERWebActivity<T extends IWISERBiz> extends WISERActivity<T> {
@@ -66,8 +66,8 @@ public abstract class WISERWebActivity<T extends IWISERBiz> extends WISERActivit
 	}
 
 	@Override protected void initData(Intent intent) {
-		// 加载网络链接
-		webView.loadUrl(loadUrl());
+
+		settingWeb();
 		initWebData(intent);
 	}
 
@@ -126,9 +126,13 @@ public abstract class WISERWebActivity<T extends IWISERBiz> extends WISERActivit
 	}
 
 	// 创建WebView
-	@SuppressLint("SetJavaScriptEnabled") private void createWebView() {
+	private void createWebView() {
 		webView = new WebView(this);
 		webView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+	}
+
+	// 配置Web
+	@SuppressLint("SetJavaScriptEnabled") private void settingWeb() {
 		if (isCustomWebSetting()) {
 			this.webView = customWebSetting(webView);
 		} else {
@@ -191,7 +195,8 @@ public abstract class WISERWebActivity<T extends IWISERBiz> extends WISERActivit
 
 		webView.setWebChromeClient(webChromeClient);
 		webView.setWebViewClient(webViewClient);
-
+		// 加载网络链接
+		webView.loadUrl(loadUrl());
 	}
 
 	// 进度条显示隐藏
