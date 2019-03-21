@@ -157,7 +157,7 @@ public abstract class WISERWebActivity<T extends IWISERBiz> extends WISERActivit
 				webView.getSettings().setAllowUniversalAccessFromFileURLs(false);
 			}
 			// 启用支持javascript
-			if (WISERCheck.isEmpty(loadUrl())) {
+			if (!WISERCheck.isEmpty(loadUrl())) {
 				if (loadUrl().startsWith("file://")) {
 					webView.getSettings().setJavaScriptEnabled(false);
 				} else {
