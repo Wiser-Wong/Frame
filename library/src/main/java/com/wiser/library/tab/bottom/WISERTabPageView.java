@@ -259,13 +259,11 @@ public class WISERTabPageView extends RelativeLayout implements ViewPager.OnPage
 		try {
 			if (fragments != null && fragments.length > position) {
 				Class<?> fragmentClass = fragments[position].getClass();
-				if (fragmentClass != null) {
-					Method[] methods = fragmentClass.getMethods();
-					for (Method method : methods) {
-						if (method.getName().equals(methodName)) {
-							Object userInfo = fragmentClass.newInstance();
-							method.invoke(userInfo, position);
-						}
+				Method[] methods = fragmentClass.getMethods();
+				for (Method method : methods) {
+					if (method.getName().equals(methodName)) {
+						Object userInfo = fragmentClass.newInstance();
+						method.invoke(userInfo, position);
 					}
 				}
 			}

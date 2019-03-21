@@ -27,6 +27,7 @@ import com.google.zxing.RGBLuminanceSource;
 import com.google.zxing.Result;
 import com.google.zxing.common.HybridBinarizer;
 import com.wiser.library.R;
+import com.wiser.library.base.IWISERBiz;
 import com.wiser.library.base.WISERActivity;
 import com.wiser.library.base.WISERBuilder;
 import com.wiser.library.helper.WISERHelper;
@@ -46,7 +47,7 @@ import java.util.Vector;
  *
  *         扫一扫
  */
-public abstract class WISERScanActivity extends WISERActivity implements Callback, WISERPermission.PermissionResultListener {
+public abstract class WISERScanActivity<B extends IWISERBiz> extends WISERActivity<B> implements Callback, WISERPermission.PermissionResultListener {
 
 	private CaptureActivityHandler	handler;
 

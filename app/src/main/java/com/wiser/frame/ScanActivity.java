@@ -13,7 +13,7 @@ import android.view.View;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class ScanActivity extends WISERScanActivity {
+public class ScanActivity extends WISERScanActivity<ScanBiz> {
 
 	@BindView(R.id.surface_view) SurfaceView		surfaceView;
 

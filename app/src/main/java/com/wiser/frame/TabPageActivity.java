@@ -31,7 +31,7 @@ public class TabPageActivity extends WISERTabPageActivity implements WISERTabVie
 		tabPageView.setOnTabClickListener(this);
 		tabPageView.setOnTabPageChangeListener(this);
 		tabPageView.isPageCanScroll(false);
-		tabPageView.isTabCanRepeatedlyClick(false);
+		tabPageView.isTabCanRepeatedlyClick(true);
 		tabPageView.isTabCutPageAnim(false);
 		return tabPageView;
 	}

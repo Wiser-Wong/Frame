@@ -20,7 +20,7 @@
         android:layout_margin="10dp"
         android:layout_weight="1"
         android:adjustViewBounds="true"
-        android:src="@mipmap/ic_launcher" />
+        android:src="@mipmap/antu_trip_first_bg" />
 
     <ImageView
         android:id="@+id/iv_tab3"
