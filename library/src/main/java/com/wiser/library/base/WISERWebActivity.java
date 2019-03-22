@@ -66,9 +66,8 @@ public abstract class WISERWebActivity<T extends IWISERBiz> extends WISERActivit
 	}
 
 	@Override protected void initData(Intent intent) {
-
-		settingWeb();
 		initWebData(intent);
+		settingWeb();
 	}
 
 	/**
