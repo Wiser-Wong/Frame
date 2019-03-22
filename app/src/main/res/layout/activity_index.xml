@@ -93,7 +93,13 @@
                         <android.support.v7.widget.RecyclerView
                             android:id="@+id/home_rlv"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent" />
+                            android:layout_height="match_parent"
+                            android:visibility="gone" />
+
+                        <com.wiser.library.pager.banner.BannerPagerView
+                            android:id="@+id/bv_frg"
+                            android:layout_width="match_parent"
+                            android:layout_height="400dp"/>
 
                     </FrameLayout>
 

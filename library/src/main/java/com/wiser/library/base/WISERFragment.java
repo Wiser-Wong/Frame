@@ -1,5 +1,12 @@
 package com.wiser.library.base;
 
+import java.util.List;
+
+import com.wiser.library.adapter.WISERRVAdapter;
+import com.wiser.library.helper.IWISERDisplay;
+import com.wiser.library.helper.WISERHelper;
+import com.wiser.library.model.WISERBizModel;
+
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -10,14 +17,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.wiser.library.adapter.WISERRVAdapter;
-import com.wiser.library.helper.IWISERDisplay;
-import com.wiser.library.helper.WISERHelper;
-import com.wiser.library.model.WISERBizModel;
-import com.wiser.library.util.WISERGenericSuperclass;
-
-import java.util.List;
-
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
@@ -27,8 +26,6 @@ import butterknife.Unbinder;
  */
 @SuppressWarnings("unchecked")
 public abstract class WISERFragment<B extends IWISERBiz> extends Fragment implements IWISERView, SwipeRefreshLayout.OnRefreshListener, IWISERRVScrollListener.OnLoadMoreListener {
-
-	private B				b;
 
 	private WISERBuilder	mWiserBuilder;
 
@@ -166,7 +163,6 @@ public abstract class WISERFragment<B extends IWISERBiz> extends Fragment implem
 	 */
 	public void detach() {
 		if (mWiserBuilder != null) mWiserBuilder.detach();
-		b = null;
 		mWiserBuilder = null;
 		bizModel = null;
 		// 清空注解view

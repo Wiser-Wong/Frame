@@ -104,7 +104,11 @@ public class BannerPagerAdapter extends PagerAdapter {
 			} else {
 				return super.instantiateItem(container, position);
 			}
-		} else return super.instantiateItem(container, position);
+		} else {
+			View view = new View(activity());
+			container.addView(view);
+			return view;
+		}
 	}
 
 	@Override public boolean isViewFromObject(@NonNull View view, @NonNull Object o) {

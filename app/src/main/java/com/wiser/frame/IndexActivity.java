@@ -12,6 +12,7 @@ import com.wiser.library.base.WISERBuilder;
 import com.wiser.library.base.WISERDialogFragment;
 import com.wiser.library.helper.WISERHelper;
 import com.wiser.library.manager.permission.IWISERPermissionCallBack;
+import com.wiser.library.pager.banner.BannerPagerView;
 import com.wiser.library.util.WISERDate;
 import com.wiser.library.view.AlignTextLayoutView;
 import com.wiser.library.view.FooterView;
@@ -26,6 +27,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 import android.widget.ImageView;
@@ -45,6 +47,8 @@ public class IndexActivity extends WISERActivity<IndexBiz> implements WISERRVAda
 	@BindView(R.id.marquee) MarqueeView<IndexModel>	marqueeView;
 
 	@BindView(R.id.tv_d) TextView					textView;
+
+	@BindView(R.id.bv_frg) BannerPagerView			bannerPagerView;
 
 	@Override protected WISERBuilder build(WISERBuilder builder) {
 		builder.layoutId(R.layout.activity_index);
@@ -114,6 +118,11 @@ public class IndexActivity extends WISERActivity<IndexBiz> implements WISERRVAda
 
 		WISERHelper.toast().show(WISERDate.getDateCovert("2011-4-1", "yyyy-m-d", "yyyy-mm-dd"));
 
+		List<Fragment> list1 = new ArrayList<>();
+		list1.add(new SecondFragment());
+		list1.add(new ThreeFragment());
+
+		bannerPagerView.setFragmentPages(this,list1).isDot(true).setCircle(true).startTurning(1000);
 	}
 
 	@Override public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
