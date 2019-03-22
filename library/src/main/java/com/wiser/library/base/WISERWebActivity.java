@@ -249,7 +249,7 @@ public abstract class WISERWebActivity<T extends IWISERBiz> extends WISERActivit
 	/**
 	 * 返回处理
 	 */
-	private boolean backHandle() {
+	protected boolean backHandle() {
 		if (isHandleBack) if (webView.canGoBack()) {
 			webView.goBack();
 			return true;
