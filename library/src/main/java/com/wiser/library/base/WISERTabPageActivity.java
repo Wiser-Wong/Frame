@@ -11,7 +11,7 @@ import android.content.Intent;
  * 
  *         tab page
  */
-public abstract class WISERTabPageActivity extends WISERActivity {
+public abstract class WISERTabPageActivity<B extends IWISERBiz> extends WISERActivity<B> {
 
 	WISERTabPageView	tabPageView;
 

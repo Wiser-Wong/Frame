@@ -27,7 +27,7 @@ import android.widget.ProgressBar;
  * 
  *         WebView网页
  */
-public abstract class WISERWebActivity<T extends IWISERBiz> extends WISERActivity<T> {
+public abstract class WISERWebActivity<B extends IWISERBiz> extends WISERActivity<B> {
 
 	private boolean					isHandleBack	= false;				// 是否处理返回
 

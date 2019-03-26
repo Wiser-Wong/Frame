@@ -16,7 +16,7 @@ import android.view.ViewGroup.LayoutParams;
  * @author Wiser
  * @version 版本
  */
-public abstract class WISERSlidingMenuActivity extends WISERActivity implements IWISERSlidingMenuActivity {
+public abstract class WISERSlidingMenuActivity<B extends IWISERBiz> extends WISERActivity<B> implements IWISERSlidingMenuActivity {
 
 	private WISERSlidingMenuHelper mHelper;
 

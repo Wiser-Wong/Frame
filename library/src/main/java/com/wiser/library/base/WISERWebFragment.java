@@ -22,7 +22,7 @@ import android.widget.ProgressBar;
  * 
  *         WebView网页
  */
-public abstract class WISERWebFragment extends WISERFragment {
+public abstract class WISERWebFragment<B extends IWISERBiz> extends WISERFragment<B> {
 
 	private boolean			isHandleBack	= false;	// 是否处理返回
 

@@ -11,7 +11,7 @@ import android.os.Bundle;
  * 
  *         tab page
  */
-public abstract class WISERTabPageFragment extends WISERFragment {
+public abstract class WISERTabPageFragment<B extends IWISERBiz> extends WISERFragment<B> {
 
 	WISERTabPageView	tabPageView;
 
