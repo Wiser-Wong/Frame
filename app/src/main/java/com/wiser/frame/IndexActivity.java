@@ -116,13 +116,16 @@ public class IndexActivity extends WISERActivity<IndexBiz> implements WISERRVAda
 
 		WISERHelper.fileCacheManage().writeFile(WISERHelper.fileCacheManage().configureFileDir(this), "log.txt", "今天你好");
 
-		WISERHelper.toast().show(WISERDate.getDateCovert("2011-4-1", "yyyy-m-d", "yyyy-mm-dd"));
+		// WISERHelper.toast().show(WISERDate.getDateCovert("2011-4-1", "yyyy-m-d",
+		// "yyyy-mm-dd"));
 
 		List<Fragment> list1 = new ArrayList<>();
 		list1.add(new SecondFragment());
 		list1.add(new ThreeFragment());
 
-		bannerPagerView.setFragmentPages(this,list1).isDot(true).setCircle(true).startTurning(1000);
+		bannerPagerView.setFragmentPages(this, list1).isDot(true).setCircle(true).startTurning(1000);
+
+//		WISERHelper.toast().show(WISERDate.getWeek("2019年3月26日", WISERDate.DATE_HZ,true));
 	}
 
 	@Override public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {

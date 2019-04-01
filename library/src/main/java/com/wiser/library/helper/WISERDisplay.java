@@ -6,7 +6,6 @@ import javax.inject.Inject;
 
 import com.wiser.library.base.WISERActivity;
 import com.wiser.library.util.WISERCheck;
-import com.wiser.library.util.WISERDate;
 
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
@@ -31,6 +30,7 @@ import android.view.View;
  * @author Wiser
  * @version 版本
  */
+@SuppressWarnings("unchecked")
 public class WISERDisplay implements IWISERDisplay {
 
 	@Inject public WISERDisplay() {}
@@ -256,6 +256,18 @@ public class WISERDisplay implements IWISERDisplay {
 	}
 
 	/**
+	 * @param <T>
+	 *            参数
+	 * @param tagName
+	 *            参数
+	 * @return 返回值
+	 */
+	public <T> T findFragment(String tagName) {
+		if (WISERCheck.isEmpty(tagName)) return null;
+		return (T) activity().getSupportFragmentManager().findFragmentByTag(tagName);
+	}
+
+	/**
 	 * android用于 直接打电话intent跳转 需要权限
 	 * <uses-permission android:name="android.permission.CALL_PHONE"/>
 	 *
@@ -476,13 +488,23 @@ public class WISERDisplay implements IWISERDisplay {
 	/**
 	 * 安装新的应用
 	 *
+	 * @param context
+	 *            上下文
+	 * @param authority
+	 *            认证
 	 * @param path
 	 *            apk路径
 	 */
-	@Override public void installApk(String path) {
+	@Override public void installApk(Context context, String authority, String path) {
 		Intent intent = new Intent(Intent.ACTION_VIEW);
-		intent.setDataAndType(Uri.fromFile(new File(path)), "application/vnd.android.package-archive");
 		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
+			intent.setDataAndType(Uri.fromFile(new File(path)), "application/vnd.android.package-archive");
+		} else {
+			intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+			File file = new File(path);
+			intent.setDataAndType(FileProvider.getUriForFile(context, authority, file), "application/vnd.android.package-archive");
+		}
 		activity().startActivity(intent);
 	}
 

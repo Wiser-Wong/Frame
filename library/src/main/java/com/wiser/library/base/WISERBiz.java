@@ -3,6 +3,7 @@ package com.wiser.library.base;
 import java.util.Vector;
 
 import com.wiser.library.helper.WISERHelper;
+import com.wiser.library.loading.LoadingDialogFragment;
 import com.wiser.library.network.WISERRxJavaDisposableObserver;
 
 import android.content.Intent;
@@ -111,6 +112,28 @@ public class WISERBiz<U> implements IWISERBiz {
 	}
 
 	/**
+	 * 显示loading
+	 * 
+	 * @param isClose
+	 *            是否可以关闭弹窗
+	 */
+	protected void showLoading(boolean... isClose) {
+		if (isClose.length > 0) {
+			LoadingDialogFragment.showLoadingDialog(isClose[0]);
+		} else {
+			LoadingDialogFragment.showLoadingDialog(false);
+		}
+	}
+
+	/**
+	 * 隐藏loading
+	 */
+	protected void hideLoading() {
+		LoadingDialogFragment loadingDialogFragment = WISERHelper.display().findFragment(LoadingDialogFragment.class.getName());
+		if (loadingDialogFragment != null) loadingDialogFragment.dismiss();
+	}
+
+	/**
 	 * 网络取消
 	 */
 	private void httpCallCancel() {
@@ -148,6 +171,7 @@ public class WISERBiz<U> implements IWISERBiz {
 
 	public void detach() {
 		u = null;
+		hideLoading();
 		httpCallCancel();
 		httpObserverCancel();
 	}

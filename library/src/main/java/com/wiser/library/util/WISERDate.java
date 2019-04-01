@@ -1,9 +1,5 @@
 package com.wiser.library.util;
 
-import android.annotation.SuppressLint;
-
-import org.apache.commons.lang3.StringUtils;
-
 import java.text.ParseException;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
@@ -11,6 +7,10 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
+
+import org.apache.commons.lang3.StringUtils;
+
+import android.annotation.SuppressLint;
 
 /**
  * @author Wiser
@@ -183,23 +183,105 @@ public class WISERDate {
 	}
 
 	/**
-	 * 得到星期
-	 *
-	 * @param DateStr
+	 * 根据当前日期获得星期
+	 * 
+	 * @param date
+	 *            具体日期
+	 * @param type
+	 *            日期格式类型
+	 * @param flag
+	 *            (true 是星期几，false是周几)
 	 * @return
 	 */
-	public static String getWeek(String DateStr, int type) {
-		SimpleDateFormat formatYMD = new SimpleDateFormat("yyyy-MM-dd");// formatYMD表示的是yyyy-MM-dd格式
-		SimpleDateFormat formatD = new SimpleDateFormat("E");// "E"表示"day in week"
-		Date d;
-		String weekDay = "";
+	public static String getWeek(String date, int type, boolean flag) {
+		String week = "";
+		SimpleDateFormat format;
+		switch (type) {
+			case DATE_XG:// yyyy/mm/dd
+				format = new SimpleDateFormat("yyyy/MM/dd");
+				break;
+			case DATE_HG:// yyyy-mm-dd
+				format = new SimpleDateFormat("yyyy-MM-dd");
+				break;
+			case DATE_HZ:// yyyy年mm月dd日
+				format = new SimpleDateFormat("yyyy年MM月dd日");
+				break;
+			default:
+				format = new SimpleDateFormat("yyyy-MM-dd");
+				break;
+		}
+		Calendar c = Calendar.getInstance();
 		try {
-			d = formatYMD.parse(DateStr);// 将String 转换为符合格式的日期
-			weekDay = formatD.format(d);
-		} catch (Exception e) {
+			c.setTime(format.parse(date));
+		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-		return weekDay;
+
+		int wek = c.get(Calendar.DAY_OF_WEEK);
+		String s;
+		if (flag) {
+			s = "星期";
+		} else {
+			s = "周";
+		}
+		if (wek == 1) {
+			week += s + "日";
+		}
+		if (wek == 2) {
+			week += s + "一";
+		}
+		if (wek == 3) {
+			week += s + "二";
+		}
+		if (wek == 4) {
+			week += s + "三";
+		}
+		if (wek == 5) {
+			week += s + "四";
+		}
+		if (wek == 6) {
+			week += s + "五";
+		}
+		if (wek == 7) {
+			week += s + "六";
+		}
+		return week;
+	}
+
+	/**
+	 * 获取星期几
+	 * 
+	 * @param flag
+	 *            (true 是星期几，false是周几)
+	 * @return
+	 */
+	public static String getCurrentWeek(boolean flag) {
+		Calendar cal = Calendar.getInstance();
+		int i = cal.get(Calendar.DAY_OF_WEEK);
+		String s;
+		if (flag) {
+			s = "星期";
+		} else {
+			s = "周";
+		}
+		switch (i) {
+			case 1:
+				return s + "日";
+			case 2:
+				return s + "一";
+			case 3:
+				return s + "二";
+			case 4:
+				return s + "三";
+			case 5:
+				return s + "四";
+			case 6:
+				return s + "五";
+			case 7:
+				return s + "六";
+			default:
+				return "";
+		}
 	}
 
 	/**

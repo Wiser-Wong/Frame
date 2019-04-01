@@ -1,13 +1,15 @@
 package com.wiser.library.base;
 
+import java.util.List;
+
 import com.wiser.library.R;
 import com.wiser.library.adapter.WISERRVAdapter;
 import com.wiser.library.helper.IWISERDisplay;
 import com.wiser.library.helper.WISERHelper;
 import com.wiser.library.model.WISERBizModel;
 import com.wiser.library.util.WISERApp;
-import com.wiser.library.util.WISERGenericSuperclass;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -17,13 +19,12 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-
-import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -33,7 +34,8 @@ import butterknife.Unbinder;
  * @version 版本
  */
 @SuppressWarnings("unchecked")
-public abstract class WISERDialogFragment<B extends IWISERBiz> extends DialogFragment implements IWISERView, SwipeRefreshLayout.OnRefreshListener, IWISERRVScrollListener.OnLoadMoreListener {
+public abstract class WISERDialogFragment<B extends IWISERBiz> extends DialogFragment
+		implements IWISERView, SwipeRefreshLayout.OnRefreshListener, IWISERRVScrollListener.OnLoadMoreListener, DialogInterface.OnKeyListener {
 
 	protected final int		TOP				= Gravity.TOP;
 
@@ -87,6 +89,8 @@ public abstract class WISERDialogFragment<B extends IWISERBiz> extends DialogFra
 
 	protected abstract boolean isCloseOnTouchOutside();
 
+	protected abstract boolean isCloseOnTouchBack();
+
 	@Override public void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		// 设置style
@@ -103,8 +107,11 @@ public abstract class WISERDialogFragment<B extends IWISERBiz> extends DialogFra
 			// 去除标题栏
 			getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
 
-			// 设置点击空白处关闭Dialog
+			// 设置点击空白处是否关闭Dialog
 			getDialog().setCanceledOnTouchOutside(isCloseOnTouchOutside());
+
+			// 设置返回键点击是否关闭Dialog
+			if (!isCloseOnTouchBack()) getDialog().setOnKeyListener(this);
 
 			// 定制位置显示
 			showLocation();
@@ -206,6 +213,13 @@ public abstract class WISERDialogFragment<B extends IWISERBiz> extends DialogFra
 
 	public WISERView wiserView() {
 		return mWiserBuilder == null ? null : mWiserBuilder.wiserView();
+	}
+
+	@Override public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
+		if (keyCode == KeyEvent.KEYCODE_BACK) {
+			return true;
+		}
+		return false;
 	}
 
 	@Override public void onDetach() {

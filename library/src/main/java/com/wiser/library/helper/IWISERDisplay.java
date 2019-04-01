@@ -266,6 +266,15 @@ public interface IWISERDisplay {
 	void commitRemove(Fragment fragment);
 
 	/**
+	 * @param <T>
+	 *            参数
+	 * @param tagName
+	 *            参数
+	 * @return 返回值
+	 */
+	<T> T findFragment(String tagName);
+
+	/**
 	 * 调用拨打电话页
 	 *
 	 * @param phoneNumber
@@ -379,10 +388,14 @@ public interface IWISERDisplay {
 	/**
 	 * 安装新的应用
 	 *
+	 * @param context
+	 *            上下文
+	 * @param authority
+	 *            认证
 	 * @param path
 	 *            apk路径
 	 */
-	void installApk(String path);
+	void installApk(Context context, String authority, String path);
 
 	/**
 	 * 跳转到微信客户端

@@ -5,6 +5,7 @@ import java.io.IOException;
 import com.wiser.library.base.IWISERBind;
 import com.wiser.library.base.IWISERBiz;
 import com.wiser.library.config.IWISERConfig;
+import com.wiser.library.loading.LoadingDialogFragment;
 import com.wiser.library.manager.WISERManage;
 import com.wiser.library.manager.activity.IWISERActivityManage;
 import com.wiser.library.manager.biz.IWISERBizManage;
@@ -355,6 +356,28 @@ public class WISERHelper {
 	 */
 	public static boolean isMainLooperThread() {
 		return Looper.getMainLooper().getThread() != Thread.currentThread();
+	}
+
+	/**
+	 * 显示loading
+	 *
+	 * @param isClose
+	 *            是否可以关闭弹窗
+	 */
+	public static void showLoading(boolean... isClose) {
+		if (isClose.length > 0) {
+			LoadingDialogFragment.showLoadingDialog(isClose[0]);
+		} else {
+			LoadingDialogFragment.showLoadingDialog(false);
+		}
+	}
+
+	/**
+	 * 隐藏loading
+	 */
+	public static void hideLoading() {
+		LoadingDialogFragment loadingDialogFragment = WISERHelper.display().findFragment(LoadingDialogFragment.class.getName());
+		if (loadingDialogFragment != null) loadingDialogFragment.dismiss();
 	}
 
 }

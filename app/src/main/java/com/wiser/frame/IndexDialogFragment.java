@@ -47,6 +47,11 @@ public class IndexDialogFragment extends WISERDialogFragment<IndexDialogFragment
 	}
 
 	@Override protected boolean isCloseOnTouchOutside() {
+		return false;
+	}
+
+	@Override
+	protected boolean isCloseOnTouchBack() {
 		return true;
 	}
 

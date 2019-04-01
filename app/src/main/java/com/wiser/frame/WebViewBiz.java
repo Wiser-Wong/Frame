@@ -64,7 +64,7 @@ public class WebViewBiz extends WISERBiz<WebViewActivity> implements IWebBiz {
 		// ui().show(s);
 		// }
 		// }));
-
+		showLoading();
 		/** zip事件合并 */
 		httpObservableIO(Observable.zip(http(IHttp.class).getObservableData(), http(IHttp.class).getObservableData1(""), http(IHttp.class).getObservableData(), http(IHttp.class).getObservableData(),
 				new Function4<String, String, String, String, String>() {
@@ -77,6 +77,7 @@ public class WebViewBiz extends WISERBiz<WebViewActivity> implements IWebBiz {
 					@Override protected void onSuccess(String s) {
 						System.out.println("------>>" + s);
 						ui().show(s);
+						hideLoading();
 					}
 				}));
 
