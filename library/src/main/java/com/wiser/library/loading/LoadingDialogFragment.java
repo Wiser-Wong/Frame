@@ -15,7 +15,7 @@ import android.os.Bundle;
  * 
  *         loading
  */
-public class LoadingDialogFragment<T extends IWISERBiz> extends WISERDialogFragment<T> {
+public class LoadingDialogFragment extends WISERDialogFragment {
 
 	private boolean isClose;
 
