@@ -128,6 +128,7 @@ public abstract class WISERDialogFragment<B extends IWISERBiz> extends DialogFra
 			// 初始化Biz数据
 			biz().initBiz(getArguments());
 		}
+
 		// 初始化数据
 		initData(getArguments());
 		initAfterData(savedInstanceState);
