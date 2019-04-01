@@ -131,6 +131,7 @@ public abstract class WISERDialogFragment<B extends IWISERBiz> extends DialogFra
 		// 初始化数据
 		initData(getArguments());
 		initAfterData(savedInstanceState);
+
 		if (getDialog() != null) {
 			// 设置点击空白处是否关闭Dialog
 			getDialog().setCanceledOnTouchOutside(isCloseOnTouchOutside());
@@ -138,6 +139,7 @@ public abstract class WISERDialogFragment<B extends IWISERBiz> extends DialogFra
 			// 设置返回键点击是否关闭Dialog
 			if (!isCloseOnTouchBack()) getDialog().setOnKeyListener(this);
 		}
+
 		return view;
 	}
 
