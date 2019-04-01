@@ -107,12 +107,6 @@ public abstract class WISERDialogFragment<B extends IWISERBiz> extends DialogFra
 			// 去除标题栏
 			getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
 
-			// 设置点击空白处是否关闭Dialog
-			getDialog().setCanceledOnTouchOutside(isCloseOnTouchOutside());
-
-			// 设置返回键点击是否关闭Dialog
-			if (!isCloseOnTouchBack()) getDialog().setOnKeyListener(this);
-
 			// 定制位置显示
 			showLocation();
 		}
@@ -137,6 +131,13 @@ public abstract class WISERDialogFragment<B extends IWISERBiz> extends DialogFra
 		// 初始化数据
 		initData(getArguments());
 		initAfterData(savedInstanceState);
+		if (getDialog() != null) {
+			// 设置点击空白处是否关闭Dialog
+			getDialog().setCanceledOnTouchOutside(isCloseOnTouchOutside());
+
+			// 设置返回键点击是否关闭Dialog
+			if (!isCloseOnTouchBack()) getDialog().setOnKeyListener(this);
+		}
 		return view;
 	}
 
@@ -216,10 +217,7 @@ public abstract class WISERDialogFragment<B extends IWISERBiz> extends DialogFra
 	}
 
 	@Override public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
-		if (keyCode == KeyEvent.KEYCODE_BACK) {
-			return true;
-		}
-		return false;
+		return event.getAction() == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_BACK;
 	}
 
 	@Override public void onDetach() {

@@ -1,6 +1,7 @@
 package com.wiser.library.loading;
 
 import com.wiser.library.R;
+import com.wiser.library.base.IWISERBiz;
 import com.wiser.library.base.WISERBuilder;
 import com.wiser.library.base.WISERDialogFragment;
 import com.wiser.library.helper.WISERHelper;
@@ -14,7 +15,7 @@ import android.os.Bundle;
  * 
  *         loading
  */
-public class LoadingDialogFragment extends WISERDialogFragment {
+public class LoadingDialogFragment<T extends IWISERBiz> extends WISERDialogFragment<T> {
 
 	private boolean isClose;
 

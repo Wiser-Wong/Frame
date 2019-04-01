@@ -14,9 +14,11 @@ import butterknife.BindView;
 
 public class IndexDialogFragment extends WISERDialogFragment<IndexDialogFragmentBiz> {
 
-	@BindView(R.id.tv_dialog) TextView textView;
+	@BindView(R.id.tv_dialog) TextView	textView;
 
-	public static WISERDialogFragment newInstance() {
+	private boolean						isClose;
+
+	public static IndexDialogFragment newInstance() {
 		return new IndexDialogFragment();
 	}
 
@@ -31,6 +33,9 @@ public class IndexDialogFragment extends WISERDialogFragment<IndexDialogFragment
 	}
 
 	@Override protected void initData(Bundle savedInstanceState) {
+		if (savedInstanceState != null) {
+			isClose = savedInstanceState.getBoolean("isClose");
+		}
 		biz().addAdapterData();
 	}
 
@@ -47,12 +52,11 @@ public class IndexDialogFragment extends WISERDialogFragment<IndexDialogFragment
 	}
 
 	@Override protected boolean isCloseOnTouchOutside() {
-		return false;
+		return isClose;
 	}
 
-	@Override
-	protected boolean isCloseOnTouchBack() {
-		return true;
+	@Override protected boolean isCloseOnTouchBack() {
+		return isClose;
 	}
 
 	@Override public void onLoadMore() {

@@ -89,6 +89,7 @@ public class WISERDisplay implements IWISERDisplay {
 
 	@Override public void intent(Intent intent, Bundle options) {
 		if (intent == null) return;
+		if (activity() == null) return;
 		if (options != null) intent.putExtras(options);
 		activity().startActivity(intent);
 	}
@@ -195,24 +196,28 @@ public class WISERDisplay implements IWISERDisplay {
 	}
 
 	@Override public void commitAdd(int layoutId, Fragment fragment) {
+		if (activity() == null) return;
 		if (layoutId > 0 && fragment != null) {
 			activity().getSupportFragmentManager().beginTransaction().add(layoutId, fragment).commit();
 		}
 	}
 
 	@Override public void commitAdd(int layoutId, Fragment fragment, String tag) {
+		if (activity() == null) return;
 		if (layoutId > 0 && fragment != null) {
 			activity().getSupportFragmentManager().beginTransaction().add(layoutId, fragment, tag).commit();
 		}
 	}
 
 	@Override public void commitReplace(int layoutId, Fragment fragment) {
+		if (activity() == null) return;
 		if (layoutId > 0 && fragment != null) {
 			activity().getSupportFragmentManager().beginTransaction().replace(layoutId, fragment).commit();
 		}
 	}
 
 	@Override public void commitReplace(int layoutId, Fragment fragment, String tag) {
+		if (activity() == null) return;
 		if (layoutId > 0 && fragment != null) {
 			activity().getSupportFragmentManager().beginTransaction().replace(layoutId, fragment, tag).commit();
 		}
@@ -250,7 +255,7 @@ public class WISERDisplay implements IWISERDisplay {
 	}
 
 	@Override public void commitRemove(Fragment fragment) {
-		if (fragment != null) {
+		if (fragment != null && activity() != null) {
 			activity().getSupportFragmentManager().beginTransaction().remove(fragment).commit();
 		}
 	}
@@ -264,6 +269,7 @@ public class WISERDisplay implements IWISERDisplay {
 	 */
 	public <T> T findFragment(String tagName) {
 		if (WISERCheck.isEmpty(tagName)) return null;
+		if (activity() == null) return null;
 		return (T) activity().getSupportFragmentManager().findFragmentByTag(tagName);
 	}
 
@@ -275,6 +281,7 @@ public class WISERDisplay implements IWISERDisplay {
 	 *            电话号码
 	 */
 	@SuppressLint("MissingPermission") @Override public void intentCall(String phoneNumber) {
+		if (activity() == null) return;
 		Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + phoneNumber));
 		activity().startActivity(intent);
 	}
@@ -285,6 +292,7 @@ public class WISERDisplay implements IWISERDisplay {
 	 * @param html
 	 */
 	@Override public void intentHtml(String html) {
+		if (activity() == null) return;
 		Uri uri = Uri.parse(html).buildUpon().encodedAuthority("com.android.htmlfileprovider").scheme("content").encodedPath(html).build();
 		Intent intent = new Intent("android.intent.action.VIEW");
 		intent.setDataAndType(uri, "text/html");
@@ -298,6 +306,7 @@ public class WISERDisplay implements IWISERDisplay {
 	 *            Pdf文件路径
 	 */
 	@Override public void intentPdf(String path) {
+		if (activity() == null) return;
 		Intent intent = new Intent("android.intent.action.VIEW");
 		intent.addCategory("android.intent.category.DEFAULT");
 		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -313,6 +322,7 @@ public class WISERDisplay implements IWISERDisplay {
 	 *            文本文件路径
 	 */
 	@Override public void intentTxt(String path) {
+		if (activity() == null) return;
 		Intent intent = new Intent("android.intent.action.VIEW");
 		intent.addCategory("android.intent.category.DEFAULT");
 		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -328,6 +338,7 @@ public class WISERDisplay implements IWISERDisplay {
 	 *            音频文件路径
 	 */
 	@Override public void intentAudio(String path) {
+		if (activity() == null) return;
 		Intent intent = new Intent("android.intent.action.VIEW");
 		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		intent.putExtra("oneshot", 0);
@@ -344,6 +355,7 @@ public class WISERDisplay implements IWISERDisplay {
 	 *            视频文件路径
 	 */
 	@Override public void intentVideo(String path) {
+		if (activity() == null) return;
 		Intent intent = new Intent("android.intent.action.VIEW");
 		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		intent.putExtra("oneshot", 0);
@@ -360,6 +372,7 @@ public class WISERDisplay implements IWISERDisplay {
 	 *            视频文件路径
 	 */
 	@Override public void intentWord(String path) {
+		if (activity() == null) return;
 		Intent intent = new Intent("android.intent.action.VIEW");
 		intent.addCategory("android.intent.category.DEFAULT");
 		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -375,6 +388,7 @@ public class WISERDisplay implements IWISERDisplay {
 	 *            视频文件路径
 	 */
 	@Override public void intentExcel(String path) {
+		if (activity() == null) return;
 		Intent intent = new Intent("android.intent.action.VIEW");
 		intent.addCategory("android.intent.category.DEFAULT");
 		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -390,6 +404,7 @@ public class WISERDisplay implements IWISERDisplay {
 	 *            跳转的URL地址
 	 */
 	@Override public void intentWeb(String url) {
+		if (activity() == null) return;
 		Uri uri = Uri.parse(url);
 		Intent intent = new Intent(Intent.ACTION_VIEW, uri);
 		activity().startActivity(intent);
@@ -407,6 +422,7 @@ public class WISERDisplay implements IWISERDisplay {
 	 * @return 返回文件绝对路径 file.getAbsolutePath();
 	 */
 	@Override public String intentCamera(String outPath, String authority, int requestCode) {
+		if (activity() == null) return "";
 		if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
 			Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 			File outDir = new File(outPath);
@@ -432,6 +448,7 @@ public class WISERDisplay implements IWISERDisplay {
 	 *            请求码
 	 */
 	@Override public void intentPhoto(int requestCode) {
+		if (activity() == null) return;
 		Intent intent = new Intent(Intent.ACTION_PICK, null);
 		intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
 		activity().startActivityForResult(intent, requestCode);
@@ -446,6 +463,7 @@ public class WISERDisplay implements IWISERDisplay {
 	 *            请求吗
 	 */
 	@Override public void cropPhoto(Uri uri, int requestCode) {
+		if (activity() == null) return;
 		Intent intent = new Intent("com.android.camera.action.CROP");
 		intent.setDataAndType(uri, "image/*");
 		// crop为true是设置在开启的intent中设置显示的view可以剪裁
@@ -469,6 +487,7 @@ public class WISERDisplay implements IWISERDisplay {
 	 * 跳转设置
 	 */
 	@Override public void intentSetting() {
+		if (activity() == null) return;
 		Intent localIntent = new Intent();
 		localIntent.setAction(Settings.ACTION_SETTINGS);
 		activity().startActivity(localIntent);
@@ -478,6 +497,7 @@ public class WISERDisplay implements IWISERDisplay {
 	 * 跳转App详情
 	 */
 	@Override public void intentAppDetails() {
+		if (activity() == null) return;
 		Intent localIntent = new Intent();
 		localIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		localIntent.setAction("android.settings.APPLICATION_DETAILS_SETTINGS");
@@ -496,6 +516,7 @@ public class WISERDisplay implements IWISERDisplay {
 	 *            apk路径
 	 */
 	@Override public void installApk(Context context, String authority, String path) {
+		if (activity() == null) return;
 		Intent intent = new Intent(Intent.ACTION_VIEW);
 		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
