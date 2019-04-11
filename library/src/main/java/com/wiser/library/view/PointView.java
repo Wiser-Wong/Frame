@@ -20,7 +20,7 @@ public class PointView extends View {
 
 	private int		color	= Color.GRAY;
 
-	private int		radius	= 7;
+	private int		radius	= 10;
 
 	public PointView(Context context) {
 		super(context);

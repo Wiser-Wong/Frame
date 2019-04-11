@@ -89,6 +89,12 @@ public abstract class WISERActivity<B extends IWISERBiz> extends FragmentActivit
 		return 0;
 	}
 
+	// 加载刷新
+	public void loadingRefresh() {
+		if (mWiserBuilder != null) mWiserBuilder.loadingRefresh();
+		onRefresh();
+	}
+
 	// 显示空布局
 	@Override public void showEmptyView() {
 		if (mWiserBuilder != null) mWiserBuilder.showEmptyView();

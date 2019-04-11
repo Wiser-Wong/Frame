@@ -256,7 +256,6 @@ public class BannerPagerView extends FrameLayout implements ViewPager.OnPageChan
 	private void createDot() {
 		this.isDot = true;
 		if (adapter() != null && adapter().getCount() > 1) {
-			bannerView.addOnPageChangeListener(this);
 			dotLayout = new LinearLayout(getContext());
 			LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 			params.gravity = Gravity.BOTTOM;
@@ -339,14 +338,14 @@ public class BannerPagerView extends FrameLayout implements ViewPager.OnPageChan
 	 * 设置指示器是否显示 以及指示器变化颜色值 整型
 	 *
 	 * @param isDot
-	 * @param firstColor
-	 * @param secondColor
+	 * @param unSelectColor
+	 * @param selectColor
 	 * @return
 	 */
-	public BannerPagerView isDot(boolean isDot, int firstColor, int secondColor) {
+	public BannerPagerView isDot(boolean isDot, int unSelectColor, int selectColor) {
 		if (!isDot) return this;
-		this.unSelectColor = firstColor;
-		this.selectColor = secondColor;
+		this.unSelectColor = unSelectColor;
+		this.selectColor = selectColor;
 		this.isColor = true;
 		createDot();
 		return this;
@@ -356,15 +355,15 @@ public class BannerPagerView extends FrameLayout implements ViewPager.OnPageChan
 	 * 设置指示器是否显示 以及指示器变化颜色值 整型 和 位置
 	 *
 	 * @param isDot
-	 * @param firstColor
-	 * @param secondColor
+	 * @param unSelectColor
+	 * @param selectColor
 	 * @param dotDirection
 	 * @return
 	 */
-	public BannerPagerView isDot(boolean isDot, int firstColor, int secondColor, int dotDirection) {
+	public BannerPagerView isDot(boolean isDot, int unSelectColor, int selectColor, int dotDirection) {
 		if (!isDot) return this;
-		this.unSelectColor = firstColor;
-		this.selectColor = secondColor;
+		this.unSelectColor = unSelectColor;
+		this.selectColor = selectColor;
 		this.isColor = true;
 		createDot();
 		setDotDirection(dotDirection);

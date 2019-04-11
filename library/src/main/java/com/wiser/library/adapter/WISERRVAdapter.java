@@ -88,6 +88,10 @@ public abstract class WISERRVAdapter<T, V extends WISERHolder> extends RecyclerV
 		return wiserView.activity();
 	}
 
+	public WISERFragment fragment() {
+		return wiserView.fragment();
+	}
+
 	public void isFooter(boolean isFooter) {
 		this.isFooter = isFooter;
 	}

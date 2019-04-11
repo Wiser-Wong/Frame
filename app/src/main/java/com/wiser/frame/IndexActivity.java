@@ -125,7 +125,8 @@ public class IndexActivity extends WISERActivity<IndexBiz> implements WISERRVAda
 
 		bannerPagerView.setFragmentPages(this, list1).isDot(true).setCircle(true).startTurning(1000);
 
-//		WISERHelper.toast().show(WISERDate.getWeek("2019年3月26日", WISERDate.DATE_HZ,true));
+		// WISERHelper.toast().show(WISERDate.getWeek("2019年3月26日",
+		// WISERDate.DATE_HZ,true));
 	}
 
 	@Override public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -187,6 +188,7 @@ public class IndexActivity extends WISERActivity<IndexBiz> implements WISERRVAda
 	@OnClick({ R.id.tv_name, R.id.iv_qr, R.id.tv_d }) public void onClickView(View view) {
 		switch (view.getId()) {
 			case R.id.tv_name:
+				loadingRefresh();
 				// WISERHelper.display().intent(SmartActivity.class);
 				// WISERHelper.display().intent(TabPageActivity.class);
 				// WISERHelper.display().intent(WebViewActivity.class);

@@ -412,4 +412,46 @@ public class WISERDate {
 		return date.getTime();
 	}
 
+	/**
+	 * 日期比较
+	 * 
+	 * @param firstTime
+	 * @param secondTime
+	 * @return true firstTime<secondTime false firstTime>secondTime
+	 */
+	public static boolean compareTime(String firstTime, String secondTime, int type, boolean isShort) {
+		SimpleDateFormat sdf;
+		switch (type) {
+			case DATE_XG:// yyyy/mm/dd
+				if (isShort) sdf = new SimpleDateFormat("yyyy/MM/dd", Locale.CHINA);
+				else sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss", Locale.CHINA);
+				break;
+			case DATE_HG:// yyyy-mm-dd
+				if (isShort) sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA);
+				else sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA);
+				break;
+			case DATE_HZ:// yyyy年mm月dd日
+				if (isShort) sdf = new SimpleDateFormat("yyyy年MM月dd日", Locale.CHINA);
+				else sdf = new SimpleDateFormat("yyyy年MM月dd日 HH时mm分ss秒", Locale.CHINA);
+				break;
+			default:
+				if (isShort) sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA);
+				else sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA);
+				break;
+		}
+		sdf.setTimeZone(timezone);
+		try {
+			Date sd1 = sdf.parse(firstTime);
+			Date sd2 = sdf.parse(secondTime);
+			if (sd1.after(sd2)) {
+				return false;
+			} else {
+				return true;
+			}
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+
 }

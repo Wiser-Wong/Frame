@@ -14,6 +14,19 @@ import java.util.regex.Pattern;
 public class WISERString {
 
 	/**
+	 * 获取小于10的数字转换成00格式
+	 *
+	 * @param count
+	 * @return
+	 */
+	public static String convertInt(int count) {
+		if (count < 10) {
+			return "0" + count;
+		}
+		return count + "";
+	}
+
+	/**
 	 * 截取字符串
 	 *
 	 * @param data

@@ -537,6 +537,13 @@ public class WISERBuilder {
 	}
 
 	/**
+	 * 加载刷新
+	 */
+	void loadingRefresh() {
+		if (isRefresh && layoutRefresh != null) layoutRefresh.setRefreshing(true);
+	}
+
+	/**
 	 * 改变布局显示增加动画显示隐藏
 	 *
 	 * @param view
