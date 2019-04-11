@@ -91,8 +91,9 @@ public abstract class WISERActivity<B extends IWISERBiz> extends FragmentActivit
 
 	// 加载刷新
 	public void loadingRefresh() {
-		if (mWiserBuilder != null) mWiserBuilder.loadingRefresh();
-		onRefresh();
+		if (mWiserBuilder != null) {
+			if (mWiserBuilder.loadingRefresh()) onRefresh();
+		}
 	}
 
 	// 显示空布局

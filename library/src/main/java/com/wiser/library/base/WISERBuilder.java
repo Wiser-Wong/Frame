@@ -539,8 +539,12 @@ public class WISERBuilder {
 	/**
 	 * 加载刷新
 	 */
-	void loadingRefresh() {
-		if (isRefresh && layoutRefresh != null) layoutRefresh.setRefreshing(true);
+	boolean loadingRefresh() {
+		if (isRefresh && layoutRefresh != null) {
+			layoutRefresh.setRefreshing(true);
+			return true;
+		}
+		return false;
 	}
 
 	/**
