@@ -60,6 +60,13 @@ public abstract class WISERService<B extends WISERBiz> extends Service {
 	}
 
 	@Override public int onStartCommand(Intent intent, int flags, int startId) {
+		if (biz() != null) {
+			// 将Activity对应的实例传给biz
+			biz().initUi(this);
+			// 初始化Biz数据
+			if (intent != null) biz().initBiz(intent.getExtras());
+			biz().initBiz(intent);
+		}
 		running(intent, flags, startId);
 		return START_NOT_STICKY;
 	}

@@ -134,6 +134,17 @@ public class WISERBiz<U> implements IWISERBiz {
 	}
 
 	/**
+	 * 是否正在显示loading
+	 */
+	protected boolean isRunningLoading() {
+		LoadingDialogFragment loadingDialogFragment = WISERHelper.display().findFragment(LoadingDialogFragment.class.getName());
+		if (loadingDialogFragment != null) {
+			return loadingDialogFragment.isShowing();
+		}
+		return false;
+	}
+
+	/**
 	 * 网络取消
 	 */
 	private void httpCallCancel() {

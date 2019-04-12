@@ -3,6 +3,7 @@ package com.wiser.library.helper;
 import com.wiser.library.base.WISERActivity;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -104,6 +105,97 @@ public interface IWISERDisplay {
 	 *            参数
 	 */
 	void intentForResult(Intent intent, Bundle options, int requestCode);
+
+	/**
+	 * 启动服务
+	 * 
+	 * @param classZ
+	 */
+	void intentService(Class classZ);
+
+	/**
+	 * 启动服务
+	 * 
+	 * @param clazzName
+	 *            参数
+	 */
+	void intentService(String clazzName);
+
+	/**
+	 * 启动服务
+	 * 
+	 * @param classZ
+	 * @param intent
+	 */
+	void intentService(Class classZ, Intent intent);
+
+	/**
+	 * 启动服务
+	 *
+	 * @param classZ
+	 * @param bundle
+	 */
+	void intentService(Class classZ, Bundle bundle);
+
+	/**
+	 * 启动服务
+	 *
+	 * @param intent
+	 * @param bundle
+	 */
+	void intentService(Intent intent, Bundle bundle);
+
+	/**
+	 * 结束服务
+	 *
+	 * @param classZ
+	 */
+	void intentStopService(Class classZ);
+
+	/**
+	 * 结束服务
+	 * 
+	 * @param clazzName
+	 *            参数
+	 */
+	void intentStopService(String clazzName);
+
+	/**
+	 * 发送广播
+	 * 
+	 * @param action
+	 */
+	void intentBroadCast(String action);
+
+	/**
+	 * 发送广播
+	 * 
+	 * @param intent
+	 */
+	void intentBroadCast(Intent intent);
+
+	/**
+	 * 发送广播
+	 *
+	 * @param bundle
+	 */
+	void intentBroadCast(String action, Bundle bundle);
+
+	/**
+	 * 发送广播
+	 *
+	 * @param intent
+	 * @param bundle
+	 */
+	void intentBroadCast(Intent intent, Bundle bundle);
+
+	/**
+	 * 注册广播
+	 *
+	 * @param action
+	 * @param receiver
+	 */
+	void intentRegisteredBroadCast(String action, BroadcastReceiver receiver);
 
 	/**
 	 * 跳转

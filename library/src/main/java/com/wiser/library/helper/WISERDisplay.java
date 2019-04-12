@@ -11,9 +11,11 @@ import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.ActivityOptions;
+import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -57,11 +59,11 @@ public class WISERDisplay implements IWISERDisplay {
 	}
 
 	@Override public void intent(String clazzName) {
-		if (activity() == null || clazzName == null) {
+		if (activity() == null || WISERCheck.isEmpty(clazzName)) {
 			return;
 		}
 		Intent intent = new Intent();
-		intent.setClassName(WISERHelper.getInstance(), clazzName);
+		intent.setClassName(activity(), clazzName);
 		activity().startActivity(intent);
 	}
 
@@ -117,6 +119,88 @@ public class WISERDisplay implements IWISERDisplay {
 			intent.putExtras(options);
 		}
 		activity().startActivityForResult(intent, requestCode);
+	}
+
+	@Override public void intentService(Class classZ) {
+		if (classZ == null) return;
+		Intent intent = new Intent();
+		intent.setClass(WISERHelper.getInstance(), classZ);
+		WISERHelper.getInstance().startService(intent);
+	}
+
+	@Override public void intentService(String clazzName) {
+		if (WISERCheck.isEmpty(clazzName)) {
+			return;
+		}
+		Intent intent = new Intent();
+		intent.setClassName(WISERHelper.getInstance(), clazzName);
+		WISERHelper.getInstance().startService(intent);
+	}
+
+	@Override public void intentService(Class classZ, Intent intent) {
+		if (classZ == null) return;
+		if (intent == null) return;
+		intent.setClass(WISERHelper.getInstance(), classZ);
+		WISERHelper.getInstance().startService(intent);
+	}
+
+	@Override public void intentService(Class classZ, Bundle bundle) {
+		if (classZ == null) return;
+		Intent intent = new Intent();
+		intent.setClass(WISERHelper.getInstance(), classZ);
+		intentService(intent, bundle);
+	}
+
+	@Override public void intentService(Intent intent, Bundle bundle) {
+		if (intent == null) return;
+		if (bundle != null) intent.putExtras(bundle);
+		WISERHelper.getInstance().startActivity(intent);
+	}
+
+	@Override public void intentStopService(Class classZ) {
+		if (classZ == null) return;
+		Intent intent = new Intent();
+		intent.setClass(WISERHelper.getInstance(), classZ);
+		WISERHelper.getInstance().stopService(intent);
+	}
+
+	@Override public void intentStopService(String clazzName) {
+		if (WISERCheck.isEmpty(clazzName)) {
+			return;
+		}
+		Intent intent = new Intent();
+		intent.setClassName(WISERHelper.getInstance(), clazzName);
+		WISERHelper.getInstance().stopService(intent);
+	}
+
+	@Override public void intentBroadCast(String action) {
+		if (WISERCheck.isEmpty(action)) return;
+		Intent intent = new Intent(action);
+		WISERHelper.getInstance().sendBroadcast(intent);
+	}
+
+	@Override public void intentBroadCast(Intent intent) {
+		if (intent == null) return;
+		WISERHelper.getInstance().sendBroadcast(intent);
+	}
+
+	@Override public void intentBroadCast(String action, Bundle bundle) {
+		if (WISERCheck.isEmpty(action)) return;
+		Intent intent = new Intent(action);
+		intentBroadCast(intent, bundle);
+	}
+
+	@Override public void intentBroadCast(Intent intent, Bundle bundle) {
+		if (intent == null) return;
+		if (bundle != null) intent.putExtras(bundle);
+		WISERHelper.getInstance().sendBroadcast(intent);
+	}
+
+	@Override public void intentRegisteredBroadCast(String action, BroadcastReceiver receiver) {
+		if (WISERCheck.isEmpty(action) || receiver == null) return;
+		IntentFilter filter = new IntentFilter();
+		filter.addAction(action);
+		WISERHelper.getInstance().registerReceiver(receiver, filter);
 	}
 
 	@Override public void intentFromFragment(Class clazz, Fragment fragment, int requestCode) {
