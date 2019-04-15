@@ -118,6 +118,24 @@ public class WISERBitmap {
 	}
 
 	/**
+	 * 加载大图
+	 * 
+	 * @param context
+	 * @param resId
+	 * @return
+	 */
+	public static Bitmap readBitMap(Context context, int resId) {
+		BitmapFactory.Options opt = new BitmapFactory.Options();
+		opt.inPreferredConfig = Bitmap.Config.RGB_565;
+		opt.inPurgeable = true;
+		opt.inInputShareable = true;
+		// 获取资源图片
+		InputStream is = context.getResources().openRawResource(resId);
+		return BitmapFactory.decodeStream(is, null, opt);
+
+	}
+
+	/**
 	 * 图片文件转化为Bitmap
 	 */
 	public static Bitmap convertToBitmap(String path) {
