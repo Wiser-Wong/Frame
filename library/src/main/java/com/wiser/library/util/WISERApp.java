@@ -36,6 +36,7 @@ import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
+import android.view.View;
 import android.view.WindowManager;
 import android.widget.Toast;
 
@@ -541,7 +542,6 @@ public class WISERApp {
 	 * @return
 	 */
 	@SuppressLint({ "MissingPermission", "HardwareIds" }) public static String getImei() {
-
 		String imei = "";
 		if (ActivityCompat.checkSelfPermission(WISERHelper.getInstance(), Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED) {
 			TelephonyManager tm = (TelephonyManager) WISERHelper.getInstance().getSystemService(Context.TELEPHONY_SERVICE);
@@ -549,6 +549,38 @@ public class WISERApp {
 			imei = tm.getDeviceId();
 		}
 		return imei;
+	}
+
+	/**
+	 * 显示虚拟按键
+	 */
+	public static void showVirtualKey(Activity activity) {
+		if (activity == null) return;
+		// 显示虚拟按键
+		if (Build.VERSION.SDK_INT < 19) {
+			// 低版本sdk
+			View v = activity.getWindow().getDecorView();
+			v.setSystemUiVisibility(View.VISIBLE);
+		} else {
+			View decorView = activity.getWindow().getDecorView();
+			int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;
+			decorView.setSystemUiVisibility(uiOptions);
+		}
+	}
+
+	/**
+	 * 隐藏虚拟按键
+	 */
+	public static void hideVirtualKey(Activity activity) {
+		// 隐藏虚拟按键
+		if (Build.VERSION.SDK_INT < 19) {
+			View v = activity.getWindow().getDecorView();
+			v.setSystemUiVisibility(View.GONE);
+		} else {
+			View decorView = activity.getWindow().getDecorView();
+			int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY | View.SYSTEM_UI_FLAG_FULLSCREEN;
+			decorView.setSystemUiVisibility(uiOptions);
+		}
 	}
 
 }

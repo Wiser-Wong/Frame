@@ -124,7 +124,7 @@ public class WISERBitmap {
 	 * @param resId
 	 * @return
 	 */
-	public static Bitmap readBitMap(Context context, int resId) {
+	public static Bitmap getResBitmap(Context context, int resId) {
 		BitmapFactory.Options opt = new BitmapFactory.Options();
 		opt.inPreferredConfig = Bitmap.Config.RGB_565;
 		opt.inPurgeable = true;
