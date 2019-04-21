@@ -44,7 +44,7 @@ public class WISERActivityManage implements IWISERActivityManage {
 	 */
 	@Override public void finishActivity(WISERActivityModel model) {
 
-		if (model != null) {
+		if (model != null && model.getActivity() != null) {
 			if (!model.getActivity().isFinishing()) {
 				model.finish();
 			} else {
@@ -71,9 +71,7 @@ public class WISERActivityManage implements IWISERActivityManage {
 	@Override public void exitFinishAllActivity() {
 
 		for (WISERActivityModel model : activities) {
-			if (model != null) {
-				finishActivity(model);
-			}
+			finishActivity(model);
 		}
 		System.exit(0);
 
@@ -84,7 +82,7 @@ public class WISERActivityManage implements IWISERActivityManage {
 	 */
 	@Override public void finishActivityClass(Class<?> cls) {
 		for (WISERActivityModel model : activities) {
-			if (model != null) {
+			if (model != null && model.getActivity() != null) {
 				if (model.getActivity().getClass().equals(cls)) {
 					finishActivity(model);
 					break;
@@ -101,7 +99,7 @@ public class WISERActivityManage implements IWISERActivityManage {
 	@Override public void finishAllActivityExceptClass(Class<?> cls) {
 		int len = activities.size();
 		for (int i = 0; i < len; i++) {
-			if (activities.get(i) != null) {
+			if (activities.get(i) != null && activities.get(i).getActivity() != null) {
 				if (activities.get(i).getActivity().getClass().equals(cls)) {
 				} else {
 					finishActivity(activities.get(i));
@@ -119,7 +117,7 @@ public class WISERActivityManage implements IWISERActivityManage {
 	 * @return
 	 */
 	@Override public <T extends WISERActivity> T getCurrentActivity() {
-		if (activities.size() > 0) return (T) activities.get(activities.size() - 1).getActivity();
+		if (activities.size() > 0 && activities.get(activities.size() - 1) != null) return (T) activities.get(activities.size() - 1).getActivity();
 		return null;
 	}
 
@@ -134,7 +132,7 @@ public class WISERActivityManage implements IWISERActivityManage {
 		if (activities.size() > 0) {
 			synchronized (activities) {
 				for (int i = 0; i < activities.size(); i++) {
-					if (activities.get(i).isRunning()) {
+					if (activities.get(i) != null && activities.get(i).isRunning()) {
 						return (T) activities.get(i).getActivity();
 					}
 				}
@@ -152,7 +150,7 @@ public class WISERActivityManage implements IWISERActivityManage {
 	@Override public void onPause(WISERActivity activity) {
 		synchronized (activities) {
 			for (int i = activities.size() - 1; i >= 0; i--) {
-				if (activities.get(i).getActivity().equals(activity)) {
+				if (activities.get(i) != null && activities.get(i).getActivity() != null && activities.get(i).getActivity().equals(activity)) {
 					activities.get(i).pause();
 					break;
 				}
@@ -168,7 +166,7 @@ public class WISERActivityManage implements IWISERActivityManage {
 	@Override public void onResume(WISERActivity activity) {
 		synchronized (activities) {
 			for (int i = activities.size() - 1; i >= 0; i--) {
-				if (activities.get(i).getActivity().equals(activity)) {
+				if (activities.get(i) != null && activities.get(i).getActivity() != null && activities.get(i).getActivity().equals(activity)) {
 					activities.get(i).resume();
 					break;
 				}
@@ -200,10 +198,12 @@ public class WISERActivityManage implements IWISERActivityManage {
 				bizListString.append(entry.getValue().getService()).append("--->>");
 			}
 			for (int i = 0; i < activities.size(); i++) {
-				if (i == activities.size() - 1) {
-					activityListString.append(activities.get(i).getActivity());
-				} else {
-					activityListString.append(activities.get(i).getActivity()).append("--->>");
+				if (activities.get(i) != null) {
+					if (i == activities.size() - 1) {
+						activityListString.append(activities.get(i).getActivity());
+					} else {
+						activityListString.append(activities.get(i).getActivity()).append("--->>");
+					}
 				}
 			}
 			WISERHelper.log().e("activityList---:" + activityListString.toString());

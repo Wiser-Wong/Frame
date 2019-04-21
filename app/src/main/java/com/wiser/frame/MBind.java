@@ -35,7 +35,7 @@ public class MBind implements IWISERBind {
 ////			}
 //		requParams.addBodyParameter("compid",SharedPreferencesUtils.get(QuantityString.COMPID));
 //
-////			String account = SharedPreferencesUtils.get(QuantityString.ACCOUNT) + Md5Encrypt.md5(SharedPreferencesUtils.get(QuantityString.KEY));
+//			String account = SharedPreferencesUtils.get(QuantityString.ACCOUNT) + Md5Encrypt.md5(SharedPreferencesUtils.get(QuantityString.KEY));
 ////			String md5 = Md5Encrypt.md5(Md5Encrypt.md5(account)+ requesxml + "VETRIP_B2G");// 接口授权
 ////			String md5 =Md5Encrypt.md5(requesxml+Md5Encrypt.md5(SharedPreferencesUtils.get(QuantityString.KEY)));
 //		String md5=Md5Encrypt.md5(Md5Encrypt.md5(SharedPreferencesUtils.get(QuantityString.COMPID))+requesxml+"VETRIP_B2G");
