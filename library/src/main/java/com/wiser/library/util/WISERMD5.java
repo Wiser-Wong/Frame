@@ -2,7 +2,6 @@ package com.wiser.library.util;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
@@ -23,12 +22,12 @@ public class WISERMD5 {
 	 * 
 	 * @param file
 	 * @return
-	 * @throws FileNotFoundException
 	 */
-	public static String getMD5ByFile(File file) throws FileNotFoundException {
+	public static String getMD5ByFile(File file) {
 		String value = null;
-		FileInputStream in = new FileInputStream(file);
+		FileInputStream in = null;
 		try {
+			in = new FileInputStream(file);
 			MappedByteBuffer byteBuffer = in.getChannel().map(FileChannel.MapMode.READ_ONLY, 0, file.length());
 			MessageDigest md5 = MessageDigest.getInstance("MD5");
 			md5.update(byteBuffer);
@@ -38,7 +37,7 @@ public class WISERMD5 {
 			e.printStackTrace();
 		} finally {
 			try {
-				in.close();
+				if (in != null) in.close();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
