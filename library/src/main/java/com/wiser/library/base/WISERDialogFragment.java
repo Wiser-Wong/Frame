@@ -16,6 +16,7 @@ import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
@@ -272,7 +273,15 @@ public abstract class WISERDialogFragment<B extends IWISERBiz> extends DialogFra
 
 	@Override public void dismiss() {
 		if (isShowing()) {
-			super.dismiss();
+			super.dismissAllowingStateLoss();
+		}
+	}
+
+	@Override public void show(FragmentManager manager, String tag) {
+		try {
+			super.show(manager, tag);
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 
