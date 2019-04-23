@@ -10,7 +10,7 @@
 #### 3、项目下的build.gradle配置
     allprojects { repositories { ... maven { url 'https://jitpack.io' } } }
 #### 4、app目录下build.gradle配置
-    dependencies { implementation 'com.github.Wiser-Wong:Frame:1.2.9' }
+    dependencies { implementation 'com.github.Wiser-Wong:Frame:1.4.0' }
 ## WiserFrame使用说明
 #### 1.所有自己App项目中的Activity 继承 WISERActivity 可传递泛型Biz类也可以传递IBiz接口类，是处理业务逻辑类，例如：  
     public class MyActivity expand WISERActivity<MyBiz>{}  
