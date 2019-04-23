@@ -23,7 +23,11 @@ public abstract class WISERRxJavaDisposableObserver<T> extends DisposableObserve
 	private boolean isDfException = false;
 
 	@Override public void onNext(T t) {
-		onSuccess(t);
+		try {
+			onSuccess(t);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override public void onError(Throwable e) {
@@ -40,21 +44,25 @@ public abstract class WISERRxJavaDisposableObserver<T> extends DisposableObserve
 				onException(WISERRxJavaDisposableObserver.ExceptionConstants.RESPONSE_ERROR);
 			}
 		}
-		onFail(e);
+		try {
+			onFail(e);
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
 	}
 
 	@Override public void onComplete() {
 
 	}
 
-	protected abstract void onSuccess(T t);
+	protected abstract void onSuccess(T t) throws Exception;
 
 	protected boolean isDfException(boolean isDfException) {
 		this.isDfException = isDfException;
 		return isDfException;
 	}
 
-	protected void onFail(Throwable e) {}
+	protected void onFail(Throwable e) throws Exception{}
 
 	/**
 	 * 请求异常

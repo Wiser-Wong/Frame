@@ -25,14 +25,14 @@ public class WebViewBiz extends WISERBiz<WebViewActivity> implements IWebBiz {
 		 * 单一请求 准确写法需要subscribe(httpDisposableObserver(new
 		 * WISERRxJavaDisposableObserver)这么写防止内存泄漏
 		 */
-		// httpObservableIO(http(IHttp.class).getObservableData()).subscribe(httpDisposableObserver(new
-		// WISERRxJavaDisposableObserver<String>() {
-		//
-		// @Override protected void onSuccess(String s) {
-		// System.out.println("------>>" + s);
-		// ui().show(s);
-		// }
-		// }));
+		 httpObservableIO(http(IHttp.class).getObservableData()).subscribe(httpDisposableObserver(new
+		 WISERRxJavaDisposableObserver<String>() {
+
+		 @Override protected void onSuccess(String s) {
+		 System.out.println("------>>" + s);
+		 ui().show(s);
+		 }
+		 }));
 		/**
 		 * flatMap处理多循环嵌套 与 concatMap一样的效果
 		 * flatMap与concatMap区别是flatMap处理多条数据时候是无序的，而concatMap处理多条数据是有序的
@@ -64,22 +64,21 @@ public class WebViewBiz extends WISERBiz<WebViewActivity> implements IWebBiz {
 		// ui().show(s);
 		// }
 		// }));
-		showLoading();
-		/** zip事件合并 */
-		httpObservableIO(Observable.zip(http(IHttp.class).getObservableData(), http(IHttp.class).getObservableData1(""), http(IHttp.class).getObservableData(), http(IHttp.class).getObservableData(),
-				new Function4<String, String, String, String, String>() {
-
-					@Override public String apply(String s, String s2, String s3, String s4) {
-						return s + "-->>" + s2 + "-->>" + s3 + "-->>" + s4;
-					}
-				})).subscribe(httpDisposableObserver(new WISERRxJavaDisposableObserver<String>() {
-
-					@Override protected void onSuccess(String s) {
-						System.out.println("------>>" + s);
-						ui().show(s);
-						hideLoading();
-					}
-				}));
+//		/** zip事件合并 */
+//		httpObservableIO(Observable.zip(http(IHttp.class).getObservableData(), http(IHttp.class).getObservableData1(""), http(IHttp.class).getObservableData(), http(IHttp.class).getObservableData(),
+//				new Function4<String, String, String, String, String>() {
+//
+//					@Override public String apply(String s, String s2, String s3, String s4) {
+//						return s + "-->>" + s2 + "-->>" + s3 + "-->>" + s4;
+//					}
+//				})).subscribe(httpDisposableObserver(new WISERRxJavaDisposableObserver<String>() {
+//
+//					@Override protected void onSuccess(String s) {
+//						System.out.println("------>>" + s);
+//						ui().show(s);
+//						hideLoading();
+//					}
+//				}));
 
 		/** flatMap和map */
 		// httpObservableIO(http(IHttp.class).getObservableData().flatMap(new
