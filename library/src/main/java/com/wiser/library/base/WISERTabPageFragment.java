@@ -15,7 +15,9 @@ public abstract class WISERTabPageFragment<B extends IWISERBiz> extends WISERFra
 
 	WISERTabPageView	tabPageView;
 
-	public int			CURRENT_INDEX	= 0;
+	public int			CURRENT_INDEX		= 0;
+
+	public int			BEHIND_PAGE_INDEX	= 0;
 
 	protected abstract WISERTabPageView buildTabPageView(WISERTabPageView tabPageView);
 

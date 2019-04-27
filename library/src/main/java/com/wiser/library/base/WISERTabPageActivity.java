@@ -17,6 +17,8 @@ public abstract class WISERTabPageActivity<B extends IWISERBiz> extends WISERAct
 
 	public int			CURRENT_INDEX	= 0;
 
+	public int			BEHIND_PAGE_INDEX	= 0;
+
 	protected abstract WISERTabPageView buildTabPageView(WISERTabPageView tabPageView);
 
 	protected abstract WISERBuilder buildFrame(WISERBuilder builder);

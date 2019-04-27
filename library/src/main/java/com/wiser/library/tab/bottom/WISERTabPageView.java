@@ -198,12 +198,18 @@ public class WISERTabPageView extends RelativeLayout implements ViewPager.OnPage
 
 	@Override public void onPageSelected(int i) {
 		if (isFragment) {
+			if (wiserTabPageFragment != null) wiserTabPageFragment.BEHIND_PAGE_INDEX = i;
+		} else {
+			if (wiserTabPageActivity != null) wiserTabPageActivity.BEHIND_PAGE_INDEX = i;
+		}
+
+		if (onTabPageChangeListener != null) onTabPageChangeListener.onPageSelected(i);
+
+		if (isFragment) {
 			if (wiserTabPageFragment != null) wiserTabPageFragment.CURRENT_INDEX = i;
 		} else {
 			if (wiserTabPageActivity != null) wiserTabPageActivity.CURRENT_INDEX = i;
 		}
-
-		if (onTabPageChangeListener != null) onTabPageChangeListener.onPageSelected(i);
 
 		if (index == i) {
 			checkMethod("onShowCurrentPage", i);
