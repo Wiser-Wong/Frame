@@ -250,7 +250,7 @@ public abstract class WISERWebActivity<B extends IWISERBiz> extends WISERActivit
 	 * 返回处理
 	 */
 	protected boolean backHandle() {
-		if (isHandleBack) if (webView.canGoBack()) {
+		if (isHandleBack) if (webView != null && webView.canGoBack()) {
 			webView.goBack();
 			return true;
 		} else {
@@ -267,8 +267,10 @@ public abstract class WISERWebActivity<B extends IWISERBiz> extends WISERActivit
 	}
 
 	@Override protected void onPause() {
-		webView.onPause();
-		webView.pauseTimers();
+		if (webView != null) {
+			webView.onPause();
+			webView.pauseTimers();
+		}
 		super.onPause();
 		if (isFinishing()) {
 			if (webView != null) {
@@ -286,8 +288,10 @@ public abstract class WISERWebActivity<B extends IWISERBiz> extends WISERActivit
 	}
 
 	@Override protected void onResume() {
-		webView.onResume();
-		webView.resumeTimers();
+		if (webView != null) {
+			webView.onResume();
+			webView.resumeTimers();
+		}
 		super.onResume();
 	}
 
@@ -306,6 +310,7 @@ public abstract class WISERWebActivity<B extends IWISERBiz> extends WISERActivit
 		// WebView.destroy() 方法，这会导致 isDestroyed() 返回
 		// true；destroy()的执行时间又在onDetachedFromWindow之前，所以就会导致不能正常进行unregister()。
 		// 然后解决方法就是：让onDetachedFromWindow先走，在主动调用destroy()之前，把webview从它的parent上面移除掉。
+		if (webView == null) return;
 		ViewParent parent = webView.getParent();
 		if (parent != null) {
 			((ViewGroup) parent).removeView(webView);

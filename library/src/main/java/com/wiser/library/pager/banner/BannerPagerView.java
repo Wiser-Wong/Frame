@@ -66,6 +66,7 @@ public class BannerPagerView extends FrameLayout implements ViewPager.OnPageChan
 	private void init() {
 		bannerView = (BannerView) LayoutInflater.from(getContext()).inflate(R.layout.baner_view, this, false);
 		addView(bannerView);
+		if (bannerView != null) bannerView.addOnPageChangeListener(this);
 	}
 
 	/**
@@ -481,7 +482,6 @@ public class BannerPagerView extends FrameLayout implements ViewPager.OnPageChan
 	 * @return
 	 */
 	public BannerPagerView addOnPageChangeListener(BannerPagerView.OnPageChangeListener onPageChangeListener) {
-		if (bannerView != null) bannerView.addOnPageChangeListener(this);
 		this.onPageChangeListener = onPageChangeListener;
 		return this;
 	}

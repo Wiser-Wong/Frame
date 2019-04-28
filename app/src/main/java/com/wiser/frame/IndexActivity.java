@@ -3,6 +3,7 @@ package com.wiser.frame;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import com.liulishuo.filedownloader.BaseDownloadTask;
 import com.liulishuo.filedownloader.FileDownloadListener;
@@ -24,6 +25,7 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -31,6 +33,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RemoteViews;
 import android.widget.TextView;
 
 import butterknife.BindView;
@@ -203,7 +206,7 @@ public class IndexActivity extends WISERActivity<IndexBiz> implements WISERRVAda
 
 							@Override protected void pending(BaseDownloadTask task, int soFarBytes, int totalBytes) {
 
-						}
+							}
 
 							@Override protected void progress(BaseDownloadTask task, int soFarBytes, int totalBytes) {
 								new MToast().show("soFarBytes:-->>" + soFarBytes + "totalBytes:-->>" + totalBytes);
@@ -215,7 +218,7 @@ public class IndexActivity extends WISERActivity<IndexBiz> implements WISERRVAda
 
 							@Override protected void paused(BaseDownloadTask task, int soFarBytes, int totalBytes) {
 
-						}
+							}
 
 							@Override protected void error(BaseDownloadTask task, Throwable e) {
 								WISERHelper.toast().show("下载错误");
@@ -223,13 +226,25 @@ public class IndexActivity extends WISERActivity<IndexBiz> implements WISERRVAda
 
 							@Override protected void warn(BaseDownloadTask task) {
 
-						}
+							}
 						}).start();
 				break;
 			case R.id.iv_qr:
+
+				RemoteViews remoteViews = new RemoteViews(getPackageName(), R.layout.notification_layout);
+				remoteViews.setTextViewText(R.id.tv1, "我是一个爸爸"+new Random().nextInt(100));
+				remoteViews.setTextViewText(R.id.tv2, "我是一个妈妈");
+				remoteViews.setTextViewText(R.id.tv3, "我是一个孩子");
+				remoteViews.setImageViewResource(R.id.iv1, R.mipmap.ic_launcher_round);
+				WISERHelper.uiManage().notification(true).showRemoteViewNotification(1, R.mipmap.scan_flash,"新消息提示", remoteViews, ClickBroadcastReceiver.class);
+				// WISERHelper.uiManage().notification(true).showNotification(new
+				// Random().nextInt(100), "我来了", "标题", "内容",
+				// BitmapFactory.decodeResource(getResources(), R.mipmap.scan_photo),
+				// R.mipmap.scan_flash, ClickBroadcastReceiver.class);
+
 				// WISERHelper.display().intent(TabPageActivity.class);
 				// WISERHelper.display().intent(ScanActivity.class);
-				WISERHelper.display().intent(WebViewActivity.class);
+				// WISERHelper.display().intent(WebViewActivity.class);
 				// WISERHelper.display().intent(ZoomScrollViewActivity.class);
 				// WISERHelper.display().intent(SlidingMenuActivity.class);
 				// WISERHelper.display().intentTransitionAnimation(ZoomScrollViewActivity.class,null,Pair.create((View)ivQR,""));

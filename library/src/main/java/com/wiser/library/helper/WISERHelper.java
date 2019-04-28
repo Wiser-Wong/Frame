@@ -18,6 +18,7 @@ import com.wiser.library.manager.method.WISERMethodManage;
 import com.wiser.library.manager.permission.IWISERPermissionManage;
 import com.wiser.library.manager.thread.WISERThreadPoolManage;
 import com.wiser.library.manager.toast.WISERToastManage;
+import com.wiser.library.manager.ui.WISERUIManage;
 import com.wiser.library.util.WISERCrashHandler;
 
 import android.app.Application;
@@ -347,6 +348,10 @@ public class WISERHelper {
 
 	public static Retrofit retrofit() {
 		return mWiserManage.getRetrofit();
+	}
+
+	public static WISERUIManage uiManage() {
+		return mWiserManage.uiManage();
 	}
 
 	/**

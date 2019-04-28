@@ -16,6 +16,7 @@ import com.wiser.library.manager.method.WISERMethodManage;
 import com.wiser.library.manager.permission.WISERPermissionManage;
 import com.wiser.library.manager.thread.WISERThreadPoolManage;
 import com.wiser.library.manager.toast.WISERToastManage;
+import com.wiser.library.manager.ui.WISERUIManage;
 
 import android.app.Application;
 
@@ -94,6 +95,8 @@ public class WISERManage {
 	 * 方法代理
 	 */
 	@Inject WISERMethodManage		methodManage;
+
+	@Inject WISERUIManage			uiManage;
 
 	private Application				application;
 
@@ -225,6 +228,13 @@ public class WISERManage {
 			if (methodManage == null) methodManage = new WISERMethodManage();
 		}
 		return methodManage;
+	}
+
+	public WISERUIManage uiManage() {
+		if (uiManage == null) synchronized (WISERUIManage.class) {
+			if (uiManage == null) uiManage = new WISERUIManage();
+		}
+		return uiManage;
 	}
 
 	public Retrofit getRetrofit() {
