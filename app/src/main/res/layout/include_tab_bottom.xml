@@ -1,13 +1,13 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
     android:background="@color/colorAccent"
-    android:orientation="horizontal">
+    android:orientation="vertical">
 
     <ImageView
         android:id="@+id/iv_tab1"
-        android:layout_width="0dp"
-        android:layout_height="60dp"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
         android:layout_margin="10dp"
         android:layout_weight="1"
         android:adjustViewBounds="true"
@@ -15,8 +15,8 @@
 
     <ImageView
         android:id="@+id/iv_tab2"
-        android:layout_width="0dp"
-        android:layout_height="60dp"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
         android:layout_margin="10dp"
         android:layout_weight="1"
         android:adjustViewBounds="true"
@@ -24,8 +24,8 @@
 
     <ImageView
         android:id="@+id/iv_tab3"
-        android:layout_width="0dp"
-        android:layout_height="60dp"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
         android:layout_margin="10dp"
         android:layout_weight="1"
         android:adjustViewBounds="true"
@@ -33,10 +33,53 @@
 
     <ImageView
         android:id="@+id/iv_tab4"
-        android:layout_width="0dp"
-        android:layout_height="60dp"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
         android:layout_margin="10dp"
         android:layout_weight="1"
         android:adjustViewBounds="true"
         android:src="@mipmap/ic_launcher" />
 </LinearLayout>
+<!--<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:background="@color/colorAccent"-->
+    <!--android:id="@+id/tab_layout"-->
+    <!--android:orientation="horizontal">-->
+
+    <!--<ImageView-->
+        <!--android:id="@+id/iv_tab1"-->
+        <!--android:layout_width="0dp"-->
+        <!--android:layout_height="60dp"-->
+        <!--android:layout_margin="10dp"-->
+        <!--android:layout_weight="1"-->
+        <!--android:adjustViewBounds="true"-->
+        <!--android:src="@mipmap/ic_launcher" />-->
+
+    <!--<ImageView-->
+        <!--android:id="@+id/iv_tab2"-->
+        <!--android:layout_width="0dp"-->
+        <!--android:layout_height="60dp"-->
+        <!--android:layout_margin="10dp"-->
+        <!--android:layout_weight="1"-->
+        <!--android:adjustViewBounds="true"-->
+        <!--android:src="@mipmap/antu_trip_first_bg" />-->
+
+    <!--<ImageView-->
+        <!--android:id="@+id/iv_tab3"-->
+        <!--android:layout_width="0dp"-->
+        <!--android:layout_height="60dp"-->
+        <!--android:layout_margin="10dp"-->
+        <!--android:layout_weight="1"-->
+        <!--android:adjustViewBounds="true"-->
+        <!--android:src="@mipmap/ic_launcher" />-->
+
+    <!--<ImageView-->
+        <!--android:id="@+id/iv_tab4"-->
+        <!--android:layout_width="0dp"-->
+        <!--android:layout_height="60dp"-->
+        <!--android:layout_margin="10dp"-->
+        <!--android:layout_weight="1"-->
+        <!--android:adjustViewBounds="true"-->
+        <!--android:src="@mipmap/ic_launcher" />-->
+<!--</LinearLayout>-->

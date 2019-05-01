@@ -4,14 +4,13 @@ import java.lang.reflect.Method;
 
 import com.wiser.library.base.WISERTabPageActivity;
 import com.wiser.library.base.WISERTabPageFragment;
-import com.wiser.library.util.WISERApp;
 
 import android.content.Context;
-import android.support.annotation.ColorRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.RelativeLayout;
 
 /**
@@ -24,6 +23,10 @@ public class WISERTabPageView extends RelativeLayout implements ViewPager.OnPage
 	private WISERPageView			pageView;						// 页 布局
 
 	private WISERTabView			tabView;						// tab 布局
+
+	private View					otherView;						// 页 布局 平级View
+
+	private RelativeLayout			pageLayout;						// 页 外层布局
 
 	private WISERTabPageActivity	wiserTabPageActivity;
 
@@ -38,6 +41,18 @@ public class WISERTabPageView extends RelativeLayout implements ViewPager.OnPage
 	private int						index;
 
 	private boolean					isResumePage;
+
+	public static final int			LEFT		= 1;				// tab 处于 内容左侧
+
+	public static final int			TOP			= 2;				// tab 处于 内容上侧
+
+	public static final int			RIGHT		= 3;				// tab 处于 内容右侧
+
+	public static final int			BOTTOM		= 4;				// tab 处于 内容下侧
+
+	private int						direction	= BOTTOM;			// 默认处于底部
+
+	private int						otherViewDirection;				// page 平级 View 放置位置
 
 	public WISERTabPageView(WISERTabPageActivity wiserTabPageActivity) {
 		super(wiserTabPageActivity);
@@ -69,6 +84,7 @@ public class WISERTabPageView extends RelativeLayout implements ViewPager.OnPage
 	private void init() {
 		LayoutInflater mInflater = LayoutInflater.from(getContext());
 
+		pageLayout = new RelativeLayout(getContext());
 		pageView = new WISERPageView(getContext());
 		if (isFragment) tabView = new WISERTabView(wiserTabPageFragment, mInflater);
 		else tabView = new WISERTabView(wiserTabPageActivity, mInflater);
@@ -83,25 +99,136 @@ public class WISERTabPageView extends RelativeLayout implements ViewPager.OnPage
 	 */
 	public WISERTabPageView createLayout() {
 
-		if (tabView != null && tabView.getTabRootView() != null) {
-			addView(tabView.getTabRootView());
+		pageLayout.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+
+		addView(pageLayout);
+
+		if (tabView != null && tabView.getTabLayoutView() != null) {
+			addView(tabView.getTabLayoutView());
 		}
-		if (pageView != null) addView(pageView);
+
+		if (pageView != null) pageLayout.addView(pageView);
+
+		if (otherView != null) pageLayout.addView(otherView);
 
 		LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
 		setLayoutParams(params);
 
-		LayoutParams pageParams = (LayoutParams) pageView.getLayoutParams();
-		pageParams.alignWithParent = true;
-		pageParams.addRule(RelativeLayout.ALIGN_PARENT_TOP);
-		if (tabView != null && tabView.getTabRootView() != null) pageParams.addRule(RelativeLayout.ABOVE, tabView.getTabRootView().getId());
+		LayoutParams pageLayoutParams = (LayoutParams) pageLayout.getLayoutParams();
+		pageLayoutParams.alignWithParent = true;
 
-		if (tabView != null && tabView.getTabRootView() != null) {
-			LayoutParams tabParams = (LayoutParams) tabView.getTabRootView().getLayoutParams();
-			tabParams.alignWithParent = true;
-			tabParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+		switch (direction) {
+			case LEFT:
+				pageLayoutParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+				if (tabView != null && tabView.getTabLayoutView() != null) {
+					pageLayoutParams.addRule(RelativeLayout.RIGHT_OF, tabView.getTabLayoutView().getId());
+					LayoutParams tabParams = (LayoutParams) tabView.getTabLayoutView().getLayoutParams();
+					tabParams.alignWithParent = true;
+					tabParams.width = LayoutParams.WRAP_CONTENT;
+					tabParams.height = LayoutParams.MATCH_PARENT;
+					tabParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+				}
+				break;
+			case TOP:
+				pageLayoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+				if (tabView != null && tabView.getTabLayoutView() != null) {
+					pageLayoutParams.addRule(RelativeLayout.BELOW, tabView.getTabLayoutView().getId());
+					LayoutParams tabParams = (LayoutParams) tabView.getTabLayoutView().getLayoutParams();
+					tabParams.alignWithParent = true;
+					tabParams.addRule(RelativeLayout.ALIGN_PARENT_TOP);
+				}
+				break;
+			case RIGHT:
+				pageLayoutParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+				if (tabView != null && tabView.getTabLayoutView() != null) {
+					pageLayoutParams.addRule(RelativeLayout.LEFT_OF, tabView.getTabLayoutView().getId());
+					LayoutParams tabParams = (LayoutParams) tabView.getTabLayoutView().getLayoutParams();
+					tabParams.alignWithParent = true;
+					tabParams.width = LayoutParams.WRAP_CONTENT;
+					tabParams.height = LayoutParams.MATCH_PARENT;
+					tabParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+				}
+				break;
+			case BOTTOM:
+				pageLayoutParams.addRule(RelativeLayout.ALIGN_PARENT_TOP);
+				if (tabView != null && tabView.getTabLayoutView() != null) {
+					pageLayoutParams.addRule(RelativeLayout.ABOVE, tabView.getTabLayoutView().getId());
+					LayoutParams tabParams = (LayoutParams) tabView.getTabLayoutView().getLayoutParams();
+					tabParams.alignWithParent = true;
+					tabParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+				}
+				break;
+		}
+
+		LayoutParams pageViewParams = (LayoutParams) pageView.getLayoutParams();
+		pageLayoutParams.alignWithParent = true;
+
+		switch (otherViewDirection) {
+			case LEFT:
+				pageViewParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+				if (otherView != null) {
+					pageViewParams.addRule(RelativeLayout.RIGHT_OF, otherView.getId());
+					LayoutParams otherParams = (LayoutParams) otherView.getLayoutParams();
+					otherParams.alignWithParent = true;
+					otherParams.width = LayoutParams.WRAP_CONTENT;
+					otherParams.height = LayoutParams.MATCH_PARENT;
+					otherParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+				}
+				break;
+			case TOP:
+				pageViewParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+				if (otherView != null) {
+					pageViewParams.addRule(RelativeLayout.BELOW, otherView.getId());
+					LayoutParams otherParams = (LayoutParams) otherView.getLayoutParams();
+					otherParams.alignWithParent = true;
+					otherParams.addRule(RelativeLayout.ALIGN_PARENT_TOP);
+				}
+				break;
+			case RIGHT:
+				pageViewParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+				if (otherView != null) {
+					pageViewParams.addRule(RelativeLayout.LEFT_OF, otherView.getId());
+					LayoutParams otherParams = (LayoutParams) otherView.getLayoutParams();
+					otherParams.alignWithParent = true;
+					otherParams.width = LayoutParams.WRAP_CONTENT;
+					otherParams.height = LayoutParams.MATCH_PARENT;
+					otherParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+				}
+				break;
+			case BOTTOM:
+				pageViewParams.addRule(RelativeLayout.ALIGN_PARENT_TOP);
+				if (otherView != null) {
+					pageViewParams.addRule(RelativeLayout.ABOVE, otherView.getId());
+					LayoutParams otherParams = (LayoutParams) otherView.getLayoutParams();
+					otherParams.alignWithParent = true;
+					otherParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+				}
+				break;
 		}
 		return this;
+	}
+
+	public void setOtherViewId(int layoutId, int direction) {
+		this.otherViewDirection = direction;
+		if (layoutId > 0) {
+			otherView = LayoutInflater.from(getContext()).inflate(layoutId, this, false);
+			if (otherView != null) {
+				int otherViewId = otherView.getId();
+				if (otherViewId < 0) {
+					int OTHER_VIEW_ID = 0X12030125;
+					otherView.setId(OTHER_VIEW_ID);
+				}
+			}
+		}
+	}
+
+	/**
+	 * 设置tab 方向
+	 * 
+	 * @param direction
+	 */
+	public void setTabDirection(int direction) {
+		this.direction = direction;
 	}
 
 	/**
@@ -149,35 +276,6 @@ public class WISERTabPageView extends RelativeLayout implements ViewPager.OnPage
 	 */
 	public void tabIds(int tabLayoutId, int... tabIds) {
 		if (tabView != null) tabView.tabIds(tabLayoutId, tabIds);
-	}
-
-	// 设置背景
-	public void setTabBackgroundColor(int color) {
-		if (tabView != null && tabView.getTabRootView() != null) {
-			tabView.getTabRootView().setBackgroundColor(color);
-		}
-	}
-
-	// 设置背景
-	public void setTabBackgroundRes(@ColorRes int res) {
-		if (tabView != null && tabView.getTabRootView() != null) {
-			tabView.getTabRootView().setBackgroundResource(res);
-		}
-	}
-
-	// 设置高度
-	public void setTabHeight(int height) {
-		if (tabView != null && tabView.getTabRootView() != null) {
-			tabView.getTabRootView().getLayoutParams().height = height;
-		}
-	}
-
-	// 设置高度
-	public void setTabHeight(int height, boolean isDp) {
-		int tabHeight = isDp ? WISERApp.dip2px(height) : height;
-		if (tabView != null && tabView.getTabRootView() != null) {
-			tabView.getTabRootView().getLayoutParams().height = tabHeight;
-		}
 	}
 
 	public void setOnTabClickListener(WISERTabView.OnTabClickListener onTabClickListener) {

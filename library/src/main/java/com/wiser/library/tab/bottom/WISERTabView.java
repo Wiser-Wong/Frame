@@ -3,14 +3,14 @@ package com.wiser.library.tab.bottom;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.wiser.library.base.WISERTabPageActivity;
+import com.wiser.library.base.WISERTabPageFragment;
+
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-
-import com.wiser.library.base.WISERTabPageActivity;
-import com.wiser.library.base.WISERTabPageFragment;
 
 import butterknife.ButterKnife;
 
@@ -31,8 +31,6 @@ public class WISERTabView implements View.OnClickListener {
 
 	private View					tabLayoutView;									// Tab 布局视图
 
-	private FrameLayout				tabRootView;									// 根布局
-
 	private int[]					tabIds					= new int[0];			// Tab ID列表
 
 	private OnTabClickListener		onTabClickListener;								// Tab 点击监听
@@ -51,38 +49,12 @@ public class WISERTabView implements View.OnClickListener {
 		isFragment = false;
 		this.wiserTabPageActivity = wiserTabPageActivity;
 		this.mInflater = mInflater;
-		tabRootView = new FrameLayout(wiserTabPageActivity);
-		tabRootView.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-		int TAB_VIEW_ID = 0X12030123;
-		if (wiserTabPageActivity.findViewById(TAB_VIEW_ID) != null) {
-            int VIEW_ID = 0X12030124;
-            tabRootView.setId(VIEW_ID);
-        } else {
-            tabRootView.setId(TAB_VIEW_ID);
-        }
 	}
 
 	WISERTabView(WISERTabPageFragment wiserTabPageFragment, LayoutInflater mInflater) {
 		isFragment = true;
 		this.wiserTabPageFragment = wiserTabPageFragment;
 		this.mInflater = mInflater;
-		tabRootView = new FrameLayout(wiserTabPageFragment.activity());
-		tabRootView.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-		int TAB_VIEW_ID = 0X12030123;
-		if (wiserTabPageFragment.activity() != null) {
-			if (wiserTabPageFragment.activity().findViewById(TAB_VIEW_ID) != null) {
-				int VIEW_ID = 0X12030124;
-				tabRootView.setId(VIEW_ID);
-			} else {
-				tabRootView.setId(TAB_VIEW_ID);
-			}
-		} else {
-			tabRootView.setId(TAB_VIEW_ID);
-		}
-	}
-
-	public FrameLayout getTabRootView() {
-		return tabRootView;
 	}
 
 	public View getTabLayoutView() {
@@ -160,7 +132,13 @@ public class WISERTabView implements View.OnClickListener {
 				}
 			}
 			setListener();
-			tabRootView.addView(tabLayoutView);
+		}
+		if (tabLayoutView != null) {
+			int tabLayoutId = tabLayoutView.getId();
+			if (tabLayoutId < 0) {
+				int TAB_LAYOUT_ID = 0X22222233;
+				tabLayoutView.setId(TAB_LAYOUT_ID);
+			}
 		}
 	}
 
@@ -201,7 +179,6 @@ public class WISERTabView implements View.OnClickListener {
 		mInflater = null;
 		tabLayoutId = 0;
 		tabLayoutView = null;
-		tabRootView = null;
 		tabIds = null;
 		onTabClickListener = null;
 		isTabCanRepeatedlyClick = false;

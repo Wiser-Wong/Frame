@@ -24,10 +24,10 @@ public class TabPageActivity extends WISERTabPageActivity implements WISERTabVie
 	@BindView(R.id.iv_tab4) ImageView	ivTab4;
 
 	@Override protected WISERTabPageView buildTabPageView(WISERTabPageView tabPageView) {
-		tabPageView.setTabBackgroundColor(Color.RED);
-		tabPageView.setTabHeight(300);
 		tabPageView.tabIds(R.layout.include_tab_bottom, R.id.iv_tab1, R.id.iv_tab2, R.id.iv_tab3, R.id.iv_tab4);
 		tabPageView.setPages(new IndexFragment(), new SecondFragment(), new ThreeFragment(), new TabPageFragment());
+		tabPageView.setTabDirection(WISERTabPageView.LEFT);
+		tabPageView.setOtherViewId(R.layout.include_page_left,WISERTabPageView.BOTTOM);
 		tabPageView.setOnTabClickListener(this);
 		tabPageView.setOnTabPageChangeListener(this);
 		tabPageView.isPageCanScroll(false);
