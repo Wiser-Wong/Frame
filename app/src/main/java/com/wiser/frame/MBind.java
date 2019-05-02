@@ -21,36 +21,41 @@ public class MBind implements IWISERBind {
 		okHttpBuilder.readTimeout(180, TimeUnit.SECONDS);
 		okHttpBuilder.writeTimeout(180, TimeUnit.SECONDS);
 
-
-//		//组装参数
-//		requParams.addBodyParameter("websiteCode", SharedPreferencesUtils.get(QuantityString.WEBSITECODE));
-//		requParams.addBodyParameter("data", requesxml);
-//		requParams.addBodyParameter("service", methodname);
-//		requParams.addBodyParameter("version", QuantityString.VERSION);
-//		requParams.addBodyParameter("responseType", "2");
-////			if(methodname.indexOf("PAY")>-1){
-////				requParams.addBodyParameter("channel", "IOS");//测试支付先
-////			}else {
-//		requParams.addBodyParameter("channel", QuantityString.CHANNEL);//测试支付先
-////			}
-//		requParams.addBodyParameter("compid",SharedPreferencesUtils.get(QuantityString.COMPID));
-//
-//			String account = SharedPreferencesUtils.get(QuantityString.ACCOUNT) + Md5Encrypt.md5(SharedPreferencesUtils.get(QuantityString.KEY));
-////			String md5 = Md5Encrypt.md5(Md5Encrypt.md5(account)+ requesxml + "VETRIP_B2G");// 接口授权
-////			String md5 =Md5Encrypt.md5(requesxml+Md5Encrypt.md5(SharedPreferencesUtils.get(QuantityString.KEY)));
-//		String md5=Md5Encrypt.md5(Md5Encrypt.md5(SharedPreferencesUtils.get(QuantityString.COMPID))+requesxml+"VETRIP_B2G");
-//		requParams.addBodyParameter("sign", md5);
-//		requParams.addBodyParameter("account", SharedPreferencesUtils.get(QuantityString.ACCOUNT));
-//		requParams.addBodyParameter("mkbh", mkbh);//"0114008013"
-//		requParams.addBodyParameter("gnbh",gnbh);//"0688"
-//		requParams.addBodyParameter("adsbid", AppInfoUtils.getANDROID_ID());//安卓设备ID
-//		requParams.addBodyParameter("bbh",AppInfoUtils.getAppInfo().getVersionCode()+"");//版本号
-//		String jpush_rid =   SharedPreferencesUtils.get(QuantityString.JPUSH_RID);
-//		if(!TextUtils.isEmpty(jpush_rid)){
-//			requParams.addBodyParameter("zcid","ADM_"+jpush_rid);//注册ID
-//		}else{
-//			requParams.addBodyParameter("zcid","");//注册ID
-//		}
+		// //组装参数
+		// requParams.addBodyParameter("websiteCode",
+		// SharedPreferencesUtils.get(QuantityString.WEBSITECODE));
+		// requParams.addBodyParameter("data", requesxml);
+		// requParams.addBodyParameter("service", methodname);
+		// requParams.addBodyParameter("version", QuantityString.VERSION);
+		// requParams.addBodyParameter("responseType", "2");
+		//// if(methodname.indexOf("PAY")>-1){
+		//// requParams.addBodyParameter("channel", "IOS");//测试支付先
+		//// }else {
+		// requParams.addBodyParameter("channel", QuantityString.CHANNEL);//测试支付先
+		//// }
+		// requParams.addBodyParameter("compid",SharedPreferencesUtils.get(QuantityString.COMPID));
+		//
+		// String account = SharedPreferencesUtils.get(QuantityString.ACCOUNT) +
+		// Md5Encrypt.md5(SharedPreferencesUtils.get(QuantityString.KEY));
+		//// String md5 = Md5Encrypt.md5(Md5Encrypt.md5(account)+ requesxml +
+		// "VETRIP_B2G");// 接口授权
+		//// String md5
+		// =Md5Encrypt.md5(requesxml+Md5Encrypt.md5(SharedPreferencesUtils.get(QuantityString.KEY)));
+		// String
+		// md5=Md5Encrypt.md5(Md5Encrypt.md5(SharedPreferencesUtils.get(QuantityString.COMPID))+requesxml+"VETRIP_B2G");
+		// requParams.addBodyParameter("sign", md5);
+		// requParams.addBodyParameter("account",
+		// SharedPreferencesUtils.get(QuantityString.ACCOUNT));
+		// requParams.addBodyParameter("mkbh", mkbh);//"0114008013"
+		// requParams.addBodyParameter("gnbh",gnbh);//"0688"
+		// requParams.addBodyParameter("adsbid", AppInfoUtils.getANDROID_ID());//安卓设备ID
+		// requParams.addBodyParameter("bbh",AppInfoUtils.getAppInfo().getVersionCode()+"");//版本号
+		// String jpush_rid = SharedPreferencesUtils.get(QuantityString.JPUSH_RID);
+		// if(!TextUtils.isEmpty(jpush_rid)){
+		// requParams.addBodyParameter("zcid","ADM_"+jpush_rid);//注册ID
+		// }else{
+		// requParams.addBodyParameter("zcid","");//注册ID
+		// }
 
 		builder.client(okHttpBuilder.build());
 
@@ -67,4 +72,5 @@ public class MBind implements IWISERBind {
 	@Override public WISERManage getManage() {
 		return new WISERManage();
 	}
+
 }

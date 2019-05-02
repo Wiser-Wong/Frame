@@ -80,8 +80,8 @@
 
     <!-- 默认Dialog动画-->
     <style name="DefaultDialogAnimation">
-        <item name="android:windowEnterAnimation">@anim/anim_dialog_bottom_in</item>
-        <item name="android:windowExitAnimation">@anim/anim_dialog_bottom_out</item>
+        <item name="android:windowEnterAnimation">@anim/slide_bottom_in</item>
+        <item name="android:windowExitAnimation">@anim/slide_bottom_out</item>
     </style>
     <!-- 默认定制位置Dialog动画-->
     <style name="DefaultLocationDialogAnimation">

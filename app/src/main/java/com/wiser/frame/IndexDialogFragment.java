@@ -16,7 +16,7 @@ public class IndexDialogFragment extends WISERDialogFragment<IndexDialogFragment
 
 	@BindView(R.id.tv_dialog) TextView	textView;
 
-	private boolean						isClose;
+	private boolean						isClose = true;
 
 	public static IndexDialogFragment newInstance() {
 		return new IndexDialogFragment();

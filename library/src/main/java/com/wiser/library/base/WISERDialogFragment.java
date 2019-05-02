@@ -94,9 +94,10 @@ public abstract class WISERDialogFragment<B extends IWISERBiz> extends DialogFra
 
 	@Override public void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		int dialogTheme = dialogTheme();
 		// 设置style
-		if (dialogTheme() > 0) {
-			setStyle(DialogFragment.STYLE_NORMAL, dialogTheme());
+		if (dialogTheme > 0) {
+			setStyle(DialogFragment.STYLE_NORMAL, dialogTheme);
 		} else {
 			if (isLocation) setStyle(DialogFragment.STYLE_NORMAL, R.style.DefaultLocationDialogTheme);
 			else setStyle(DialogFragment.STYLE_NORMAL, R.style.DefaultDialogTheme);

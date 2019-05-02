@@ -47,5 +47,6 @@ public interface IWISERBind {
 		@Override public WISERManage getManage() {
 			return new WISERManage();
 		}
+
 	};
 }

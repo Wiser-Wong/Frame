@@ -8,8 +8,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import com.wiser.library.adapter.WISERRVAdapter;
 import com.wiser.library.base.WISERBuilder;
 import com.wiser.library.base.WISERFragment;
+import com.wiser.library.tab.listener.OnTabShowCurrentPageListener;
 
-public class IndexFragment extends WISERFragment<IndexFragmentBiz> {
+public class IndexFragment extends WISERFragment<IndexFragmentBiz> implements OnTabShowCurrentPageListener {
 
 	@Override protected WISERBuilder build(WISERBuilder builder) {
 		builder.layoutId(R.layout.fragment_index);
@@ -40,5 +41,15 @@ public class IndexFragment extends WISERFragment<IndexFragmentBiz> {
 				adapter().loadTip("我们结束了");
 			}
 		}, 4000);
+	}
+
+	@Override
+	public void onShowCurrentPage(int position) {
+		System.out.println("-----IndexFragment-------show");
+	}
+
+	@Override
+	public void onHideCurrentPage(int position) {
+		System.out.println("-----IndexFragment-------hide");
 	}
 }

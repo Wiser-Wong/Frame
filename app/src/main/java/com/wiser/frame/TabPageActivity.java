@@ -4,7 +4,8 @@ import com.wiser.library.base.WISERBuilder;
 import com.wiser.library.base.WISERTabPageActivity;
 import com.wiser.library.helper.WISERHelper;
 import com.wiser.library.tab.bottom.WISERTabPageView;
-import com.wiser.library.tab.bottom.WISERTabView;
+import com.wiser.library.tab.listener.OnTabClickListener;
+import com.wiser.library.tab.listener.OnTabPageChangeListener;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -13,7 +14,7 @@ import android.widget.ImageView;
 
 import butterknife.BindView;
 
-public class TabPageActivity extends WISERTabPageActivity implements WISERTabView.OnTabClickListener, WISERTabPageView.OnTabPageChangeListener {
+public class TabPageActivity extends WISERTabPageActivity implements OnTabClickListener, OnTabPageChangeListener {
 
 	@BindView(R.id.iv_tab1) ImageView	ivTab1;
 
@@ -27,7 +28,7 @@ public class TabPageActivity extends WISERTabPageActivity implements WISERTabVie
 		tabPageView.tabIds(R.layout.include_tab_bottom, R.id.iv_tab1, R.id.iv_tab2, R.id.iv_tab3, R.id.iv_tab4);
 		tabPageView.setPages(new IndexFragment(), new SecondFragment(), new ThreeFragment(), new TabPageFragment());
 		tabPageView.setTabDirection(WISERTabPageView.LEFT);
-		tabPageView.setOtherViewId(R.layout.include_page_left,WISERTabPageView.BOTTOM);
+		tabPageView.setOtherViewId(R.layout.include_page_left, WISERTabPageView.BOTTOM);
 		tabPageView.setOnTabClickListener(this);
 		tabPageView.setOnTabPageChangeListener(this);
 		tabPageView.isPageCanScroll(false);
@@ -84,4 +85,5 @@ public class TabPageActivity extends WISERTabPageActivity implements WISERTabVie
 	@Override public void onPageScrollStateChanged(int i) {
 
 	}
+
 }

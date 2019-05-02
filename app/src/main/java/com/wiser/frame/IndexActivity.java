@@ -192,9 +192,6 @@ public class IndexActivity extends WISERActivity<IndexBiz> implements WISERRVAda
 		switch (view.getId()) {
 			case R.id.tv_name:
 				loadingRefresh();
-				// WISERHelper.display().intent(SmartActivity.class);
-				// WISERHelper.display().intent(TabPageActivity.class);
-				// WISERHelper.display().intent(WebViewActivity.class);
 				WISERHelper.downUploadManage().fileDownloader().create("https://github.com/Wiser-Wong/MultidexRecord.git")
 						.setPath(WISERHelper.fileCacheManage().configureStorageDir() + File.separator + getResources().getString(R.string.app_name) + "/down.txt")
 						.setListener(new FileDownloadListener() {
@@ -231,26 +228,34 @@ public class IndexActivity extends WISERActivity<IndexBiz> implements WISERRVAda
 				break;
 			case R.id.iv_qr:
 
-//				RemoteViews remoteViews = new RemoteViews(getPackageName(), R.layout.notification_layout);
-//				remoteViews.setTextViewText(R.id.tv1, "我是一个爸爸"+new Random().nextInt(100));
-//				remoteViews.setTextViewText(R.id.tv2, "我是一个妈妈");
-//				remoteViews.setTextViewText(R.id.tv3, "我是一个孩子");
-//				remoteViews.setImageViewResource(R.id.iv1, R.mipmap.ic_launcher_round);
-//				WISERHelper.uiManage().notification(true).showRemoteViewNotification(1, R.mipmap.scan_flash,"新消息提示", remoteViews, ClickBroadcastReceiver.class);
+				// RemoteViews remoteViews = new RemoteViews(getPackageName(),
+				// R.layout.notification_layout);
+				// remoteViews.setTextViewText(R.id.tv1, "我是一个爸爸"+new Random().nextInt(100));
+				// remoteViews.setTextViewText(R.id.tv2, "我是一个妈妈");
+				// remoteViews.setTextViewText(R.id.tv3, "我是一个孩子");
+				// remoteViews.setImageViewResource(R.id.iv1, R.mipmap.ic_launcher_round);
+				// WISERHelper.uiManage().notification(true).showRemoteViewNotification(1,
+				// R.mipmap.scan_flash,"新消息提示", remoteViews, ClickBroadcastReceiver.class);
 				// WISERHelper.uiManage().notification(true).showNotification(new
 				// Random().nextInt(100), "我来了", "标题", "内容",
 				// BitmapFactory.decodeResource(getResources(), R.mipmap.scan_photo),
 				// R.mipmap.scan_flash, ClickBroadcastReceiver.class);
 
-				 WISERHelper.display().intent(TabPageActivity.class);
+				// WISERHelper.display().intent(TabPageActivity.class);
+				// WISERHelper.display().intent(SmartActivity.class);
 				// WISERHelper.display().intent(ScanActivity.class);
-				// WISERHelper.display().intent(WebViewActivity.class);
+				WISERHelper.display().intent(WebViewActivity.class);
 				// WISERHelper.display().intent(ZoomScrollViewActivity.class);
 				// WISERHelper.display().intent(SlidingMenuActivity.class);
 				// WISERHelper.display().intentTransitionAnimation(ZoomScrollViewActivity.class,null,Pair.create((View)ivQR,""));
 				break;
 			case R.id.tv_d:
-				IndexDialogFragment.newInstance().setLocation(textView, WISERDialogFragment.CONTROL_FIT).show(getSupportFragmentManager(), "");
+				WISERHelper.display().intent(TabLayoutActivity.class);
+				// WISERHelper.display().commitReplace(R.id.fragment1,new
+				// TestFragment(),TestFragment.class.getName());
+				// IndexDialogFragment.newInstance().show(getSupportFragmentManager(), "");
+				// IndexDialogFragment.newInstance().setLocation(textView,
+				// WISERDialogFragment.CONTROL_FIT).show(getSupportFragmentManager(), "");
 				break;
 		}
 	}
@@ -281,5 +286,7 @@ public class IndexActivity extends WISERActivity<IndexBiz> implements WISERRVAda
 	@Override public void onItemClick(View view, int position, String text) {
 		// WISERHelper.toast().show(text);
 		new MToast().show(text);
+
+//		new UiManage().showLoading(true);
 	}
 }

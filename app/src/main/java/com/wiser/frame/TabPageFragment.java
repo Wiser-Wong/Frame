@@ -1,19 +1,19 @@
 package com.wiser.frame;
 
-import android.graphics.Color;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.ImageView;
-
 import com.wiser.library.base.WISERBuilder;
 import com.wiser.library.base.WISERTabPageFragment;
 import com.wiser.library.helper.WISERHelper;
 import com.wiser.library.tab.bottom.WISERTabPageView;
-import com.wiser.library.tab.bottom.WISERTabView;
+import com.wiser.library.tab.listener.OnTabClickListener;
+import com.wiser.library.tab.listener.OnTabPageChangeListener;
+
+import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageView;
 
 import butterknife.BindView;
 
-public class TabPageFragment extends WISERTabPageFragment implements WISERTabView.OnTabClickListener, WISERTabPageView.OnTabPageChangeListener{
+public class TabPageFragment extends WISERTabPageFragment implements OnTabClickListener, OnTabPageChangeListener {
 
 	@BindView(R.id.iv_tab1) ImageView	ivTab1;
 

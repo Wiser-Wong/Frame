@@ -22,6 +22,10 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.provider.Settings;
+import android.support.annotation.AnimRes;
+import android.support.annotation.AnimatorRes;
+import android.support.annotation.IdRes;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.FileProvider;
@@ -234,7 +238,7 @@ public class WISERDisplay implements IWISERDisplay {
 		activity().startActivityFromFragment(fragment, intent, requestCode);
 	}
 
-	@Override public void intentAnimation(Class clazz, int in, int out) {
+	@Override public void intentAnimation(Class clazz, @AnimRes @AnimatorRes int in, @AnimRes @AnimatorRes int out) {
 		intent(clazz);
 		if (activity() == null) {
 			return;
@@ -242,7 +246,7 @@ public class WISERDisplay implements IWISERDisplay {
 		activity().overridePendingTransition(in, out);
 	}
 
-	@Override public void intentAnimation(Class clazz, int in, int out, Bundle bundle) {
+	@Override public void intentAnimation(Class clazz, @AnimRes @AnimatorRes int in, @AnimRes @AnimatorRes int out, Bundle bundle) {
 		intentBundle(clazz, bundle);
 		if (activity() == null) {
 			return;
@@ -267,11 +271,11 @@ public class WISERDisplay implements IWISERDisplay {
 		}
 	}
 
-	@Override public void intentForResultAnimation(Class clazz, int in, int out, int requestCode) {
+	@Override public void intentForResultAnimation(Class clazz, @AnimRes @AnimatorRes int in, @AnimRes @AnimatorRes int out, int requestCode) {
 		intentForResultAnimation(clazz, in, out, null, requestCode);
 	}
 
-	@Override public void intentForResultAnimation(Class clazz, int in, int out, Bundle bundle, int requestCode) {
+	@Override public void intentForResultAnimation(Class clazz, @AnimRes @AnimatorRes int in, @AnimRes @AnimatorRes int out, Bundle bundle, int requestCode) {
 		intentForResult(clazz, bundle, requestCode);
 		if (activity() == null) {
 			return;
@@ -279,63 +283,219 @@ public class WISERDisplay implements IWISERDisplay {
 		activity().overridePendingTransition(in, out);
 	}
 
-	@Override public void commitAdd(int layoutId, Fragment fragment) {
+	@Override public void commitAdd(@IdRes int id, Fragment fragment) {
 		if (activity() == null) return;
-		if (layoutId > 0 && fragment != null) {
-			activity().getSupportFragmentManager().beginTransaction().add(layoutId, fragment).commit();
+		if (fragment != null) {
+			activity().getSupportFragmentManager().beginTransaction().add(id, fragment).commit();
 		}
 	}
 
-	@Override public void commitAdd(int layoutId, Fragment fragment, String tag) {
+	@Override public void commitAddAnim(@IdRes int id, Fragment fragment, @AnimRes @AnimatorRes int newFragmentInAnim, @AnimRes @AnimatorRes int oldFragmentOutAnim,
+			@AnimRes @AnimatorRes int oldFragmentInAnim, @AnimRes @AnimatorRes int newFragmentOutAnim) {
 		if (activity() == null) return;
-		if (layoutId > 0 && fragment != null) {
-			activity().getSupportFragmentManager().beginTransaction().add(layoutId, fragment, tag).commit();
+		if (fragment != null) {
+			activity().getSupportFragmentManager().beginTransaction().setCustomAnimations(newFragmentInAnim, oldFragmentOutAnim, oldFragmentInAnim, newFragmentOutAnim).add(id, fragment).commit();
 		}
 	}
 
-	@Override public void commitReplace(int layoutId, Fragment fragment) {
+	@Override public void commitAddAnim(int id, Fragment fragment, int in, int out) {
 		if (activity() == null) return;
-		if (layoutId > 0 && fragment != null) {
-			activity().getSupportFragmentManager().beginTransaction().replace(layoutId, fragment).commit();
+		if (fragment != null) {
+			activity().getSupportFragmentManager().beginTransaction().setCustomAnimations(in, out).add(id, fragment).commit();
 		}
 	}
 
-	@Override public void commitReplace(int layoutId, Fragment fragment, String tag) {
+	@Override public void commitAdd(@IdRes int id, Fragment fragment, String tag) {
 		if (activity() == null) return;
-		if (layoutId > 0 && fragment != null) {
-			activity().getSupportFragmentManager().beginTransaction().replace(layoutId, fragment, tag).commit();
+		if (fragment != null) {
+			activity().getSupportFragmentManager().beginTransaction().add(id, fragment, tag).commit();
 		}
 	}
 
-	@SuppressLint("ResourceType") @Override public void commitChildReplace(Fragment srcFragment, int layoutId, Fragment fragment) {
-		WISERCheck.checkArgument(layoutId > 0, "提交布局ID 不能为空~");
-		WISERCheck.checkNotNull(fragment, "fragment不能为空~");
-		if (activity() == null) {
-			return;
+	@Override public void commitAddAnim(@IdRes int id, Fragment fragment, String tag, @AnimRes @AnimatorRes int newFragmentInAnim, @AnimRes @AnimatorRes int oldFragmentOutAnim,
+			@AnimRes @AnimatorRes int oldFragmentInAnim, @AnimRes @AnimatorRes int newFragmentOutAnim) {
+		if (activity() == null) return;
+		if (fragment != null) {
+			activity().getSupportFragmentManager().beginTransaction().setCustomAnimations(newFragmentInAnim, oldFragmentOutAnim, oldFragmentInAnim, newFragmentOutAnim).add(id, fragment, tag).commit();
 		}
-		srcFragment.getChildFragmentManager().beginTransaction().replace(layoutId, fragment, fragment.getClass().getName()).setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+	}
+
+	@Override public void commitAddAnim(int id, Fragment fragment, String tag, int in, int out) {
+		if (activity() == null) return;
+		if (fragment != null) {
+			activity().getSupportFragmentManager().beginTransaction().setCustomAnimations(in, out).add(id, fragment, tag).commit();
+		}
+	}
+
+	@Override public void commitReplace(@IdRes int id, Fragment fragment) {
+		if (activity() == null) return;
+		if (fragment != null) {
+			activity().getSupportFragmentManager().beginTransaction().replace(id, fragment).commit();
+		}
+	}
+
+	@Override public void commitReplaceAnim(@IdRes int id, Fragment fragment, @AnimRes @AnimatorRes int newFragmentInAnim, @AnimRes @AnimatorRes int oldFragmentOutAnim,
+			@AnimRes @AnimatorRes int oldFragmentInAnim, @AnimRes @AnimatorRes int newFragmentOutAnim) {
+		if (activity() == null) return;
+		if (fragment != null) {
+			activity().getSupportFragmentManager().beginTransaction().setCustomAnimations(newFragmentInAnim, oldFragmentOutAnim, oldFragmentInAnim, newFragmentOutAnim).replace(id, fragment).commit();
+		}
+	}
+
+	@Override public void commitReplaceAnim(int id, Fragment fragment, int in, int out) {
+		if (activity() == null) return;
+		if (fragment != null) {
+			activity().getSupportFragmentManager().beginTransaction().setCustomAnimations(in, out).replace(id, fragment).commit();
+		}
+	}
+
+	@Override public void commitReplace(@IdRes int id, Fragment fragment, String tag) {
+		if (activity() == null) return;
+		if (fragment != null) {
+			activity().getSupportFragmentManager().beginTransaction().replace(id, fragment, tag).commit();
+		}
+	}
+
+	@Override public void commitReplaceAnim(@IdRes int id, Fragment fragment, String tag, @AnimRes @AnimatorRes int newFragmentInAnim, @AnimRes @AnimatorRes int oldFragmentOutAnim,
+			@AnimRes @AnimatorRes int oldFragmentInAnim, @AnimRes @AnimatorRes int newFragmentOutAnim) {
+		if (activity() == null) return;
+		if (fragment != null) {
+			activity().getSupportFragmentManager().beginTransaction().setCustomAnimations(newFragmentInAnim, oldFragmentOutAnim, oldFragmentInAnim, newFragmentOutAnim).replace(id, fragment, tag)
+					.commit();
+		}
+	}
+
+	@Override public void commitReplaceAnim(int id, Fragment fragment, String tag, int in, int out) {
+		if (activity() == null) return;
+		if (fragment != null) {
+			activity().getSupportFragmentManager().beginTransaction().setCustomAnimations(in, out).replace(id, fragment, tag).commit();
+		}
+	}
+
+	@Override public void commitChildReplace(Fragment srcFragment, @IdRes int id, Fragment fragment) {
+		if (activity() == null) return;
+		if (fragment == null) return;
+		if (srcFragment == null) return;
+		srcFragment.getChildFragmentManager().beginTransaction().replace(id, fragment, fragment.getClass().getName()).setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
 				.commitAllowingStateLoss();
 	}
 
-	@SuppressLint("ResourceType") @Override public void commitBackStack(int layoutId, Fragment fragment) {
-		WISERCheck.checkArgument(layoutId > 0, "提交布局ID 不能为空~");
-		WISERCheck.checkNotNull(fragment, "fragment不能为空~");
-		if (activity() == null) {
-			return;
-		}
-		activity().getSupportFragmentManager().beginTransaction().add(layoutId, fragment, fragment.getClass().getName()).addToBackStack(fragment.getClass().getName())
+	@Override public void commitBackStack(@IdRes int id, Fragment fragment) {
+		if (activity() == null) return;
+		if (fragment == null) return;
+		activity().getSupportFragmentManager().beginTransaction().add(id, fragment, fragment.getClass().getName()).addToBackStack(fragment.getClass().getName())
 				.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).commitAllowingStateLoss();
 	}
 
-	@SuppressLint("ResourceType") @Override public void commitBackStack(int layoutId, Fragment fragment, int animation) {
-		WISERCheck.checkArgument(layoutId > 0, "提交布局ID 不能为空~");
-		WISERCheck.checkArgument(animation > 0, "动画 不能为空~");
-		WISERCheck.checkNotNull(fragment, "fragment不能为空~");
-		if (activity() == null) {
-			return;
-		}
-		activity().getSupportFragmentManager().beginTransaction().add(layoutId, fragment, fragment.getClass().getName()).addToBackStack(fragment.getClass().getName())
-				.setTransition(animation != 0 ? animation : FragmentTransaction.TRANSIT_FRAGMENT_OPEN).commitAllowingStateLoss();
+	@Override public void commitBackStack(int id, Fragment fragment, String tag) {
+		if (activity() == null) return;
+		if (fragment == null) return;
+		activity().getSupportFragmentManager().beginTransaction().add(id, fragment, tag).addToBackStack(fragment.getClass().getName()).setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+				.commitAllowingStateLoss();
+	}
+
+	@Override public void commitBackStackAddAnim(@IdRes int id, Fragment fragment, String tag, @AnimRes @AnimatorRes int newFragmentInAnim, @AnimRes @AnimatorRes int oldFragmentOutAnim,
+			@AnimRes @AnimatorRes int oldFragmentInAnim, @AnimRes @AnimatorRes int newFragmentOutAnim) {
+		if (activity() == null) return;
+		if (fragment == null) return;
+		activity().getSupportFragmentManager().beginTransaction().setCustomAnimations(newFragmentInAnim, oldFragmentOutAnim, oldFragmentInAnim, newFragmentOutAnim).add(id, fragment, tag)
+				.addToBackStack(tag).commitAllowingStateLoss();
+	}
+
+	@Override public void commitBackStackAddAnim(int id, Fragment fragment, String tag, int in, int out) {
+		if (activity() == null) return;
+		if (fragment == null) return;
+		activity().getSupportFragmentManager().beginTransaction().setCustomAnimations(in, out).add(id, fragment, tag).addToBackStack(tag).commitAllowingStateLoss();
+	}
+
+	@Override public void commitBackStackAddAnim(int id, Fragment fragment, int newFragmentInAnim, int oldFragmentOutAnim, int oldFragmentInAnim, int newFragmentOutAnim) {
+		if (activity() == null) return;
+		if (fragment == null) return;
+		activity().getSupportFragmentManager().beginTransaction().setCustomAnimations(newFragmentInAnim, oldFragmentOutAnim, oldFragmentInAnim, newFragmentOutAnim)
+				.add(id, fragment, fragment.getClass().getName()).addToBackStack(fragment.getClass().getName()).commitAllowingStateLoss();
+	}
+
+	@Override public void commitBackStackAddAnim(int id, Fragment fragment, int in, int out) {
+		if (activity() == null) return;
+		if (fragment == null) return;
+		activity().getSupportFragmentManager().beginTransaction().setCustomAnimations(in, out).add(id, fragment, fragment.getClass().getName()).addToBackStack(fragment.getClass().getName())
+				.commitAllowingStateLoss();
+	}
+
+	@Override public void commitBackStackReplaceAnim(int id, Fragment fragment, String tag, int newFragmentInAnim, int oldFragmentOutAnim, int oldFragmentInAnim, int newFragmentOutAnim) {
+		if (activity() == null) return;
+		if (fragment == null) return;
+		activity().getSupportFragmentManager().beginTransaction().setCustomAnimations(newFragmentInAnim, oldFragmentOutAnim, oldFragmentInAnim, newFragmentOutAnim).replace(id, fragment, tag)
+				.addToBackStack(tag).commitAllowingStateLoss();
+	}
+
+	@Override public void commitBackStackReplaceAnim(int id, Fragment fragment, String tag, int in, int out) {
+		if (activity() == null) return;
+		if (fragment == null) return;
+		activity().getSupportFragmentManager().beginTransaction().setCustomAnimations(in, out).replace(id, fragment, tag).addToBackStack(tag).commitAllowingStateLoss();
+	}
+
+	@Override public void commitBackStackReplaceAnim(int id, Fragment fragment, int newFragmentInAnim, int oldFragmentOutAnim, int oldFragmentInAnim, int newFragmentOutAnim) {
+		if (activity() == null) return;
+		if (fragment == null) return;
+		activity().getSupportFragmentManager().beginTransaction().setCustomAnimations(newFragmentInAnim, oldFragmentOutAnim, oldFragmentInAnim, newFragmentOutAnim)
+				.replace(id, fragment, fragment.getClass().getName()).addToBackStack(fragment.getClass().getName()).commitAllowingStateLoss();
+	}
+
+	@Override public void commitBackStackReplaceAnim(int id, Fragment fragment, int in, int out) {
+		if (activity() == null) return;
+		if (fragment == null) return;
+		activity().getSupportFragmentManager().beginTransaction().setCustomAnimations(in, out).replace(id, fragment, fragment.getClass().getName()).addToBackStack(fragment.getClass().getName())
+				.commitAllowingStateLoss();
+	}
+
+	@Override public void commitBackStack(@IdRes int id, Fragment fragment, @AnimRes @AnimatorRes int animation) {
+		if (activity() == null) return;
+		if (fragment == null) return;
+		activity().getSupportFragmentManager().beginTransaction().add(id, fragment, fragment.getClass().getName()).setTransition(animation != 0 ? animation : FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+				.addToBackStack(fragment.getClass().getName()).commitAllowingStateLoss();
+	}
+
+	@Override public void showFragment(Fragment fragment) {
+		if (activity() == null) return;
+		if (fragment == null) return;
+		activity().getSupportFragmentManager().beginTransaction().show(fragment).commitAllowingStateLoss();
+	}
+
+	@Override public void hideFragment(Fragment fragment) {
+		if (activity() == null) return;
+		if (fragment == null) return;
+		activity().getSupportFragmentManager().beginTransaction().hide(fragment).commitAllowingStateLoss();
+	}
+
+	@Override public void popBackStack() {
+		if (activity() == null) return;
+		activity().getSupportFragmentManager().popBackStack();
+	}
+
+	@Override public void popBackStack(@Nullable String var1, int var2) {
+		if (activity() == null) return;
+		activity().getSupportFragmentManager().popBackStack(var1, var2);
+	}
+
+	@Override public void popBackStack(int var1, int var2) {
+		if (activity() == null) return;
+		activity().getSupportFragmentManager().popBackStack(var1, var2);
+	}
+
+	@Override public void popBackStackImmediate() {
+		if (activity() == null) return;
+		activity().getSupportFragmentManager().popBackStack();
+	}
+
+	@Override public void popBackStackImmediate(@Nullable String var1, int var2) {
+		if (activity() == null) return;
+		activity().getSupportFragmentManager().popBackStackImmediate(var1, var2);
+	}
+
+	@Override public void popBackStackImmediate(int var1, int var2) {
+		if (activity() == null) return;
+		activity().getSupportFragmentManager().popBackStackImmediate(var1, var2);
 	}
 
 	@Override public void commitRemove(Fragment fragment) {

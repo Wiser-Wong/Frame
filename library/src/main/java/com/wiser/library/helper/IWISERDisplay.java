@@ -9,7 +9,9 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.AnimRes;
+import android.support.annotation.AnimatorRes;
 import android.support.annotation.IdRes;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Pair;
 import android.view.View;
@@ -292,64 +294,408 @@ public interface IWISERDisplay {
 	void intentForResultAnimation(Class clazz, @AnimRes int in, @AnimRes int out, Bundle bundle, int requestCode);
 
 	/**
-	 * @param layoutId
+	 * @param id
 	 *            参数
 	 * @param fragment
 	 *            参数
 	 */
-	void commitAdd(int layoutId, Fragment fragment);
+	void commitAdd(@IdRes int id, Fragment fragment);
 
 	/**
-	 * @param layoutId
+	 *
+	 * @param id
 	 *            参数
 	 * @param fragment
 	 *            参数
+	 * @param newFragmentInAnim
+	 *            新的Fragment 进入动画
+	 * @param oldFragmentOutAnim
+	 *            旧的Fragment 出去动画
+	 * @param oldFragmentInAnim
+	 *            旧的Fragment 进入动画
+	 * @param newFragmentOutAnim
+	 *            新的Fragment出去动画
 	 */
-	void commitAdd(int layoutId, Fragment fragment, String tag);
+	void commitAddAnim(@IdRes int id, Fragment fragment, @AnimatorRes @AnimRes int newFragmentInAnim, @AnimatorRes @AnimRes int oldFragmentOutAnim, @AnimatorRes @AnimRes int oldFragmentInAnim,
+			@AnimatorRes @AnimRes int newFragmentOutAnim);
 
 	/**
-	 * @param layoutId
+	 *
+	 * @param id
 	 *            参数
 	 * @param fragment
 	 *            参数
+	 * @param in
+	 *            进入动画
+	 * @param out
+	 *            出去动画
 	 */
-	void commitReplace(int layoutId, Fragment fragment);
+	void commitAddAnim(@IdRes int id, Fragment fragment, @AnimatorRes @AnimRes int in, @AnimatorRes @AnimRes int out);
 
 	/**
-	 * @param layoutId
+	 * @param id
+	 *            参数
+	 * @param fragment
+	 *            参数
+	 * @param tag
+	 *            标志
+	 */
+	void commitAdd(@IdRes int id, Fragment fragment, String tag);
+
+	/**
+	 *
+	 * @param id
+	 *            参数
+	 * @param fragment
+	 *            参数
+	 * @param tag
+	 *            标志
+	 * @param newFragmentInAnim
+	 *            新的Fragment 进入动画
+	 * @param oldFragmentOutAnim
+	 *            旧的Fragment 出去动画
+	 * @param oldFragmentInAnim
+	 *            旧的Fragment 进入动画
+	 * @param newFragmentOutAnim
+	 *            新的Fragment出去动画
+	 */
+	void commitAddAnim(@IdRes int id, Fragment fragment, String tag, @AnimatorRes @AnimRes int newFragmentInAnim, @AnimatorRes @AnimRes int oldFragmentOutAnim,
+			@AnimatorRes @AnimRes int oldFragmentInAnim, @AnimatorRes @AnimRes int newFragmentOutAnim);
+
+	/**
+	 *
+	 * @param id
+	 *            参数
+	 * @param fragment
+	 *            参数
+	 * @param tag
+	 *            标志
+	 * @param in
+	 *            进入动画
+	 * @param out
+	 *            出去动画
+	 */
+	void commitAddAnim(@IdRes int id, Fragment fragment, String tag, @AnimatorRes @AnimRes int in, @AnimatorRes @AnimRes int out);
+
+	/**
+	 * @param id
 	 *            参数
 	 * @param fragment
 	 *            参数
 	 */
-	void commitReplace(int layoutId, Fragment fragment, String tag);
+	void commitReplace(@IdRes int id, Fragment fragment);
+
+	/**
+	 *
+	 * @param id
+	 *            参数
+	 * @param fragment
+	 *            参数
+	 * @param newFragmentInAnim
+	 *            新的Fragment 进入动画
+	 * @param oldFragmentOutAnim
+	 *            旧的Fragment 出去动画
+	 * @param oldFragmentInAnim
+	 *            旧的Fragment 进入动画
+	 * @param newFragmentOutAnim
+	 *            新的Fragment出去动画
+	 */
+	void commitReplaceAnim(@IdRes int id, Fragment fragment, @AnimatorRes @AnimRes int newFragmentInAnim, @AnimatorRes @AnimRes int oldFragmentOutAnim, @AnimatorRes @AnimRes int oldFragmentInAnim,
+			@AnimatorRes @AnimRes int newFragmentOutAnim);
+
+	/**
+	 *
+	 * @param id
+	 *            参数
+	 * @param fragment
+	 *            参数
+	 * @param in
+	 *            进入动画
+	 * @param out
+	 *            出去动画
+	 */
+	void commitReplaceAnim(@IdRes int id, Fragment fragment, @AnimatorRes @AnimRes int in, @AnimatorRes @AnimRes int out);
+
+	/**
+	 * @param id
+	 *            参数
+	 * @param fragment
+	 *            参数
+	 * @param tag
+	 *            标志
+	 */
+	void commitReplace(@IdRes int id, Fragment fragment, String tag);
+
+	/**
+	 *
+	 * @param id
+	 *            参数
+	 * @param fragment
+	 *            参数
+	 * @param tag
+	 *            标志
+	 * @param newFragmentInAnim
+	 *            新的Fragment 进入动画
+	 * @param oldFragmentOutAnim
+	 *            旧的Fragment 出去动画
+	 * @param oldFragmentInAnim
+	 *            旧的Fragment 进入动画
+	 * @param newFragmentOutAnim
+	 *            新的Fragment出去动画
+	 */
+	void commitReplaceAnim(@IdRes int id, Fragment fragment, String tag, @AnimatorRes @AnimRes int newFragmentInAnim, @AnimatorRes @AnimRes int oldFragmentOutAnim,
+			@AnimatorRes @AnimRes int oldFragmentInAnim, @AnimatorRes @AnimRes int newFragmentOutAnim);
+
+	/**
+	 *
+	 * @param id
+	 *            参数
+	 * @param fragment
+	 *            参数
+	 * @param tag
+	 *            标志
+	 * @param in
+	 *            进入动画
+	 * @param out
+	 *            出去动画
+	 */
+	void commitReplaceAnim(@IdRes int id, Fragment fragment, String tag, @AnimatorRes @AnimRes int in, @AnimatorRes @AnimRes int out);
 
 	/**
 	 * @param srcFragment
 	 *            参数
-	 * @param layoutId
+	 * @param id
 	 *            参数
 	 * @param fragment
 	 *            参数
 	 */
-	void commitChildReplace(Fragment srcFragment, @IdRes int layoutId, Fragment fragment);
+	void commitChildReplace(Fragment srcFragment, @IdRes int id, Fragment fragment);
 
 	/**
-	 * @param layoutId
+	 * @param id
 	 *            参数
 	 * @param fragment
 	 *            参数
 	 */
-	void commitBackStack(@IdRes int layoutId, Fragment fragment);
+	void commitBackStack(@IdRes int id, Fragment fragment);
 
 	/**
-	 * @param layoutId
+	 * @param id
+	 *            参数
+	 * @param fragment
+	 *            参数
+	 * @param tag
+	 *            参数
+	 */
+	void commitBackStack(@IdRes int id, Fragment fragment, String tag);
+
+	/**
+	 *
+	 * @param id
+	 *            参数
+	 * @param fragment
+	 *            参数
+	 * @param tag
+	 *            标志
+	 * @param newFragmentInAnim
+	 *            新的Fragment 进入动画
+	 * @param oldFragmentOutAnim
+	 *            旧的Fragment 出去动画
+	 * @param oldFragmentInAnim
+	 *            旧的Fragment 进入动画
+	 * @param newFragmentOutAnim
+	 *            新的Fragment出去动画
+	 */
+	void commitBackStackAddAnim(@IdRes int id, Fragment fragment, String tag, @AnimatorRes @AnimRes int newFragmentInAnim, @AnimatorRes @AnimRes int oldFragmentOutAnim,
+			@AnimatorRes @AnimRes int oldFragmentInAnim, @AnimatorRes @AnimRes int newFragmentOutAnim);
+
+	/**
+	 *
+	 * @param id
+	 *            参数
+	 * @param fragment
+	 *            参数
+	 * @param tag
+	 *            标志
+	 * @param in
+	 *            进入动画
+	 * @param out
+	 *            出去动画
+	 */
+	void commitBackStackAddAnim(@IdRes int id, Fragment fragment, String tag, @AnimatorRes @AnimRes int in, @AnimatorRes @AnimRes int out);
+
+	/**
+	 *
+	 * @param id
+	 *            参数
+	 * @param fragment
+	 *            参数
+	 * @param newFragmentInAnim
+	 *            新的Fragment 进入动画
+	 * @param oldFragmentOutAnim
+	 *            旧的Fragment 出去动画
+	 * @param oldFragmentInAnim
+	 *            旧的Fragment 进入动画
+	 * @param newFragmentOutAnim
+	 *            新的Fragment出去动画
+	 */
+	void commitBackStackAddAnim(@IdRes int id, Fragment fragment, @AnimatorRes @AnimRes int newFragmentInAnim, @AnimatorRes @AnimRes int oldFragmentOutAnim,
+			@AnimatorRes @AnimRes int oldFragmentInAnim, @AnimatorRes @AnimRes int newFragmentOutAnim);
+
+	/**
+	 *
+	 * @param id
+	 *            参数
+	 * @param fragment
+	 *            参数
+	 * @param in
+	 *            进入动画
+	 * @param out
+	 *            出去动画
+	 */
+	void commitBackStackAddAnim(@IdRes int id, Fragment fragment, @AnimatorRes @AnimRes int in, @AnimatorRes @AnimRes int out);
+
+	/**
+	 *
+	 * @param id
+	 *            参数
+	 * @param fragment
+	 *            参数
+	 * @param tag
+	 *            标志
+	 * @param newFragmentInAnim
+	 *            新的Fragment 进入动画
+	 * @param oldFragmentOutAnim
+	 *            旧的Fragment 出去动画
+	 * @param oldFragmentInAnim
+	 *            旧的Fragment 进入动画
+	 * @param newFragmentOutAnim
+	 *            新的Fragment出去动画
+	 */
+	void commitBackStackReplaceAnim(@IdRes int id, Fragment fragment, String tag, @AnimatorRes @AnimRes int newFragmentInAnim, @AnimatorRes @AnimRes int oldFragmentOutAnim,
+			@AnimatorRes @AnimRes int oldFragmentInAnim, @AnimatorRes @AnimRes int newFragmentOutAnim);
+
+	/**
+	 *
+	 * @param id
+	 *            参数
+	 * @param fragment
+	 *            参数
+	 * @param tag
+	 *            标志
+	 * @param in
+	 *            进入动画
+	 * @param out
+	 *            出去动画
+	 */
+	void commitBackStackReplaceAnim(@IdRes int id, Fragment fragment, String tag, @AnimatorRes @AnimRes int in, @AnimatorRes @AnimRes int out);
+
+	/**
+	 *
+	 * @param id
+	 *            参数
+	 * @param fragment
+	 *            参数
+	 * @param tag
+	 *            标志
+	 * @param newFragmentInAnim
+	 *            新的Fragment 进入动画
+	 * @param oldFragmentOutAnim
+	 *            旧的Fragment 出去动画
+	 * @param oldFragmentInAnim
+	 *            旧的Fragment 进入动画
+	 * @param newFragmentOutAnim
+	 *            新的Fragment出去动画
+	 */
+	void commitBackStackReplaceAnim(@IdRes int id, Fragment fragment, @AnimatorRes @AnimRes int newFragmentInAnim, @AnimatorRes @AnimRes int oldFragmentOutAnim,
+			@AnimatorRes @AnimRes int oldFragmentInAnim, @AnimatorRes @AnimRes int newFragmentOutAnim);
+
+	/**
+	 *
+	 * @param id
+	 *            参数
+	 * @param fragment
+	 *            参数
+	 * @param in
+	 *            进入动画
+	 * @param out
+	 *            出去动画
+	 */
+	void commitBackStackReplaceAnim(@IdRes int id, Fragment fragment, @AnimatorRes @AnimRes int in, @AnimatorRes @AnimRes int out);
+
+	/**
+	 * @param id
 	 *            参数
 	 * @param fragment
 	 *            参数
 	 * @param animation
 	 *            参数
 	 */
-	void commitBackStack(@IdRes int layoutId, Fragment fragment, int animation);
+	void commitBackStack(@IdRes int id, Fragment fragment, @AnimRes @AnimatorRes int animation);
+
+	/**
+	 * 显示Fragment
+	 * 
+	 * @param fragment
+	 */
+	void showFragment(Fragment fragment);
+
+	/**
+	 * 隐藏Fragment
+	 *
+	 * @param fragment
+	 */
+	void hideFragment(Fragment fragment);
+
+	/**
+	 * Fragment 出栈
+	 */
+	void popBackStack();
+
+	/**
+	 * Fragment 出栈
+	 * 
+	 * @param var1
+	 *            参数
+	 * @param var2
+	 *            参数
+	 */
+	void popBackStack(@Nullable String var1, int var2);
+
+	/**
+	 * Fragment 出栈
+	 * 
+	 * @param var1
+	 *            参数
+	 * @param var2
+	 *            参数
+	 */
+	void popBackStack(int var1, int var2);
+
+	/**
+	 * Fragment 出栈
+	 */
+	void popBackStackImmediate();
+
+	/**
+	 * Fragment 出栈
+	 *
+	 * @param var1
+	 *            参数
+	 * @param var2
+	 *            参数
+	 */
+	void popBackStackImmediate(@Nullable String var1, int var2);
+
+	/**
+	 * Fragment 出栈
+	 *
+	 * @param var1
+	 *            参数
+	 * @param var2
+	 *            参数
+	 */
+	void popBackStackImmediate(int var1, int var2);
 
 	/**
 	 * @param fragment

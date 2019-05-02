@@ -26,7 +26,7 @@ public class WISERTabPageAdapter extends FragmentPagerAdapter {
 		return fragments == null || fragments.length == 0 ? 0 : fragments.length;
 	}
 
-	protected void detach() {
+	public void detach() {
 		fragments = null;
 	}
 

@@ -1,11 +1,11 @@
 package com.wiser.library.loading;
 
 import com.wiser.library.R;
-import com.wiser.library.base.IWISERBiz;
 import com.wiser.library.base.WISERBuilder;
 import com.wiser.library.base.WISERDialogFragment;
 import com.wiser.library.helper.WISERHelper;
 
+import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -28,7 +28,7 @@ public class LoadingDialogFragment extends WISERDialogFragment {
 		return loadingDialogFragment;
 	}
 
-	@Override protected WISERBuilder build(WISERBuilder builder) {
+	@SuppressLint("ResourceType") @Override protected WISERBuilder build(WISERBuilder builder) {
 		builder.layoutId(R.layout.dialog_loading);
 		return builder;
 	}
@@ -44,7 +44,7 @@ public class LoadingDialogFragment extends WISERDialogFragment {
 		return CENTER;
 	}
 
-	@Override protected int dialogTheme() {
+	@SuppressLint("ResourceType") @Override protected int dialogTheme() {
 		return R.style.LoadingDialogTheme;
 	}
 

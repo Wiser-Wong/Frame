@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.wiser.library.base.WISERTabPageActivity;
 import com.wiser.library.base.WISERTabPageFragment;
+import com.wiser.library.tab.listener.OnTabClickListener;
 
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -165,11 +166,6 @@ public class WISERTabView implements View.OnClickListener {
 
 	public void setOnTabClickListener(OnTabClickListener onTabClickListener) {
 		this.onTabClickListener = onTabClickListener;
-	}
-
-	public interface OnTabClickListener {
-
-		void onTabClick(View view);
 	}
 
 	protected void detach() {

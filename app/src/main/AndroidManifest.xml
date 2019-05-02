@@ -35,6 +35,7 @@
         <activity android:name=".TabPageActivity" />
         <activity android:name=".SmartActivity" />
         <activity android:name=".ZoomScrollViewActivity" />
+        <activity android:name=".TabLayoutActivity" />
         <activity android:name=".slidingmenu.SlidingMenuActivity" />
 
         <receiver android:name=".ClickBroadcastReceiver"/>

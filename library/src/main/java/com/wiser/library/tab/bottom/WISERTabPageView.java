@@ -4,6 +4,8 @@ import java.lang.reflect.Method;
 
 import com.wiser.library.base.WISERTabPageActivity;
 import com.wiser.library.base.WISERTabPageFragment;
+import com.wiser.library.tab.listener.OnTabClickListener;
+import com.wiser.library.tab.listener.OnTabPageChangeListener;
 
 import android.content.Context;
 import android.support.v4.app.Fragment;
@@ -70,6 +72,11 @@ public class WISERTabPageView extends RelativeLayout implements ViewPager.OnPage
 
 	public WISERTabPageView(Context context, AttributeSet attrs) {
 		super(context, attrs);
+		init();
+	}
+
+	public WISERTabPageView(Context context) {
+		super(context);
 		init();
 	}
 
@@ -278,7 +285,7 @@ public class WISERTabPageView extends RelativeLayout implements ViewPager.OnPage
 		if (tabView != null) tabView.tabIds(tabLayoutId, tabIds);
 	}
 
-	public void setOnTabClickListener(WISERTabView.OnTabClickListener onTabClickListener) {
+	public void setOnTabClickListener(OnTabClickListener onTabClickListener) {
 		if (tabView != null) tabView.setOnTabClickListener(onTabClickListener);
 	}
 
@@ -327,27 +334,14 @@ public class WISERTabPageView extends RelativeLayout implements ViewPager.OnPage
 		this.onTabPageChangeListener = onTabPageChangeListener;
 	}
 
-	public interface OnTabPageChangeListener {
-
-		void onPageScrolled(int i, float v, int i1);
-
-		void onPageSelected(int i);
-
-		void onPageScrollStateChanged(int i);
-	}
-
-	public interface OnTabShowCurrentPageListener {
-
-		void onShowCurrentPage(int position);
-
-		void onHideCurrentPage(int position);
-	}
-
 	public void detach() {
 		if (pageView != null) pageView.detach();
 		pageView = null;
 		if (tabView != null) tabView.detach();
 		tabView = null;
+		otherView = null;
+		pageLayout = null;
+		fragments = null;
 		wiserTabPageActivity = null;
 		wiserTabPageFragment = null;
 		onTabPageChangeListener = null;
