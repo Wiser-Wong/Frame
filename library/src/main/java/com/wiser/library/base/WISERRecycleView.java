@@ -3,6 +3,7 @@ package com.wiser.library.base;
 import com.wiser.library.adapter.WISERRVAdapter;
 import com.wiser.library.model.WISERFooterModel;
 
+import android.support.annotation.LayoutRes;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -89,7 +90,7 @@ public class WISERRecycleView {
 		this.isFooter = isFooter;
 	}
 
-	public void footerLayoutId(int footerLayoutId) {
+	public void footerLayoutId(@LayoutRes int footerLayoutId) {
 		if (wiserView != null) {
 			if (wiserView.getFooterModel() == null) {
 				wiserView.setFooterModel(new WISERFooterModel());
@@ -98,26 +99,12 @@ public class WISERRecycleView {
 		}
 	}
 
-	public void setFooterStyle(int backgroundColor, int barColor, int textColor) {
+	public void setOnFooterCustomListener(WISERRVAdapter.OnFooterCustomListener onFooterCustomListener) {
 		if (wiserView != null) {
 			if (wiserView.getFooterModel() == null) {
 				wiserView.setFooterModel(new WISERFooterModel());
 			}
-			wiserView.getFooterModel().backgroundColor = backgroundColor;
-			wiserView.getFooterModel().barColor = barColor;
-			wiserView.getFooterModel().textColor = textColor;
-		}
-	}
-
-	public void setFooterPadding(int leftPadding, int topPadding, int rightPadding, int bottomPadding) {
-		if (wiserView != null) {
-			if (wiserView.getFooterModel() == null) {
-				wiserView.setFooterModel(new WISERFooterModel());
-			}
-			wiserView.getFooterModel().leftPadding = leftPadding;
-			wiserView.getFooterModel().topPadding = topPadding;
-			wiserView.getFooterModel().rightPadding = rightPadding;
-			wiserView.getFooterModel().bottomPadding = bottomPadding;
+			wiserView.getFooterModel().onFooterCustomListener = onFooterCustomListener;
 		}
 	}
 

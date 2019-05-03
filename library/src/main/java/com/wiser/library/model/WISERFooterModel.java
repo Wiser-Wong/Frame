@@ -1,25 +1,17 @@
 package com.wiser.library.model;
 
+import android.support.annotation.LayoutRes;
+
+import com.wiser.library.adapter.WISERRVAdapter;
+
 /**
  * @author Wiser
  * @version 版本
  */
 public class WISERFooterModel {
 
-	public int	footerLayoutId;
+	@LayoutRes public int							footerLayoutId;
 
-	public int	backgroundColor;
-
-	public int	textColor;
-
-	public int	barColor;
-
-	public int	leftPadding;
-
-	public int	topPadding;
-
-	public int	rightPadding;
-
-	public int	bottomPadding;
+	public WISERRVAdapter.OnFooterCustomListener	onFooterCustomListener;
 
 }

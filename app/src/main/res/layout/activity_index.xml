@@ -29,10 +29,6 @@
                     android:background="#ffffff"
                     android:orientation="vertical">
 
-                    <com.wiser.library.view.FooterView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
-
                     <com.wiser.library.view.AlignTextLayoutView
                         android:id="@+id/align_view"
                         android:layout_width="match_parent"

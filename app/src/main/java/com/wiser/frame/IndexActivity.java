@@ -3,20 +3,17 @@ package com.wiser.frame;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import com.liulishuo.filedownloader.BaseDownloadTask;
 import com.liulishuo.filedownloader.FileDownloadListener;
 import com.wiser.library.adapter.WISERRVAdapter;
 import com.wiser.library.base.WISERActivity;
 import com.wiser.library.base.WISERBuilder;
-import com.wiser.library.base.WISERDialogFragment;
 import com.wiser.library.helper.WISERHelper;
 import com.wiser.library.manager.permission.IWISERPermissionCallBack;
 import com.wiser.library.pager.banner.BannerPagerView;
 import com.wiser.library.util.WISERDate;
 import com.wiser.library.view.AlignTextLayoutView;
-import com.wiser.library.view.FooterView;
 import com.wiser.library.view.marquee.MarqueeAdapter;
 import com.wiser.library.view.marquee.MarqueeView;
 import com.wiser.library.zxing.WISERQRCode;
@@ -25,7 +22,6 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -33,13 +29,12 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.RemoteViews;
 import android.widget.TextView;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class IndexActivity extends WISERActivity<IndexBiz> implements WISERRVAdapter.FooterCustomListener, AlignTextLayoutView.OnAlignItemListener {
+public class IndexActivity extends WISERActivity<IndexBiz> implements WISERRVAdapter.OnFooterCustomListener, AlignTextLayoutView.OnAlignItemListener {
 
 	@BindView(R.id.tv_name) TextView				tvName;
 
@@ -65,10 +60,9 @@ public class IndexActivity extends WISERActivity<IndexBiz> implements WISERRVAda
 		builder.recycleView().recycleAdapter(new IndexAdapter(this));
 		builder.isRootLayoutRefresh(true, false);
 		builder.setColorSchemeColors(Color.BLUE, Color.RED, Color.GREEN);
-		builder.recycleView().setFooterStyle(Color.BLUE, Color.RED, Color.WHITE);
-		builder.recycleView().setFooterPadding(0, 5, 0, 5);
 		builder.recycleView().isFooter(true);
 		builder.recycleView().footerLayoutId(R.layout.title_layout);
+		builder.recycleView().setOnFooterCustomListener(this);
 		// builder.setProgressBackgroundColorSchemeColor(Color.BLACK);
 		// builder.setColorSchemeColors(getResources().getColor(R.color.colorAccent),getResources().getColor(R.color.cpv_default_color),getResources().getColor(R.color.design_default_color_primary));
 		builder.tintFitsSystem(true);
@@ -88,8 +82,6 @@ public class IndexActivity extends WISERActivity<IndexBiz> implements WISERRVAda
 		WISERQRCode.createQRCodeBitmapForUrl("", "WiserWong", R.mipmap.ic_launcher, ivQR, false);
 
 		marquee();
-
-		if (adapter() != null) adapter().setFooterCustomListener(this);
 
 		WISERHelper.permissionManage().requestPermission(this, 11, Manifest.permission.CAMERA, new IWISERPermissionCallBack() {
 
@@ -260,7 +252,7 @@ public class IndexActivity extends WISERActivity<IndexBiz> implements WISERRVAda
 		}
 	}
 
-	@Override public void footerListener(FooterView footerView, int state) {
+	@Override public void footerListener(View footerView, int state) {
 		if (adapter() == null) return;
 		if (footerView == null) return;
 		TextView tvFooter = footerView.findViewById(R.id.tv_title_name);

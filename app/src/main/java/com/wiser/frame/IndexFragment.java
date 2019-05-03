@@ -4,13 +4,15 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
+import android.view.View;
+import android.widget.TextView;
 
 import com.wiser.library.adapter.WISERRVAdapter;
 import com.wiser.library.base.WISERBuilder;
 import com.wiser.library.base.WISERFragment;
 import com.wiser.library.tab.listener.OnTabShowCurrentPageListener;
 
-public class IndexFragment extends WISERFragment<IndexFragmentBiz> implements OnTabShowCurrentPageListener {
+public class IndexFragment extends WISERFragment<IndexFragmentBiz> implements OnTabShowCurrentPageListener , WISERRVAdapter.OnFooterCustomListener {
 
 	@Override protected WISERBuilder build(WISERBuilder builder) {
 		builder.layoutId(R.layout.fragment_index);
@@ -18,8 +20,8 @@ public class IndexFragment extends WISERFragment<IndexFragmentBiz> implements On
 		builder.recycleView().recycleViewLinearManager(LinearLayoutManager.VERTICAL, null);
 		builder.recycleView().recycleAdapter(new IndexAdapter(this));
 		builder.isRootLayoutRefresh(true, false);
-		builder.recycleView().setFooterStyle(Color.BLUE, Color.RED, Color.WHITE);
-		builder.recycleView().setFooterPadding(0, 5, 0, 5);
+		builder.recycleView().footerLayoutId(R.layout.title_layout);
+		builder.recycleView().setOnFooterCustomListener(this);
 		builder.recycleView().isFooter(true);
 		return builder;
 	}
@@ -51,5 +53,25 @@ public class IndexFragment extends WISERFragment<IndexFragmentBiz> implements On
 	@Override
 	public void onHideCurrentPage(int position) {
 		System.out.println("-----IndexFragment-------hide");
+	}
+
+	@Override
+	public void footerListener(View footerView, int state) {
+		if (adapter() == null) return;
+		if (footerView == null) return;
+		TextView tvFooter = footerView.findViewById(R.id.tv_title_name);
+		switch (state) {
+			case WISERRVAdapter.LOAD_RUNNING:
+				footerView.setVisibility(View.VISIBLE);
+				tvFooter.setText("加载呢");
+				break;
+			case WISERRVAdapter.LOAD_COMPLETE:
+				footerView.setVisibility(View.GONE);
+				break;
+			case WISERRVAdapter.LOAD_END:
+				footerView.setVisibility(View.VISIBLE);
+				tvFooter.setText("没啥数据了");
+				break;
+		}
 	}
 }
