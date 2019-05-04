@@ -188,7 +188,7 @@ public abstract class WISERDialogFragment<B extends IWISERBiz> extends DialogFra
 	}
 
 	// 显示加载动画
-	@Override public void showLoading() {
+	@Override public void showLoadingView() {
 		if (mWiserBuilder != null) mWiserBuilder.showLoadingView();
 	}
 

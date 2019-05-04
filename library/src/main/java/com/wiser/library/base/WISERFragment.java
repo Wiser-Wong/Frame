@@ -104,7 +104,7 @@ public abstract class WISERFragment<B extends IWISERBiz> extends Fragment implem
 	}
 
 	// 显示加载动画
-	@Override public void showLoading() {
+	@Override public void showLoadingView() {
 		if (mWiserBuilder != null) mWiserBuilder.showLoadingView();
 	}
 

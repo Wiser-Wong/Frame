@@ -584,4 +584,22 @@ public class WISERCheck {
 		boolean network = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
 		return gps || network;
 	}
+
+	/**
+	 * 判断服务是否处于运行状态.
+	 *
+	 * @param serviceName
+	 * @param context
+	 * @return
+	 */
+	public static boolean isServiceRunning(String serviceName, Context context) {
+		ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+		List<ActivityManager.RunningServiceInfo> infos = am.getRunningServices(100);
+		for (ActivityManager.RunningServiceInfo info : infos) {
+			if (serviceName.equals(info.service.getClassName())) {
+				return true;
+			}
+		}
+		return false;
+	}
 }

@@ -11,7 +11,7 @@ public interface IWISERView {
 	/**
 	 * 显示正在加载view
 	 */
-	void showLoading();
+	void showLoadingView();
 
 	/**
 	 * 显示请求错误布局

@@ -53,13 +53,15 @@ public class WISERBuilder {
 
 	private FrameLayout				contentRoot;								// 根布局
 
-	private LinearLayout			contentContentToolBar;						// 带title带主布局
+	private LinearLayout			contentToolBar;								// 带title带主布局
+
+	private FrameLayout				contentLayout;								// 带title带主布局
 
 	private SwipeRefreshLayout		layoutRefresh;								// 刷新布局
 
-	private View					layoutToolBar;								// 标题布局
+	private View					toolBarView;								// 标题布局
 
-	private View					layoutContent;								// 主布局
+	private View					contentView;								// 主布局
 
 	private View					layoutEmpty;								// 空布局
 
@@ -210,7 +212,7 @@ public class WISERBuilder {
 	}
 
 	public void layoutView(View layoutView) {
-		this.layoutContent = layoutView;
+		this.contentView = layoutView;
 	}
 
 	private int getTintColor() {
@@ -376,36 +378,26 @@ public class WISERBuilder {
 		contentRoot = new FrameLayout(wiserView.activity());
 		FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
 		contentRoot.setLayoutParams(layoutParams);
-		// 下拉刷新布局
-		createRVRefreshView();
+		// 创建主布局 包括 toolBar
+		createContentToolBar();
 		// toolBar
 		if (getLayoutBarId() > 0) {
-			contentContentToolBar = new LinearLayout(wiserView.activity());
-			LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
-			contentContentToolBar.setLayoutParams(params);
-			contentContentToolBar.setOrientation(LinearLayout.VERTICAL);
-			layoutToolBar = mInflater.inflate(getLayoutBarId(), contentContentToolBar, false);
-			contentContentToolBar.addView(layoutToolBar);
-			if (isRefresh) layoutRefresh.addView(contentContentToolBar);
-			else contentRoot.addView(contentContentToolBar);
+			toolBarView = mInflater.inflate(getLayoutBarId(), contentToolBar, false);
+			contentToolBar.addView(toolBarView);
 		}
+		// 创建内容布局
+		createContentLayout();
+		// 下拉刷新布局
+		createRVRefreshView();
 		// 内容
 		if (getLayoutId() > 0) {
-			layoutContent = mInflater.inflate(getLayoutId(), contentRoot, false);
-			if (getLayoutBarId() > 0) {
-				contentContentToolBar.addView(layoutContent);
-			} else {
-				if (isRefresh) layoutRefresh.addView(layoutContent);
-				else contentRoot.addView(layoutContent);
-			}
+			contentView = mInflater.inflate(getLayoutId(), contentLayout, false);
+			if (isRefresh) layoutRefresh.addView(contentView);
+			else contentLayout.addView(contentView);
 		} else {
-			if (layoutContent != null) {
-				if (getLayoutBarId() > 0) {
-					contentContentToolBar.addView(layoutContent);
-				} else {
-					if (isRefresh) layoutRefresh.addView(layoutContent);
-					else contentRoot.addView(layoutContent);
-				}
+			if (contentView != null) {
+				if (isRefresh) layoutRefresh.addView(contentView);
+				else contentLayout.addView(contentView);
 			}
 		}
 		// RecycleView
@@ -427,9 +419,9 @@ public class WISERBuilder {
 			layoutRefresh = new SwipeRefreshLayout(wiserView.activity());
 			FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
 			layoutRefresh.setLayoutParams(layoutParams);
-			contentRoot.addView(layoutRefresh);
+			contentLayout.addView(layoutRefresh);
 			if (refreshBgColor != -1) layoutRefresh.setProgressBackgroundColorSchemeColor(refreshBgColor);
-			layoutRefresh.setProgressViewEndTarget(true, 230);
+			layoutRefresh.setProgressViewEndTarget(true, layoutRefresh.getProgressCircleDiameter() + 25);
 			if (refreshColors.length > 0) layoutRefresh.setColorSchemeColors(refreshColors);
 			switch (state) {
 				case WISERView.STATE_ACTIVITY:
@@ -448,13 +440,34 @@ public class WISERBuilder {
 	}
 
 	/**
+	 * 创建内容以及toolBar布局
+	 */
+	private void createContentToolBar() {
+		contentToolBar = new LinearLayout(wiserView.activity());
+		LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
+		contentToolBar.setLayoutParams(params);
+		contentToolBar.setOrientation(LinearLayout.VERTICAL);
+		contentRoot.addView(contentToolBar);
+	}
+
+	/**
+	 * 创建内容布局
+	 */
+	private void createContentLayout() {
+		contentLayout = new FrameLayout(wiserView.activity());
+		FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
+		contentLayout.setLayoutParams(params);
+		contentToolBar.addView(contentLayout);
+	}
+
+	/**
 	 * 创建空布局
 	 */
 	private void createEmptyView() {
 		if (getLayoutEmptyId() > 0) {
-			layoutEmpty = mInflater.inflate(getLayoutEmptyId(), contentRoot, false);
+			layoutEmpty = mInflater.inflate(getLayoutEmptyId(), contentLayout, false);
 			WISERCheck.checkNotNull(layoutEmpty, "无法根据布局文件ID,获取layoutEmpty");
-			contentRoot.addView(layoutEmpty);
+			if (isRefresh) contentLayout.addView(layoutEmpty);
 			layoutEmpty.setVisibility(View.GONE);
 		}
 	}
@@ -464,9 +477,9 @@ public class WISERBuilder {
 	 */
 	private void createErrorView() {
 		if (getLayoutErrorId() > 0) {
-			layoutError = mInflater.inflate(getLayoutErrorId(), contentRoot, false);
+			layoutError = mInflater.inflate(getLayoutErrorId(), contentLayout, false);
 			WISERCheck.checkNotNull(layoutError, "无法根据布局文件ID,获取layoutError");
-			contentRoot.addView(layoutError);
+			contentLayout.addView(layoutError);
 			layoutError.setVisibility(View.GONE);
 		}
 	}
@@ -476,9 +489,9 @@ public class WISERBuilder {
 	 */
 	private void createLoadingView() {
 		if (getLayoutLoadingId() > 0) {
-			layoutLoading = mInflater.inflate(getLayoutLoadingId(), contentRoot, false);
+			layoutLoading = mInflater.inflate(getLayoutLoadingId(), contentLayout, false);
 			WISERCheck.checkNotNull(layoutLoading, "无法根据布局文件ID,获取layoutLoading");
-			contentRoot.addView(layoutLoading);
+			contentLayout.addView(layoutLoading);
 			layoutLoading.setVisibility(View.GONE);
 		}
 	}
@@ -490,8 +503,8 @@ public class WISERBuilder {
 		if (layoutError == null) return;
 		changeShowLayoutAndAnim(layoutEmpty, false);
 		changeShowLayoutAndAnim(layoutLoading, false);
-		if (getLayoutBarId() > 0) changeShowLayoutAndAnim(contentContentToolBar, true);
-		else changeShowLayoutAndAnim(layoutContent, false);
+		if (isRefresh) changeShowLayoutAndAnim(layoutRefresh, false);
+		else changeShowLayoutAndAnim(contentView, false);
 		changeShowLayoutAndAnim(layoutError, true);
 	}
 
@@ -502,8 +515,8 @@ public class WISERBuilder {
 		if (layoutEmpty == null) return;
 		changeShowLayoutAndAnim(layoutError, false);
 		changeShowLayoutAndAnim(layoutLoading, false);
-		if (getLayoutBarId() > 0) changeShowLayoutAndAnim(contentContentToolBar, true);
-		else changeShowLayoutAndAnim(layoutContent, false);
+		if (isRefresh) changeShowLayoutAndAnim(layoutRefresh, false);
+		else changeShowLayoutAndAnim(contentView, false);
 		changeShowLayoutAndAnim(layoutEmpty, true);
 	}
 
@@ -511,17 +524,12 @@ public class WISERBuilder {
 	 * 显示主布局
 	 */
 	void showContentView() {
-		// 判断存在toolBar的情况
-		if (getLayoutBarId() > 0) {
-			if (contentContentToolBar == null) return;
-		} else {
-			if (layoutContent == null) return;
-		}
+		if (contentView == null) return;
 		changeShowLayoutAndAnim(layoutEmpty, false);
 		changeShowLayoutAndAnim(layoutError, false);
 		changeShowLayoutAndAnim(layoutLoading, false);
-		if (getLayoutBarId() > 0) changeShowLayoutAndAnim(contentContentToolBar, true);
-		else changeShowLayoutAndAnim(layoutContent, true);
+		if (isRefresh) changeShowLayoutAndAnim(layoutRefresh, true);
+		else changeShowLayoutAndAnim(contentView, true);
 	}
 
 	/**
@@ -529,8 +537,8 @@ public class WISERBuilder {
 	 */
 	void showLoadingView() {
 		if (layoutLoading == null) return;
-		if (getLayoutBarId() > 0) changeShowLayoutAndAnim(contentContentToolBar, true);
-		else changeShowLayoutAndAnim(layoutContent, false);
+		if (isRefresh) changeShowLayoutAndAnim(layoutRefresh, false);
+		else changeShowLayoutAndAnim(contentView, false);
 		changeShowLayoutAndAnim(layoutEmpty, false);
 		changeShowLayoutAndAnim(layoutError, false);
 		changeShowLayoutAndAnim(layoutLoading, true);
@@ -573,7 +581,7 @@ public class WISERBuilder {
 			view.setVisibility(View.GONE);
 			anim = AnimationUtils.loadAnimation(wiserView.activity(), android.R.anim.fade_out);
 		}
-		anim.setDuration(wiserView.activity().getResources().getInteger(android.R.integer.config_mediumAnimTime));
+		anim.setDuration(wiserView.activity().getResources().getInteger(android.R.integer.config_shortAnimTime));
 		view.startAnimation(anim);
 	}
 
@@ -596,7 +604,7 @@ public class WISERBuilder {
 		if (mRecycleView != null) mRecycleView.detach();
 		mRecycleView = null;
 		contentRoot = null;
-		layoutContent = null;
+		contentView = null;
 		layoutError = null;
 		layoutEmpty = null;
 		layoutLoading = null;
