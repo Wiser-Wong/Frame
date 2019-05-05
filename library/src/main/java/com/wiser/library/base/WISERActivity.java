@@ -55,6 +55,9 @@ public abstract class WISERActivity<B extends IWISERBiz> extends FragmentActivit
 		// 填充视图
 		setContentView(build(mWiserBuilder).systemBarTheme().createView());
 
+		// toolBar 控制
+		mWiserBuilder.setToolBarControl();
+
 		// 注册滑动清除Activity
 		mWiserBuilder.createSwipeBackActivity();
 

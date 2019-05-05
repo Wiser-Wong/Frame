@@ -6,7 +6,6 @@
     android:background="#ffffff"
     android:orientation="vertical">
 
-
     <com.github.rahatarmanahmed.cpv.CircularProgressView
         android:id="@+id/progress_view"
         android:layout_width="40dp"

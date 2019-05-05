@@ -11,6 +11,8 @@ import com.wiser.library.util.WISERCheck;
 import android.graphics.Color;
 import android.os.Build;
 import android.support.annotation.ColorInt;
+import android.support.annotation.IdRes;
+import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -24,6 +26,9 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.TextView;
+
+import butterknife.ButterKnife;
 
 /**
  * @author Wiser
@@ -74,6 +79,12 @@ public class WISERBuilder {
 	private WISERView				wiserView;
 
 	private WISERRecycleView		mRecycleView;
+
+	private int						titleViewId;
+
+	private int						backViewId;
+
+	private String					titleName;
 
 	/**
 	 * TintManger
@@ -171,7 +182,7 @@ public class WISERBuilder {
 		this.refreshBgColor = color;
 	}
 
-	public void layoutBarId(int layoutBarId) {
+	public void layoutBarId(@LayoutRes int layoutBarId) {
 		this.layoutBarId = layoutBarId;
 	}
 
@@ -179,7 +190,22 @@ public class WISERBuilder {
 		return layoutBarId;
 	}
 
-	public void layoutId(int layoutId) {
+	public void titleViewId(@IdRes int titleViewId, String titleName) {
+		this.titleViewId = titleViewId;
+		this.titleName = titleName;
+	}
+
+	public void backViewId(@IdRes int backViewId) {
+		this.backViewId = backViewId;
+	}
+
+	public void titleBarViewId(@IdRes int titleViewId, String titleName, @IdRes int backViewId) {
+		this.titleViewId = titleViewId;
+		this.titleName = titleName;
+		this.backViewId = backViewId;
+	}
+
+	public void layoutId(@LayoutRes int layoutId) {
 		this.layoutId = layoutId;
 	}
 
@@ -187,7 +213,7 @@ public class WISERBuilder {
 		return layoutId;
 	}
 
-	public void layoutEmptyId(int layoutEmptyId) {
+	public void layoutEmptyId(@LayoutRes int layoutEmptyId) {
 		this.layoutEmptyId = layoutEmptyId;
 	}
 
@@ -195,7 +221,7 @@ public class WISERBuilder {
 		return layoutEmptyId;
 	}
 
-	public void layoutErrorId(int layoutErrorId) {
+	public void layoutErrorId(@LayoutRes int layoutErrorId) {
 		this.layoutErrorId = layoutErrorId;
 	}
 
@@ -203,7 +229,7 @@ public class WISERBuilder {
 		return layoutErrorId;
 	}
 
-	public void layoutLoadingId(int layoutLoadingId) {
+	public void layoutLoadingId(@LayoutRes int layoutLoadingId) {
 		this.layoutLoadingId = layoutLoadingId;
 	}
 
@@ -412,6 +438,32 @@ public class WISERBuilder {
 	}
 
 	/**
+	 * 设置title 内容 以及控制
+	 */
+	void setToolBarControl() {
+		if (toolBarView == null) return;
+		if (titleViewId > 0) {
+			View titleView = ButterKnife.findById(toolBarView, titleViewId);
+			if (titleView instanceof TextView && !WISERCheck.isEmpty(titleName)) {
+				((TextView) titleView).setText(titleName);
+			}
+		}
+		if (backViewId > 0) {
+			View backView = ButterKnife.findById(toolBarView, backViewId);
+			if (backView != null) {
+				backView.setOnClickListener(new View.OnClickListener() {
+
+					@Override public void onClick(View v) {
+						if (state == WISERView.STATE_ACTIVITY && wiserView != null && wiserView.activity() != null) {
+							wiserView.activity().finish();
+						}
+					}
+				});
+			}
+		}
+	}
+
+	/**
 	 * 创建SwipeRefreshLayout
 	 */
 	void createRVRefreshView() {
@@ -603,12 +655,23 @@ public class WISERBuilder {
 		wiserView = null;
 		if (mRecycleView != null) mRecycleView.detach();
 		mRecycleView = null;
+		tintManager = null;
 		contentRoot = null;
+		layoutRefresh = null;
+		contentToolBar = null;
+		toolBarView = null;
+		contentLayout = null;
+		refreshColors = null;
 		contentView = null;
 		layoutError = null;
 		layoutEmpty = null;
 		layoutLoading = null;
 		mInflater = null;
+		layoutId = 0;
+		layoutBarId = 0;
+		layoutErrorId = 0;
+		layoutLoadingId = 0;
+		layoutEmptyId = 0;
 	}
 
 	/**

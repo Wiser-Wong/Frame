@@ -17,6 +17,7 @@ public class TestLayoutActivity extends WISERActivity {
 	@Override protected WISERBuilder build(WISERBuilder builder) {
 		builder.layoutId(R.layout.test_layout);
 		builder.layoutBarId(R.layout.title_layout);
+		builder.titleBarViewId(R.id.tv_title_name,"我是标题",R.id.iv_back);
 		builder.isRootLayoutRefresh(true, false);
 		builder.layoutEmptyId(R.layout.view_empty);
 		builder.layoutLoadingId(R.layout.view_loading);
