@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.wiser.library.R;
+import com.wiser.library.helper.WISERHelper;
 import com.wiser.library.tab.listener.OnTabClickListener;
 import com.wiser.library.tab.listener.OnTabPageChangeListener;
 import com.wiser.library.tab.listener.OnTabSwitchPageListener;
@@ -131,7 +132,7 @@ public class WISERTabLayout extends FrameLayout implements View.OnClickListener,
 	 * @param fragments
 	 */
 	public WISERTabLayout setPages(@IdRes int tabPageId, Fragment... fragments) {
-		tabPageView = ((FragmentActivity) getContext()).findViewById(tabPageId);
+		tabPageView = WISERHelper.getActivityManage().getCurrentIsRunningActivity().findViewById(tabPageId);
 		if (tabPageView != null) {
 			tabPageView.addOnPageChangeListener(this);
 			tabPageView.setPageAdapter(fragments);

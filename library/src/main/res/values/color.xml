@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- 透明 -->
+    <color name="translucent">#00000000</color>
     <!-- 黑色 -->
     <color name="black">#000000</color>
 
