@@ -100,7 +100,8 @@ public class SmartPageView extends ViewPager {
 		if (this.smartId == NO_ID) {
 			this.smartId = smartId;
 		}
-		mSmartTabLayout = ButterKnife.findById(WISERHelper.getActivityManage().getCurrentActivity(), this.smartId);
+		if (getRootView() == null) return;
+		mSmartTabLayout = getRootView().findViewById(this.smartId);
 		if (mSmartTabLayout != null) mSmartTabLayout.setViewPager(this);
 	}
 
@@ -108,7 +109,8 @@ public class SmartPageView extends ViewPager {
 		if (this.smartId == NO_ID) {
 			return;
 		}
-		mSmartTabLayout = ButterKnife.findById(WISERHelper.getActivityManage().getCurrentActivity(), this.smartId);
+		if (getRootView() == null) return;
+		mSmartTabLayout = getRootView().findViewById(this.smartId);
 		if (mSmartTabLayout != null) mSmartTabLayout.setViewPager(this);
 	}
 

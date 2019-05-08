@@ -132,7 +132,8 @@ public class WISERTabLayout extends FrameLayout implements View.OnClickListener,
 	 * @param fragments
 	 */
 	public WISERTabLayout setPages(@IdRes int tabPageId, Fragment... fragments) {
-		tabPageView = WISERHelper.getActivityManage().getCurrentIsRunningActivity().findViewById(tabPageId);
+		if (getRootView() == null) return this;
+		tabPageView = getRootView().findViewById(tabPageId);
 		if (tabPageView != null) {
 			tabPageView.addOnPageChangeListener(this);
 			tabPageView.setPageAdapter(fragments);

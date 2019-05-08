@@ -234,9 +234,9 @@ public class IndexActivity extends WISERActivity<IndexBiz> implements WISERRVAda
 				// R.mipmap.scan_flash, ClickBroadcastReceiver.class);
 
 				// WISERHelper.display().intent(TabPageActivity.class);
-				// WISERHelper.display().intent(SmartActivity.class);
+				 WISERHelper.display().intent(SmartActivity.class);
 				// WISERHelper.display().intent(ScanActivity.class);
-				WISERHelper.display().intent(WebViewActivity.class);
+//				WISERHelper.display().intent(WebViewActivity.class);
 				// WISERHelper.display().intent(ZoomScrollViewActivity.class);
 				// WISERHelper.display().intent(SlidingMenuActivity.class);
 				// WISERHelper.display().intentTransitionAnimation(ZoomScrollViewActivity.class,null,Pair.create((View)ivQR,""));
