@@ -2,12 +2,14 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="horizontal">
 
     <com.wiser.library.tab.WISERTabLayout
         android:id="@+id/tab_layout"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        app:tabLayoutId="@layout/include_tab_bottom"/>
 
     <com.wiser.library.tab.WISERTabPage
         android:id="@+id/tab_page_view"

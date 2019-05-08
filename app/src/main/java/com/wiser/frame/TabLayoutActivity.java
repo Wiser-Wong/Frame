@@ -11,6 +11,7 @@ import com.wiser.library.tab.listener.OnTabSwitchPageListener;
 
 import android.content.Intent;
 import android.view.View;
+import android.widget.ImageView;
 
 import butterknife.BindView;
 
@@ -20,15 +21,16 @@ public class TabLayoutActivity extends WISERActivity implements OnTabPageChangeL
 
 	@BindView(R.id.tab_page_view) WISERTabPage	tabPage;
 
+	@BindView(R.id.iv_tab1) ImageView			ivTab1;
+
 	@Override protected WISERBuilder build(WISERBuilder builder) {
 		builder.layoutId(R.layout.tab_act);
 		return builder;
 	}
 
 	@Override protected void initData(Intent intent) {
-		tabLayout.tabIds(R.layout.include_tab_bottom, R.id.iv_tab1, R.id.iv_tab2, R.id.iv_tab3, R.id.iv_tab4)
-				.setPages(R.id.tab_page_view, new IndexFragment(), new SecondFragment(), new ThreeFragment(), new ContentFragment()).isTabCutPageAnim(true)
-				.setOnTabPageChangeListener(this).setOnTabClickListener(this).isPageCanScroll(true).setOnTabSwitchPageListener(this);
+		tabLayout.tabIds(R.id.iv_tab1, R.id.iv_tab2, R.id.iv_tab3, R.id.iv_tab4).setPages(R.id.tab_page_view, new IndexFragment(), new SecondFragment(), new ThreeFragment(), new ContentFragment())
+				.isTabCutPageAnim(true).setOnTabPageChangeListener(this).setOnTabClickListener(this).isPageCanScroll(true).setOnTabSwitchPageListener(this).isDefaultOnPageSelected(true);
 	}
 
 	@Override public void onPageScrolled(int i, float v, int i1) {
@@ -54,5 +56,6 @@ public class TabLayoutActivity extends WISERActivity implements OnTabPageChangeL
 
 	@Override public void onTabSwitch(View view, int position) {
 		System.out.println("------------" + view + "-----------" + position);
+		ivTab1.setImageResource(R.mipmap.scan_photo);
 	}
 }

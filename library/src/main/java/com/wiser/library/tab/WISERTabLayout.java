@@ -3,11 +3,15 @@ package com.wiser.library.tab;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.wiser.library.R;
 import com.wiser.library.tab.listener.OnTabClickListener;
 import com.wiser.library.tab.listener.OnTabPageChangeListener;
 import com.wiser.library.tab.listener.OnTabSwitchPageListener;
+import com.wiser.library.util.WISERCheck;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.support.annotation.IdRes;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
@@ -32,6 +36,8 @@ public class WISERTabLayout extends FrameLayout implements View.OnClickListener,
 
 	private View					tabLayoutView;									// Tab 布局视图
 
+	@LayoutRes private int			tabLayoutId;									// tab 布局id
+
 	private int[]					tabIds					= new int[0];			// Tab ID列表
 
 	private List<View>				tabViews				= new ArrayList<>();	// Tab 视图列表
@@ -54,10 +60,28 @@ public class WISERTabLayout extends FrameLayout implements View.OnClickListener,
 
 	public WISERTabLayout(@NonNull Context context) {
 		super(context);
+		init(context, null);
 	}
 
 	public WISERTabLayout(@NonNull Context context, @NonNull AttributeSet attrs) {
 		super(context, attrs);
+		init(context, attrs);
+	}
+
+	private void init(Context context, AttributeSet attrs) {
+		@SuppressLint("CustomViewStyleable")
+		TypedArray typedArray = getContext().obtainStyledAttributes(attrs, R.styleable.TabLayout);
+		if (typedArray != null) {
+			tabLayoutId = typedArray.getResourceId(R.styleable.TabLayout_tabLayoutId, -1);
+			typedArray.recycle();
+		}
+		if (tabLayoutId != -1) {
+			this.tabLayoutView = LayoutInflater.from(context).inflate(tabLayoutId, this, false);
+		}
+		if (tabLayoutView == null) {
+			throw new RuntimeException("WISER架构:WISERTabLayout xml 中没有设置Tab布局 需要设置自己的tabLayoutId--->> app:tabLayoutId=''");
+		}
+		addView(tabLayoutView);
 	}
 
 	public View tabLayoutView() {
@@ -68,9 +92,9 @@ public class WISERTabLayout extends FrameLayout implements View.OnClickListener,
 		return tabPageView;
 	}
 
-	public WISERTabLayout isDefaultOnPageSelected(boolean isDefaultOnPageSelected) {
+	public void isDefaultOnPageSelected(boolean isDefaultOnPageSelected) {
 		this.isDefaultOnPageSelected = isDefaultOnPageSelected;
-		return this;
+		if (isDefaultOnPageSelected) onPageSelected(CURRENT_INDEX);
 	}
 
 	/**
@@ -88,10 +112,7 @@ public class WISERTabLayout extends FrameLayout implements View.OnClickListener,
 	 *
 	 * @param tabIds
 	 */
-	public WISERTabLayout tabIds(@LayoutRes int tabLayoutId, @IdRes int... tabIds) {
-		this.tabLayoutView = LayoutInflater.from(getContext()).inflate(tabLayoutId, this, false);
-		if (tabLayoutView == null) return this;
-		addView(tabLayoutView);
+	public WISERTabLayout tabIds(@IdRes int... tabIds) {
 		this.tabIds = tabIds;
 		if (tabIds != null && tabIds.length > 0) {
 			for (int tabId : tabIds) {
@@ -114,7 +135,6 @@ public class WISERTabLayout extends FrameLayout implements View.OnClickListener,
 		if (tabPageView != null) {
 			tabPageView.addOnPageChangeListener(this);
 			tabPageView.setPageAdapter(fragments);
-			if (isDefaultOnPageSelected) onPageSelected(CURRENT_INDEX);
 		}
 		return this;
 	}
@@ -220,6 +240,7 @@ public class WISERTabLayout extends FrameLayout implements View.OnClickListener,
 		if (tabPageView != null) tabPageView.detach();
 		tabPageView = null;
 		tabLayoutView = null;
+		tabLayoutId = 0;
 		tabIds = null;
 		if (tabViews != null) tabViews.clear();
 		tabViews = null;
