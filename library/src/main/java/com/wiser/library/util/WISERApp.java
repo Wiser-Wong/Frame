@@ -2,11 +2,14 @@ package com.wiser.library.util;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.net.URISyntaxException;
+import java.util.Collections;
 import java.util.Enumeration;
+import java.util.List;
 import java.util.Objects;
 
 import com.wiser.library.helper.WISERHelper;
@@ -28,6 +31,8 @@ import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
@@ -79,11 +84,20 @@ public class WISERApp {
 	}
 
 	/**
-	 * 获取IP地址
+	 * 获取Mac地址
+	 * 
+	 * @return
+	 */
+	public static String getMacAddress() {
+		return WISERMacAddress.getMacAddress();
+	}
+
+	/**
+	 * 获取IP地址 /192.168.0.111
 	 *
 	 * @return IP地址
 	 */
-	private static InetAddress getLocalNetAddress() {
+	public static InetAddress getLocalNetAddress() {
 		InetAddress ip = null;
 		try {
 			Enumeration<NetworkInterface> en_netInterface = NetworkInterface.getNetworkInterfaces();
@@ -104,34 +118,95 @@ public class WISERApp {
 			e.printStackTrace();
 		}
 		return ip;
-
 	}
 
 	/**
-	 * 通过ip地址获得Mac
+	 * 获取IP地址 192.168.0.111
 	 *
-	 * @return Mac地址
+	 * @return IP地址
 	 */
-	public static String getMacForip() {
-		String strMacAddress = null;
-		try {
-			InetAddress ip = getLocalNetAddress();
-
-			byte[] b = NetworkInterface.getByInetAddress(ip).getHardwareAddress();
-			StringBuilder buffer = new StringBuilder();
-			for (int i = 0; i < b.length; i++) {
-				if (i != 0) {
-					buffer.append(':');
+	public static String getIpAddress() {
+		@SuppressLint("MissingPermission")
+		NetworkInfo info = ((ConnectivityManager) WISERHelper.getInstance().getSystemService(Context.CONNECTIVITY_SERVICE)).getActiveNetworkInfo();
+		if (info != null && info.isConnected()) {
+			// 3/4g网络
+			if (info.getType() == ConnectivityManager.TYPE_MOBILE) {
+				try {
+					for (Enumeration<NetworkInterface> en = NetworkInterface.getNetworkInterfaces(); en.hasMoreElements();) {
+						NetworkInterface intf = en.nextElement();
+						for (Enumeration<InetAddress> enumIpAddr = intf.getInetAddresses(); enumIpAddr.hasMoreElements();) {
+							InetAddress inetAddress = enumIpAddr.nextElement();
+							if (!inetAddress.isLoopbackAddress() && inetAddress instanceof Inet4Address) {
+								return inetAddress.getHostAddress();
+							}
+						}
+					}
+				} catch (SocketException e) {
+					e.printStackTrace();
 				}
 
-				String str = Integer.toHexString(b[i] & 0xFF).toUpperCase();
-				buffer.append(str.length() == 1 ? 0 + str : str);
+			} else if (info.getType() == ConnectivityManager.TYPE_WIFI) {
+				// wifi网络
+				WifiManager wifiManager = (WifiManager) WISERHelper.getInstance().getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+				WifiInfo wifiInfo = wifiManager.getConnectionInfo();
+				return intIP2StringIP(wifiInfo.getIpAddress());
+			} else if (info.getType() == ConnectivityManager.TYPE_ETHERNET) {
+				// 有限网络
+				return getLocalIp();
 			}
-			strMacAddress = buffer.toString().toUpperCase();
-		} catch (Exception e) {
-			e.printStackTrace();
 		}
-		return strMacAddress;
+		return null;
+	}
+
+	private static String intIP2StringIP(int ip) {
+		return (ip & 0xFF) + "." + ((ip >> 8) & 0xFF) + "." + ((ip >> 16) & 0xFF) + "." + (ip >> 24 & 0xFF);
+	}
+
+	// 获取有限网IP
+	private static String getLocalIp() {
+		try {
+			for (Enumeration<NetworkInterface> en = NetworkInterface.getNetworkInterfaces(); en.hasMoreElements();) {
+				NetworkInterface intf = en.nextElement();
+				for (Enumeration<InetAddress> enumIpAddr = intf.getInetAddresses(); enumIpAddr.hasMoreElements();) {
+					InetAddress inetAddress = enumIpAddr.nextElement();
+					if (!inetAddress.isLoopbackAddress() && inetAddress instanceof Inet4Address) {
+						return inetAddress.getHostAddress();
+					}
+				}
+			}
+		} catch (SocketException ex) {
+			ex.printStackTrace();
+		}
+		return "0.0.0.0";
+	}
+
+	/**
+	 * 通过网络接口取
+	 * 
+	 * @return
+	 */
+	public static String getMacForNet() {
+		try {
+			List<NetworkInterface> all = Collections.list(NetworkInterface.getNetworkInterfaces());
+			for (NetworkInterface nif : all) {
+				if (!nif.getName().equalsIgnoreCase("wlan0")) continue;
+				byte[] macBytes = nif.getHardwareAddress();
+				if (macBytes == null) {
+					return null;
+				}
+				StringBuilder res1 = new StringBuilder();
+				for (byte b : macBytes) {
+					res1.append(String.format("%02X:", b));
+				}
+				if (res1.length() > 0) {
+					res1.deleteCharAt(res1.length() - 1);
+				}
+				return res1.toString();
+			}
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+		return null;
 	}
 
 	/**
