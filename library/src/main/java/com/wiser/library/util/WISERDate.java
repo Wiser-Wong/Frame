@@ -341,6 +341,7 @@ public class WISERDate {
 	 *
 	 * @param mill
 	 * @param type
+	 * @param isShort
 	 * @return
 	 */
 	public static String getDateStrForLong(long mill, int type, boolean isShort) {
@@ -366,6 +367,48 @@ public class WISERDate {
 					else sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA);
 					break;
 			}
+			sdf.setTimeZone(timezone);
+			// 进行格式化
+			dateStr = sdf.format(date);
+			return dateStr;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return dateStr;
+	}
+
+	/**
+	 * 根据long类型转时分秒类型字符串
+	 *
+	 * @param mill
+	 * @return
+	 */
+	public static String getHourMinuteSecondStrForLong(long mill) {
+		Date date = new Date(mill);
+		String dateStr = "";
+		try {
+			SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss", Locale.CHINA);
+			sdf.setTimeZone(timezone);
+			// 进行格式化
+			dateStr = sdf.format(date);
+			return dateStr;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return dateStr;
+	}
+
+	/**
+	 * 根据long类型转分秒类型字符串
+	 *
+	 * @param mill
+	 * @return
+	 */
+	public static String getMinuteSecondStrForLong(long mill) {
+		Date date = new Date(mill);
+		String dateStr = "";
+		try {
+			SimpleDateFormat sdf = new SimpleDateFormat("mm:ss", Locale.CHINA);
 			sdf.setTimeZone(timezone);
 			// 进行格式化
 			dateStr = sdf.format(date);

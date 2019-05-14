@@ -172,13 +172,13 @@ public abstract class WISERRVAdapter<T, V extends WISERHolder> extends RecyclerV
 	 *
 	 * @param <U>
 	 *            参数
-	 * @param clazz
+	 * @param clazzName
 	 *            参数
 	 * @return 返回值
 	 */
-	public <U> U findFragment(Class<U> clazz) {
-		WISERCheck.checkNotNull(clazz, "class不能为空");
-		return (U) wiserView.manager().findFragmentByTag(clazz.getSimpleName());
+	public <U> U findFragment(String clazzName) {
+		if (WISERCheck.isEmpty(clazzName)) return null;
+		return (U) wiserView.manager().findFragmentByTag(clazzName);
 	}
 
 	public WISERView wiserView() {

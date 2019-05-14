@@ -6,6 +6,7 @@ import com.wiser.library.adapter.WISERRVAdapter;
 import com.wiser.library.helper.IWISERDisplay;
 import com.wiser.library.helper.WISERHelper;
 import com.wiser.library.model.WISERBizModel;
+import com.wiser.library.util.WISERCheck;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -143,13 +144,13 @@ public abstract class WISERFragment<B extends IWISERBiz> extends Fragment implem
 	/**
 	 * @param <T>
 	 *            参数
-	 * @param clazz
+	 * @param clazzName
 	 *            参数
 	 * @return 返回值
 	 */
-	public <T> T findFragment(Class<T> clazz) {
-		if (clazz == null) return null;
-		return (T) activity().getSupportFragmentManager().findFragmentByTag(clazz.getName());
+	public <T> T findFragment(String clazzName) {
+		if (WISERCheck.isEmpty(clazzName)) return null;
+		return (T) activity().getSupportFragmentManager().findFragmentByTag(clazzName);
 	}
 
 	public WISERView wiserView() {

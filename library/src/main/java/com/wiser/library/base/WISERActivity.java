@@ -165,13 +165,13 @@ public abstract class WISERActivity<B extends IWISERBiz> extends FragmentActivit
 	/**
 	 * @param <T>
 	 *            参数
-	 * @param clazz
+	 * @param clazzName
 	 *            参数
 	 * @return 返回值
 	 */
-	public <T> T findFragment(Class<T> clazz) {
-		if (clazz == null) return null;
-		return (T) getSupportFragmentManager().findFragmentByTag(clazz.getName());
+	public <T> T findFragment(String clazzName) {
+		if (WISERCheck.isEmpty(clazzName)) return null;
+		return (T) getSupportFragmentManager().findFragmentByTag(clazzName);
 	}
 
 	public WISERView wiserView() {
