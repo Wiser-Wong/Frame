@@ -21,6 +21,7 @@ import com.wiser.library.zxing.WISERQRCode;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Handler;
@@ -49,6 +50,7 @@ public class IndexActivity extends WISERActivity<IndexBiz> implements WISERRVAda
 	@BindView(R.id.bv_frg) BannerPagerView			bannerPagerView;
 
 	@Override protected WISERBuilder build(WISERBuilder builder) {
+		builder.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 		builder.layoutId(R.layout.activity_index);
 		builder.layoutEmptyId(R.layout.view_empty);
 		builder.layoutErrorId(R.layout.view_error);

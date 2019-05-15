@@ -497,4 +497,49 @@ public class WISERDate {
 		return false;
 	}
 
+	/**
+	 * 得到现在小时
+	 * 
+	 * @return
+	 */
+	public static String getCurrentHour() {
+		Date currentTime = new Date();
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		formatter.setTimeZone(timezone);
+		String dateString = formatter.format(currentTime);
+		String hour;
+		hour = dateString.substring(11, 13);
+		return hour;
+	}
+
+	/**
+	 * 得到现在分钟
+	 *
+	 * @return
+	 */
+	public static String getCurrentMinute() {
+		Date currentTime = new Date();
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		formatter.setTimeZone(timezone);
+		String dateString = formatter.format(currentTime);
+		String min;
+		min = dateString.substring(14, 16);
+		return min;
+	}
+
+	/**
+	 * 得到现在秒
+	 *
+	 * @return
+	 */
+	public static String getCurrentSecond() {
+		Date currentTime = new Date();
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		formatter.setTimeZone(timezone);
+		String dateString = formatter.format(currentTime);
+		String min;
+		min = dateString.substring(17, 19);
+		return min;
+	}
+
 }

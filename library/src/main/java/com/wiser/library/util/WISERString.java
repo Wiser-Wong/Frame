@@ -27,6 +27,21 @@ public class WISERString {
 	}
 
 	/**
+	 * 获取小于10的数字字符串转换成0格式
+	 *
+	 * @param count
+	 * @return
+	 */
+	public static String convertInt(String count) {
+		if (WISERCheck.isEmpty(count)) return "";
+		if (returnInteger(count) < 10 && returnInteger(count) > 0) {
+			return count.replaceAll("0", "");
+		}
+		if (returnInteger(count) == 0) return "0";
+		return count;
+	}
+
+	/**
 	 * 截取字符串
 	 *
 	 * @param data

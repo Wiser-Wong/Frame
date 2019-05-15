@@ -8,6 +8,7 @@ import com.wiser.library.adapter.WISERRVAdapter;
 import com.wiser.library.helper.WISERHelper;
 import com.wiser.library.util.WISERCheck;
 
+import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.os.Build;
 import android.support.annotation.ColorInt;
@@ -36,43 +37,43 @@ import butterknife.ButterKnife;
  */
 public class WISERBuilder {
 
-	private int						layoutBarId;								// 标题ID
+	private int						layoutBarId;															// 标题ID
 
-	private int						layoutId;									// 布局ID
+	private int						layoutId;																// 布局ID
 
-	private int						layoutEmptyId;								// 空布局ID
+	private int						layoutEmptyId;															// 空布局ID
 
-	private int						layoutErrorId;								// 错误布局ID
+	private int						layoutErrorId;															// 错误布局ID
 
-	private int						layoutLoadingId;							// loading布局ID
+	private int						layoutLoadingId;														// loading布局ID
 
-	private int						state;										// 显示的是Activity 还是 Fragment 或者DialogFragment
+	private int						state;																	// 显示的是Activity 还是 Fragment 或者DialogFragment
 
-	private boolean					isRefresh					= false;		// 是否下拉刷新
+	private boolean					isRefresh					= false;									// 是否下拉刷新
 
-	private boolean					isDFRefresh					= false;		// 是否默认进入页面就开始下拉刷新
+	private boolean					isDFRefresh					= false;									// 是否默认进入页面就开始下拉刷新
 
-	private int[]					refreshColors				= new int[0];	// 刷新loading颜色值变化
+	private int[]					refreshColors				= new int[0];								// 刷新loading颜色值变化
 
-	private int						refreshBgColor				= -1;			// 刷新loading背景颜色
+	private int						refreshBgColor				= -1;										// 刷新loading背景颜色
 
-	private FrameLayout				contentRoot;								// 根布局
+	private FrameLayout				contentRoot;															// 根布局
 
-	private LinearLayout			contentToolBar;								// 带title带主布局
+	private LinearLayout			contentToolBar;															// 带title带主布局
 
-	private FrameLayout				contentLayout;								// 带title带主布局
+	private FrameLayout				contentLayout;															// 带title带主布局
 
-	private SwipeRefreshLayout		layoutRefresh;								// 刷新布局
+	private SwipeRefreshLayout		layoutRefresh;															// 刷新布局
 
-	private View					toolBarView;								// 标题布局
+	private View					toolBarView;															// 标题布局
 
-	private View					contentView;								// 主布局
+	private View					contentView;															// 主布局
 
-	private View					layoutEmpty;								// 空布局
+	private View					layoutEmpty;															// 空布局
 
-	private View					layoutError;								// 错误布局
+	private View					layoutError;															// 错误布局
 
-	private View					layoutLoading;								// loading
+	private View					layoutLoading;															// loading
 
 	private LayoutInflater			mInflater;
 
@@ -91,17 +92,19 @@ public class WISERBuilder {
 	 */
 	private SystemBarTintManager	tintManager;
 
-	private int						tintColor;									// 状态栏颜色
+	private int						tintColor;																// 状态栏颜色
 
 	private boolean					statusBarEnabled			= true;
 
 	private boolean					navigationBarTintEnabled	= true;
 
-	private boolean					fitsSystem					= false;		// 是否填充系统状态栏
+	private boolean					fitsSystem					= false;									// 是否填充系统状态栏
 
-	private boolean					tint;										// 状态栏颜色
+	private boolean					tint;																	// 状态栏颜色
 
-	private boolean					isSwipeBack					= false;		// 是否滑动返回上一个Activity
+	private boolean					isSwipeBack					= false;									// 是否滑动返回上一个Activity
+
+	private int						requestedOrientation		= ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;	// 屏幕变化
 
 	/**
 	 * 构造器
@@ -167,6 +170,10 @@ public class WISERBuilder {
 	RecyclerView wiserRecycleView() {
 		if (mRecycleView != null) return mRecycleView.recyclerView();
 		return null;
+	}
+
+	public void setRequestedOrientation(int requestedOrientation) {
+		this.requestedOrientation = requestedOrientation;
 	}
 
 	public void isRootLayoutRefresh(boolean isRefresh, boolean isDFRefresh) {
@@ -380,6 +387,9 @@ public class WISERBuilder {
 	 * @return
 	 */
 	WISERBuilder systemBarTheme() {
+		// 设置屏幕方向
+		wiserView.activity().setRequestedOrientation(requestedOrientation);
+
 		if (isFitsSystem()) {
 			wiserView.activity().setTheme(R.style.TranslucentStatus);
 		}
@@ -401,6 +411,7 @@ public class WISERBuilder {
 	 * @return
 	 */
 	View createView() {
+
 		contentRoot = new FrameLayout(wiserView.activity());
 		FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
 		contentRoot.setLayoutParams(layoutParams);
