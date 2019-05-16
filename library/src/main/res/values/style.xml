@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <style name="TranslucentStatus" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:windowIsTranslucent">true</item>
+    </style>
+
     <!-- app toolbar 白色颜色背景-->
     <style name="AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
         <item name="contentInsetStart">0dp</item>
