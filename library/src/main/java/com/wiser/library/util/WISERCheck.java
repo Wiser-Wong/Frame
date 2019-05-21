@@ -2,6 +2,7 @@ package com.wiser.library.util;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -447,6 +448,25 @@ public class WISERCheck {
 		}
 		// 判断packageNames中是否有目标程序的包名，有TRUE，没有FALSE
 		return packageNames.contains(packageName);
+	}
+
+	/**
+	 * 检测点击间隔
+	 *
+	 * @param minDelay
+	 * @param lastClickTime
+	 * @return
+	 */
+	public static boolean isCanClick(int minDelay, long lastClickTime) {
+		boolean bool;
+		int MIN_CLICK_DELAY_TIME = minDelay;
+		long currentTime = Calendar.getInstance().getTimeInMillis();
+		if (currentTime - lastClickTime > MIN_CLICK_DELAY_TIME) {
+			bool = true;
+		} else {
+			bool = false;
+		}
+		return bool;
 	}
 
 	/**

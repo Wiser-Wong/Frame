@@ -20,6 +20,7 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.ClipData;
 import android.content.ClipboardManager;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -34,6 +35,7 @@ import android.net.Uri;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Build;
+import android.provider.Settings;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.telephony.TelephonyManager;
@@ -44,6 +46,8 @@ import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Toast;
+
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * @author Wiser
@@ -118,6 +122,63 @@ public class WISERApp {
 			e.printStackTrace();
 		}
 		return ip;
+	}
+
+	/**
+	 * 判断GPS是否开启，GPS或者AGPS开启一个就认为是开启的
+	 *
+	 * @param context
+	 * @return true 表示开启
+	 */
+	public static final boolean isOPenGPS(final Context context) {
+		LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+		// 通过GPS卫星定位，定位级别可以精确到街（通过24颗卫星定位，在室外和空旷的地方定位准确、速度快）
+		boolean gps = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+		// 通过WLAN或移动网络(3G/2G)确定的位置（也称作AGPS，辅助GPS定位。主要用于在室内或遮盖物（建筑群或茂密的深林等）密集的地方定位）
+		boolean network = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+		if (gps || network) {
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * 获取设备唯一标识符
+	 * 
+	 * @return
+	 */
+	@SuppressLint({ "MissingPermission", "HardwareIds" }) public static String getDeviceId() {
+
+		Context context = WISERHelper.getInstance();
+		String imei = "";
+		String androidId = "";
+		String macAddress = "";
+
+		// imei
+		if (ActivityCompat.checkSelfPermission(WISERHelper.getInstance(), Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED) {
+			TelephonyManager tm = (TelephonyManager) WISERHelper.getInstance().getSystemService(Context.TELEPHONY_SERVICE);
+			imei = tm.getDeviceId();
+		}
+		// Android id
+		ContentResolver contentResolver = context.getContentResolver();
+		if (contentResolver != null) {
+			androidId = Settings.Secure.getString(contentResolver, Settings.Secure.ANDROID_ID);
+		}
+		// mac
+		macAddress = getMacAddress();
+
+		StringBuilder longIdBuilder = new StringBuilder();
+		if (StringUtils.isNotBlank(imei)) {
+			longIdBuilder.append(imei);
+		}
+		if (StringUtils.isNotBlank(androidId)) {
+			longIdBuilder.append(androidId);
+		}
+		if (StringUtils.isNotBlank(macAddress)) {
+			longIdBuilder.append(macAddress);
+		}
+		return longIdBuilder.toString();
 	}
 
 	/**
@@ -356,18 +417,6 @@ public class WISERApp {
 			e1.printStackTrace();
 		}
 		return statusBarHeight;
-	}
-
-	/**
-	 * 获取设备id
-	 *
-	 * @param context
-	 * @return
-	 */
-	@SuppressLint({ "MissingPermission", "HardwareIds" }) public static String getDeviceId(Context context) {
-		TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-		assert tm != null;
-		return tm.getDeviceId();
 	}
 
 	/**
