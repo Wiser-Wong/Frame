@@ -12,6 +12,7 @@ import com.wiser.library.manager.biz.IWISERBizManage;
 import com.wiser.library.manager.downloader.WISERDownUploadManage;
 import com.wiser.library.manager.file.WISERFileCacheManage;
 import com.wiser.library.manager.handler.WISERHandlerExecutor;
+import com.wiser.library.manager.http.WISERHttpManage;
 import com.wiser.library.manager.job.WISERJobServiceManage;
 import com.wiser.library.manager.log.WISERLogManage;
 import com.wiser.library.manager.method.WISERMethodManage;
@@ -245,8 +246,17 @@ public class WISERHelper {
 		return mWiserManage.getDisplay();
 	}
 
+	/**
+	 * HTTP 管理
+	 * 
+	 * @return
+	 */
+	public static WISERHttpManage httpManage() {
+		return mWiserManage.getHttpManage();
+	}
+
 	public static <H> H http(Class<H> hClass) {
-		return mWiserManage.getHttpManage().http(hClass);
+		return httpManage().http(hClass);
 	}
 
 	/**
