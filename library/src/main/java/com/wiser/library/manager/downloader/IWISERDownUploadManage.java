@@ -4,6 +4,8 @@ import android.content.Context;
 
 import com.liulishuo.filedownloader.FileDownloader;
 
+import okhttp3.OkHttpClient;
+
 /**
  * @author Wiser
  * 
@@ -24,5 +26,12 @@ public interface IWISERDownUploadManage {
 	 * @return
 	 */
 	FileDownloader fileDownloader();
+
+	/**
+	 * 自定义FileDownloader OkhttpConnection 设置自签证书可以使用
+	 * 
+	 * @param builder
+	 */
+	void initFileDownloaderForOkhttpConnection(OkHttpClient.Builder builder);
 
 }
