@@ -824,6 +824,11 @@ public interface IWISERDisplay {
 	void intentAppDetails();
 
 	/**
+	 * 跳转设置 允许安装未知来源界面
+	 */
+	void intentSettingInstallPermission();
+
+	/**
 	 * 安装新的应用
 	 *
 	 * @param context

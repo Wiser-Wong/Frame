@@ -26,6 +26,7 @@ import android.support.annotation.AnimRes;
 import android.support.annotation.AnimatorRes;
 import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.FileProvider;
@@ -750,6 +751,16 @@ public class WISERDisplay implements IWISERDisplay {
 	}
 
 	/**
+	 * 跳转设置 允许安装未知来源界面
+	 */
+	@TargetApi(Build.VERSION_CODES.O) @RequiresApi(api = Build.VERSION_CODES.O) @Override public void intentSettingInstallPermission() {
+		// 注意这个是8.0新API
+		Intent intent = new Intent(Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES);
+		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		WISERHelper.getInstance().startActivity(intent);
+	}
+
+	/**
 	 * 安装新的应用
 	 *
 	 * @param context
@@ -766,6 +777,13 @@ public class WISERDisplay implements IWISERDisplay {
 		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
 			intent.setDataAndType(Uri.fromFile(new File(path)), "application/vnd.android.package-archive");
 		} else {
+			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+				boolean hasInstallPermission = WISERHelper.getInstance().getPackageManager().canRequestPackageInstalls();
+				if (!hasInstallPermission) {
+					intentSettingInstallPermission();
+					return;
+				}
+			}
 			intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 			File file = new File(path);
 			intent.setDataAndType(FileProvider.getUriForFile(context, authority, file), "application/vnd.android.package-archive");
