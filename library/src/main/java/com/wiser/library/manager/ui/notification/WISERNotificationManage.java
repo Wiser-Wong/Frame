@@ -1,6 +1,5 @@
 package com.wiser.library.manager.ui.notification;
 
-import com.wiser.library.R;
 import com.wiser.library.helper.WISERHelper;
 
 import android.app.Notification;
@@ -68,11 +67,11 @@ public class WISERNotificationManage implements IWISERNotificationManage {
 	}
 
 	@Override public NotificationManager notificationManage() {
-		return (NotificationManager) WISERHelper.getActivityManage().getCurrentActivity().getSystemService(Context.NOTIFICATION_SERVICE);
+		return (NotificationManager) WISERHelper.getInstance().getSystemService(Context.NOTIFICATION_SERVICE);
 	}
 
 	@Override public NotificationCompat.Builder getNotificationBuilder() {
-		NotificationCompat.Builder builder = new NotificationCompat.Builder(WISERHelper.getActivityManage().getCurrentActivity(), "wiser_channel_id");
+		NotificationCompat.Builder builder = new NotificationCompat.Builder(WISERHelper.getInstance(), "wiser_channel_id");
 		if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.O) {
 			builder.setPriority(NotificationCompat.PRIORITY_DEFAULT);
 		}
@@ -97,8 +96,32 @@ public class WISERNotificationManage implements IWISERNotificationManage {
 				.setAutoCancel(true);
 		if (broadcastReceiveClazz != null) {
 			// 设置跳转广播
-			builder.setContentIntent(PendingIntent.getBroadcast(WISERHelper.getActivityManage().getCurrentActivity(), 0,
-					new Intent(WISERHelper.getActivityManage().getCurrentActivity(), broadcastReceiveClazz), PendingIntent.FLAG_UPDATE_CURRENT));
+			builder.setContentIntent(PendingIntent.getBroadcast(WISERHelper.getInstance(), 0, new Intent(WISERHelper.getInstance(), broadcastReceiveClazz), PendingIntent.FLAG_UPDATE_CURRENT));
+		}
+		notificationManage().notify(notifyId, builder.build());
+	}
+
+	@Override public void showProgressNotification(int notifyId, String ticker, String title, String content, Bitmap bitIconBitmap, int smallIcon, int max, int progress, Class broadcastReceiveClazz) {
+		NotificationCompat.Builder builder = getNotificationBuilder().setContentTitle(title)// 设置标题
+				// 设置内容
+				.setContentText(content)
+				// 设置大图标
+				.setLargeIcon(bitIconBitmap)
+				// 设置小图标
+				.setSmallIcon(smallIcon)
+				// 设置通知时间
+				.setWhen(System.currentTimeMillis())
+				// 首次进入时显示效果
+				.setTicker(ticker)
+				// 设置进度
+				.setProgress(max, progress, false)
+				// 设置通知方式，声音，震动，呼吸灯等效果，这里通知方式为声音
+				.setDefaults(Notification.DEFAULT_ALL)
+				// 通知点击取消
+				.setAutoCancel(true);
+		if (broadcastReceiveClazz != null) {
+			// 设置跳转广播
+			builder.setContentIntent(PendingIntent.getBroadcast(WISERHelper.getInstance(), 0, new Intent(WISERHelper.getInstance(), broadcastReceiveClazz), PendingIntent.FLAG_UPDATE_CURRENT));
 		}
 		notificationManage().notify(notifyId, builder.build());
 	}
@@ -117,8 +140,7 @@ public class WISERNotificationManage implements IWISERNotificationManage {
 				.setAutoCancel(true);
 		if (broadcastReceiveClazz != null) {
 			// 设置跳转广播
-			builder.setContentIntent(PendingIntent.getBroadcast(WISERHelper.getActivityManage().getCurrentActivity(), 0,
-					new Intent(WISERHelper.getActivityManage().getCurrentActivity(), broadcastReceiveClazz), PendingIntent.FLAG_UPDATE_CURRENT));
+			builder.setContentIntent(PendingIntent.getBroadcast(WISERHelper.getInstance(), 0, new Intent(WISERHelper.getInstance(), broadcastReceiveClazz), PendingIntent.FLAG_UPDATE_CURRENT));
 		}
 		notificationManage().notify(notifyId, builder.build());
 	}

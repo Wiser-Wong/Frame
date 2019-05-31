@@ -23,9 +23,9 @@ public class WISERUIManage {
 	 * @param isDefaultChannel
 	 * @return
 	 */
-	public IWISERNotificationManage notification(boolean isDefaultChannel) {
+	public IWISERNotificationManage notification(boolean... isDefaultChannel) {
 		if (notificationManage == null) synchronized (WISERNotificationManage.class) {
-			if (notificationManage == null) notificationManage = new WISERNotificationManage(isDefaultChannel);
+			if (notificationManage == null) notificationManage = new WISERNotificationManage((isDefaultChannel == null || isDefaultChannel.length <= 0) || isDefaultChannel[0]);
 		}
 		return notificationManage;
 	}

@@ -64,6 +64,26 @@ public interface IWISERNotificationManage {
 	void showNotification(int notifyId, String ticker, String title, String content, Bitmap bitIconBitmap, int smallIcon, Class broadcastReceiveClazz);
 
 	/**
+	 * 显示通知
+	 *
+	 * @param notifyId
+	 *            通知id
+	 * @param ticker
+	 *            //来信息第一次显示的消息
+	 * @param title
+	 *            消息标题
+	 * @param content
+	 *            消息内容
+	 * @param bitIconBitmap
+	 *            大图标
+	 * @param smallIcon
+	 *            小图标
+	 * @param broadcastReceiveClazz
+	 *            广播
+	 */
+	void showProgressNotification(int notifyId, String ticker, String title, String content, Bitmap bitIconBitmap, int smallIcon, int max, int progress, Class broadcastReceiveClazz);
+
+	/**
 	 * 显示自定义布局通知
 	 * 
 	 * @param notifyId

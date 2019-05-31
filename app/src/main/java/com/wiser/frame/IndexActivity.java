@@ -3,12 +3,14 @@ package com.wiser.frame;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import com.liulishuo.filedownloader.BaseDownloadTask;
 import com.liulishuo.filedownloader.FileDownloadListener;
 import com.wiser.library.adapter.WISERRVAdapter;
 import com.wiser.library.base.WISERActivity;
 import com.wiser.library.base.WISERBuilder;
+import com.wiser.library.base.WISERDialogFragment;
 import com.wiser.library.helper.WISERHelper;
 import com.wiser.library.manager.permission.IWISERPermissionCallBack;
 import com.wiser.library.pager.banner.BannerPagerView;
@@ -23,13 +25,16 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RemoteViews;
 import android.widget.TextView;
 
 import butterknife.BindView;
@@ -50,7 +55,7 @@ public class IndexActivity extends WISERActivity<IndexBiz> implements WISERRVAda
 	@BindView(R.id.bv_frg) BannerPagerView			bannerPagerView;
 
 	@Override protected WISERBuilder build(WISERBuilder builder) {
-		builder.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+		// builder.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 		builder.layoutId(R.layout.activity_index);
 		builder.layoutEmptyId(R.layout.view_empty);
 		builder.layoutErrorId(R.layout.view_error);
@@ -196,11 +201,11 @@ public class IndexActivity extends WISERActivity<IndexBiz> implements WISERRVAda
 							}
 
 							@Override protected void pending(BaseDownloadTask task, int soFarBytes, int totalBytes) {
-
+								new MToast().show("pending--->>soFarBytes:-->>" + soFarBytes + "totalBytes:-->>" + totalBytes);
 							}
 
 							@Override protected void progress(BaseDownloadTask task, int soFarBytes, int totalBytes) {
-								new MToast().show("soFarBytes:-->>" + soFarBytes + "totalBytes:-->>" + totalBytes);
+								new MToast().show("progress--->>soFarBytes:-->>" + soFarBytes + "totalBytes:-->>" + totalBytes);
 							}
 
 							@Override protected void completed(BaseDownloadTask task) {
@@ -222,34 +227,34 @@ public class IndexActivity extends WISERActivity<IndexBiz> implements WISERRVAda
 				break;
 			case R.id.iv_qr:
 
-				// RemoteViews remoteViews = new RemoteViews(getPackageName(),
-				// R.layout.notification_layout);
-				// remoteViews.setTextViewText(R.id.tv1, "我是一个爸爸"+new Random().nextInt(100));
-				// remoteViews.setTextViewText(R.id.tv2, "我是一个妈妈");
+//				RemoteViews remoteViews = new RemoteViews(getPackageName(), R.layout.notification_layout);
+//				remoteViews.setTextViewText(R.id.tv1, "我是一个爸爸" + new Random().nextInt(100));
+//				remoteViews.setTextViewText(R.id.tv2, "我是一个妈妈");
 				// remoteViews.setTextViewText(R.id.tv3, "我是一个孩子");
-				// remoteViews.setImageViewResource(R.id.iv1, R.mipmap.ic_launcher_round);
-				// WISERHelper.uiManage().notification(true).showRemoteViewNotification(1,
-				// R.mipmap.scan_flash,"新消息提示", remoteViews, ClickBroadcastReceiver.class);
-				// WISERHelper.uiManage().notification(true).showNotification(new
-				// Random().nextInt(100), "我来了", "标题", "内容",
-				// BitmapFactory.decodeResource(getResources(), R.mipmap.scan_photo),
-				// R.mipmap.scan_flash, ClickBroadcastReceiver.class);
+//				remoteViews.setImageViewResource(R.id.iv1, R.mipmap.ic_launcher_round);
+				// WISERHelper.uiManage().notification().showRemoteViewNotification(1,
+				// R.mipmap.scan_flash, "新消息提示", remoteViews, ClickBroadcastReceiver.class);
+				WISERHelper.uiManage().notification(true).showProgressNotification(1, "我来了", "更新", "正在下载", BitmapFactory.decodeResource(getResources(), R.mipmap.scan_photo), R.mipmap.scan_flash, 100, 0,
+						ClickBroadcastReceiver.class);
 
 				// WISERHelper.display().intent(TabPageActivity.class);
-				 WISERHelper.display().intent(SmartActivity.class);
+				// WISERHelper.display().intent(SmartActivity.class);
 				// WISERHelper.display().intent(ScanActivity.class);
-//				WISERHelper.display().intent(WebViewActivity.class);
+				// WISERHelper.display().intent(WebViewActivity.class);
 				// WISERHelper.display().intent(ZoomScrollViewActivity.class);
 				// WISERHelper.display().intent(SlidingMenuActivity.class);
 				// WISERHelper.display().intentTransitionAnimation(ZoomScrollViewActivity.class,null,Pair.create((View)ivQR,""));
 				break;
 			case R.id.tv_d:
-				WISERHelper.display().intent(TabLayoutActivity.class);
+				// WISERHelper.display().intent(TabLayoutActivity.class);
 				// WISERHelper.display().commitReplace(R.id.fragment1,new
 				// TestFragment(),TestFragment.class.getName());
 				// IndexDialogFragment.newInstance().show(getSupportFragmentManager(), "");
 				// IndexDialogFragment.newInstance().setLocation(textView,
 				// WISERDialogFragment.CONTROL_FIT).show(getSupportFragmentManager(), "");
+
+//				WISERHelper.uiManage().notification(true).showProgressNotification(1, "我来了", "更新", "正在下载", BitmapFactory.decodeResource(getResources(), R.mipmap.scan_photo), R.mipmap.scan_flash, 100, 20,
+//						ClickBroadcastReceiver.class);
 				break;
 		}
 	}
@@ -281,6 +286,6 @@ public class IndexActivity extends WISERActivity<IndexBiz> implements WISERRVAda
 		// WISERHelper.toast().show(text);
 		new MToast().show(text);
 
-//		new UiManage().showLoading(true);
+		// new UiManage().showLoading(true);
 	}
 }
