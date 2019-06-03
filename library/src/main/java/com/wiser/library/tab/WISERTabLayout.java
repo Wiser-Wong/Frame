@@ -4,11 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.wiser.library.R;
-import com.wiser.library.helper.WISERHelper;
 import com.wiser.library.tab.listener.OnTabClickListener;
 import com.wiser.library.tab.listener.OnTabPageChangeListener;
 import com.wiser.library.tab.listener.OnTabSwitchPageListener;
-import com.wiser.library.util.WISERCheck;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -17,7 +15,6 @@ import android.support.annotation.IdRes;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -33,31 +30,29 @@ import butterknife.ButterKnife;
  */
 public class WISERTabLayout extends FrameLayout implements View.OnClickListener, ViewPager.OnPageChangeListener {
 
-	private WISERTabPage			tabPageView;									// 页 布局
+	private WISERTabPageView tabPageView;								// 页 布局
 
-	private View					tabLayoutView;									// Tab 布局视图
+	private View					tabLayoutView;								// Tab 布局视图
 
-	@LayoutRes private int			tabLayoutId;									// tab 布局id
+	@LayoutRes private int			tabLayoutId;								// tab 布局id
 
-	private int[]					tabIds					= new int[0];			// Tab ID列表
+	private int[]					tabIds				= new int[0];			// Tab ID列表
 
-	private List<View>				tabViews				= new ArrayList<>();	// Tab 视图列表
+	private List<View>				tabViews			= new ArrayList<>();	// Tab 视图列表
 
-	private boolean					isTabCutPageAnim		= false;				// 是否点击Tab Page可以滑动
+	private boolean					isTabCutPageAnim	= false;				// 是否点击Tab Page可以滑动
 
-	private OnTabClickListener		onTabClickListener;								// Tab 点击监听
+	private OnTabClickListener		onTabClickListener;							// Tab 点击监听
 
-	private OnTabPageChangeListener	onTabPageChangeListener;						// page 切换监听
+	private OnTabPageChangeListener	onTabPageChangeListener;					// page 切换监听
 
-	private OnTabSwitchPageListener	onTabSwitchPageListener;						// page 滑动 tab 跟随
+	private OnTabSwitchPageListener	onTabSwitchPageListener;					// page 滑动 tab 跟随
 
-	public int						CURRENT_INDEX			= 0;
+	public int						CURRENT_INDEX		= 0;
 
-	public int						BEHIND_PAGE_INDEX		= 0;
+	public int						BEHIND_PAGE_INDEX	= 0;
 
 	private int						index;
-
-	private boolean					isDefaultOnPageSelected	= true;					// 是否第一次执行 onPageSelected
 
 	public WISERTabLayout(@NonNull Context context) {
 		super(context);
@@ -89,12 +84,11 @@ public class WISERTabLayout extends FrameLayout implements View.OnClickListener,
 		return tabLayoutView;
 	}
 
-	public WISERTabPage tabPageView() {
+	public WISERTabPageView tabPageView() {
 		return tabPageView;
 	}
 
 	public void isDefaultOnPageSelected(boolean isDefaultOnPageSelected) {
-		this.isDefaultOnPageSelected = isDefaultOnPageSelected;
 		if (isDefaultOnPageSelected) onPageSelected(CURRENT_INDEX);
 	}
 
@@ -133,6 +127,7 @@ public class WISERTabLayout extends FrameLayout implements View.OnClickListener,
 	 */
 	public WISERTabLayout setPages(@IdRes int tabPageId, Fragment... fragments) {
 		if (getRootView() == null) return this;
+		if (tabPageView != null) throw new IllegalStateException("WISER架构：已经设置过该组件，切勿重复设置");
 		tabPageView = getRootView().findViewById(tabPageId);
 		if (tabPageView != null) {
 			tabPageView.addOnPageChangeListener(this);
@@ -249,7 +244,6 @@ public class WISERTabLayout extends FrameLayout implements View.OnClickListener,
 		onTabClickListener = null;
 		onTabPageChangeListener = null;
 		isTabCutPageAnim = false;
-		isDefaultOnPageSelected = false;
 		CURRENT_INDEX = 0;
 		BEHIND_PAGE_INDEX = 0;
 	}

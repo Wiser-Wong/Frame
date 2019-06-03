@@ -4,7 +4,7 @@ import com.wiser.frame.slidingmenu.ContentFragment;
 import com.wiser.library.base.WISERActivity;
 import com.wiser.library.base.WISERBuilder;
 import com.wiser.library.tab.WISERTabLayout;
-import com.wiser.library.tab.WISERTabPage;
+import com.wiser.library.tab.WISERTabPageView;
 import com.wiser.library.tab.listener.OnTabClickListener;
 import com.wiser.library.tab.listener.OnTabPageChangeListener;
 import com.wiser.library.tab.listener.OnTabSwitchPageListener;
@@ -17,11 +17,11 @@ import butterknife.BindView;
 
 public class TabLayoutActivity extends WISERActivity implements OnTabPageChangeListener, OnTabClickListener, OnTabSwitchPageListener {
 
-	@BindView(R.id.tab_layout) WISERTabLayout	tabLayout;
+	@BindView(R.id.tab_layout) WISERTabLayout		tabLayout;
 
-	@BindView(R.id.tab_page_view) WISERTabPage	tabPage;
+	@BindView(R.id.tab_page_view) WISERTabPageView	tabPage;
 
-	@BindView(R.id.iv_tab1) ImageView			ivTab1;
+	@BindView(R.id.iv_tab1) ImageView				ivTab1;
 
 	@Override protected WISERBuilder build(WISERBuilder builder) {
 		builder.layoutId(R.layout.tab_act);
@@ -56,6 +56,6 @@ public class TabLayoutActivity extends WISERActivity implements OnTabPageChangeL
 
 	@Override public void onTabSwitch(View view, int position) {
 		System.out.println("------------" + view + "-----------" + position);
-		ivTab1.setImageResource(R.mipmap.scan_photo);
+		view.setBackgroundResource(R.mipmap.scan_photo);
 	}
 }

@@ -1,7 +1,8 @@
 package com.wiser.library.tab;
 
+import java.lang.reflect.Method;
+
 import com.wiser.library.helper.WISERHelper;
-import com.wiser.library.tab.bottom.WISERTabPageAdapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -12,14 +13,12 @@ import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 
-import java.lang.reflect.Method;
-
 /**
  * @author Wiser
  * 
  *         page view
  */
-public class WISERTabPage extends ViewPager {
+public class WISERTabPageView extends ViewPager {
 
 	private WISERTabPageAdapter	pageAdapter;
 
@@ -31,11 +30,11 @@ public class WISERTabPage extends ViewPager {
 		this.isScroll = isScroll;
 	}
 
-	public WISERTabPage(@NonNull Context context) {
+	public WISERTabPageView(@NonNull Context context) {
 		super(context);
 	}
 
-	public WISERTabPage(@NonNull Context context, @Nullable AttributeSet attrs) {
+	public WISERTabPageView(@NonNull Context context, @Nullable AttributeSet attrs) {
 		super(context, attrs);
 	}
 
@@ -46,9 +45,13 @@ public class WISERTabPage extends ViewPager {
 	 */
 	public void setPageAdapter(Fragment... fragments) {
 		this.fragments = fragments;
-		if (pageAdapter == null) pageAdapter = new WISERTabPageAdapter(WISERHelper.getActivityManage().getCurrentActivity().getSupportFragmentManager(), fragments);
-		setOffscreenPageLimit(fragments == null || fragments.length == 0 ? 0 : fragments.length);
-		setAdapter(pageAdapter);
+		if (pageAdapter == null) {
+			pageAdapter = new WISERTabPageAdapter(WISERHelper.getActivityManage().getCurrentActivity().getSupportFragmentManager(), fragments);
+			setOffscreenPageLimit(fragments == null || fragments.length == 0 ? 0 : fragments.length);
+			setAdapter(pageAdapter);
+		} else {
+			pageAdapter.notifyDataSetChanged();
+		}
 	}
 
 	@Override public boolean onInterceptTouchEvent(MotionEvent ev) {
@@ -59,7 +62,7 @@ public class WISERTabPage extends ViewPager {
 		return isScroll && super.onTouchEvent(ev);
 	}
 
-	protected void detach() {
+	public void detach() {
 		if (pageAdapter != null) pageAdapter.detach();
 		pageAdapter = null;
 		fragments = null;
@@ -88,4 +91,5 @@ public class WISERTabPage extends ViewPager {
 			e1.printStackTrace();
 		}
 	}
+
 }

@@ -234,10 +234,10 @@ public class IndexActivity extends WISERActivity<IndexBiz> implements WISERRVAda
 //				remoteViews.setImageViewResource(R.id.iv1, R.mipmap.ic_launcher_round);
 				// WISERHelper.uiManage().notification().showRemoteViewNotification(1,
 				// R.mipmap.scan_flash, "新消息提示", remoteViews, ClickBroadcastReceiver.class);
-				WISERHelper.uiManage().notification(true).showProgressNotification(1, "我来了", "更新", "正在下载", BitmapFactory.decodeResource(getResources(), R.mipmap.scan_photo), R.mipmap.scan_flash, 100, 0,
-						ClickBroadcastReceiver.class);
+//				WISERHelper.uiManage().notification(true).showProgressNotification(1, "我来了", "更新", "正在下载", BitmapFactory.decodeResource(getResources(), R.mipmap.scan_photo), R.mipmap.scan_flash, 100, 0,
+//						ClickBroadcastReceiver.class);
 
-				// WISERHelper.display().intent(TabPageActivity.class);
+				 WISERHelper.display().intent(TabLayoutActivity.class);
 				// WISERHelper.display().intent(SmartActivity.class);
 				// WISERHelper.display().intent(ScanActivity.class);
 				// WISERHelper.display().intent(WebViewActivity.class);

@@ -1,4 +1,4 @@
-package com.wiser.library.tab.bottom;
+package com.wiser.library.tab;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
