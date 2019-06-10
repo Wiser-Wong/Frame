@@ -21,4 +21,8 @@ public class WISERHandlerExecutor implements Executor {
 	@Override public void execute(@NonNull Runnable runnable) {
 		handler.post(runnable);
 	}
+
+	public void execute(@NonNull Runnable runnable, long delayMillis) {
+		handler.postDelayed(runnable, delayMillis);
+	}
 }

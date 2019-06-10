@@ -20,7 +20,6 @@ import android.util.TypedValue;
 
 import com.wiser.library.R;
 
-
 /**
  * 气泡图片全屏占满
  *
@@ -28,227 +27,211 @@ import com.wiser.library.R;
  */
 public class BubbleImageView extends AppCompatImageView {
 
-    private static final int LOCATION_LEFT = 0;
-    private static final Bitmap.Config BITMAP_CONFIG = Bitmap.Config.ARGB_8888;
-    private static final int COLORDRAWABLE_DIMENSION = 1;
+	private static final int			LOCATION_LEFT			= 0;
 
-    private int mAngle = dp2px(10);
-    private int mArrowTop = dp2px(40);
-    private int mArrowWidth = dp2px(20);
-    private int mArrowHeight = dp2px(20);
-    private int mArrowOffset = 0;
-    private int mArrowLocation = LOCATION_LEFT;
+	private static final Bitmap.Config	BITMAP_CONFIG			= Bitmap.Config.ARGB_8888;
 
-    private Rect mDrawableRect;
-    private Bitmap mBitmap;
-    private BitmapShader mBitmapShader;
-    private Paint mBitmapPaint;
-    private Matrix mShaderMatrix;
-    private int mBitmapWidth;
-    private int mBitmapHeight;
+	private static final int			COLORDRAWABLE_DIMENSION	= 1;
 
-    public BubbleImageView(Context context) {
-        super(context);
-        initView(null);
-    }
+	private int							mAngle					= dp2px(10);
 
-    public BubbleImageView(Context context, AttributeSet attrs, int defStyle) {
-        super(context, attrs, defStyle);
-        initView(attrs);
-    }
+	private int							mArrowTop				= dp2px(40);
 
-    public BubbleImageView(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        initView(attrs);
-    }
+	private int							mArrowWidth				= dp2px(20);
 
-    private void initView(AttributeSet attrs) {
-        if (attrs != null) {
-            TypedArray a = getContext().obtainStyledAttributes(attrs,
-                    R.styleable.BubbleImageView);
-            mAngle = (int) a.getDimension(
-                    R.styleable.BubbleImageView_bubble_angle, mAngle);
-            mArrowHeight = (int) a.getDimension(
-                    R.styleable.BubbleImageView_bubble_arrowHeight,
-                    mArrowHeight);
-            mArrowOffset = (int) a.getDimension(
-                    R.styleable.BubbleImageView_bubble_arrowOffset,
-                    mArrowOffset);
-            mArrowTop = (int) a.getDimension(
-                    R.styleable.BubbleImageView_bubble_arrowTop, mArrowTop);
-            mArrowWidth = (int) a.getDimension(
-                    R.styleable.BubbleImageView_bubble_arrowWidth, mAngle);
-            mArrowLocation = a.getInt(
-                    R.styleable.BubbleImageView_bubble_arrowLocation,
-                    mArrowLocation);
-            a.recycle();
-        }
-    }
+	private int							mArrowHeight			= dp2px(20);
 
-    @Override
-    protected void onDraw(Canvas canvas) {
-        if (getDrawable() == null) {
-            return;
-        }
-        RectF rect = new RectF(getPaddingLeft(), getPaddingTop(), getRight()
-                - getLeft() - getPaddingRight(), getBottom() - getTop()
-                - getPaddingBottom());
+	private int							mArrowOffset			= 0;
 
-        Path path = new Path();
+	private int							mArrowLocation			= LOCATION_LEFT;
 
-        if (mArrowLocation == LOCATION_LEFT) {
-            leftPath(rect, path);
-        } else {
-            rightPath(rect, path);
-        }
+	private Rect						mDrawableRect;
 
-        canvas.drawPath(path, mBitmapPaint);
-    }
+	private Bitmap						mBitmap;
 
-    public void rightPath(RectF rect, Path path) {
-        path.moveTo(mAngle, rect.top);
-        path.lineTo(rect.width(), rect.top);
-        path.arcTo(new RectF(rect.right - mAngle * 2 - mArrowWidth, rect.top,
-                rect.right - mArrowWidth, mAngle * 2 + rect.top), 270, 90);
-        path.lineTo(rect.right - mArrowWidth, mArrowTop);
-        path.lineTo(rect.right, mArrowTop - mArrowOffset);
-        path.lineTo(rect.right - mArrowWidth, mArrowTop + mArrowHeight);
-        path.lineTo(rect.right - mArrowWidth, rect.height() - mAngle);
-        path.arcTo(new RectF(rect.right - mAngle * 2 - mArrowWidth, rect.bottom
-                - mAngle * 2, rect.right - mArrowWidth, rect.bottom), 0, 90);
-        path.lineTo(rect.left, rect.bottom);
-        path.arcTo(new RectF(rect.left, rect.bottom - mAngle * 2, mAngle * 2
-                + rect.left, rect.bottom), 90, 90);
-        path.lineTo(rect.left, rect.top);
-        path.arcTo(new RectF(rect.left, rect.top, mAngle * 2 + rect.left,
-                mAngle * 2 + rect.top), 180, 90);
-        path.close();
-    }
+	private BitmapShader				mBitmapShader;
 
-    public void leftPath(RectF rect, Path path) {
-        path.moveTo(mAngle + mArrowWidth, rect.top);
-        path.lineTo(rect.width(), rect.top);
-        path.arcTo(new RectF(rect.right - mAngle * 2, rect.top, rect.right,
-                mAngle * 2 + rect.top), 270, 90);
-        path.lineTo(rect.right, rect.top);
-        path.arcTo(new RectF(rect.right - mAngle * 2, rect.bottom - mAngle * 2,
-                rect.right, rect.bottom), 0, 90);
-        path.lineTo(rect.left + mArrowWidth, rect.bottom);
-        path.arcTo(new RectF(rect.left + mArrowWidth, rect.bottom - mAngle * 2,
-                mAngle * 2 + rect.left + mArrowWidth, rect.bottom), 90, 90);
-        path.lineTo(rect.left + mArrowWidth, mArrowTop + mArrowHeight);
-        path.lineTo(rect.left, mArrowTop - mArrowOffset);
-        path.lineTo(rect.left + mArrowWidth, mArrowTop);
-        path.lineTo(rect.left + mArrowWidth, rect.top);
-        path.arcTo(new RectF(rect.left + mArrowWidth, rect.top, mAngle * 2
-                + rect.left + mArrowWidth, mAngle * 2 + rect.top), 180, 90);
+	private Paint						mBitmapPaint;
 
-        path.close();
-    }
+	private Matrix						mShaderMatrix;
 
-    @Override
-    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-        super.onSizeChanged(w, h, oldw, oldh);
-        setup();
-    }
+	private int							mBitmapWidth;
 
-    @Override
-    public void setImageBitmap(Bitmap bm) {
-        super.setImageBitmap(bm);
-        mBitmap = bm;
-        setup();
-    }
+	private int							mBitmapHeight;
 
-    @Override
-    public void setImageDrawable(Drawable drawable) {
-        super.setImageDrawable(drawable);
-        mBitmap = getBitmapFromDrawable(drawable);
-        setup();
-    }
+	private RectF						rectF;
 
-    @Override
-    public void setImageResource(int resId) {
-        super.setImageResource(resId);
-        mBitmap = getBitmapFromDrawable(getDrawable());
-        setup();
-    }
+	private Path						path					= new Path();
 
-    private Bitmap getBitmapFromDrawable(Drawable drawable) {
-        if (drawable == null) {
-            return null;
-        }
+	public BubbleImageView(Context context) {
+		super(context);
+		initView(null);
+	}
 
-        if (drawable instanceof BitmapDrawable) {
-            return ((BitmapDrawable) drawable).getBitmap();
-        }
+	public BubbleImageView(Context context, AttributeSet attrs, int defStyle) {
+		super(context, attrs, defStyle);
+		initView(attrs);
+	}
 
-        try {
-            Bitmap bitmap;
+	public BubbleImageView(Context context, AttributeSet attrs) {
+		super(context, attrs);
+		initView(attrs);
+	}
 
-            if (drawable instanceof ColorDrawable) {
-                bitmap = Bitmap.createBitmap(COLORDRAWABLE_DIMENSION,
-                        COLORDRAWABLE_DIMENSION, BITMAP_CONFIG);
-            } else {
-                bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(),
-                        drawable.getIntrinsicHeight(), BITMAP_CONFIG);
-            }
+	private void initView(AttributeSet attrs) {
+		if (attrs != null) {
+			TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.BubbleImageView);
+			mAngle = (int) a.getDimension(R.styleable.BubbleImageView_bubble_angle, mAngle);
+			mArrowHeight = (int) a.getDimension(R.styleable.BubbleImageView_bubble_arrowHeight, mArrowHeight);
+			mArrowOffset = (int) a.getDimension(R.styleable.BubbleImageView_bubble_arrowOffset, mArrowOffset);
+			mArrowTop = (int) a.getDimension(R.styleable.BubbleImageView_bubble_arrowTop, mArrowTop);
+			mArrowWidth = (int) a.getDimension(R.styleable.BubbleImageView_bubble_arrowWidth, mAngle);
+			mArrowLocation = a.getInt(R.styleable.BubbleImageView_bubble_arrowLocation, mArrowLocation);
+			a.recycle();
+		}
+	}
 
-            Canvas canvas = new Canvas(bitmap);
-            drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
-            drawable.draw(canvas);
-            return bitmap;
-        } catch (OutOfMemoryError e) {
-            return null;
-        }
-    }
+	@Override protected void onDraw(Canvas canvas) {
+		if (getDrawable() == null) {
+			return;
+		}
 
-    private void setup() {
-        if (mBitmap == null) {
-            return;
-        }
+		if (mArrowLocation == LOCATION_LEFT) {
+			leftPath(rectF, path);
+		} else {
+			rightPath(rectF, path);
+		}
 
-        mBitmapShader = new BitmapShader(mBitmap, Shader.TileMode.CLAMP,
-                Shader.TileMode.CLAMP);
+		canvas.drawPath(path, mBitmapPaint);
+	}
 
-        mBitmapPaint = new Paint();
-        mBitmapPaint.setAntiAlias(true);
-        mBitmapPaint.setShader(mBitmapShader);
+	public void rightPath(RectF rect, Path path) {
+		path.moveTo(mAngle, rect.top);
+		path.lineTo(rect.width(), rect.top);
+		path.arcTo(new RectF(rect.right - mAngle * 2 - mArrowWidth, rect.top, rect.right - mArrowWidth, mAngle * 2 + rect.top), 270, 90);
+		path.lineTo(rect.right - mArrowWidth, mArrowTop);
+		path.lineTo(rect.right, mArrowTop - mArrowOffset);
+		path.lineTo(rect.right - mArrowWidth, mArrowTop + mArrowHeight);
+		path.lineTo(rect.right - mArrowWidth, rect.height() - mAngle);
+		path.arcTo(new RectF(rect.right - mAngle * 2 - mArrowWidth, rect.bottom - mAngle * 2, rect.right - mArrowWidth, rect.bottom), 0, 90);
+		path.lineTo(rect.left, rect.bottom);
+		path.arcTo(new RectF(rect.left, rect.bottom - mAngle * 2, mAngle * 2 + rect.left, rect.bottom), 90, 90);
+		path.lineTo(rect.left, rect.top);
+		path.arcTo(new RectF(rect.left, rect.top, mAngle * 2 + rect.left, mAngle * 2 + rect.top), 180, 90);
+		path.close();
+	}
 
-        mBitmapHeight = mBitmap.getHeight();
-        mBitmapWidth = mBitmap.getWidth();
+	public void leftPath(RectF rect, Path path) {
+		path.moveTo(mAngle + mArrowWidth, rect.top);
+		path.lineTo(rect.width(), rect.top);
+		path.arcTo(new RectF(rect.right - mAngle * 2, rect.top, rect.right, mAngle * 2 + rect.top), 270, 90);
+		path.lineTo(rect.right, rect.top);
+		path.arcTo(new RectF(rect.right - mAngle * 2, rect.bottom - mAngle * 2, rect.right, rect.bottom), 0, 90);
+		path.lineTo(rect.left + mArrowWidth, rect.bottom);
+		path.arcTo(new RectF(rect.left + mArrowWidth, rect.bottom - mAngle * 2, mAngle * 2 + rect.left + mArrowWidth, rect.bottom), 90, 90);
+		path.lineTo(rect.left + mArrowWidth, mArrowTop + mArrowHeight);
+		path.lineTo(rect.left, mArrowTop - mArrowOffset);
+		path.lineTo(rect.left + mArrowWidth, mArrowTop);
+		path.lineTo(rect.left + mArrowWidth, rect.top);
+		path.arcTo(new RectF(rect.left + mArrowWidth, rect.top, mAngle * 2 + rect.left + mArrowWidth, mAngle * 2 + rect.top), 180, 90);
 
-        updateShaderMatrix();
-        invalidate();
-    }
+		path.close();
+	}
 
-    private void updateShaderMatrix() {
-        float scale;
-        float dx = 0;
-        float dy = 0;
+	@Override protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+		super.onSizeChanged(w, h, oldw, oldh);
+		rectF = new RectF(getPaddingLeft(), getPaddingTop(), getRight() - getLeft() - getPaddingRight(), getBottom() - getTop() - getPaddingBottom());
+		setup();
+	}
 
-        mShaderMatrix = new Matrix();
-        mShaderMatrix.set(null);
+	@Override public void setImageBitmap(Bitmap bm) {
+		super.setImageBitmap(bm);
+		mBitmap = bm;
+		setup();
+	}
 
-        mDrawableRect = new Rect(0, 0, getRight() - getLeft(), getBottom()
-                - getTop());
+	@Override public void setImageDrawable(Drawable drawable) {
+		super.setImageDrawable(drawable);
+		mBitmap = getBitmapFromDrawable(drawable);
+		setup();
+	}
 
-        if (mBitmapWidth * mDrawableRect.height() > mDrawableRect.width()
-                * mBitmapHeight) {
-            scale = mDrawableRect.height() / (float) mBitmapHeight;
-            dx = (mDrawableRect.width() - mBitmapWidth * scale) * 0.5f;
-        } else {
-            scale = mDrawableRect.width() / (float) mBitmapWidth;
-            dy = (mDrawableRect.height() - mBitmapHeight * scale) * 0.5f;
-        }
+	@Override public void setImageResource(int resId) {
+		super.setImageResource(resId);
+		mBitmap = getBitmapFromDrawable(getDrawable());
+		setup();
+	}
 
-        mShaderMatrix.setScale(scale, scale);
-        mShaderMatrix.postTranslate((int) (dx + 0.5f), (int) (dy + 0.5f));
+	private Bitmap getBitmapFromDrawable(Drawable drawable) {
+		if (drawable == null) {
+			return null;
+		}
 
-        mBitmapShader.setLocalMatrix(mShaderMatrix);
-    }
+		if (drawable instanceof BitmapDrawable) {
+			return ((BitmapDrawable) drawable).getBitmap();
+		}
 
-    private int dp2px(int dp) {
-        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp,
-                getContext().getResources().getDisplayMetrics());
-    }
+		try {
+			Bitmap bitmap;
+
+			if (drawable instanceof ColorDrawable) {
+				bitmap = Bitmap.createBitmap(COLORDRAWABLE_DIMENSION, COLORDRAWABLE_DIMENSION, BITMAP_CONFIG);
+			} else {
+				bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), BITMAP_CONFIG);
+			}
+
+			Canvas canvas = new Canvas(bitmap);
+			drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+			drawable.draw(canvas);
+			return bitmap;
+		} catch (OutOfMemoryError e) {
+			return null;
+		}
+	}
+
+	private void setup() {
+		if (mBitmap == null) {
+			return;
+		}
+
+		mBitmapShader = new BitmapShader(mBitmap, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP);
+
+		mBitmapPaint = new Paint();
+		mBitmapPaint.setAntiAlias(true);
+		mBitmapPaint.setShader(mBitmapShader);
+
+		mBitmapHeight = mBitmap.getHeight();
+		mBitmapWidth = mBitmap.getWidth();
+
+		updateShaderMatrix();
+		invalidate();
+	}
+
+	private void updateShaderMatrix() {
+		float scale;
+		float dx = 0;
+		float dy = 0;
+
+		mShaderMatrix = new Matrix();
+		mShaderMatrix.set(null);
+
+		mDrawableRect = new Rect(0, 0, getRight() - getLeft(), getBottom() - getTop());
+
+		if (mBitmapWidth * mDrawableRect.height() > mDrawableRect.width() * mBitmapHeight) {
+			scale = mDrawableRect.height() / (float) mBitmapHeight;
+			dx = (mDrawableRect.width() - mBitmapWidth * scale) * 0.5f;
+		} else {
+			scale = mDrawableRect.width() / (float) mBitmapWidth;
+			dy = (mDrawableRect.height() - mBitmapHeight * scale) * 0.5f;
+		}
+
+		mShaderMatrix.setScale(scale, scale);
+		mShaderMatrix.postTranslate((int) (dx + 0.5f), (int) (dy + 0.5f));
+
+		mBitmapShader.setLocalMatrix(mShaderMatrix);
+	}
+
+	private int dp2px(int dp) {
+		return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, getContext().getResources().getDisplayMetrics());
+	}
 }
