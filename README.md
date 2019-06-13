@@ -12,8 +12,9 @@
    * app目录下build.gradle配置
      dependencies { implementation 'com.github.Wiser-Wong:Frame:1.6.1' }
 ## 使用说明
+ 
   #### WISERActivity和WISERBiz
-   * 所有自己App项目中的Activity 继承 WISERActivity 可传递泛型Biz类也可以传递IBiz接口类，是处理业务逻辑类，例如：  
+   ** 所有自己App项目中的Activity 继承 WISERActivity 可传递泛型Biz类也可以传递IBiz接口类，是处理业务逻辑类，例如：  
      public class MyActivity expand WISERActivity<MyBiz>{}  
      或者  
      public class MyActivity expand WISERActivity<IMyBiz>{}   
