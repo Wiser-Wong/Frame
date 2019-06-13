@@ -127,5 +127,15 @@
 	           @Background(BackgroundType.HTTP) void getHttpData(String value);
  
 	      }
-                                                                                           
+ ### 图片加载 Glide 不熟悉可查阅 Glide文档或者源码了解
+ 
+ ### 轮播图
+   bannerPagerView.setFragmentPages(this, list).isDot(true).setCircle(true).startTurning(1000);
+   方法可自行查阅
+ ### TabLayout
+ ### zxing
+ ### 默认loading
+ ### wheelView 
+ ### Util
+ ### 等等
 ## 未完待续
