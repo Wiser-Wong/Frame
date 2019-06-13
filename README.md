@@ -11,6 +11,7 @@
      allprojects { repositories { ... maven { url 'https://jitpack.io' } } }
    * app目录下build.gradle配置
      dependencies { implementation 'com.github.Wiser-Wong:Frame:1.6.1' }
+     
 ## 使用说明
  
  ### 界面
@@ -192,5 +193,41 @@
  ### Util
  
  ### 等等
+
+## 混淆 Proguard
+	-keep class com.wiser.** { *; }
+	-dontwarn com.wiser.**
+	-keepclasseswithmembers class * {
+	    <init> ();
+	}
+	-keep class  wiser.** { *; }
+	-dontwarn wiser.**
+
+	-dontnote android.net.http.*
+	-dontnote org.apache.http.**
+
+	-dontnote okhttp3.**
+	-dontnote retrofit2.**
+	-dontnote butterknife.**
+	-dontnote org.apache.commons.io.**
+
+	-dontnote android.**
+	-dontnote dalvik.**
+	-dontnote com.android.**
+	-dontnote google.**
+	-dontnote com.google.**
+	-dontnote java.**
+	-dontnote javax.**
+	-dontnote junit.**
+	-dontnote org.apache.**
+	-dontnote org.json.**
+	-dontnote org.w3c.dom.**
+	-dontnote org.xml.sax.**
+	-dontnote org.xmlpull.v1.**
+	-dontnote sun.misc.Unsafe
+	-dontnote okhttp3.**
+	-dontnote retrofit2.**
+	-dontnote butterknife.**
+	-dontnote okio.**
  
 ## 未完待续
