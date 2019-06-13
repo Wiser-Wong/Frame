@@ -26,6 +26,9 @@
     * 继承WISERActivity之后会实现两个方法 builder方法和initData方法，builder方法处理默认界面UI绘制根据需求传递属性等等，initData处理加载数据
   * WISERFragment和WISERBiz
     * Fragment继承WISERFragment，同样业务类继承WISERBiz，同WISERActivity
+  * WISERDialogFragment和WISERBiz 弹窗页面
+  * WISERSlidingMenuActivity和WISERBiz 侧拉菜单
+  * WISERWebActivity和WISERWebFragment和WISERBiz 网页加载页面WebView
   * WISERBuilder 视图构造者
     * WISERActivity和WISERFragment界面显示效果同时有WISERBuilder构造
     * WISERBuilder属性：
