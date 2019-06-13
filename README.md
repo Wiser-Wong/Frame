@@ -102,27 +102,27 @@
           String s = httpBody(call);
     * 注意 
     	
-    如果使用Call，需注意WISERActivity<IMyBiz> IMyBiz是 MyBiz接口类，MyBiz implements IMyBiz。
+        如果使用Call，需注意WISERActivity<IMyBiz> IMyBiz是 MyBiz接口类，MyBiz implements IMyBiz。
 	
-	    Activity和Fragment中
-	    public class MyActivity extends WISERActivity<IMyBiz>{
+	      Activity和Fragment中
+	      public class MyActivity extends WISERActivity<IMyBiz>{
 	    
-	    	@Override protected WISERBuilder build(WISERBuilder builder) {return builder}
+	    	  @Override protected WISERBuilder build(WISERBuilder builder) {return builder}
 		
-		@Override protected void initData(Intent intent) {biz().getHttpData(value);}
-	    }
+		  @Override protected void initData(Intent intent) {biz().getHttpData(value);}
+	      }
 	    
-	    业务类
-	    public class MyBiz extends WISERBiz<MyActivity> implements IMyBiz {
-	    	@Override public void getHttpData(String value) {}
-	    }
+	      业务类
+	      public class MyBiz extends WISERBiz<MyActivity> implements IMyBiz {
+	    	  @Override public void getHttpData(String value) {}
+	      }
 
-	    接口
-	    @Impl(MyBiz.class)
-	    interface IMyBiz extends IWISERBiz {
+	      接口
+	      @Impl(MyBiz.class)
+	      interface IMyBiz extends IWISERBiz {
 	    
-	         @Background(BackgroundType.HTTP) void getHttpData(String value);
-
-	    }
+	           @Background(BackgroundType.HTTP) void getHttpData(String value);
+ 
+	      }
                                                                                            
 ## 未完待续
