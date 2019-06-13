@@ -2,15 +2,22 @@
 一个高级Android MVP框架
 ## 集成
    * Application中onCreate方法中初始化框架：
-     WISERHelper.newBind().setWiserBind(new MyBind()).Inject(this, BuildConfig.DEBUG);  
-     setWiserBind()方法扩展自己的Bind类 如果不需要可直接初始化WiserFrame架构的Bind,然后去掉该方法就可以了。
+   
+	     WISERHelper.newBind().setWiserBind(new MyBind()).Inject(this, BuildConfig.DEBUG);  
+	     setWiserBind()方法扩展自己的Bind类 如果不需要可直接初始化WiserFrame架构的Bind,然后去掉该方法就可以了。
+	     
    * 需要在自己的app module的build.gradle中注入butterknife依赖库：
-     implementation 'com.jakewharton:butterknife:8.8.1'  
-     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+   
+	     implementation 'com.jakewharton:butterknife:8.8.1'  
+	     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+	     
    * 项目下的build.gradle配置
-     allprojects { repositories { ... maven { url 'https://jitpack.io' } } }
+   
+	     allprojects { repositories { ... maven { url 'https://jitpack.io' } } }
+	     
    * app目录下build.gradle配置
-     dependencies { implementation 'com.github.Wiser-Wong:Frame:1.6.1' }
+   
+	     dependencies { implementation 'com.github.Wiser-Wong:Frame:1.6.1' }
      
 ## 使用说明
  
