@@ -78,12 +78,12 @@
   * 初始化Frame
   * 功能方法等等
  ### 网络请求 OKHTTP3 Retrofit2 RxJava2
-  * @POST("/") Call<String> getData(@Query("key") String value);
-  * @POST("/") Observable<String> getData(@Query("key") String value);
+  * @POST("/") Call<String> getHttpData(@Query("key") String value);
+  * @POST("/") Observable<String> getHttpData(@Query("key") String value);
   * WISERBiz中调用
     * Observable 
 	
-          httpObservableIO(http(IHttp.class).getData(value).subscribe(httpDisposableObserver(new          WISERRxJavaDisposableObserver<String>() {
+          httpObservableIO(http(IHttp.class).getHttpData(value).subscribe(httpDisposableObserver(new          WISERRxJavaDisposableObserver<String>() {
 					@Override protected void onSuccess(String s) {
 						
 					}
@@ -96,9 +96,33 @@
 						return true;//是否默认提示异常信息 可不添加
 					}
 				}));
-    * Call
+    * Call 
     
-         	Call<String> call = http(IHttp.class).getData();
-		  String s = httpBody(call);
+          Call<String> call = http(IHttp.class).getHttpData();
+          String s = httpBody(call);
+    * 注意 
+    	
+    如果使用Call，需注意WISERActivity<IMyBiz> IMyBiz是 MyBiz接口类，MyBiz implements IMyBiz。
+	
+	    Activity和Fragment中
+	    public class MyActivity extends WISERActivity<IMyBiz>{
+	    
+	    	@Override protected WISERBuilder build(WISERBuilder builder) {return builder}
+		
+		@Override protected void initData(Intent intent) {biz().getHttpData(value);}
+	    }
+	    
+	    业务类
+	    public class MyBiz extends WISERBiz<MyActivity> implements IMyBiz {
+	    	@Override public void getHttpData(String value) {}
+	    }
+
+	    接口
+	    @Impl(MyBiz.class)
+	    interface IMyBiz extends IWISERBiz {
+	    
+	         @Background(BackgroundType.HTTP) void getHttpData(String value);
+
+	    }
                                                                                            
 ## 未完待续
