@@ -28,4 +28,7 @@
     * Fragment继承WISERFragment，同样业务类继承WISERBiz，同WISERActivity
   * WISERBuilder 视图构造者
     * WISERActivity和WISERFragment界面显示效果同时有WISERBuilder构造
+ ### service
+  * WISERService和WISERBiz
+    * Service继承WISERService，同样业务类继承WISERBiz，同WISERActivity
 ## 未完待续
