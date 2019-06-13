@@ -93,13 +93,13 @@
   * 功能方法等等
   
  ### 网络请求 OKHTTP3 Retrofit2 RxJava2
-  * @POST("/") Call<String> getHttpData(@Query("key") String value);
-  * @POST("/") Observable<String> getHttpData(@Query("key") String value);
+  * @POST("/") Call<Model> getHttpData(@Query("key") String value);
+  * @POST("/") Observable<Model> getHttpData(@Query("key") String value);
   * WISERBiz中调用
     * Observable 
 	
-          httpObservableIO(http(IHttp.class).getHttpData(value).subscribe(httpDisposableObserver(new          WISERRxJavaDisposableObserver<String>() {
-					@Override protected void onSuccess(String s) {
+          httpObservableIO(http(IHttp.class).getHttpData(value).subscribe(httpDisposableObserver(new          WISERRxJavaDisposableObserver<Model>() {
+					@Override protected void onSuccess(Model model) {
 						
 					}
 
@@ -113,8 +113,8 @@
 				}));
     * Call 
     
-          Call<String> call = http(IHttp.class).getHttpData();
-          String s = httpBody(call);
+          Call<Model> call = http(IHttp.class).getHttpData();
+          Model model = httpBody(call);
     * 注意 
     	
         如果使用Call，需注意WISERActivity<IMyBiz> IMyBiz是 MyBiz接口类，MyBiz implements IMyBiz。
