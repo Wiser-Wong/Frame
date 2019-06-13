@@ -52,11 +52,11 @@
       * builder.recycleView().recycleViewLinearManager(LinearLayoutManager.VERTICAL, null);//还有很多组方法可自行查阅
       * builder.recycleView().recycleViewGridManager(2,LinearLayoutManager.VERTICAL,null);//还有很多组方法可自行查阅
       * builder.recycleView().recycleViewStaggeredGridManager(2,LinearLayoutManager.VERTICAL, new WISERStaggeredDivider(20, 0, 20, 0), null);瀑布流设置
-      * builder.recycleView().recycleAdapter(new MWISERAdapter(this));设置适配器
+      * builder.recycleView().recycleAdapter(new MWISERRVAdapter(this));设置适配器
       * builder.recycleView().isFooter(true);设置是否显示上拉加载
       * builder.recycleView().footerLayoutId(R.layout.footer);设置自定义footer布局
       * builder.recycleView().setOnFooterCustomListener(this);设置footer监听状态
-  * WISERAdapter<Object,WISERHolder> 适配器
+  * WISERRVAdapter<Object,WISERHolder> 适配器
     * 填充数据：WISERActivity或WISERFragment 通过setItems(List);
   * WISERHolder<Object>
  ### WISERService
