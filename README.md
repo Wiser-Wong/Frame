@@ -59,10 +59,10 @@
   * WISERRVAdapter<Object,WISERHolder> 适配器
     * 填充数据：WISERActivity或WISERFragment 通过setItems(List);
   * WISERHolder<Object>
- ### WISERService
+### WISERService
   * WISERService和WISERBiz
     * Service继承WISERService，同样业务类继承WISERBiz，同WISERActivity
- ### WISERManage 管理类（可扩展）
+### WISERManage 管理类（可扩展）
   * WISERLogManage 日志管理
   * WISERToastManage Toast管理
   * WISERHandlerExecutor Handler管理
@@ -76,11 +76,11 @@
   * WISERJobServiceManage jobService管理
   * WISERDownUploadManage 下载上传管理
   * WISERUIManage UI管理
- ### WISERHelper 帮助类（可扩展）
+### WISERHelper 帮助类（可扩展）
   * 管理WISERManage中管理类实例
   * 初始化Frame
   * 功能方法等等
- ### 网络请求 OKHTTP3 Retrofit2 RxJava2
+### 网络请求 OKHTTP3 Retrofit2 RxJava2
   * @POST("/") Call<String> getHttpData(@Query("key") String value);
   * @POST("/") Observable<String> getHttpData(@Query("key") String value);
   * WISERBiz中调用
@@ -127,15 +127,15 @@
 	           @Background(BackgroundType.HTTP) void getHttpData(String value);
  
 	      }
- ### 图片加载 Glide 不熟悉可查阅 Glide文档或者源码了解
+### 图片加载 Glide 不熟悉可查阅 Glide文档或者源码了解
  
- ### 轮播图
+### 轮播图
    bannerPagerView.setFragmentPages(this, list).isDot(true).setCircle(true).startTurning(1000);
    方法可自行查阅
- ### TabLayout
- ### zxing
- ### 默认loading
- ### wheelView 
- ### Util
- ### 等等
+### TabLayout
+### zxing
+### 默认loading
+### wheelView 
+### Util
+### 等等
 ## 未完待续
