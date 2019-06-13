@@ -81,7 +81,7 @@
   * @POST("/") Call<String> getData(@Query("key") String value);
   * @POST("/") Observable<String> getData(@Query("key") String value);
   * WISERBiz中调用
-
+    * Observable 
           httpObservableIO(http(IHttp.class).getData(value).subscribe(httpDisposableObserver(new          WISERRxJavaDisposableObserver<String>() {
 					@Override protected void onSuccess(String s) {
 						
@@ -95,5 +95,7 @@
 						return true;//是否默认提示异常信息 可不添加
 					}
 				}));
-                                                                                          
+   * Call
+         
+                                                                                           
 ## 未完待续
