@@ -59,10 +59,12 @@
   * WISERRVAdapter<Object,WISERHolder> 适配器
     * 填充数据：WISERActivity或WISERFragment 通过setItems(List);
   * WISERHolder<Object>
-### WISERService
+	
+ ### WISERService
   * WISERService和WISERBiz
     * Service继承WISERService，同样业务类继承WISERBiz，同WISERActivity
-### WISERManage 管理类（可扩展）
+    
+ ### WISERManage 管理类（可扩展）
   * WISERLogManage 日志管理
   * WISERToastManage Toast管理
   * WISERHandlerExecutor Handler管理
@@ -76,11 +78,13 @@
   * WISERJobServiceManage jobService管理
   * WISERDownUploadManage 下载上传管理
   * WISERUIManage UI管理
-### WISERHelper 帮助类（可扩展）
+  
+ ### WISERHelper 帮助类（可扩展）
   * 管理WISERManage中管理类实例
   * 初始化Frame
   * 功能方法等等
-### 网络请求 OKHTTP3 Retrofit2 RxJava2
+  
+ ### 网络请求 OKHTTP3 Retrofit2 RxJava2
   * @POST("/") Call<String> getHttpData(@Query("key") String value);
   * @POST("/") Observable<String> getHttpData(@Query("key") String value);
   * WISERBiz中调用
@@ -127,15 +131,66 @@
 	           @Background(BackgroundType.HTTP) void getHttpData(String value);
  
 	      }
-### 图片加载 Glide 不熟悉可查阅 Glide文档或者源码了解
+ ### 存储
+  * WISERSharePreference
+                 
+        public class MShareConfig extends WISERSharePreference{
+             @Override
+             public String SP_NAME() {
+                 return "wiser";
+             }
+        }
+  * WISERProperties
+  
+        public class MConfig extends WISERProperties {
+
+		public MConfig(@NonNull Context context) {
+			super(context);
+		}
+
+		@Override public int initType() {
+			return WISERProperties.OPEN_TYPE_DATA;
+		}
+
+		@Property("name") public String name;
+         }
+ ### 图片加载 Glide 不熟悉可查阅 Glide文档或者源码了解
  
-### 轮播图
-   bannerPagerView.setFragmentPages(this, list).isDot(true).setCircle(true).startTurning(1000);
-   方法可自行查阅
-### TabLayout
-### zxing
-### 默认loading
-### wheelView 
-### Util
-### 等等
+ ### 轮播图
+    bannerPagerView.setFragmentPages(this, list).isDot(true).setCircle(true).startTurning(1000);
+    方法可自行查阅
+ ### TabLayout
+ 
+	 <?xml version="1.0" encoding="utf-8"?>
+	<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	    android:layout_width="match_parent"
+	    android:layout_height="match_parent"
+	    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+	    <com.wiser.library.tab.WISERTabLayout
+		android:id="@+id/tab_layout"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_alignParentBottom="true"
+		app:tabLayoutId="@layout/include_tab_bottom"/>
+
+	    <com.wiser.library.tab.WISERTabPageView
+		android:id="@+id/tab_page_view"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:layout_above="@+id/tab_layout"/>
+
+	</RelativeLayout>
+	
+	tabLayout.tabIds(R.id.iv_tab1, R.id.iv_tab2, R.id.iv_tab3, R.id.iv_tab4).setPages(R.id.tab_page_view, new IndexFragment(),         new SecondFragment(), new ThreeFragment(), new ContentFragment()).isTabCutPageAnim(true).setOnTabPageChangeListener(this).setOnTabClickListener(this).isPageCanScroll(true).setOnTabSwitchPageListener(this).isDefaultOnPageSelected(true);
+ ### zxing
+ 
+ ### 默认loading
+ 
+ ### wheelView 
+ 
+ ### Util
+ 
+ ### 等等
+ 
 ## 未完待续
