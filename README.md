@@ -56,7 +56,44 @@
   * WISERAdapter<Object,WISERHolder> 适配器
     * 填充数据：WISERActivity或WISERFragment 通过setItems(List);
   * WISERHolder<Object>
- ### service
+ ### WISERService
   * WISERService和WISERBiz
     * Service继承WISERService，同样业务类继承WISERBiz，同WISERActivity
+ ### WISERManage 管理类（可扩展）
+  * WISERLogManage 日志管理
+  * WISERToastManage Toast管理
+  * WISERHandlerExecutor Handler管理
+  * WISERActivityManage Activity管理
+  * WISERActivityManage 业务类管理
+  * WISERDisplay 功能管理
+  * WISERHttpManage HTTP管理
+  * WISERThreadPoolManage 线程池管理
+  * WISERPermissionManage 权限管理
+  * WISERFileCacheManage 文件管理
+  * WISERJobServiceManage jobService管理
+  * WISERDownUploadManage 下载上传管理
+  * WISERUIManage UI管理
+ ### WISERHelper 帮助类（可扩展）
+  * 管理WISERManage中管理类实例
+  * 初始化Frame
+  * 功能方法等等
+ ### 网络请求 OKHTTP3 Retrofit2 RxJava2
+  * @POST("/") Call<String> getData(@Query("key") String value);
+  * @POST("/") Observable<String> getData(@Query("key") String value);
+  * WISERBiz中调用
+
+          httpObservableIO(http(IHttp.class).getData(value).subscribe(httpDisposableObserver(new          WISERRxJavaDisposableObserver<String>() {
+					@Override protected void onSuccess(String s) {
+						
+					}
+
+					@Override protected void onFail(Throwable e) {
+						
+					}
+
+					@Override protected boolean isDfException(boolean isDfException) {
+						return true;//是否默认提示异常信息 可不添加
+					}
+				}));
+                                                                                          
 ## 未完待续
