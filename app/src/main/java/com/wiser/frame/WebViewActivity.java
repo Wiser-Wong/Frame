@@ -10,7 +10,7 @@ import android.support.annotation.MainThread;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-public class WebViewActivity extends WISERWebActivity<WebViewBiz> {
+public class WebViewActivity extends WISERWebActivity<IWebBiz> {
 
 	@Override protected WISERBuilder buildWeb(WISERBuilder builder) {
 		builder.layoutBarId(R.layout.title_layout);
@@ -31,7 +31,8 @@ public class WebViewActivity extends WISERWebActivity<WebViewBiz> {
 		// WISERHelper.toast().show(new MShareConfig().getString("name", ""));
 		// new MToast().show(new MShareConfig().getString("name", ""));
 		// WISERHelper.toast().show(new MConfig(this).name+"");
-		biz().observableMethod();
+//		biz().observableMethod();
+		biz().callMethod();
 	}
 
 	@Override protected WISERWebChromeClient setWebChromeClient() {

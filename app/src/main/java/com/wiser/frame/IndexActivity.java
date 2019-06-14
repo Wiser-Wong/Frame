@@ -3,14 +3,12 @@ package com.wiser.frame;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import com.liulishuo.filedownloader.BaseDownloadTask;
 import com.liulishuo.filedownloader.FileDownloadListener;
 import com.wiser.library.adapter.WISERRVAdapter;
 import com.wiser.library.base.WISERActivity;
 import com.wiser.library.base.WISERBuilder;
-import com.wiser.library.base.WISERDialogFragment;
 import com.wiser.library.helper.WISERHelper;
 import com.wiser.library.manager.permission.IWISERPermissionCallBack;
 import com.wiser.library.pager.banner.BannerPagerView;
@@ -23,18 +21,14 @@ import com.wiser.library.zxing.WISERQRCode;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.RemoteViews;
 import android.widget.TextView;
 
 import butterknife.BindView;
@@ -64,6 +58,7 @@ public class IndexActivity extends WISERActivity<IndexBiz> implements WISERRVAda
 		// builder.recycleView().recycleViewStaggeredGridManager(2,
 		// LinearLayoutManager.VERTICAL, new WISERStaggeredDivider(20, 0, 20, 0), null);
 		builder.recycleView().recycleViewLinearManager(LinearLayoutManager.VERTICAL, null);
+		builder.recycleView().recycleViewGridManager(2,LinearLayoutManager.VERTICAL,null);
 		builder.recycleView().recycleAdapter(new IndexAdapter(this));
 		builder.isRootLayoutRefresh(true, false);
 		builder.setColorSchemeColors(Color.BLUE, Color.RED, Color.GREEN);
@@ -237,10 +232,10 @@ public class IndexActivity extends WISERActivity<IndexBiz> implements WISERRVAda
 //				WISERHelper.uiManage().notification(true).showProgressNotification(1, "我来了", "更新", "正在下载", BitmapFactory.decodeResource(getResources(), R.mipmap.scan_photo), R.mipmap.scan_flash, 100, 0,
 //						ClickBroadcastReceiver.class);
 
-				 WISERHelper.display().intent(TabLayoutActivity.class);
+//				 WISERHelper.display().intent(TabLayoutActivity.class);
 				// WISERHelper.display().intent(SmartActivity.class);
 				// WISERHelper.display().intent(ScanActivity.class);
-				// WISERHelper.display().intent(WebViewActivity.class);
+				 WISERHelper.display().intent(WebViewActivity.class);
 				// WISERHelper.display().intent(ZoomScrollViewActivity.class);
 				// WISERHelper.display().intent(SlidingMenuActivity.class);
 				// WISERHelper.display().intentTransitionAnimation(ZoomScrollViewActivity.class,null,Pair.create((View)ivQR,""));

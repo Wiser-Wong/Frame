@@ -335,6 +335,21 @@ public class WISERBuilder {
 		win.setAttributes(winParams);
 	}
 
+	// 设置全屏显示开关 是否去掉状态栏
+	public void setFullScreenToggle(boolean isFull) {
+		if (isFull) {
+			WindowManager.LayoutParams lp = wiserView.activity().getWindow().getAttributes();
+			lp.flags |= WindowManager.LayoutParams.FLAG_FULLSCREEN;
+			wiserView.activity().getWindow().setAttributes(lp);
+			wiserView.activity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+		} else {
+			WindowManager.LayoutParams attr = wiserView.activity().getWindow().getAttributes();
+			attr.flags &= (~WindowManager.LayoutParams.FLAG_FULLSCREEN);
+			wiserView.activity().getWindow().setAttributes(attr);
+			wiserView.activity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+		}
+	}
+
 	/**
 	 * 注册滑动清除Activity创建
 	 * //需要app风格设置为<item name="android:windowIsTranslucent">true</item>
