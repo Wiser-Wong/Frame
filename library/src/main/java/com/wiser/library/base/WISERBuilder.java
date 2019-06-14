@@ -8,7 +8,7 @@ import com.wiser.library.adapter.WISERRVAdapter;
 import com.wiser.library.helper.WISERHelper;
 import com.wiser.library.util.WISERCheck;
 
-import android.content.pm.ActivityInfo;
+import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.os.Build;
 import android.support.annotation.ColorInt;
@@ -350,6 +350,45 @@ public class WISERBuilder {
 		}
 	}
 
+	// 去除状态栏
+	public void removeStateBar() {
+		// 无title
+		wiserView.activity().requestWindowFeature(Window.FEATURE_NO_TITLE);
+		// 全屏
+		wiserView.activity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+	}
+
+	/**
+	 * 显示虚拟按键
+	 */
+	public void showVirtualKey() {
+		// 显示虚拟按键
+		if (Build.VERSION.SDK_INT < 19) {
+			// 低版本sdk
+			View v = wiserView.activity().getWindow().getDecorView();
+			v.setSystemUiVisibility(View.VISIBLE);
+		} else {
+			View decorView = wiserView.activity().getWindow().getDecorView();
+			int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;
+			decorView.setSystemUiVisibility(uiOptions);
+		}
+	}
+
+	/**
+	 * 隐藏虚拟按键
+	 */
+	public void hideVirtualKey() {
+		// 隐藏虚拟按键
+		if (Build.VERSION.SDK_INT < 19) {
+			View v = wiserView.activity().getWindow().getDecorView();
+			v.setSystemUiVisibility(View.GONE);
+		} else {
+			View decorView = wiserView.activity().getWindow().getDecorView();
+			int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY | View.SYSTEM_UI_FLAG_FULLSCREEN;
+			decorView.setSystemUiVisibility(uiOptions);
+		}
+	}
+
 	/**
 	 * 注册滑动清除Activity创建
 	 * //需要app风格设置为<item name="android:windowIsTranslucent">true</item>
@@ -401,7 +440,7 @@ public class WISERBuilder {
 	 *
 	 * @return
 	 */
-	WISERBuilder systemBarTheme() {
+	@SuppressLint("WrongConstant") WISERBuilder systemBarTheme() {
 		if (requestedOrientation != -333)
 			// 设置屏幕方向
 			wiserView.activity().setRequestedOrientation(requestedOrientation);
