@@ -55,6 +55,7 @@ public class IndexActivity extends WISERActivity<IndexBiz> implements WISERRVAda
 		builder.layoutErrorId(R.layout.view_error);
 		builder.layoutLoadingId(R.layout.view_loading);
 		builder.recycleView().recycleViewId(R.id.home_rlv);
+		builder.setFullScreenToggle(true);
 		// builder.recycleView().recycleViewStaggeredGridManager(2,
 		// LinearLayoutManager.VERTICAL, new WISERStaggeredDivider(20, 0, 20, 0), null);
 		builder.recycleView().recycleViewLinearManager(LinearLayoutManager.VERTICAL, null);
