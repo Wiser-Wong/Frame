@@ -96,7 +96,7 @@ public class WISERBuilder {
 
 	private boolean					navigationBarTintEnabled	= true;
 
-//	private boolean					fitsSystem					= false;		// 是否填充系统状态栏
+	// private boolean fitsSystem = false; // 是否填充系统状态栏
 
 	private boolean					tint;										// 状态栏颜色
 
@@ -274,13 +274,13 @@ public class WISERBuilder {
 		this.tint = isTint;
 	}
 
-//	public void tintFitsSystem(boolean isFitsSystem) {
-//		this.fitsSystem = isFitsSystem;
-//	}
+	// public void tintFitsSystem(boolean isFitsSystem) {
+	// this.fitsSystem = isFitsSystem;
+	// }
 
-//	private boolean isFitsSystem() {
-//		return fitsSystem;
-//	}
+	// private boolean isFitsSystem() {
+	// return fitsSystem;
+	// }
 
 	public void swipeBack(boolean isSwipeBack) {
 		this.isSwipeBack = isSwipeBack;
@@ -294,19 +294,54 @@ public class WISERBuilder {
 		return tintManager;
 	}
 
-//	/**
-//	 * 状态栏高度
-//	 */
-//	void systemBarWindow() {
-//		if (isFitsSystem()) {
-//			ViewGroup contentFrameLayout = wiserView.activity().findViewById(Window.ID_ANDROID_CONTENT);
-//			View parentView = contentFrameLayout.getChildAt(0);
-//			if (parentView != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-//				parentView.setFitsSystemWindows(true);
-//				setTranslucentStatus(true);
-//			}
-//		}
-//	}
+	// /**
+	// * 状态栏高度
+	// */
+	// void systemBarWindow() {
+	// if (isFitsSystem()) {
+	// ViewGroup contentFrameLayout =
+	// wiserView.activity().findViewById(Window.ID_ANDROID_CONTENT);
+	// View parentView = contentFrameLayout.getChildAt(0);
+	// if (parentView != null && Build.VERSION.SDK_INT >=
+	// Build.VERSION_CODES.KITKAT) {
+	// parentView.setFitsSystemWindows(true);
+	// setTranslucentStatus(true);
+	// }
+	// }
+	// }
+
+	/**
+	 * 全透状态栏
+	 */
+	public void setStatusBarFullTransparent() {
+		if (Build.VERSION.SDK_INT >= 21) {// 21表示5.0
+			Window window = wiserView.activity().getWindow();
+			window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+			window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
+			window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+			window.setStatusBarColor(Color.TRANSPARENT);
+		} else if (Build.VERSION.SDK_INT >= 19) {// 19表示4.4
+			wiserView.activity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+			// 虚拟键盘也透明
+			// getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+		}
+	}
+
+	/**
+	 * 半透明状态栏
+	 */
+	public void setHalfTransparent() {
+		if (Build.VERSION.SDK_INT >= 21) {// 21表示5.0
+			View decorView = wiserView.activity().getWindow().getDecorView();
+			int option = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
+			decorView.setSystemUiVisibility(option);
+			wiserView.activity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+		} else if (Build.VERSION.SDK_INT >= 19) {// 19表示4.4
+			wiserView.activity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+			// 虚拟键盘也透明
+			// getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+		}
+	}
 
 	/**
 	 * 状态栏颜色
@@ -314,7 +349,7 @@ public class WISERBuilder {
 	void systemBarColor() {
 		if (isTint()) {
 
-			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT){
+			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
 				setTranslucentStatus(true);
 			}
 
@@ -449,9 +484,9 @@ public class WISERBuilder {
 			// 设置屏幕方向
 			wiserView.activity().setRequestedOrientation(requestedOrientation);
 
-//		if (isFitsSystem()) {
-//			wiserView.activity().setTheme(R.style.TranslucentStatus);
-//		}
+		// if (isFitsSystem()) {
+		// wiserView.activity().setTheme(R.style.TranslucentStatus);
+		// }
 		return this;
 	}
 
