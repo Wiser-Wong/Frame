@@ -50,9 +50,12 @@
       * builder.backViewId(@IdRes int backViewId);标题布局返回id
       * builder.titleBarViewId(@IdRes int titleViewId, String titleName, @IdRes int backViewId);标题布局titleid，标题内容以及返回id
       * builder.swipeBack(true);滑动退出Activity
-      * builder.tintIs(true);状态栏是否可修改
+      * builder.tintIs(true);状态栏是否可修改并且填充系统状态栏
       * builder.tintColor(color);状态栏颜色
-      * builder.tintFitsSystem(true);填充系统状态栏
+      * builder.setFullScreenToggle(true);全屏不显示状态栏
+      * builder.removeStateBar();移除状态栏
+      * builder.hideVirtualKey();隐藏虚拟按键
+      * builder.showVirtualKey();显示虚拟按键
       * builder.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);设置屏幕方向
       * builder.isRootLayoutRefresh(true,false);第一个参数true显示下拉刷新，第二个参数是否默认刷新
       * builder.setColorSchemeColors(Color.BLUE, Color.RED, Color.GREEN);刷新组件颜色值
