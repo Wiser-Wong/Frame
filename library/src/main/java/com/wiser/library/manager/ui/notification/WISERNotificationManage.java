@@ -78,7 +78,7 @@ public class WISERNotificationManage implements IWISERNotificationManage {
 		return builder;
 	}
 
-	@Override public void showNotification(int notifyId, String ticker, String title, String content, Bitmap bitIconBitmap, int smallIcon, Class broadcastReceiveClazz) {
+	@Override public void showNotification(int notifyId, String ticker, String title, String content, Bitmap bitIconBitmap, int smallIcon, boolean isClickCancel, Class broadcastReceiveClazz) {
 		NotificationCompat.Builder builder = getNotificationBuilder().setContentTitle(title)// 设置标题
 				// 设置内容
 				.setContentText(content)
@@ -93,15 +93,18 @@ public class WISERNotificationManage implements IWISERNotificationManage {
 				// 设置通知方式，声音，震动，呼吸灯等效果，这里通知方式为声音
 				.setDefaults(Notification.DEFAULT_ALL)
 				// 通知点击取消
-				.setAutoCancel(true);
+				.setAutoCancel(isClickCancel);
 		if (broadcastReceiveClazz != null) {
 			// 设置跳转广播
-			builder.setContentIntent(PendingIntent.getBroadcast(WISERHelper.getInstance(), 0, new Intent(WISERHelper.getInstance(), broadcastReceiveClazz), PendingIntent.FLAG_UPDATE_CURRENT));
+			builder.setContentIntent(PendingIntent.getBroadcast(WISERHelper.getInstance(), 1, new Intent(WISERHelper.getInstance(), broadcastReceiveClazz), PendingIntent.FLAG_UPDATE_CURRENT));
+		} else {
+			if (isClickCancel) builder.setContentIntent(PendingIntent.getBroadcast(WISERHelper.getInstance(), 1, new Intent(), PendingIntent.FLAG_UPDATE_CURRENT));
 		}
 		notificationManage().notify(notifyId, builder.build());
 	}
 
-	@Override public void showProgressNotification(int notifyId, String ticker, String title, String content, Bitmap bitIconBitmap, int smallIcon, int max, int progress, Class broadcastReceiveClazz) {
+	@Override public void showProgressNotification(int notifyId, String ticker, String title, String content, Bitmap bitIconBitmap, int smallIcon, int max, int progress, boolean isClickCancel,
+			Class broadcastReceiveClazz) {
 		NotificationCompat.Builder builder = getNotificationBuilder().setContentTitle(title)// 设置标题
 				// 设置内容
 				.setContentText(content)
@@ -118,15 +121,17 @@ public class WISERNotificationManage implements IWISERNotificationManage {
 				// 设置通知方式，声音，震动，呼吸灯等效果，这里通知方式为声音
 				.setDefaults(Notification.DEFAULT_ALL)
 				// 通知点击取消
-				.setAutoCancel(true);
+				.setAutoCancel(isClickCancel);
 		if (broadcastReceiveClazz != null) {
 			// 设置跳转广播
-			builder.setContentIntent(PendingIntent.getBroadcast(WISERHelper.getInstance(), 0, new Intent(WISERHelper.getInstance(), broadcastReceiveClazz), PendingIntent.FLAG_UPDATE_CURRENT));
+			builder.setContentIntent(PendingIntent.getBroadcast(WISERHelper.getInstance(), 1, new Intent(WISERHelper.getInstance(), broadcastReceiveClazz), PendingIntent.FLAG_UPDATE_CURRENT));
+		} else {
+			if (isClickCancel) builder.setContentIntent(PendingIntent.getBroadcast(WISERHelper.getInstance(), 1, new Intent(), PendingIntent.FLAG_UPDATE_CURRENT));
 		}
 		notificationManage().notify(notifyId, builder.build());
 	}
 
-	@Override public void showRemoteViewNotification(int notifyId, int smallIcon, String ticker, RemoteViews remoteViews, Class broadcastReceiveClazz) {
+	@Override public void showRemoteViewNotification(int notifyId, int smallIcon, String ticker, RemoteViews remoteViews, boolean isClickCancel, Class broadcastReceiveClazz) {
 		NotificationCompat.Builder builder = getNotificationBuilder()
 				// 小icon
 				.setSmallIcon(smallIcon)
@@ -137,10 +142,12 @@ public class WISERNotificationManage implements IWISERNotificationManage {
 				// 设置通知方式，声音，震动，呼吸灯等效果，这里通知方式为声音
 				.setDefaults(Notification.DEFAULT_ALL)
 				// 通知点击取消
-				.setAutoCancel(true);
+				.setAutoCancel(isClickCancel);
 		if (broadcastReceiveClazz != null) {
 			// 设置跳转广播
-			builder.setContentIntent(PendingIntent.getBroadcast(WISERHelper.getInstance(), 0, new Intent(WISERHelper.getInstance(), broadcastReceiveClazz), PendingIntent.FLAG_UPDATE_CURRENT));
+			builder.setContentIntent(PendingIntent.getBroadcast(WISERHelper.getInstance(), 1, new Intent(WISERHelper.getInstance(), broadcastReceiveClazz), PendingIntent.FLAG_UPDATE_CURRENT));
+		} else {
+			if (isClickCancel) builder.setContentIntent(PendingIntent.getBroadcast(WISERHelper.getInstance(), 1, new Intent(), PendingIntent.FLAG_UPDATE_CURRENT));
 		}
 		notificationManage().notify(notifyId, builder.build());
 	}

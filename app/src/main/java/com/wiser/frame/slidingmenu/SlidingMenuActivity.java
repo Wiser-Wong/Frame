@@ -14,7 +14,7 @@ public class SlidingMenuActivity extends WISERSlidingMenuActivity {
 		builder.layoutId(R.layout.activity_sliding_menu);
 		builder.tintColor(Color.RED);
 		builder.tintIs(true);
-		builder.tintFitsSystem(true);
+//		builder.tintFitsSystem(true);
 		return builder;
 	}
 

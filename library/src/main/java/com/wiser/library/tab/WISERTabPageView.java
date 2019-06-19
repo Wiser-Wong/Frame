@@ -54,6 +54,14 @@ public class WISERTabPageView extends ViewPager {
 		}
 	}
 
+	public void notifyDataSetChanged() {
+		if (pageAdapter != null) pageAdapter.notifyDataSetChanged();
+	}
+
+	public WISERTabPageAdapter adapter() {
+		return pageAdapter;
+	}
+
 	@Override public boolean onInterceptTouchEvent(MotionEvent ev) {
 		return isScroll && super.onInterceptTouchEvent(ev);
 	}

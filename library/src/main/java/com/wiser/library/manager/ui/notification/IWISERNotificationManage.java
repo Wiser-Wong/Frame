@@ -61,7 +61,7 @@ public interface IWISERNotificationManage {
 	 * @param broadcastReceiveClazz
 	 *            广播
 	 */
-	void showNotification(int notifyId, String ticker, String title, String content, Bitmap bitIconBitmap, int smallIcon, Class broadcastReceiveClazz);
+	void showNotification(int notifyId, String ticker, String title, String content, Bitmap bitIconBitmap, int smallIcon, boolean isClickCancel, Class broadcastReceiveClazz);
 
 	/**
 	 * 显示通知
@@ -81,7 +81,8 @@ public interface IWISERNotificationManage {
 	 * @param broadcastReceiveClazz
 	 *            广播
 	 */
-	void showProgressNotification(int notifyId, String ticker, String title, String content, Bitmap bitIconBitmap, int smallIcon, int max, int progress, Class broadcastReceiveClazz);
+	void showProgressNotification(int notifyId, String ticker, String title, String content, Bitmap bitIconBitmap, int smallIcon, int max, int progress, boolean isClickCancel,
+			Class broadcastReceiveClazz);
 
 	/**
 	 * 显示自定义布局通知
@@ -97,6 +98,6 @@ public interface IWISERNotificationManage {
 	 * @param broadcastReceiveClazz
 	 *            广播
 	 */
-	void showRemoteViewNotification(int notifyId, int smallIcon, String ticker, RemoteViews remoteViews, Class broadcastReceiveClazz);
+	void showRemoteViewNotification(int notifyId, int smallIcon, String ticker, RemoteViews remoteViews, boolean isClickCancel, Class broadcastReceiveClazz);
 
 }

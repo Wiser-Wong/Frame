@@ -3,7 +3,6 @@ package com.wiser.library.base;
 import com.jude.swipbackhelper.SwipeBackHelper;
 import com.jude.swipbackhelper.SwipeListener;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
-import com.wiser.library.R;
 import com.wiser.library.adapter.WISERRVAdapter;
 import com.wiser.library.helper.WISERHelper;
 import com.wiser.library.util.WISERCheck;
@@ -20,7 +19,6 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.Animation;
@@ -98,7 +96,7 @@ public class WISERBuilder {
 
 	private boolean					navigationBarTintEnabled	= true;
 
-	private boolean					fitsSystem					= false;		// 是否填充系统状态栏
+//	private boolean					fitsSystem					= false;		// 是否填充系统状态栏
 
 	private boolean					tint;										// 状态栏颜色
 
@@ -276,13 +274,13 @@ public class WISERBuilder {
 		this.tint = isTint;
 	}
 
-	public void tintFitsSystem(boolean isFitsSystem) {
-		this.fitsSystem = isFitsSystem;
-	}
+//	public void tintFitsSystem(boolean isFitsSystem) {
+//		this.fitsSystem = isFitsSystem;
+//	}
 
-	private boolean isFitsSystem() {
-		return fitsSystem;
-	}
+//	private boolean isFitsSystem() {
+//		return fitsSystem;
+//	}
 
 	public void swipeBack(boolean isSwipeBack) {
 		this.isSwipeBack = isSwipeBack;
@@ -296,24 +294,30 @@ public class WISERBuilder {
 		return tintManager;
 	}
 
-	/**
-	 * 状态栏高度
-	 */
-	void systemBarWindow() {
-		if (isFitsSystem()) {
-			ViewGroup contentFrameLayout = wiserView.activity().findViewById(Window.ID_ANDROID_CONTENT);
-			View parentView = contentFrameLayout.getChildAt(0);
-			if (parentView != null && Build.VERSION.SDK_INT >= 15) {
-				parentView.setFitsSystemWindows(true);
-			}
-		}
-	}
+//	/**
+//	 * 状态栏高度
+//	 */
+//	void systemBarWindow() {
+//		if (isFitsSystem()) {
+//			ViewGroup contentFrameLayout = wiserView.activity().findViewById(Window.ID_ANDROID_CONTENT);
+//			View parentView = contentFrameLayout.getChildAt(0);
+//			if (parentView != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+//				parentView.setFitsSystemWindows(true);
+//				setTranslucentStatus(true);
+//			}
+//		}
+//	}
 
 	/**
 	 * 状态栏颜色
 	 */
 	void systemBarColor() {
 		if (isTint()) {
+
+			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT){
+				setTranslucentStatus(true);
+			}
+
 			tintManager = new SystemBarTintManager(wiserView.activity());
 			// enable status bar tint
 			tintManager.setStatusBarTintEnabled(getStatusBarTintEnabled());
@@ -445,9 +449,9 @@ public class WISERBuilder {
 			// 设置屏幕方向
 			wiserView.activity().setRequestedOrientation(requestedOrientation);
 
-		if (isFitsSystem()) {
-			wiserView.activity().setTheme(R.style.TranslucentStatus);
-		}
+//		if (isFitsSystem()) {
+//			wiserView.activity().setTheme(R.style.TranslucentStatus);
+//		}
 		return this;
 	}
 

@@ -136,6 +136,10 @@ public class WISERTabLayout extends FrameLayout implements View.OnClickListener,
 		return this;
 	}
 
+	public void notifyDataSetChanged() {
+		if (tabPageView != null) tabPageView.notifyDataSetChanged();
+	}
+
 	private void setListener() {
 		if (tabViews != null && tabViews.size() > 0 && tabIds != null && tabIds.length == tabViews.size()) {
 			for (int i = 0; i < tabViews.size(); i++) {

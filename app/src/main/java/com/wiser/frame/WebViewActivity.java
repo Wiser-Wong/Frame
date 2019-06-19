@@ -16,7 +16,7 @@ public class WebViewActivity extends WISERWebActivity<IWebBiz> {
 		builder.layoutBarId(R.layout.title_layout);
 		builder.isRootLayoutRefresh(true, false);
 		builder.swipeBack(true);
-		builder.tintFitsSystem(true);
+//		builder.tintFitsSystem(true);
 		builder.layoutLoadingId(R.layout.view_loading);
 		isHandleBack(true);
 		isHaveProgress(true);

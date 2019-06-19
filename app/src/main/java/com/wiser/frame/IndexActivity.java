@@ -22,14 +22,13 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -58,8 +57,8 @@ public class IndexActivity extends WISERActivity<IndexBiz> implements WISERRVAda
 		builder.layoutLoadingId(R.layout.view_loading);
 		builder.recycleView().recycleViewId(R.id.home_rlv);
 //		builder.setFullScreenToggle(true);
-		builder.removeStateBar();
-		builder.hideVirtualKey();
+//		builder.removeStateBar();
+//		builder.hideVirtualKey();
 		// builder.recycleView().recycleViewStaggeredGridManager(2,
 		// LinearLayoutManager.VERTICAL, new WISERStaggeredDivider(20, 0, 20, 0), null);
 		builder.recycleView().recycleViewLinearManager(LinearLayoutManager.VERTICAL, null);
@@ -72,7 +71,7 @@ public class IndexActivity extends WISERActivity<IndexBiz> implements WISERRVAda
 		builder.recycleView().setOnFooterCustomListener(this);
 		// builder.setProgressBackgroundColorSchemeColor(Color.BLACK);
 		// builder.setColorSchemeColors(getResources().getColor(R.color.colorAccent),getResources().getColor(R.color.cpv_default_color),getResources().getColor(R.color.design_default_color_primary));
-		builder.tintFitsSystem(true);
+//		builder.tintFitsSystem(false);
 		builder.tintIs(true);
 		builder.tintColor(getResources().getColor(R.color.red));
 		builder.swipeBack(true);
@@ -80,6 +79,7 @@ public class IndexActivity extends WISERActivity<IndexBiz> implements WISERRVAda
 	}
 
 	@SuppressLint("SetTextI18n") @Override public void initData(Intent intent) {
+
 		biz().addAdapterData();
 		// tvName.setText(WISERDate.getLongForDateStr("2018-09-11",WISERDate.DATE_HG,true)+"");
 		tvName.setText(WISERDate.getDateStrForLong(1536595200000L, WISERDate.DATE_HZ, false) + "");
@@ -129,6 +129,7 @@ public class IndexActivity extends WISERActivity<IndexBiz> implements WISERRVAda
 
 		// WISERHelper.toast().show(WISERDate.getWeek("2019年3月26日",
 		// WISERDate.DATE_HZ,true));
+
 	}
 
 	@Override public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -237,10 +238,10 @@ public class IndexActivity extends WISERActivity<IndexBiz> implements WISERRVAda
 //				WISERHelper.uiManage().notification(true).showProgressNotification(1, "我来了", "更新", "正在下载", BitmapFactory.decodeResource(getResources(), R.mipmap.scan_photo), R.mipmap.scan_flash, 100, 0,
 //						ClickBroadcastReceiver.class);
 
-//				 WISERHelper.display().intent(TabLayoutActivity.class);
+				 WISERHelper.display().intent(TabLayoutActivity.class);
 				// WISERHelper.display().intent(SmartActivity.class);
 				// WISERHelper.display().intent(ScanActivity.class);
-				 WISERHelper.display().intent(WebViewActivity.class);
+//				 WISERHelper.display().intent(WebViewActivity.class);
 				// WISERHelper.display().intent(ZoomScrollViewActivity.class);
 				// WISERHelper.display().intent(SlidingMenuActivity.class);
 				// WISERHelper.display().intentTransitionAnimation(ZoomScrollViewActivity.class,null,Pair.create((View)ivQR,""));
@@ -253,8 +254,9 @@ public class IndexActivity extends WISERActivity<IndexBiz> implements WISERRVAda
 				// IndexDialogFragment.newInstance().setLocation(textView,
 				// WISERDialogFragment.CONTROL_FIT).show(getSupportFragmentManager(), "");
 
-//				WISERHelper.uiManage().notification(true).showProgressNotification(1, "我来了", "更新", "正在下载", BitmapFactory.decodeResource(getResources(), R.mipmap.scan_photo), R.mipmap.scan_flash, 100, 20,
-//						ClickBroadcastReceiver.class);
+//				WISERHelper.uiManage().notification(true).showNotification(1, "我来了", "更新", "正在下载", BitmapFactory.decodeResource(getResources(), R.mipmap.scan_photo), R.mipmap.scan_flash, true,ClickBroadcastReceiver.class);
+				WISERHelper.uiManage().notification(true).showProgressNotification(1, "我来了", "更新", "正在下载", BitmapFactory.decodeResource(getResources(), R.mipmap.scan_photo), R.mipmap.scan_flash, 100, 20,true,
+						ClickBroadcastReceiver.class);
 				break;
 		}
 	}
