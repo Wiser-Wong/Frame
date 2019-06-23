@@ -48,7 +48,7 @@ public abstract class WISERRVAdapter<T, V extends WISERHolder> extends RecyclerV
 	/**
 	 * 数据
 	 */
-	private List			mItems;
+	private List<T>			mItems;
 
 	private WISERView		wiserView;
 
@@ -93,29 +93,29 @@ public abstract class WISERRVAdapter<T, V extends WISERHolder> extends RecyclerV
 		this.isFooter = isFooter;
 	}
 
-	public void setItems(List mItems) {
+	public void setItems(List<T> mItems) {
 		this.mItems = mItems;
 		notifyDataSetChanged();
 	}
 
-	public List getItems() {
+	public List<T> getItems() {
 		return mItems;
 	}
 
-	public Object getItem(int position) {
+	public T getItem(int position) {
 		if (mItems == null) return null;
 		return mItems.get(position);
 	}
 
-	public void addItem(int position, Object object) {
-		if (object == null || getItems() == null || position < 0 || position > getItems().size()) {
+	public void addItem(int position, T t) {
+		if (t == null || getItems() == null || position < 0 || position > getItems().size()) {
 			return;
 		}
-		mItems.add(position, object);
+		mItems.add(position, t);
 		notifyItemInserted(position);
 	}
 
-	public void addList(int position, List list) {
+	public void addList(int position, List<T> list) {
 		if (list == null || list.size() < 1 || getItems() == null || position < 0 || position > getItems().size()) {
 			return;
 		}
@@ -123,7 +123,7 @@ public abstract class WISERRVAdapter<T, V extends WISERHolder> extends RecyclerV
 		notifyItemRangeInserted(position, list.size());
 	}
 
-	public void addList(List list) {
+	public void addList(List<T> list) {
 		if (list == null || list.size() < 1 || getItems() == null) {
 			return;
 		}
@@ -145,7 +145,7 @@ public abstract class WISERRVAdapter<T, V extends WISERHolder> extends RecyclerV
 		notifyItemRemoved(position);
 	}
 
-	public void delete(List list) {
+	public void delete(List<T> list) {
 		if (list == null || list.size() < 1 || getItems() == null) {
 			return;
 		}
@@ -154,7 +154,7 @@ public abstract class WISERRVAdapter<T, V extends WISERHolder> extends RecyclerV
 		notifyItemRangeRemoved(position, list.size());
 	}
 
-	public void delete(int position, List list) {
+	public void delete(int position, List<T> list) {
 		if (list == null || list.size() < 1 || getItems() == null) {
 			return;
 		}
