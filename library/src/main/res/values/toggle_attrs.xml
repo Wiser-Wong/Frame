@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 开关 -->
+    <declare-styleable name="ToggleView">
+        <attr name="toggleBackgroundCloseColor" format="color|reference" />
+        <attr name="toggleBackgroundOpenColor" format="color|reference" />
+        <attr name="toggleBarOpenColor" format="color|reference" />
+        <attr name="toggleBarCloseColor" format="color|reference" />
+        <attr name="toggleBarPadding" format="dimension|reference" />
+        <attr name="toggleRadius" format="dimension|reference" />
+        <attr name="toggleFrameWidth" format="dimension|reference" />
+        <attr name="toggleFrameColor" format="color|reference" />
+        <attr name="toggleIsFrame" format="boolean" />
+        <attr name="toggleIsHasShadow" format="boolean" />
+        <attr name="toggleIsToggleChangeBarColor" format="boolean" />
+        <attr name="toggleShadowColor" format="color|reference" />
+        <attr name="toggleShadowPadding" format="dimension|reference" />
+        <attr name="toggleBarSrc" format="reference" />
+    </declare-styleable>
+
+</resources>

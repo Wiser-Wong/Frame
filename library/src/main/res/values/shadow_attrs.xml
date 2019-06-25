@@ -1,33 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <!-- ShadowLayout 阴影 -->
-    <declare-styleable name="ShadowLayout">
-        <attr name="shadowColor" format="color" />
-        <attr name="shadowRadius" format="dimension" />
-        <attr name="shadowDx" format="dimension" />
-        <attr name="shadowDy" format="dimension" />
-        <attr name="shadowShape">
-            <flag name="rectangle" value="0x0001" />
-            <flag name="oval" value="0x0010" />
+    <!-- 阴影-->
+    <declare-styleable name="ShadowContainer">
+        <attr name="container_shadowColor" format="color" />
+        <attr name="container_shadowRadius" format="dimension" />
+        <attr name="container_shadowRoundRadius" format="dimension" />
+        <attr name="container_shadowShape">
+            <flag name="container_rectangle" value="0x0001" />
+            <flag name="container_round_rectangle" value="0x0100" />
         </attr>
-        <attr name="shadowSide">
-            <flag name="all" value="0x1111" />
-            <flag name="left" value="0x0001" />
-            <flag name="top" value="0x0010" />
-            <flag name="right" value="0x0100" />
-            <flag name="bottom" value="0x1000" />
+        <attr name="container_shadowSide">
+            <flag name="container_all" value="0x1111" />
+            <flag name="container_left" value="0x0001" />
+            <flag name="container_top" value="0x0010" />
+            <flag name="container_right" value="0x0100" />
+            <flag name="container_bottom" value="0x1000" />
+        </attr>
+        <attr name="container_round_corner">
+            <flag name="container_corner_all" value="0x1111" />
+            <flag name="container_corner_leftTop" value="0x0001" />
+            <flag name="container_corner_leftBottom" value="0x0010" />
+            <flag name="container_corner_rightTop" value="0x0100" />
+            <flag name="container_corner_rightBottom" value="0x1000" />
         </attr>
     </declare-styleable>
-
-    <!-- ShadowFrameLayout 阴影 -->
-    <declare-styleable name="ShadowFrameLayout">
-        <attr name="shadowLayoutColor" format="color" />
-        <attr name="shadowLayoutEdge" format="dimension" />
-        <attr name="shadowLayoutDx" format="dimension" />
-        <attr name="shadowLayoutDy" format="dimension" />
-        <attr name="shadowLayoutRadius" format="dimension" />
-        <attr name="isRadius" format="boolean" />
-    </declare-styleable>
-
 </resources>
