@@ -2,6 +2,7 @@
 <resources>
     <!-- 阴影-->
     <declare-styleable name="ShadowContainer">
+        <attr name="container_shadowBackgroundColor" format="color" />
         <attr name="container_shadowColor" format="color" />
         <attr name="container_shadowRadius" format="dimension" />
         <attr name="container_shadowRoundRadius" format="dimension" />

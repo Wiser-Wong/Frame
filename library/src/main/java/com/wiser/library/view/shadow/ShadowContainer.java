@@ -56,6 +56,9 @@ public class ShadowContainer extends FrameLayout {
 
 	private Paint			mPaint					= new Paint(Paint.ANTI_ALIAS_FLAG);
 
+	// 阴影除了阴影背景色
+	private int				mShadowBackgroundColor	= Color.TRANSPARENT;
+
 	// 阴影颜色
 	private int				mShadowColor			= Color.TRANSPARENT;
 
@@ -97,6 +100,8 @@ public class ShadowContainer extends FrameLayout {
 		TypedArray typedArray = getContext().obtainStyledAttributes(attrs, R.styleable.ShadowContainer);
 
 		if (typedArray != null) {
+
+			mShadowBackgroundColor = typedArray.getColor(R.styleable.ShadowContainer_container_shadowBackgroundColor, mShadowBackgroundColor);
 
 			mShadowColor = typedArray.getColor(R.styleable.ShadowContainer_container_shadowColor, getContext().getResources().getColor(android.R.color.black));
 
@@ -171,7 +176,7 @@ public class ShadowContainer extends FrameLayout {
 
 		mPaint.setAntiAlias(true);
 
-		int[] colors = { mShadowColor, 0x00ffffff };
+		int[] colors = { mShadowColor, mShadowBackgroundColor };
 
 		if (mShadowShape == SHAPE_RECTANGLE) {
 
