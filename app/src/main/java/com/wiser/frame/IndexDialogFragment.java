@@ -4,6 +4,8 @@ import com.wiser.library.adapter.WISERRVAdapter;
 import com.wiser.library.base.WISERBuilder;
 import com.wiser.library.base.WISERDialogFragment;
 import com.wiser.library.helper.WISERHelper;
+import com.wiser.library.tab.top.SmartPageView;
+import com.wiser.library.tab.top.SmartTabInfo;
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -15,6 +17,9 @@ import butterknife.BindView;
 public class IndexDialogFragment extends WISERDialogFragment<IndexDialogFragmentBiz> {
 
 	@BindView(R.id.tv_dialog) TextView	textView;
+
+	@BindView(R.id.smart_page)
+	SmartPageView smartPageView;
 
 	private boolean						isClose = true;
 
@@ -36,7 +41,10 @@ public class IndexDialogFragment extends WISERDialogFragment<IndexDialogFragment
 		if (savedInstanceState != null) {
 			isClose = savedInstanceState.getBoolean("isClose");
 		}
-		biz().addAdapterData();
+//		WISERHelper.display().commitChildReplace(this,R.id.dialog_content,new IndexFragment());
+//		biz().addAdapterData();
+		smartPageView.setPage(getChildFragmentManager(),new SmartTabInfo("测试1", IndexFragment.class, null), new SmartTabInfo("测试2", SecondFragment.class, null), new SmartTabInfo("测试3", ThreeFragment.class, null));
+		smartPageView.setOffscreenPageLimit(3);
 	}
 
 	@Override protected int dialogWeight() {

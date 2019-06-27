@@ -2,8 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:background="@color/colorAccent">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/colorAccent"
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/tv_dialog"
@@ -18,6 +19,33 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/dialog_rlv"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:visibility="gone" />
+
+    <com.wiser.library.view.smart.SmartTabLayout
+        android:id="@+id/smart_tab"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:background="@color/white"
+        app:stl_customTabTextLayoutId="@layout/smart_text"
+        app:stl_customTabTextViewId="@+id/custom_text"
+        app:stl_distributeEvenly="true"
+        app:stl_dividerColor="@android:color/transparent"
+        app:stl_indicatorColor="#377AFF"
+        app:stl_indicatorCornerRadius="4dp"
+        app:stl_indicatorInterpolation="smart"
+        app:stl_indicatorThickness="4dp"
+        app:stl_indicatorWidth="32dp"
+        app:stl_underlineColor="#E9E9E9"
+        app:stl_underlineThickness="0.5dp" />
+
+    <com.wiser.library.tab.top.SmartPageView
+        android:id="@+id/smart_page"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:isResetPageHeight="true"
+        app:smartTabId="@+id/smart_tab" />
 
 </LinearLayout>

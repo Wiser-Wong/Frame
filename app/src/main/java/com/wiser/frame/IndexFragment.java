@@ -1,16 +1,15 @@
 package com.wiser.frame;
 
-import android.graphics.Color;
+import com.wiser.library.adapter.WISERRVAdapter;
+import com.wiser.library.base.WISERBuilder;
+import com.wiser.library.base.WISERFragment;
+import com.wiser.library.tab.listener.OnTabShowCurrentPageListener;
+
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 import android.widget.TextView;
-
-import com.wiser.library.adapter.WISERRVAdapter;
-import com.wiser.library.base.WISERBuilder;
-import com.wiser.library.base.WISERFragment;
-import com.wiser.library.tab.listener.OnTabShowCurrentPageListener;
 
 public class IndexFragment extends WISERFragment<IndexFragmentBiz> implements OnTabShowCurrentPageListener , WISERRVAdapter.OnFooterCustomListener {
 

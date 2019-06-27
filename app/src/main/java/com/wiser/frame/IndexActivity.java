@@ -251,7 +251,7 @@ public class IndexActivity extends WISERActivity<IndexBiz> implements WISERRVAda
 				// WISERHelper.display().intent(TabLayoutActivity.class);
 				// WISERHelper.display().commitReplace(R.id.fragment1,new
 				// TestFragment(),TestFragment.class.getName());
-				// IndexDialogFragment.newInstance().show(getSupportFragmentManager(), "");
+				 IndexDialogFragment.newInstance().show(getSupportFragmentManager(), "");
 				// IndexDialogFragment.newInstance().setLocation(textView,
 				// WISERDialogFragment.CONTROL_FIT).show(getSupportFragmentManager(), "");
 

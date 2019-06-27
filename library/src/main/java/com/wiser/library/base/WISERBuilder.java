@@ -246,6 +246,10 @@ public class WISERBuilder {
 		this.contentView = layoutView;
 	}
 
+	public View getContentView() {
+		return contentView;
+	}
+
 	private int getTintColor() {
 		return tintColor;
 	}

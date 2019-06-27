@@ -9,6 +9,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
@@ -47,6 +48,22 @@ public class WISERTabPageView extends ViewPager {
 		this.fragments = fragments;
 		if (pageAdapter == null) {
 			pageAdapter = new WISERTabPageAdapter(WISERHelper.getActivityManage().getCurrentActivity().getSupportFragmentManager(), fragments);
+			setOffscreenPageLimit(fragments == null || fragments.length == 0 ? 0 : fragments.length);
+			setAdapter(pageAdapter);
+		} else {
+			pageAdapter.notifyDataSetChanged();
+		}
+	}
+
+	/**
+	 * 设置适配器
+	 *
+	 * @param fragments
+	 */
+	public void setPageAdapter(FragmentManager fm, Fragment... fragments) {
+		this.fragments = fragments;
+		if (pageAdapter == null) {
+			pageAdapter = new WISERTabPageAdapter(fm, fragments);
 			setOffscreenPageLimit(fragments == null || fragments.length == 0 ? 0 : fragments.length);
 			setAdapter(pageAdapter);
 		} else {

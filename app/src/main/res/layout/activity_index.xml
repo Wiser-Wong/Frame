@@ -39,12 +39,15 @@
                         app:alignLayoutItemTextId="@+id/tv_align_text"
                         app:alignLayoutLineMargins="12dp" />
 
-                    <com.wiser.library.view.shadow.ShadowFrameLayout
+                    <com.wiser.library.view.shadow.ShadowContainer
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        app:shadowLayoutColor="#66000000"
-                        app:shadowLayoutEdge="10dp"
-                        app:shadowLayoutRadius="10dp">
+                        app:container_round_corner="container_corner_all"
+                        app:container_shadowColor="@color/black"
+                        app:container_shadowRadius="10dp"
+                        app:container_shadowRoundRadius="10dp"
+                        app:container_shadowShape="container_round_rectangle"
+                        app:container_shadowSide="container_all">
 
                         <TextView
                             android:id="@+id/tv_name"
@@ -57,7 +60,7 @@
                             android:textColor="@color/colorAccent"
                             android:textSize="30sp" />
 
-                    </com.wiser.library.view.shadow.ShadowFrameLayout>
+                    </com.wiser.library.view.shadow.ShadowContainer>
 
                     <com.wiser.library.view.marquee.MarqueeView
                         android:id="@+id/marquee"
@@ -95,7 +98,7 @@
                         <com.wiser.library.pager.banner.BannerPagerView
                             android:id="@+id/bv_frg"
                             android:layout_width="match_parent"
-                            android:layout_height="400dp"/>
+                            android:layout_height="400dp" />
 
                     </FrameLayout>
 
@@ -126,10 +129,10 @@
     <FrameLayout
         android:id="@+id/fragment1"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent" />
 
     <FrameLayout
         android:id="@+id/fragment2"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent" />
 </FrameLayout>

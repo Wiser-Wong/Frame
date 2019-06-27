@@ -11,6 +11,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.View;
@@ -76,6 +77,29 @@ public class SmartPageView extends ViewPager {
 	// 初始化ViewPager
 	public SmartPageView setPage(SmartTabInfo... mSmartTabInfos) {
 		tabAdapter = new SmartTabAdapter(WISERHelper.getActivityManage().getCurrentActivity().getSupportFragmentManager(), getContext(), mSmartTabInfos);
+		setAdapter(tabAdapter);
+		setSmartId();
+		addOnPageChangeListener(new OnPageChangeListener() {
+
+			@Override public void onPageScrolled(int i, float v, int i1) {
+				if (onSmartTabPageChangeListener != null) onSmartTabPageChangeListener.onPageScrolled(i, v, i1);
+			}
+
+			@Override public void onPageSelected(int i) {
+				if (isResetHeight) resetHeight(i);
+				if (onSmartTabPageChangeListener != null) onSmartTabPageChangeListener.onPageSelected(i);
+			}
+
+			@Override public void onPageScrollStateChanged(int i) {
+				if (onSmartTabPageChangeListener != null) onSmartTabPageChangeListener.onPageScrollStateChanged(i);
+			}
+		});
+		return this;
+	}
+
+	// 初始化ViewPager
+	public SmartPageView setPage(FragmentManager fm, SmartTabInfo... mSmartTabInfos) {
+		tabAdapter = new SmartTabAdapter(fm, getContext(), mSmartTabInfos);
 		setAdapter(tabAdapter);
 		setSmartId();
 		addOnPageChangeListener(new OnPageChangeListener() {

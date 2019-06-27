@@ -155,6 +155,10 @@ public abstract class WISERDialogFragment<B extends IWISERBiz> extends DialogFra
 		return (WISERActivity) getActivity();
 	}
 
+	public WISERBuilder builder() {
+		return mWiserBuilder;
+	}
+
 	// 获取Adapter实例
 	public WISERRVAdapter adapter() {
 		// WISERCheckUtil.checkNotNull(mWiserBuilder.adapter(),

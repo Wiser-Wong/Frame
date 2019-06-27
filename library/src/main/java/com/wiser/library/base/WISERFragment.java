@@ -72,6 +72,10 @@ public abstract class WISERFragment<B extends IWISERBiz> extends Fragment implem
 		return (WISERActivity) getActivity();
 	}
 
+	public WISERBuilder builder() {
+		return mWiserBuilder;
+	}
+
 	// 获取Adapter实例
 	public WISERRVAdapter adapter() {
 		// WISERCheckUtil.checkNotNull(mWiserBuilder.adapter(),
