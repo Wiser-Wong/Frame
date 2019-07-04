@@ -16,8 +16,7 @@
             style="@style/AppBarOverlay"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@mipmap/antu_trip_first_bg"
-            android:paddingTop="@dimen/toolbar_fit_system">
+            android:background="@mipmap/antu_trip_first_bg">
 
             <ScrollView
                 android:layout_width="match_parent"

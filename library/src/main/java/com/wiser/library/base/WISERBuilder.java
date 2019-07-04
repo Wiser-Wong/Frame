@@ -5,6 +5,7 @@ import com.jude.swipbackhelper.SwipeListener;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 import com.wiser.library.adapter.WISERRVAdapter;
 import com.wiser.library.helper.WISERHelper;
+import com.wiser.library.util.WISERApp;
 import com.wiser.library.util.WISERCheck;
 
 import android.annotation.SuppressLint;
@@ -103,6 +104,8 @@ public class WISERBuilder {
 	private boolean					isSwipeBack					= false;		// 是否滑动返回上一个Activity
 
 	private int						requestedOrientation		= -333;			// 屏幕变化
+
+	private boolean					isSystemBarPaddingTop;						// 是否添加布局距顶部状态栏高度距离
 
 	/**
 	 * 构造器
@@ -276,6 +279,10 @@ public class WISERBuilder {
 
 	public void tintIs(boolean isTint) {
 		this.tint = isTint;
+	}
+
+	public void isSystemBarPaddingTop() {
+		this.isSystemBarPaddingTop = true;
 	}
 
 	// public void tintFitsSystem(boolean isFitsSystem) {
@@ -607,6 +614,7 @@ public class WISERBuilder {
 		contentToolBar = new LinearLayout(wiserView.activity());
 		LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
 		contentToolBar.setLayoutParams(params);
+		if (isSystemBarPaddingTop) contentToolBar.setPadding(0, WISERApp.getStatusBarHeight(), 0, 0);
 		contentToolBar.setOrientation(LinearLayout.VERTICAL);
 		contentRoot.addView(contentToolBar);
 	}
