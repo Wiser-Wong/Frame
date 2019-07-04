@@ -382,10 +382,10 @@ public class ToggleView extends View {
 
 	@Override protected void onDetachedFromWindow() {
 		super.onDetachedFromWindow();
-		detach();
+//		detach();
 	}
 
-	private void detach() {
+	public void detach() {
 		backgroundPaint = null;
 		barPaint = null;
 		framePaint = null;

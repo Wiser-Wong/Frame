@@ -45,10 +45,10 @@ dependencies {
     api 'com.google.code.gson:gson:2.8.5'
 
     // okHttp升级
-    api 'com.squareup.okhttp3:okhttp:3.11.0'
+    api 'com.squareup.okhttp3:okhttp:3.12.0'
 
     //retrofit2
-    api 'com.squareup.retrofit2:retrofit:2.3.0'
+    api 'com.squareup.retrofit2:retrofit:2.5.0'
     api 'com.squareup.retrofit2:converter-gson:2.3.0'
 
     // progressbar

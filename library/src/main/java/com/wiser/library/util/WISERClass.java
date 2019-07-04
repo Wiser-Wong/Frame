@@ -66,15 +66,15 @@ public class WISERClass {
 			/** 创建类 **/
 			return c.newInstance();
 		} catch (ClassNotFoundException e) {
-			throw new IllegalArgumentException(String.valueOf(service) + "，没有找到业务类！" + e.getMessage());
+			throw new IllegalArgumentException(service + "，没有找到业务类！" + e.getMessage());
 		} catch (InstantiationException e) {
-			throw new IllegalArgumentException(String.valueOf(service) + "，实例化异常！" + e.getMessage());
+			throw new IllegalArgumentException(service + "，实例化异常！" + e.getMessage());
 		} catch (IllegalAccessException e) {
-			throw new IllegalArgumentException(String.valueOf(service) + "，访问权限异常！" + e.getMessage());
+			throw new IllegalArgumentException(service + "，访问权限异常！" + e.getMessage());
 		} catch (NoSuchMethodException e) {
-			throw new IllegalArgumentException(String.valueOf(service) + "，没有找到构造方法！" + e.getMessage());
+			throw new IllegalArgumentException(service + "，没有找到构造方法！" + e.getMessage());
 		} catch (InvocationTargetException e) {
-			throw new IllegalArgumentException(String.valueOf(service) + "，反射异常！" + e.getMessage());
+			throw new IllegalArgumentException(service + "，反射异常！" + e.getMessage());
 		}
 	}
 
@@ -87,13 +87,13 @@ public class WISERClass {
 			/** 创建类 **/
 			return c.newInstance();
 		} catch (InstantiationException e) {
-			throw new IllegalArgumentException(String.valueOf(service) + "，实例化异常！" + e.getMessage());
+			throw new IllegalArgumentException(service + "，实例化异常！" + e.getMessage());
 		} catch (IllegalAccessException e) {
-			throw new IllegalArgumentException(String.valueOf(service) + "，访问权限异常！" + e.getMessage());
+			throw new IllegalArgumentException(service + "，访问权限异常！" + e.getMessage());
 		} catch (NoSuchMethodException e) {
-			throw new IllegalArgumentException(String.valueOf(service) + "，没有找到构造方法！" + e.getMessage());
+			throw new IllegalArgumentException(service + "，没有找到构造方法！" + e.getMessage());
 		} catch (InvocationTargetException e) {
-			throw new IllegalArgumentException(String.valueOf(service) + "，反射异常！" + e.getMessage());
+			throw new IllegalArgumentException(service + "，反射异常！" + e.getMessage());
 		}
 	}
 
@@ -111,15 +111,15 @@ public class WISERClass {
 			/** 创建类 **/
 			return c.newInstance(argsParam);
 		} catch (ClassNotFoundException e) {
-			throw new IllegalArgumentException(String.valueOf(service) + "，没有找到业务类！" + e.getMessage());
+			throw new IllegalArgumentException(service + "，没有找到业务类！" + e.getMessage());
 		} catch (InstantiationException e) {
-			throw new IllegalArgumentException(String.valueOf(service) + "，实例化异常！" + e.getMessage());
+			throw new IllegalArgumentException(service + "，实例化异常！" + e.getMessage());
 		} catch (IllegalAccessException e) {
-			throw new IllegalArgumentException(String.valueOf(service) + "，访问权限异常！" + e.getMessage());
+			throw new IllegalArgumentException(service + "，访问权限异常！" + e.getMessage());
 		} catch (NoSuchMethodException e) {
-			throw new IllegalArgumentException(String.valueOf(service) + "，没有找到构造方法！" + e.getMessage());
+			throw new IllegalArgumentException(service + "，没有找到构造方法！" + e.getMessage());
 		} catch (InvocationTargetException e) {
-			throw new IllegalArgumentException(String.valueOf(service) + "，反射异常！" + e.getMessage());
+			throw new IllegalArgumentException(service + "，反射异常！" + e.getMessage());
 		}
 	}
 
@@ -139,7 +139,7 @@ public class WISERClass {
 			/** 加载类 **/
 			return Class.forName(inter.value().getName());
 		} catch (ClassNotFoundException e) {
-			throw new IllegalArgumentException(String.valueOf(service) + "，没有找到接口类！" + e.getMessage());
+			throw new IllegalArgumentException(service + "，没有找到接口类！" + e.getMessage());
 		}
 	}
 

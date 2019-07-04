@@ -5,6 +5,7 @@ import java.lang.reflect.Proxy;
 
 import com.wiser.library.base.IWISERBiz;
 import com.wiser.library.base.WISERBiz;
+import com.wiser.library.helper.WISERHelper;
 import com.wiser.library.proxy.WISERProxy;
 import com.wiser.library.util.WISERClass;
 import com.wiser.library.util.WISERGenericSuperclass;
@@ -60,7 +61,7 @@ public class WISERBizModel<B extends IWISERBiz> {
 					b = (B) WISERGenericSuperclass.getActualTypeArgument(o.getClass()).newInstance();
 				}
 			} catch (Exception e) {
-				e.printStackTrace();
+				if (o != null) WISERHelper.log().e(o.getClass().getName() + "该界面没有业务类扩展");
 			}
 		}
 		return b;
