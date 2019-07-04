@@ -56,7 +56,7 @@ public class IndexActivity extends WISERActivity<IndexBiz> implements WISERRVAda
 		builder.layoutErrorId(R.layout.view_error);
 		builder.layoutLoadingId(R.layout.view_loading);
 		builder.recycleView().recycleViewId(R.id.home_rlv);
-		builder.isSystemBarPaddingTop();
+		builder.isSystemStatusBarPaddingTop();
 //		builder.setFullScreenToggle(true);
 //		builder.removeStateBar();
 //		builder.hideVirtualKey();

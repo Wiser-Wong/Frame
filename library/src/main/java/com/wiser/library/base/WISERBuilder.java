@@ -105,7 +105,7 @@ public class WISERBuilder {
 
 	private int						requestedOrientation		= -333;			// 屏幕变化
 
-	private boolean					isSystemBarPaddingTop;						// 是否添加布局距顶部状态栏高度距离
+	private boolean					isSystemStatusBarPaddingTop;				// 是否添加布局距顶部状态栏高度距离
 
 	/**
 	 * 构造器
@@ -281,8 +281,8 @@ public class WISERBuilder {
 		this.tint = isTint;
 	}
 
-	public void isSystemBarPaddingTop() {
-		this.isSystemBarPaddingTop = true;
+	public void isSystemStatusBarPaddingTop() {
+		this.isSystemStatusBarPaddingTop = true;
 	}
 
 	// public void tintFitsSystem(boolean isFitsSystem) {
@@ -614,7 +614,7 @@ public class WISERBuilder {
 		contentToolBar = new LinearLayout(wiserView.activity());
 		LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
 		contentToolBar.setLayoutParams(params);
-		if (isSystemBarPaddingTop) contentToolBar.setPadding(0, WISERApp.getStatusBarHeight(), 0, 0);
+		if (isSystemStatusBarPaddingTop) contentToolBar.setPadding(0, WISERApp.getStatusBarHeight(), 0, 0);
 		contentToolBar.setOrientation(LinearLayout.VERTICAL);
 		contentRoot.addView(contentToolBar);
 	}
