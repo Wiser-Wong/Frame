@@ -240,10 +240,10 @@ public class IndexActivity extends WISERActivity<IndexBiz> implements WISERRVAda
 //				WISERHelper.uiManage().notification(true).showProgressNotification(1, "我来了", "更新", "正在下载", BitmapFactory.decodeResource(getResources(), R.mipmap.scan_photo), R.mipmap.scan_flash, 100, 0,
 //						ClickBroadcastReceiver.class);
 
-				 WISERHelper.display().intent(TabLayoutActivity.class);
+//				 WISERHelper.display().intent(TabLayoutActivity.class);
 				// WISERHelper.display().intent(SmartActivity.class);
 				// WISERHelper.display().intent(ScanActivity.class);
-//				 WISERHelper.display().intent(WebViewActivity.class);
+				 WISERHelper.display().intent(WebViewActivity.class);
 				// WISERHelper.display().intent(ZoomScrollViewActivity.class);
 				// WISERHelper.display().intent(SlidingMenuActivity.class);
 				// WISERHelper.display().intentTransitionAnimation(ZoomScrollViewActivity.class,null,Pair.create((View)ivQR,""));

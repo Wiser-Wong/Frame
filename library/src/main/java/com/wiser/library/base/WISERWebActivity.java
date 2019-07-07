@@ -202,9 +202,9 @@ public abstract class WISERWebActivity<B extends IWISERBiz> extends WISERActivit
 	public void isHideProgress(boolean isHide) {
 		if (isHaveProgress) {
 			if (isHide) {
-				if (progressView.getVisibility() == View.VISIBLE) progressView.setVisibility(View.INVISIBLE);
+				if (progressView.getVisibility() == View.VISIBLE) progressView.setVisibility(View.GONE);
 			} else {
-				if (progressView.getVisibility() == View.INVISIBLE) progressView.setVisibility(View.VISIBLE);
+				if (progressView.getVisibility() == View.GONE) progressView.setVisibility(View.VISIBLE);
 			}
 		}
 	}

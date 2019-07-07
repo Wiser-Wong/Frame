@@ -161,9 +161,9 @@ public abstract class WISERWebFragment<B extends IWISERBiz> extends WISERFragmen
 	public void isHideProgress(boolean isHide) {
 		if (isHaveProgress) {
 			if (isHide) {
-				if (progressView.getVisibility() == View.VISIBLE) progressView.setVisibility(View.INVISIBLE);
+				if (progressView.getVisibility() == View.VISIBLE) progressView.setVisibility(View.GONE);
 			} else {
-				if (progressView.getVisibility() == View.INVISIBLE) progressView.setVisibility(View.VISIBLE);
+				if (progressView.getVisibility() == View.GONE) progressView.setVisibility(View.VISIBLE);
 			}
 		}
 	}
@@ -174,10 +174,8 @@ public abstract class WISERWebFragment<B extends IWISERBiz> extends WISERFragmen
 		if (newProgress == 100) {
 			isHideProgress(true);
 		} else {
-			if (isHaveProgress) {
-				if (progressView.getVisibility() == View.INVISIBLE) isHideProgress(false);
-				progressView.setProgress(newProgress);
-			}
+			isHideProgress(false);
+			if (isHaveProgress) progressView.setProgress(newProgress);
 		}
 	}
 
