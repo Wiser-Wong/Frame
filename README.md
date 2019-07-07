@@ -52,6 +52,7 @@
       * builder.swipeBack(true);滑动退出Activity
       * builder.tintIs(true);状态栏是否可修改并且填充系统状态栏
       * builder.tintColor(color);状态栏颜色
+      * builder.isSystemStatusBarPaddingTop();是否布局距离顶部状态栏高度
       * builder.setStatusBarFullTransparent();设置状态栏全透明与tintIs一样都有填充状态栏功能两者不可同时使用，同时使用只会显示tintIs
       * builder.setHalfTransparent();设置状态栏半透明
       * builder.setFullScreenToggle(true);全屏不显示状态栏
