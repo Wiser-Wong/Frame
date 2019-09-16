@@ -16,6 +16,8 @@ import android.support.v4.app.Fragment;
 import android.util.Pair;
 import android.view.View;
 
+import org.jetbrains.annotations.NotNull;
+
 /**
  * @author Wiser
  * @version 版本
@@ -40,6 +42,11 @@ public interface IWISERDisplay {
 	 * 结束界面
 	 */
 	void finish();
+
+	/**
+	 * 退出首页处于Home状态
+	 */
+	void onKeyHome();
 
 	/**
 	 * 跳转intent
@@ -655,47 +662,23 @@ public interface IWISERDisplay {
 	/**
 	 * Fragment 出栈
 	 * 
-	 * @param var1
-	 *            参数
-	 * @param var2
-	 *            参数
+	 * @param classZ
+	 *            类
 	 */
-	void popBackStack(@Nullable String var1, int var2);
-
-	/**
-	 * Fragment 出栈
-	 * 
-	 * @param var1
-	 *            参数
-	 * @param var2
-	 *            参数
-	 */
-	void popBackStack(int var1, int var2);
-
-	/**
-	 * Fragment 出栈
-	 */
-	void popBackStackImmediate();
+	void popBackStack(@NotNull Class classZ);
 
 	/**
 	 * Fragment 出栈
 	 *
-	 * @param var1
-	 *            参数
-	 * @param var2
-	 *            参数
+	 * @param className
+	 *            类名
 	 */
-	void popBackStackImmediate(@Nullable String var1, int var2);
+	void popBackStack(@NotNull String className);
 
 	/**
-	 * Fragment 出栈
-	 *
-	 * @param var1
-	 *            参数
-	 * @param var2
-	 *            参数
+	 * 清空Fragment 栈
 	 */
-	void popBackStackImmediate(int var1, int var2);
+	void popBackStackAll();
 
 	/**
 	 * @param fragment

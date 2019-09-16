@@ -190,7 +190,13 @@ public class MarqueeView<E> extends ViewFlipper implements Observer {
 	 * 启动跑马灯必须调用
 	 */
 	public void start() {
-		startFlipping();
+		if (!isAutoStart()) startFlipping();
 	}
 
+	/**
+	 * 暂停跑马灯
+	 */
+	public void stop() {
+		if (isAutoStart()) stopFlipping();
+	}
 }

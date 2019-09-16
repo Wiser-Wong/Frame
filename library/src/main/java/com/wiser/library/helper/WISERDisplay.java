@@ -33,6 +33,8 @@ import android.support.v4.content.FileProvider;
 import android.util.Pair;
 import android.view.View;
 
+import org.jetbrains.annotations.NotNull;
+
 /**
  * @author Wiser
  * @version 版本
@@ -57,6 +59,12 @@ public class WISERDisplay implements IWISERDisplay {
 
 	@Override public void finish() {
 		if (activity() != null) activity().finish();
+	}
+
+	@Override public void onKeyHome() {
+		if (this.activity() != null) {
+			this.activity().moveTaskToBack(true);
+		}
 	}
 
 	@Override public void intent(Class clazz) {
@@ -470,33 +478,27 @@ public class WISERDisplay implements IWISERDisplay {
 	}
 
 	@Override public void popBackStack() {
-		if (activity() == null) return;
-		activity().getSupportFragmentManager().popBackStack();
+		if (this.activity() != null) {
+			this.activity().getSupportFragmentManager().popBackStackImmediate();
+		}
 	}
 
-	@Override public void popBackStack(@Nullable String var1, int var2) {
-		if (activity() == null) return;
-		activity().getSupportFragmentManager().popBackStack(var1, var2);
+	@Override public void popBackStack(@NotNull Class clazz) {
+		if (this.activity() != null) {
+			this.activity().getSupportFragmentManager().popBackStackImmediate(clazz.getName(), 0);
+		}
 	}
 
-	@Override public void popBackStack(int var1, int var2) {
-		if (activity() == null) return;
-		activity().getSupportFragmentManager().popBackStack(var1, var2);
+	@Override public void popBackStack(@NotNull String clazzName) {
+		if (this.activity() != null) {
+			this.activity().getSupportFragmentManager().popBackStackImmediate(clazzName, 0);
+		}
 	}
 
-	@Override public void popBackStackImmediate() {
-		if (activity() == null) return;
-		activity().getSupportFragmentManager().popBackStack();
-	}
-
-	@Override public void popBackStackImmediate(@Nullable String var1, int var2) {
-		if (activity() == null) return;
-		activity().getSupportFragmentManager().popBackStackImmediate(var1, var2);
-	}
-
-	@Override public void popBackStackImmediate(int var1, int var2) {
-		if (activity() == null) return;
-		activity().getSupportFragmentManager().popBackStackImmediate(var1, var2);
+	@Override public void popBackStackAll() {
+		if (this.activity() != null) {
+			this.activity().getSupportFragmentManager().popBackStackImmediate(null, 1);
+		}
 	}
 
 	@Override public void commitRemove(Fragment fragment) {

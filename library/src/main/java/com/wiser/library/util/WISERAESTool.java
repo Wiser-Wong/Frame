@@ -1,18 +1,7 @@
 package com.wiser.library.util;
 
-import android.annotation.SuppressLint;
-
-import java.io.UnsupportedEncodingException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
-
-import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.KeyGenerator;
-import javax.crypto.NoSuchPaddingException;
-import javax.crypto.SecretKey;
+import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
 /**
@@ -22,172 +11,65 @@ import javax.crypto.spec.SecretKeySpec;
  */
 public class WISERAESTool {
 
-	/**
-	 * <p>
-	 * 加密解密器
-	 * </p>
-	 * 
-	 * @param password
-	 *            密钥
-	 * @param cipHerType
-	 *            加密器执行模式
-	 * @return 加密解密器
+	/*
+	 * 加密用的Key 可以用26个字母和数字组成 此处使用AES-128-CBC加密模式，key需要为16位。
 	 */
-	private static Cipher getAESCipher(String password, int cipHerType) {
-		// 算法名称
-		String algorithmName = "AES";
-		try {
-
-			// 密钥生成器
-			KeyGenerator kgen = KeyGenerator.getInstance(algorithmName);
-			// 使用用户提供的随机源初始化此密钥生成器，使其具有确定的密钥大小
-			SecureRandom secureRandom = SecureRandom.getInstance("SHA1PRNG");
-			secureRandom.setSeed(password.getBytes());
-
-			kgen.init(128, secureRandom);
-			// 生成一个密钥
-			SecretKey secretKey = kgen.generateKey();
-			// 返回基本编码格式的密钥
-			byte[] enCodeFormat = secretKey.getEncoded();
-			// 根据一个字节数组构造一个 SecretKey
-			SecretKeySpec key = new SecretKeySpec(enCodeFormat, algorithmName);
-			// 创建密码器
-			@SuppressLint("GetInstance")
-			Cipher cipher = Cipher.getInstance(algorithmName);
-			// 初始化为加密模式的常量。
-			cipher.init(cipHerType, key);
-			return cipher;
-		} catch (NoSuchAlgorithmException e) {
-			e.printStackTrace();
-		} catch (NoSuchPaddingException e) {
-			e.printStackTrace();
-		} catch (InvalidKeyException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
+	// private String sKey = "1234567890123456"; // key，加密的key TODO 必须是16位
+	// private String ivParameter = "1201230125462244"; // 偏移量,4*4矩阵 TODO 必须16位
 
 	/**
-	 * <p>
 	 * 加密
-	 * </p>
-	 * 
-	 * @param byteContent
-	 *            需要加密的内容
-	 * @param password
-	 *            密钥
-	 * @return 获取加密后的字节数组
+	 *
+	 * @param content
+	 *            要加密的内容
+	 * @param secretKey
+	 *            加密的秘钥
+	 * @param iv
+	 *            偏移量
+	 * @return 加密后的字符串
 	 */
-	private static byte[] encrypt(byte[] byteContent, String password) {
+	public static String encode(String content, String secretKey, String iv) {
+		if (WISERCheck.isEmpty(content) || WISERCheck.isEmpty(secretKey) || WISERCheck.isEmpty(iv) || secretKey.length() != 16 || iv.length() != 16) return "";
 		try {
-			// 获取加密模式下的加密器
-			Cipher cipher = getAESCipher(password, Cipher.ENCRYPT_MODE);
-			// 加密后的字节数组
-			assert cipher != null;
-			return cipher.doFinal(byteContent);
-		} catch (IllegalBlockSizeException e) {
-			e.printStackTrace();
-		} catch (BadPaddingException e) {
+			Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+			byte[] raw = secretKey.getBytes();
+			SecretKeySpec mKeySpec = new SecretKeySpec(raw, "AES");
+			IvParameterSpec ivParameterSpec = new IvParameterSpec(iv.getBytes());// 使用CBC模式，需要一个向量iv，可增加加密算法的强度
+			cipher.init(Cipher.ENCRYPT_MODE, mKeySpec, ivParameterSpec);
+			byte[] encrypted = cipher.doFinal(content.getBytes("utf-8"));
+			return WISERBase64.encode(encrypted).replaceAll("\r|\n", "");// 此处使用BASE64做转码。
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return null;
+		return "";
 	}
 
 	/**
-	 * <p>
 	 * 解密
-	 * </p>
-	 * 
-	 * @param content
-	 *            待解密内容
-	 * @param password
-	 *            密钥
-	 * @return 解密后的字节数组
-	 */
-	private static byte[] decrypt(byte[] content, String password) {
-		try {
-			Cipher cipher = getAESCipher(password, Cipher.DECRYPT_MODE);// 初始化
-			assert cipher != null;
-			return cipher.doFinal(content);
-		} catch (IllegalBlockSizeException e) {
-			e.printStackTrace();
-		} catch (BadPaddingException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
-
-	/**
-	 * <p>
-	 * 将二进制转换成16进制
-	 * </p>
-	 * 
-	 * @param buf
-	 * @return
-	 */
-	private static String parseByte2HexStr(byte[] buf) {
-		StringBuilder sb = new StringBuilder();
-		for (byte b : buf) {
-			sb.append(Integer.toHexString((b & 0xFF) | 0x100).substring(1, 3));
-		}
-		return sb.toString();
-	}
-
-	/**
-	 * <p>
-	 * 将16进制转换为二进制
-	 * </p>
-	 * 
-	 * @param hexStr
-	 * @return
-	 */
-	private static byte[] parseHexStr2Byte(String hexStr) {
-		if (hexStr.length() < 1) return null;
-		byte[] result = new byte[hexStr.length() / 2];
-		for (int i = 0; i < hexStr.length() / 2; i++) {
-			int high = Integer.parseInt(hexStr.substring(i * 2, i * 2 + 1), 16);
-			int low = Integer.parseInt(hexStr.substring(i * 2 + 1, i * 2 + 2), 16);
-			result[i] = (byte) (high * 16 + low);
-		}
-		return result;
-	}
-
-	/**
-	 * 获取加密后的密文
-	 * 
-	 * @param content
-	 *            明文内容
-	 * @param password
-	 *            秘钥
-	 * @return ciphertext 加密后的字串
-	 */
-	public static String encode(String content, String password) {
-		byte[] byteContent = null;
-		try {
-			byteContent = content.getBytes("utf-8");
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-		}
-		byte[] encryptResult = encrypt(byteContent, password);
-		assert encryptResult != null;
-		return parseByte2HexStr(encryptResult);
-	}
-
-	/**
-	 * <p>
-	 * 获取明文
-	 * </p>
-	 * 
+	 *
 	 * @param encodeContent
-	 *            加密文的内容
-	 * @param password
-	 *            密钥
-	 * @return 明文
+	 *            要解密的内容
+	 * @param secretKey
+	 *            解密要秘钥
+	 * @param iv
+	 *            偏移量
+	 * @return 解密后的字符串
 	 */
-	public static String decode(String encodeContent, String password) {
-		byte[] decryptBytes = parseHexStr2Byte(encodeContent);
-		byte[] decryptResult = decrypt(decryptBytes, password);
-		return new String(decryptResult);
+	public static String decode(String encodeContent, String secretKey, String iv) {
+		if (WISERCheck.isEmpty(encodeContent) || WISERCheck.isEmpty(secretKey) || WISERCheck.isEmpty(iv)) return "";
+		try {
+			byte[] raw = secretKey.getBytes("ASCII");
+			SecretKeySpec mKeySpec = new SecretKeySpec(raw, "AES");
+			Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+			IvParameterSpec ivParameterSpec = new IvParameterSpec(iv.getBytes());
+			cipher.init(Cipher.DECRYPT_MODE, mKeySpec, ivParameterSpec);
+			byte[] encrypted = WISERBase64.decode(encodeContent);// 先用base64解密
+			byte[] original = cipher.doFinal(encrypted);
+			return new String(original, "utf-8");
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+		return "";
 	}
 
 }

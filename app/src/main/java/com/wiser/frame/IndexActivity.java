@@ -13,6 +13,7 @@ import com.wiser.library.helper.WISERHelper;
 import com.wiser.library.manager.permission.IWISERPermissionCallBack;
 import com.wiser.library.pager.banner.BannerPagerView;
 import com.wiser.library.util.WISERDate;
+import com.wiser.library.util.WISERTextView;
 import com.wiser.library.view.AlignTextLayoutView;
 import com.wiser.library.view.marquee.MarqueeAdapter;
 import com.wiser.library.view.marquee.MarqueeView;
@@ -27,6 +28,7 @@ import android.graphics.Color;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 import android.widget.ImageView;
@@ -57,13 +59,13 @@ public class IndexActivity extends WISERActivity<IndexBiz> implements WISERRVAda
 		builder.layoutLoadingId(R.layout.view_loading);
 		builder.recycleView().recycleViewId(R.id.home_rlv);
 		builder.isSystemStatusBarPaddingTop();
-//		builder.setFullScreenToggle(true);
-//		builder.removeStateBar();
-//		builder.hideVirtualKey();
+		// builder.setFullScreenToggle(true);
+		// builder.removeStateBar();
+		// builder.hideVirtualKey();
 		// builder.recycleView().recycleViewStaggeredGridManager(2,
 		// LinearLayoutManager.VERTICAL, new WISERStaggeredDivider(20, 0, 20, 0), null);
 		builder.recycleView().recycleViewLinearManager(LinearLayoutManager.VERTICAL, null);
-		builder.recycleView().recycleViewGridManager(2,LinearLayoutManager.VERTICAL,null);
+		builder.recycleView().recycleViewGridManager(2, LinearLayoutManager.VERTICAL, null);
 		builder.recycleView().recycleAdapter(new IndexAdapter(this));
 		builder.isRootLayoutRefresh(true, false);
 		builder.setColorSchemeColors(Color.BLUE, Color.RED, Color.GREEN);
@@ -72,8 +74,8 @@ public class IndexActivity extends WISERActivity<IndexBiz> implements WISERRVAda
 		builder.recycleView().setOnFooterCustomListener(this);
 		// builder.setProgressBackgroundColorSchemeColor(Color.BLACK);
 		// builder.setColorSchemeColors(getResources().getColor(R.color.colorAccent),getResources().getColor(R.color.cpv_default_color),getResources().getColor(R.color.design_default_color_primary));
-//		builder.tintFitsSystem(false);
-//		builder.setStatusBarFullTransparent();
+		// builder.tintFitsSystem(false);
+		// builder.setStatusBarFullTransparent();
 		builder.tintIs(true);
 		builder.tintColor(getResources().getColor(R.color.red));
 		builder.swipeBack(true);
@@ -96,6 +98,13 @@ public class IndexActivity extends WISERActivity<IndexBiz> implements WISERRVAda
 
 			@Override public void hadPermissionResult() {
 				WISERHelper.toast().show("请求权限成功");
+			}
+		});
+
+		WISERTextView.textformatSpan(tvName, new String[] { "我试试", "顶顶顶顶", "对对对", "的嘎嘎嘎" }, new int[] { 1, 3 }, Color.YELLOW,Color.BLUE, new WISERTextView.SpanClickCallBack() {
+
+			@Override public void spanClick() {
+				WISERHelper.toast().show("点击链接文本");
 			}
 		});
 
@@ -158,7 +167,7 @@ public class IndexActivity extends WISERActivity<IndexBiz> implements WISERRVAda
 				tvMarquee.setText(data.age);
 				return view;
 			}
-		}).setMarqueeAnim(R.anim.anim_marquee_bottom_in, R.anim.anim_marquee_top_out).setTimeInterval(100).start();
+		}).setMarqueeAnim(R.anim.anim_marquee_bottom_in, R.anim.anim_marquee_top_out).setTimeInterval(3000).start();
 	}
 
 	@Override public void onRefresh() {
@@ -190,60 +199,63 @@ public class IndexActivity extends WISERActivity<IndexBiz> implements WISERRVAda
 		}, 4000);
 	}
 
-	@OnClick({ R.id.tv_name, R.id.iv_qr, R.id.tv_d }) public void onClickView(View view) {
+	@OnClick({  R.id.iv_qr, R.id.tv_d }) public void onClickView(View view) {
 		switch (view.getId()) {
 			case R.id.tv_name:
-				loadingRefresh();
-				WISERHelper.downUploadManage().fileDownloader().create("https://github.com/Wiser-Wong/MultidexRecord.git")
-						.setPath(WISERHelper.fileCacheManage().configureStorageDir() + File.separator + getResources().getString(R.string.app_name) + "/down.txt")
-						.setListener(new FileDownloadListener() {
-
-							@Override protected void connected(BaseDownloadTask task, String etag, boolean isContinue, int soFarBytes, int totalBytes) {
-								super.connected(task, etag, isContinue, soFarBytes, totalBytes);
-								WISERHelper.toast().show("链接");
-							}
-
-							@Override protected void pending(BaseDownloadTask task, int soFarBytes, int totalBytes) {
-								new MToast().show("pending--->>soFarBytes:-->>" + soFarBytes + "totalBytes:-->>" + totalBytes);
-							}
-
-							@Override protected void progress(BaseDownloadTask task, int soFarBytes, int totalBytes) {
-								new MToast().show("progress--->>soFarBytes:-->>" + soFarBytes + "totalBytes:-->>" + totalBytes);
-							}
-
-							@Override protected void completed(BaseDownloadTask task) {
-								WISERHelper.toast().show("下载完成");
-							}
-
-							@Override protected void paused(BaseDownloadTask task, int soFarBytes, int totalBytes) {
-
-							}
-
-							@Override protected void error(BaseDownloadTask task, Throwable e) {
-								WISERHelper.toast().show("下载错误");
-							}
-
-							@Override protected void warn(BaseDownloadTask task) {
-
-							}
-						}).start();
+//				loadingRefresh();
+//				WISERHelper.downUploadManage().fileDownloader().create("https://github.com/Wiser-Wong/MultidexRecord.git")
+//						.setPath(WISERHelper.fileCacheManage().configureStorageDir() + File.separator + getResources().getString(R.string.app_name) + "/down.txt")
+//						.setListener(new FileDownloadListener() {
+//
+//							@Override protected void connected(BaseDownloadTask task, String etag, boolean isContinue, int soFarBytes, int totalBytes) {
+//								super.connected(task, etag, isContinue, soFarBytes, totalBytes);
+//								WISERHelper.toast().show("链接");
+//							}
+//
+//							@Override protected void pending(BaseDownloadTask task, int soFarBytes, int totalBytes) {
+//								new MToast().show("pending--->>soFarBytes:-->>" + soFarBytes + "totalBytes:-->>" + totalBytes);
+//							}
+//
+//							@Override protected void progress(BaseDownloadTask task, int soFarBytes, int totalBytes) {
+//								new MToast().show("progress--->>soFarBytes:-->>" + soFarBytes + "totalBytes:-->>" + totalBytes);
+//							}
+//
+//							@Override protected void completed(BaseDownloadTask task) {
+//								WISERHelper.toast().show("下载完成");
+//							}
+//
+//							@Override protected void paused(BaseDownloadTask task, int soFarBytes, int totalBytes) {
+//
+//							}
+//
+//							@Override protected void error(BaseDownloadTask task, Throwable e) {
+//								WISERHelper.toast().show("下载错误");
+//							}
+//
+//							@Override protected void warn(BaseDownloadTask task) {
+//
+//							}
+//						}).start();
 				break;
 			case R.id.iv_qr:
 
-//				RemoteViews remoteViews = new RemoteViews(getPackageName(), R.layout.notification_layout);
-//				remoteViews.setTextViewText(R.id.tv1, "我是一个爸爸" + new Random().nextInt(100));
-//				remoteViews.setTextViewText(R.id.tv2, "我是一个妈妈");
+				// RemoteViews remoteViews = new RemoteViews(getPackageName(),
+				// R.layout.notification_layout);
+				// remoteViews.setTextViewText(R.id.tv1, "我是一个爸爸" + new Random().nextInt(100));
+				// remoteViews.setTextViewText(R.id.tv2, "我是一个妈妈");
 				// remoteViews.setTextViewText(R.id.tv3, "我是一个孩子");
-//				remoteViews.setImageViewResource(R.id.iv1, R.mipmap.ic_launcher_round);
+				// remoteViews.setImageViewResource(R.id.iv1, R.mipmap.ic_launcher_round);
 				// WISERHelper.uiManage().notification().showRemoteViewNotification(1,
 				// R.mipmap.scan_flash, "新消息提示", remoteViews, ClickBroadcastReceiver.class);
-//				WISERHelper.uiManage().notification(true).showProgressNotification(1, "我来了", "更新", "正在下载", BitmapFactory.decodeResource(getResources(), R.mipmap.scan_photo), R.mipmap.scan_flash, 100, 0,
-//						ClickBroadcastReceiver.class);
+				// WISERHelper.uiManage().notification(true).showProgressNotification(1, "我来了",
+				// "更新", "正在下载", BitmapFactory.decodeResource(getResources(),
+				// R.mipmap.scan_photo), R.mipmap.scan_flash, 100, 0,
+				// ClickBroadcastReceiver.class);
 
-//				 WISERHelper.display().intent(TabLayoutActivity.class);
+				// WISERHelper.display().intent(TabLayoutActivity.class);
 				// WISERHelper.display().intent(SmartActivity.class);
 				// WISERHelper.display().intent(ScanActivity.class);
-				 WISERHelper.display().intent(WebViewActivity.class);
+				WISERHelper.display().intent(WebViewActivity.class);
 				// WISERHelper.display().intent(ZoomScrollViewActivity.class);
 				// WISERHelper.display().intent(SlidingMenuActivity.class);
 				// WISERHelper.display().intentTransitionAnimation(ZoomScrollViewActivity.class,null,Pair.create((View)ivQR,""));
@@ -252,13 +264,15 @@ public class IndexActivity extends WISERActivity<IndexBiz> implements WISERRVAda
 				// WISERHelper.display().intent(TabLayoutActivity.class);
 				// WISERHelper.display().commitReplace(R.id.fragment1,new
 				// TestFragment(),TestFragment.class.getName());
-				 IndexDialogFragment.newInstance().show(getSupportFragmentManager(), "");
+				IndexDialogFragment.newInstance().show(getSupportFragmentManager(), "");
 				// IndexDialogFragment.newInstance().setLocation(textView,
 				// WISERDialogFragment.CONTROL_FIT).show(getSupportFragmentManager(), "");
 
-//				WISERHelper.uiManage().notification(true).showNotification(1, "我来了", "更新", "正在下载", BitmapFactory.decodeResource(getResources(), R.mipmap.scan_photo), R.mipmap.scan_flash, true,ClickBroadcastReceiver.class);
-				WISERHelper.uiManage().notification(true).showProgressNotification(1, "我来了", "更新", "正在下载", BitmapFactory.decodeResource(getResources(), R.mipmap.scan_photo), R.mipmap.scan_flash, 100, 20,true,
-						ClickBroadcastReceiver.class);
+				// WISERHelper.uiManage().notification(true).showNotification(1, "我来了", "更新",
+				// "正在下载", BitmapFactory.decodeResource(getResources(), R.mipmap.scan_photo),
+				// R.mipmap.scan_flash, true,ClickBroadcastReceiver.class);
+				WISERHelper.uiManage().notification(true).showProgressNotification(1, "我来了", "更新", "正在下载", BitmapFactory.decodeResource(getResources(), R.mipmap.scan_photo), R.mipmap.scan_flash, 100,
+						20, true, ClickBroadcastReceiver.class);
 				break;
 		}
 	}

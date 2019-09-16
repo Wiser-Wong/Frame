@@ -1,6 +1,6 @@
 package com.wiser.library.manager.activity;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -26,7 +26,7 @@ public class WISERActivityManage implements IWISERActivityManage {
 	/**
 	 * 打开的activity
 	 **/
-	private final List<WISERActivityModel> activities = new ArrayList<>();
+	private final LinkedList<WISERActivityModel> activities = new LinkedList<>();
 
 	/**
 	 * 新建了一个activity
