@@ -1,9 +1,13 @@
 package com.wiser.library.pager.banner;
 
+import java.lang.ref.WeakReference;
+import java.lang.reflect.Field;
+import java.util.List;
+
 import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.MotionEventCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -13,88 +17,82 @@ import android.view.animation.Interpolator;
 
 import com.wiser.library.base.WISERActivity;
 
-import java.lang.ref.WeakReference;
-import java.lang.reflect.Field;
-import java.util.List;
-
 /**
  * @author Wiser
  * @version 版本
  */
-public class BannerView extends BannerInterceptScrollView {
+class BannerView extends BannerInterceptScrollView {
 
-	public static final int				DEFAULT_INTERVAL			= 3000;
+	public static final int			DEFAULT_INTERVAL			= 3000;
 
-	public static final int				LEFT						= 0;
+	public static final int			LEFT						= 0;
 
-	public static final int				RIGHT						= 1;
+	public static final int			RIGHT						= 1;
 
 	/**
 	 * do nothing when sliding at the last or first item
 	 **/
-	public static final int				SLIDE_BORDER_MODE_NONE		= 0;
+	public static final int			SLIDE_BORDER_MODE_NONE		= 0;
 
 	/**
 	 * cycle when sliding at the last or first item
 	 **/
-	public static final int				SLIDE_BORDER_MODE_CYCLE		= 1;
+	public static final int			SLIDE_BORDER_MODE_CYCLE		= 1;
 
 	/**
 	 * deliver event to parent when sliding at the last or first item
 	 **/
-	public static final int				SLIDE_BORDER_MODE_TO_PARENT	= 2;
+	public static final int			SLIDE_BORDER_MODE_TO_PARENT	= 2;
 
 	/**
 	 * auto scroll time in milliseconds, default is {@link #DEFAULT_INTERVAL}
 	 **/
-	private long						interval					= DEFAULT_INTERVAL;
+	private long					interval					= DEFAULT_INTERVAL;
 
 	/**
 	 * auto scroll direction, default is {@link #RIGHT}
 	 **/
-	private int							direction					= RIGHT;
+	private int						direction					= RIGHT;
 
 	/**
 	 * whether stop auto scroll when touching, default is true
 	 **/
-	private boolean						stopScrollWhenTouch			= true;
+	private boolean					stopScrollWhenTouch			= true;
 
 	/**
 	 * how to process when sliding at the last or first item, default is
 	 * {@link #SLIDE_BORDER_MODE_NONE}
 	 **/
-	private int							slideBorderMode				= SLIDE_BORDER_MODE_NONE;
+	private int						slideBorderMode				= SLIDE_BORDER_MODE_NONE;
 
 	/**
 	 * whether animating when auto scroll at the last or first item
 	 **/
-	private boolean						isBorderAnimation			= true;
+	private boolean					isBorderAnimation			= true;
 
 	/**
 	 * scroll factor for auto scroll animation, default is 1.0
 	 **/
-	private double						autoScrollFactor			= 1.0;
+	private double					autoScrollFactor			= 1.0;
 
 	/**
 	 * scroll factor for swipe scroll animation, default is 1.0
 	 **/
-	private double						swipeScrollFactor			= 1.0;
+	private double					swipeScrollFactor			= 1.0;
 
-	private Handler						handler;
+	private Handler					handler;
 
-	private boolean						isAutoScroll				= false;
+	private boolean					isAutoScroll				= false;
 
-	private boolean						isStopByTouch				= false;
+	private boolean					isStopByTouch				= false;
 
-	private float						touchX						= 0f, downX = 0f;
+	private float					touchX						= 0f, downX = 0f;
 
-	private BannerDurationScroller		scroller					= null;
+	private BannerDurationScroller	scroller					= null;
 
-	private BannerPagerAdapter			adapter;
+	private BannerPagerAdapter		adapter;
 
-	private BannerPagerFragmentAdapter	adapterF;
-
-	public static final int				SCROLL_WHAT					= 0;
+	public static final int			SCROLL_WHAT					= 0;
 
 	public BannerView(Context paramContext) {
 		super(paramContext);
@@ -182,9 +180,9 @@ public class BannerView extends BannerInterceptScrollView {
 	 * scroll only once
 	 */
 	public void scrollOnce() {
-		PagerAdapter adapter = getAdapter();
-		int currentItem = getCurrentItem();
-		int totalCount;
+		PagerAdapter adapter     = getAdapter();
+		int          currentItem = getCurrentItem();
+		int          totalCount;
 		if (adapter == null || (totalCount = adapter.getCount()) <= 1) {
 			return;
 		}
@@ -223,9 +221,9 @@ public class BannerView extends BannerInterceptScrollView {
 			if (ev.getAction() == MotionEvent.ACTION_DOWN) {
 				downX = touchX;
 			}
-			int currentItem = getCurrentItem();
-			PagerAdapter adapter = getAdapter();
-			int pageCount = adapter == null ? 0 : adapter.getCount();
+			int          currentItem = getCurrentItem();
+			PagerAdapter adapter     = getAdapter();
+			int          pageCount   = adapter == null ? 0 : adapter.getCount();
 			/**
 			 * current index is first one and slide to right or current index is last one
 			 * and slide to left.<br/>
@@ -374,23 +372,8 @@ public class BannerView extends BannerInterceptScrollView {
 		if (list == null || activity == null) return this;
 		adapter = new BannerPagerAdapter(activity, holder);
 		setAdapter(adapter);
+		if (list.size() > 2) setOffscreenPageLimit(2);
 		adapter.setItems(list);
-		if (list.size() > 2) setOffscreenPageLimit(2);
-		return this;
-	}
-
-	/**
-	 * 启动Banner
-	 *
-	 * @param activity
-	 * @param list
-	 * @return
-	 */
-	public BannerView setFragmentPages(WISERActivity activity, List<Fragment> list) {
-		if (activity == null || list == null) return this;
-		adapterF = new BannerPagerFragmentAdapter(activity, list);
-		setAdapter(adapterF);
-		if (list.size() > 2) setOffscreenPageLimit(2);
 		return this;
 	}
 
@@ -424,6 +407,13 @@ public class BannerView extends BannerInterceptScrollView {
 		return this;
 	}
 
+	public boolean isCircle() {
+		if (adapter != null) {
+			return adapter.isCircle();
+		}
+		return false;
+	}
+
 	/**
 	 * 设置默认预加载条目
 	 *
@@ -438,11 +428,6 @@ public class BannerView extends BannerInterceptScrollView {
 	// Banner适配器实例
 	public BannerPagerAdapter adapter() {
 		return adapter;
-	}
-
-	// Banner适配器实例
-	public BannerPagerFragmentAdapter adapterF() {
-		return adapterF;
 	}
 
 	/**

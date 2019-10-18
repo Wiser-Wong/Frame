@@ -21,12 +21,20 @@ public class WebViewBiz extends WISERBiz<WebViewActivity> implements IWebBiz {
 	}
 
 	@Override public void observableMethod() {
-		showLoading();
+		showLoading(true);
 		/**
 		 * 单一请求 准确写法需要subscribe(httpDisposableObserver(new
 		 * WISERRxJavaDisposableObserver)这么写防止内存泄漏
 		 */
-		 httpObservableIO(http(IHttp.class).getObservableData()).subscribe(httpDisposableObserver(new
+//		 httpObservableIO(http(IHttp.class).getObservableData()).subscribe(httpDisposableObserver(new
+//		 WISERRxJavaDisposableObserver<String>() {
+//
+//		 @Override protected void onSuccess(String s) {
+//		 System.out.println("------>>" + s);
+//		 ui().show(s);
+//		 }
+//		 }));
+		 httpObservableIO(http(IHttp.class).getPDF()).subscribe(httpDisposableObserver(new
 		 WISERRxJavaDisposableObserver<String>() {
 
 		 @Override protected void onSuccess(String s) {

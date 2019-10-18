@@ -5,7 +5,12 @@ import java.util.concurrent.TimeUnit;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
+import com.wiser.frame.http.CommonParamsInterceptor;
+import com.wiser.frame.http.cookie.ICookieManager;
+import com.wiser.frame.http.cookie.impl.CookieManager;
 import com.wiser.library.base.IWISERBind;
+import com.wiser.library.helper.WISERHelper;
+import com.wiser.library.interceptor.LogggingInterceptor;
 import com.wiser.library.manager.WISERManage;
 
 import okhttp3.OkHttpClient;
@@ -59,8 +64,20 @@ public class MBind implements IWISERBind {
 
 		builder.client(okHttpBuilder.build());
 
+		CommonParamsInterceptor commonParamsInterceptor = new CommonParamsInterceptor.Builder()// 创建
+				.addHeaderParam("Accept-Encoding", "gzip, deflate")// 头信息
+				.addHeaderParam("Charset", "UTF-8").addHeaderParam("Content-Type", "application/json").build();
+		okHttpBuilder.addInterceptor(commonParamsInterceptor);
+		LogggingInterceptor interceptor = new LogggingInterceptor();
+		interceptor.setLevel(LogggingInterceptor.Level.BODY);
+		okHttpBuilder.addInterceptor(interceptor);
+
+		// 新增cookie管理
+		ICookieManager cookieManager = new CookieManager(WISERHelper.getInstance());
+		okHttpBuilder.cookieJar(cookieManager);
+
 		// 服务器地址域名
-		builder.baseUrl("https://www.baidu.com");
+		builder.baseUrl("http://119.253.83.230/");
 		// Gson转换器
 		Gson gson = new GsonBuilder().setLenient().create();
 		builder.addConverterFactory(GsonConverterFactory.create(gson));

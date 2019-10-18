@@ -56,8 +56,6 @@
         <item name="android:windowIsTranslucent">true</item>
         <!-- 不管是否在dialog xml中添加背景颜色 如果设置该属性background就会显示该背景颜色 但是如果设置Dialog宽充满屏幕 该属性还是会显示背景颜色是中心那块 不会充满宽度屏幕-->
         <item name="android:background">@android:color/transparent</item>
-        <!--窗口背景色透明-->
-        <item name="android:windowBackground">@android:color/transparent</item>
         <!-- 全屏-->
         <item name="android:windowFullscreen">true</item>
         <!-- 模糊 不加背景Dialog透明度背景不会显示-->

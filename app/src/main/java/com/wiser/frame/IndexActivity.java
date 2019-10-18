@@ -1,16 +1,15 @@
 package com.wiser.frame;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.liulishuo.filedownloader.BaseDownloadTask;
-import com.liulishuo.filedownloader.FileDownloadListener;
+import com.bumptech.glide.Glide;
 import com.wiser.library.adapter.WISERRVAdapter;
 import com.wiser.library.base.WISERActivity;
 import com.wiser.library.base.WISERBuilder;
 import com.wiser.library.helper.WISERHelper;
 import com.wiser.library.manager.permission.IWISERPermissionCallBack;
+import com.wiser.library.pager.banner.BannerHolder;
 import com.wiser.library.pager.banner.BannerPagerView;
 import com.wiser.library.util.WISERDate;
 import com.wiser.library.util.WISERTextView;
@@ -21,6 +20,7 @@ import com.wiser.library.zxing.WISERQRCode;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.BitmapFactory;
@@ -28,9 +28,12 @@ import android.graphics.Color;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
+import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.LinearLayoutManager;
+import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -132,11 +135,28 @@ public class IndexActivity extends WISERActivity<IndexBiz> implements WISERRVAda
 		// WISERHelper.toast().show(WISERDate.getDateCovert("2011-4-1", "yyyy-m-d",
 		// "yyyy-mm-dd"));
 
-		List<Fragment> list1 = new ArrayList<>();
-		list1.add(new SecondFragment());
-		list1.add(new ThreeFragment());
+		List<String> list1 = new ArrayList<>();
+		list1.add("http://pic1.win4000.com/wallpaper/6/51e35bd76cd74.jpg");
+		list1.add("http://b-ssl.duitang.com/uploads/item/201706/10/20170610095055_G5LM8.jpeg");
+		list1.add("http://i0.hdslb.com/bfs/article/a22a162bca94cdf7438ea556dfa021b181bf3873.jpg");
 
-		bannerPagerView.setFragmentPages(this, list1).isDot(true).setCircle(true).startTurning(1000);
+		bannerPagerView.setPages(this, new BannerHolder<String>() {
+			AppCompatImageView ivBanner;
+			@Override
+			public View createView(Context context, LayoutInflater inflater, ViewGroup container) {
+				ivBanner = new AppCompatImageView(context);
+				ivBanner.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+				ivBanner.setAdjustViewBounds(true);
+				ivBanner.setScaleType(ImageView.ScaleType.CENTER_CROP);
+				return ivBanner;
+			}
+
+			@Override
+			public void bindData(Context context, int position, String data) {
+				if (TextUtils.isEmpty(data))return;
+				Glide.with(context).load(data).thumbnail(0.1f).into(ivBanner);
+			}
+		},list1).isDot(true).startTurning(2000);
 
 		// WISERHelper.toast().show(WISERDate.getWeek("2019年3月26日",
 		// WISERDate.DATE_HZ,true));

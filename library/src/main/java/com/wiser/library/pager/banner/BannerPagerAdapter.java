@@ -1,15 +1,15 @@
 package com.wiser.library.pager.banner;
 
+import java.util.List;
+
 import android.support.annotation.NonNull;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.wiser.library.base.WISERActivity;
-import com.wiser.library.base.WISERView;
-
-import java.util.List;
 
 /**
  * @author Wiser
@@ -25,7 +25,7 @@ public class BannerPagerAdapter extends PagerAdapter {
 	 */
 	private List				mItems;
 
-	private WISERView			wiserView;
+	private WISERActivity		activity;
 
 	private BannerHolder		holder;
 
@@ -34,17 +34,13 @@ public class BannerPagerAdapter extends PagerAdapter {
 	private OnItemClickListener	onItemListener;
 
 	BannerPagerAdapter(WISERActivity activity, BannerHolder holder) {
-		this.wiserView = activity.wiserView();
+		this.activity = activity;
 		this.holder = holder;
 		this.mInflater = LayoutInflater.from(activity);
 	}
 
 	public BannerPagerAdapter getAdapter() {
 		return this;
-	}
-
-	public WISERActivity activity() {
-		return wiserView.activity();
 	}
 
 	public void setCircle(boolean isCircle) {
@@ -69,6 +65,10 @@ public class BannerPagerAdapter extends PagerAdapter {
 		return mItems;
 	}
 
+	public int getItemCounts() {
+		return mItems == null ? 0 : mItems.size();
+	}
+
 	public Object getItem(int position) {
 		return mItems.get(position);
 	}
@@ -83,9 +83,9 @@ public class BannerPagerAdapter extends PagerAdapter {
 
 	@NonNull @Override public Object instantiateItem(@NonNull ViewGroup container, final int position) {
 		if (holder != null) {
-			View view = holder.createView(activity(), mInflater, container);
-			if (isCircle) holder.bindData(activity(), position % mItems.size(), getItem(position % mItems.size()));
-			else holder.bindData(activity(), position, getItem(position));
+			View view = holder.createView(activity, mInflater, container);
+			if (isCircle) holder.bindData(activity, position % mItems.size(), getItem(position % mItems.size()));
+			else holder.bindData(activity, position, getItem(position));
 			if (onItemListener != null && view != null) {
 				view.setOnClickListener(new View.OnClickListener() {
 
@@ -105,7 +105,7 @@ public class BannerPagerAdapter extends PagerAdapter {
 				return super.instantiateItem(container, position);
 			}
 		} else {
-			View view = new View(activity());
+			View view = new View(activity);
 			container.addView(view);
 			return view;
 		}

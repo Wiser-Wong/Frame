@@ -31,8 +31,8 @@ public class WebViewActivity extends WISERWebActivity<IWebBiz> {
 		// WISERHelper.toast().show(new MShareConfig().getString("name", ""));
 		// new MToast().show(new MShareConfig().getString("name", ""));
 		// WISERHelper.toast().show(new MConfig(this).name+"");
-//		biz().observableMethod();
-		biz().callMethod();
+		biz().observableMethod();
+//		biz().callMethod();
 	}
 
 	@Override protected WISERWebChromeClient setWebChromeClient() {
