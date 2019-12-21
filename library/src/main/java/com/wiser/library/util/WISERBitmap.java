@@ -4,6 +4,7 @@ import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -533,6 +534,21 @@ public class WISERBitmap {
 	}
 
 	/**
+	 * 图片压缩路径
+	 */
+	public static Bitmap getSmallBitmap(String filePath, int width, int height) {
+		BitmapFactory.Options options = new BitmapFactory.Options();
+		options.inJustDecodeBounds = true;
+		BitmapFactory.decodeFile(filePath, options);
+		options.inSampleSize = calculateInSampleSize(options, width, height);
+		options.inJustDecodeBounds = false;
+		if (readPhotoDegree(filePath) > 0) {
+			return rotateImageView(readPhotoDegree(filePath), BitmapFactory.decodeFile(filePath, options));
+		}
+		return BitmapFactory.decodeFile(filePath, options);
+	}
+
+	/**
 	 * 压缩之后转Base64为的字符串方便上传服务器
 	 *
 	 * @param filePath
@@ -545,6 +561,67 @@ public class WISERBitmap {
 			bitmap.compress(Bitmap.CompressFormat.JPEG, 40, baos);
 			byte[] bytes = baos.toByteArray();
 			return Base64.encodeToString(bytes, Base64.DEFAULT);
+		} else {
+			return "";
+		}
+	}
+
+	/**
+	 * 压缩之后转Base64为的字符串方便上传服务器
+	 *
+	 * @param filePath
+	 *            路径
+	 * @param quality
+	 *            质量
+	 * @param width
+	 *            宽
+	 * @param height
+	 *            高
+	 * @return
+	 */
+	public static String bitmapToString(String filePath, int quality, int width, int height) {
+		Bitmap bitmap = getSmallBitmap(filePath, width, height);
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		if (bitmap != null) {
+			bitmap.compress(Bitmap.CompressFormat.JPEG, quality, baos);
+			byte[] bytes = baos.toByteArray();
+			return Base64.encodeToString(bytes, Base64.DEFAULT);
+		} else {
+			return "";
+		}
+	}
+
+	/**
+	 * 压缩之后转Base64为的字符串方便上传服务器
+	 *
+	 * @param filePath
+	 *            路径
+	 * @param quality
+	 *            质量
+	 * @param width
+	 *            宽
+	 * @param height
+	 *            高
+	 * @return
+	 */
+	public static String bitmapToPath(String targetFilePath, String targetFileName, String filePath, int quality, int width, int height) {
+		Bitmap bitmap = getSmallBitmap(filePath, width, height);
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		if (bitmap != null) {
+			File f = new File(targetFilePath, targetFileName);
+			if (!f.exists()) f.mkdirs();
+			bitmap.compress(Bitmap.CompressFormat.JPEG, quality, baos);
+			byte[] bytes = baos.toByteArray();
+			FileOutputStream fos;
+			try {
+				fos = new FileOutputStream(f);
+				fos.write(bytes);
+				fos.flush();
+				fos.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return f.getPath();
 		} else {
 			return "";
 		}
