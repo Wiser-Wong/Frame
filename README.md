@@ -1,8 +1,7 @@
 # Frame
 一个高级Android MVP框架
 ## 集成
-   [WISERFormatPlugin插件大门](https://github.com/Wiser-Wong/WISERFormatPlugin.git)
-   
+   * [WISERFormatPlugin插件大门](https://github.com/Wiser-Wong/WISERFormatPlugin.git)
    * Application中onCreate方法中初始化框架：
    
 	     WISERHelper.newBind().setWiserBind(new MyBind()).Inject(this, BuildConfig.DEBUG);  
