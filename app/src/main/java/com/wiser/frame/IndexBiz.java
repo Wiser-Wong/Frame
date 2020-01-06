@@ -2,6 +2,7 @@ package com.wiser.frame;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import com.wiser.library.base.WISERBiz;
 
@@ -30,6 +31,16 @@ public class IndexBiz extends WISERBiz<IndexActivity> {
 			indexModels.add(model);
 		}
 		return indexModels;
+	}
+
+	public List<IndexModel> getIndexModels(){
+		List<IndexModel> models = new ArrayList<>();
+		for (int i = 0; i < 10; i++) {
+			IndexModel model = new IndexModel();
+			model.age = "测试多选" + new Random().nextInt(100000);
+			models.add(model);
+		}
+		return models;
 	}
 
 }

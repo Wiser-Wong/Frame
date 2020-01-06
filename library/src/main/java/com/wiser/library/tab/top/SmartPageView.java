@@ -16,15 +16,12 @@ import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.View;
 
-
 /**
  * @author Wiser
  * 
  *         smart page
  */
 public class SmartPageView extends ViewPager {
-
-	private Map<Integer, Integer>			map				= new ConcurrentHashMap<>();
 
 	private int								currentPage;
 
@@ -139,14 +136,12 @@ public class SmartPageView extends ViewPager {
 
 	@Override protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
 		if (isResetHeight) {
-			int height = 0;
-			for (int i = 0; i < getChildCount(); i++) {
-				View child = getChildAt(i);
+			if (getChildCount() > 0 && getChildCount() > currentPage) {
+				View child = getChildAt(currentPage);
 				child.measure(widthMeasureSpec, MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED));
 				int h = child.getMeasuredHeight();
-				if (h > height) height = h;
+				heightMeasureSpec = MeasureSpec.makeMeasureSpec(h, MeasureSpec.EXACTLY);
 			}
-			heightMeasureSpec = MeasureSpec.makeMeasureSpec(height, MeasureSpec.EXACTLY);
 			super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 		} else {
 			super.onMeasure(widthMeasureSpec, heightMeasureSpec);
@@ -155,20 +150,13 @@ public class SmartPageView extends ViewPager {
 
 	/**
 	 * 在切换tab的时候，重置ViewPager的高度
-	 * 
+	 *
 	 * @param current
 	 */
 	public void resetHeight(int current) {
 		this.currentPage = current;
 		MarginLayoutParams params = (MarginLayoutParams) getLayoutParams();
-		if (map.size() > 0 && map.containsKey(currentPage)) {
-			if (params == null) {
-				params = new MarginLayoutParams(LayoutParams.MATCH_PARENT, map.get(current));
-			} else {
-				params.height = map.get(current);
-			}
-			setLayoutParams(params);
-		}
+		setLayoutParams(params);
 	}
 
 	public void setOnSmartTabPageChangeListener(OnSmartTabPageChangeListener onSmartTabPageChangeListener) {

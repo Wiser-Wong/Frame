@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="ChoiceControlLayout">
+        <attr name="ccl_layoutId" format="reference" />
+        <attr name="ccl_spanCount" format="integer" />
+    </declare-styleable>
+    <declare-styleable name="ChoiceRuleLayout">
+        <attr name="crl_layoutId" format="reference" />
+        <attr name="crl_spanCount" format="integer" />
+    </declare-styleable>
+    <declare-styleable name="ChoiceIrregularLayout">
+        <attr name="cil_layoutId" format="reference" />
+        <attr name="cil_isFillSurplusWidth" format="boolean" />
+    </declare-styleable>
+</resources>

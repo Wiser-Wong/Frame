@@ -14,6 +14,9 @@ import com.wiser.library.pager.banner.BannerPagerView;
 import com.wiser.library.util.WISERDate;
 import com.wiser.library.util.WISERTextView;
 import com.wiser.library.view.AlignTextLayoutView;
+import com.wiser.library.view.choice.ChoiceIrregularLayout;
+import com.wiser.library.view.choice.OnChoiceAdapter;
+import com.wiser.library.view.choice.OnChoiceListener;
 import com.wiser.library.view.marquee.MarqueeAdapter;
 import com.wiser.library.view.marquee.MarqueeView;
 import com.wiser.library.zxing.WISERQRCode;
@@ -41,17 +44,19 @@ import butterknife.OnClick;
 
 public class IndexActivity extends WISERActivity<IndexBiz> implements WISERRVAdapter.OnFooterCustomListener, AlignTextLayoutView.OnAlignItemListener {
 
-	@BindView(R.id.tv_name) TextView				tvName;
+	@BindView(R.id.tv_name) TextView								tvName;
 
-	@BindView(R.id.iv_qr) ImageView					ivQR;
+	@BindView(R.id.iv_qr) ImageView									ivQR;
 
-	@BindView(R.id.align_view) AlignTextLayoutView	alignLayoutView;
+	@BindView(R.id.align_view) AlignTextLayoutView					alignLayoutView;
 
-	@BindView(R.id.marquee) MarqueeView<IndexModel>	marqueeView;
+	@BindView(R.id.marquee) MarqueeView<IndexModel>					marqueeView;
 
-	@BindView(R.id.tv_d) TextView					textView;
+	@BindView(R.id.tv_d) TextView									textView;
 
-	@BindView(R.id.bv_frg) BannerPagerView			bannerPagerView;
+	@BindView(R.id.bv_frg) BannerPagerView							bannerPagerView;
+
+	@BindView(R.id.cil_layout) ChoiceIrregularLayout<IndexModel>	choiceIrregularLayout;
 
 	@Override protected WISERBuilder build(WISERBuilder builder) {
 		// builder.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
@@ -103,7 +108,7 @@ public class IndexActivity extends WISERActivity<IndexBiz> implements WISERRVAda
 			}
 		});
 
-		WISERTextView.textformatSpan(tvName, new String[] { "我试试", "顶顶顶顶", "对对对", "的嘎嘎嘎" }, new int[] { 1, 3 }, Color.YELLOW,Color.BLUE, new WISERTextView.SpanClickCallBack() {
+		WISERTextView.textformatSpan(tvName, new String[] { "我试试", "顶顶顶顶", "对对对", "的嘎嘎嘎" }, new int[] { 1, 3 }, Color.YELLOW, Color.BLUE, new WISERTextView.SpanClickCallBack() {
 
 			@Override public void spanClick() {
 				WISERHelper.toast().show("点击链接文本");
@@ -140,9 +145,10 @@ public class IndexActivity extends WISERActivity<IndexBiz> implements WISERRVAda
 		list1.add("http://i0.hdslb.com/bfs/article/a22a162bca94cdf7438ea556dfa021b181bf3873.jpg");
 
 		bannerPagerView.setPages(this, new BannerHolder<String>() {
+
 			AppCompatImageView ivBanner;
-			@Override
-			public View createView(Context context, LayoutInflater inflater, ViewGroup container) {
+
+			@Override public View createView(Context context, LayoutInflater inflater, ViewGroup container) {
 				ivBanner = new AppCompatImageView(context);
 				ivBanner.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
 				ivBanner.setAdjustViewBounds(true);
@@ -150,16 +156,40 @@ public class IndexActivity extends WISERActivity<IndexBiz> implements WISERRVAda
 				return ivBanner;
 			}
 
-			@Override
-			public void bindData(Context context, int position, String data) {
-				if (TextUtils.isEmpty(data))return;
+			@Override public void bindData(Context context, int position, String data) {
+				if (TextUtils.isEmpty(data)) return;
 				Glide.with(context).load(data).thumbnail(0.1f).into(ivBanner);
 			}
-		},list1).isDot(true).startTurning(2000);
+		}, list1).isDot(true).startTurning(2000);
 
 		// WISERHelper.toast().show(WISERDate.getWeek("2019年3月26日",
 		// WISERDate.DATE_HZ,true));
 
+		choiceIrregularLayout.setOnChoiceListener(new OnChoiceListener<IndexModel>() {
+			@Override
+			public void onChoiceItemClick(ViewGroup viewGroup, View view, int position, IndexModel indexModel) {
+				indexModel.isCheck = !indexModel.isCheck;
+				if (viewGroup.equals(choiceIrregularLayout)) choiceIrregularLayout.notifyItemPositionData(position, indexModel);
+			}
+		});
+
+		choiceIrregularLayout.setChoiceAdapter(new OnChoiceAdapter<IndexModel>() {
+			@Override
+			public void onCreateItemView(View itemView, int position, IndexModel indexModel) {
+				if (indexModel == null) return;
+				TextView tvChoiceName = itemView.findViewById(R.id.tv_align_text);
+				if (indexModel.isCheck) {
+					tvChoiceName.setBackgroundColor(Color.YELLOW);
+					tvChoiceName.setTextColor(Color.RED);
+				} else {
+					tvChoiceName.setBackgroundColor(Color.GRAY);
+					tvChoiceName.setTextColor(Color.WHITE);
+				}
+				tvChoiceName.setText(indexModel.age);
+			}
+		});
+
+		choiceIrregularLayout.setItems(biz().getIndexModels());
 	}
 
 	@Override public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -218,43 +248,50 @@ public class IndexActivity extends WISERActivity<IndexBiz> implements WISERRVAda
 		}, 4000);
 	}
 
-	@OnClick({  R.id.iv_qr, R.id.tv_d }) public void onClickView(View view) {
+	@OnClick({ R.id.iv_qr, R.id.tv_d }) public void onClickView(View view) {
 		switch (view.getId()) {
 			case R.id.tv_name:
-//				loadingRefresh();
-//				WISERHelper.downUploadManage().fileDownloader().create("https://github.com/Wiser-Wong/MultidexRecord.git")
-//						.setPath(WISERHelper.fileCacheManage().configureStorageDir() + File.separator + getResources().getString(R.string.app_name) + "/down.txt")
-//						.setListener(new FileDownloadListener() {
-//
-//							@Override protected void connected(BaseDownloadTask task, String etag, boolean isContinue, int soFarBytes, int totalBytes) {
-//								super.connected(task, etag, isContinue, soFarBytes, totalBytes);
-//								WISERHelper.toast().show("链接");
-//							}
-//
-//							@Override protected void pending(BaseDownloadTask task, int soFarBytes, int totalBytes) {
-//								new MToast().show("pending--->>soFarBytes:-->>" + soFarBytes + "totalBytes:-->>" + totalBytes);
-//							}
-//
-//							@Override protected void progress(BaseDownloadTask task, int soFarBytes, int totalBytes) {
-//								new MToast().show("progress--->>soFarBytes:-->>" + soFarBytes + "totalBytes:-->>" + totalBytes);
-//							}
-//
-//							@Override protected void completed(BaseDownloadTask task) {
-//								WISERHelper.toast().show("下载完成");
-//							}
-//
-//							@Override protected void paused(BaseDownloadTask task, int soFarBytes, int totalBytes) {
-//
-//							}
-//
-//							@Override protected void error(BaseDownloadTask task, Throwable e) {
-//								WISERHelper.toast().show("下载错误");
-//							}
-//
-//							@Override protected void warn(BaseDownloadTask task) {
-//
-//							}
-//						}).start();
+				// loadingRefresh();
+				// WISERHelper.downUploadManage().fileDownloader().create("https://github.com/Wiser-Wong/MultidexRecord.git")
+				// .setPath(WISERHelper.fileCacheManage().configureStorageDir() + File.separator
+				// + getResources().getString(R.string.app_name) + "/down.txt")
+				// .setListener(new FileDownloadListener() {
+				//
+				// @Override protected void connected(BaseDownloadTask task, String etag,
+				// boolean isContinue, int soFarBytes, int totalBytes) {
+				// super.connected(task, etag, isContinue, soFarBytes, totalBytes);
+				// WISERHelper.toast().show("链接");
+				// }
+				//
+				// @Override protected void pending(BaseDownloadTask task, int soFarBytes, int
+				// totalBytes) {
+				// new MToast().show("pending--->>soFarBytes:-->>" + soFarBytes +
+				// "totalBytes:-->>" + totalBytes);
+				// }
+				//
+				// @Override protected void progress(BaseDownloadTask task, int soFarBytes, int
+				// totalBytes) {
+				// new MToast().show("progress--->>soFarBytes:-->>" + soFarBytes +
+				// "totalBytes:-->>" + totalBytes);
+				// }
+				//
+				// @Override protected void completed(BaseDownloadTask task) {
+				// WISERHelper.toast().show("下载完成");
+				// }
+				//
+				// @Override protected void paused(BaseDownloadTask task, int soFarBytes, int
+				// totalBytes) {
+				//
+				// }
+				//
+				// @Override protected void error(BaseDownloadTask task, Throwable e) {
+				// WISERHelper.toast().show("下载错误");
+				// }
+				//
+				// @Override protected void warn(BaseDownloadTask task) {
+				//
+				// }
+				// }).start();
 				break;
 			case R.id.iv_qr:
 

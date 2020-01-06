@@ -211,12 +211,26 @@ public abstract class WISERRVAdapter<T, V extends WISERHolder> extends RecyclerV
 		if (isFooter) {
 			if (viewType == TYPE_FOOTER) {
 				if (wiserView != null && wiserView.getFooterModel() != null && wiserView.getFooterModel().footerLayoutId > 0) {
-					return (V) new FooterHolder(inflate(viewGroup, wiserView.getFooterModel().footerLayoutId));
+					V v = (V) new FooterHolder(inflate(viewGroup, wiserView.getFooterModel().footerLayoutId));
+					v.setContext(activity());
+					v.setAdapter(this);
+					return v;
 				}
-				return (V) new FooterHolder(inflate(viewGroup, R.layout.footer_layout));
-			} else return newViewHolder(viewGroup, viewType);
+				V v = (V) new FooterHolder(inflate(viewGroup, R.layout.footer_layout));
+				v.setContext(activity());
+				v.setAdapter(this);
+				return v;
+			} else {
+				V v = newViewHolder(viewGroup, viewType);
+				v.setContext(activity());
+				v.setAdapter(this);
+				return v;
+			}
 		} else {
-			return newViewHolder(viewGroup, viewType);
+			V v = newViewHolder(viewGroup, viewType);
+			v.setContext(activity());
+			v.setAdapter(this);
+			return v;
 		}
 	}
 

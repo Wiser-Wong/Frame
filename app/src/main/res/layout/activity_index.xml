@@ -84,6 +84,16 @@
                         android:textColor="@color/black"
                         android:textSize="30sp" />
 
+                    <com.wiser.library.view.choice.ChoiceIrregularLayout
+                        android:id="@+id/cil_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginTop="10dp"
+                        app:cil_isFillSurplusWidth="false"
+                        app:cil_layoutId="@layout/align_item" />
+
                     <FrameLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent">

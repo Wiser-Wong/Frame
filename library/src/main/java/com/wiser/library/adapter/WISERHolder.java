@@ -1,5 +1,6 @@
 package com.wiser.library.adapter;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -12,7 +13,9 @@ import butterknife.ButterKnife;
  */
 public abstract class WISERHolder<T> extends RecyclerView.ViewHolder {
 
-	private WISERRVAdapter adapter;
+	private WISERRVAdapter	adapter;
+
+	private Context			context;
 
 	public WISERHolder(@NonNull View itemView) {
 		super(itemView);
@@ -21,6 +24,14 @@ public abstract class WISERHolder<T> extends RecyclerView.ViewHolder {
 
 	public void setAdapter(WISERRVAdapter adapter) {
 		this.adapter = adapter;
+	}
+
+	public void setContext(Context context) {
+		this.context = context;
+	}
+
+	public Context getContext() {
+		return context;
 	}
 
 	public WISERRVAdapter adapter() {
