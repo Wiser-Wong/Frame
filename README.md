@@ -2,6 +2,7 @@
 一个高级Android MVP框架
 ## 集成
    * [WISERFormatPlugin插件大门](https://github.com/Wiser-Wong/WISERFormatPlugin.git)
+   
    ![images](https://github.com/Wiser-Wong/WISERFormatPlugin/blob/master/images/plugin2.png)
    * Application中onCreate方法中初始化框架：
    
