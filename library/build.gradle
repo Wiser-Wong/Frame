@@ -30,7 +30,8 @@ dependencies {
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
 
     //java 定义注解
-    api 'org.jetbrains:annotations-java5:15.0'
+    api 'org.jetbrains:annotations:13.0'
+//    api 'org.jetbrains:annotations-java5:15.0'
 
     //系统状态栏
     api 'com.readystatesoftware.systembartint:systembartint:1.0.4'
@@ -45,11 +46,11 @@ dependencies {
     api 'com.google.code.gson:gson:2.8.5'
 
     // okHttp升级
-    api 'com.squareup.okhttp3:okhttp:3.12.0'
+    api 'com.squareup.okhttp3:okhttp:4.2.0'
 
     //retrofit2
     api 'com.squareup.retrofit2:retrofit:2.5.0'
-    api 'com.squareup.retrofit2:converter-gson:2.3.0'
+    api 'com.squareup.retrofit2:converter-gson:2.4.0'
 
     // progressbar
     api 'com.github.rahatarmanahmed:circularprogressview:2.5.0'

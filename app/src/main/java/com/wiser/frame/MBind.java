@@ -77,7 +77,7 @@ public class MBind implements IWISERBind {
 		okHttpBuilder.cookieJar(cookieManager);
 
 		// 服务器地址域名
-		builder.baseUrl("http://119.253.83.230/");
+		builder.baseUrl("https://www.baidu.com");
 		// Gson转换器
 		Gson gson = new GsonBuilder().setLenient().create();
 		builder.addConverterFactory(GsonConverterFactory.create(gson));

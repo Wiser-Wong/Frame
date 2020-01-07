@@ -39,7 +39,15 @@ public class WebViewBiz extends WISERBiz<WebViewActivity> implements IWebBiz {
 			@Override protected void onSuccess(String s) {
 				System.out.println("------>>" + s);
 				ui().show(s);
+				hideLoading();
 			}
+
+			@Override
+			protected void onFail(Throwable e) throws Exception {
+				super.onFail(e);
+				hideLoading();
+			}
+
 		}));
 		/**
 		 * flatMap处理多循环嵌套 与 concatMap一样的效果
