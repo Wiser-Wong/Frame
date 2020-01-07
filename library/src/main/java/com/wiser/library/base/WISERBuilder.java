@@ -99,7 +99,7 @@ public class WISERBuilder {
 
 	// private boolean fitsSystem = false; // 是否填充系统状态栏
 
-	private boolean					tint;										// 状态栏颜色
+	private boolean					isTint;										// 状态栏颜色
 
 	private boolean					isSwipeBack					= false;		// 是否滑动返回上一个Activity
 
@@ -261,8 +261,10 @@ public class WISERBuilder {
 		return tintColor > 0;
 	}
 
-	public void tintColor(@ColorInt int tintColor) {
+	public void tintStateBarColor(@ColorInt int tintColor) {
 		this.tintColor = tintColor;
+		this.isTint = true;
+		isSystemStatusBarPaddingTop();
 	}
 
 	private boolean getStatusBarTintEnabled() {
@@ -273,12 +275,8 @@ public class WISERBuilder {
 		return navigationBarTintEnabled;
 	}
 
-	public boolean isTint() {
-		return tint;
-	}
-
-	public void tintIs(boolean isTint) {
-		this.tint = isTint;
+	private boolean isTint() {
+		return isTint;
 	}
 
 	public void isSystemStatusBarPaddingTop() {
@@ -559,13 +557,13 @@ public class WISERBuilder {
 	void setToolBarControl() {
 		if (toolBarView == null) return;
 		if (titleViewId > 0) {
-			View titleView = ButterKnife.findById(toolBarView, titleViewId);
+			View titleView = toolBarView.findViewById(titleViewId);
 			if (titleView instanceof TextView && !WISERCheck.isEmpty(titleName)) {
 				((TextView) titleView).setText(titleName);
 			}
 		}
 		if (backViewId > 0) {
-			View backView = ButterKnife.findById(toolBarView, backViewId);
+			View backView = toolBarView.findViewById(backViewId);
 			if (backView != null) {
 				backView.setOnClickListener(new View.OnClickListener() {
 

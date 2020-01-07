@@ -83,8 +83,7 @@ public class IndexActivity extends WISERActivity<IndexBiz> implements WISERRVAda
 		// builder.setColorSchemeColors(getResources().getColor(R.color.colorAccent),getResources().getColor(R.color.cpv_default_color),getResources().getColor(R.color.design_default_color_primary));
 		// builder.tintFitsSystem(false);
 		// builder.setStatusBarFullTransparent();
-		builder.tintIs(true);
-		builder.tintColor(getResources().getColor(R.color.red));
+		builder.tintStateBarColor(getResources().getColor(R.color.red));
 		builder.swipeBack(true);
 		return builder;
 	}

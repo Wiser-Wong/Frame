@@ -30,7 +30,7 @@ import butterknife.ButterKnife;
  */
 public class WISERTabLayout extends FrameLayout implements View.OnClickListener, ViewPager.OnPageChangeListener {
 
-	private WISERTabPageView tabPageView;								// 页 布局
+	private WISERTabPageView		tabPageView;								// 页 布局
 
 	private View					tabLayoutView;								// Tab 布局视图
 
@@ -111,7 +111,7 @@ public class WISERTabLayout extends FrameLayout implements View.OnClickListener,
 		this.tabIds = tabIds;
 		if (tabIds != null && tabIds.length > 0) {
 			for (int tabId : tabIds) {
-				View view = ButterKnife.findById(tabLayoutView, tabId);
+				View view = tabLayoutView.findViewById(tabId);
 				tabViews.add(view);
 			}
 		}

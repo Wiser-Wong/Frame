@@ -12,9 +12,7 @@ public class SlidingMenuActivity extends WISERSlidingMenuActivity {
 
 	@Override protected WISERBuilder buildSlidingMenu(WISERBuilder builder) {
 		builder.layoutId(R.layout.activity_sliding_menu);
-		builder.tintColor(Color.RED);
-		builder.tintIs(true);
-//		builder.tintFitsSystem(true);
+		builder.tintStateBarColor(Color.RED);
 		return builder;
 	}
 

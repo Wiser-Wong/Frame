@@ -387,7 +387,7 @@ public class WISERRecycleView {
 	 */
 	void createRecycleView(View view) {
 		if (getRecycleViewId() > 0) {
-			mRecycleView = ButterKnife.findById(view, getRecycleViewId());
+			mRecycleView = view.findViewById(getRecycleViewId());
 			// WISERCheckUtil.checkNotNull(mRecycleView, "无法根据布局文件ID,获取recyclerView");
 			// WISERCheckUtil.checkNotNull(mLayoutManager, "LayoutManger不能为空");
 			// WISERCheckUtil.checkNotNull(mAdapter, "Adapter不能为空");

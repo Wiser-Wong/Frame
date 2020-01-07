@@ -53,8 +53,7 @@
       * builder.backViewId(@IdRes int backViewId);标题布局返回id
       * builder.titleBarViewId(@IdRes int titleViewId, String titleName, @IdRes int backViewId);标题布局titleid，标题内容以及返回id
       * builder.swipeBack(true);滑动退出Activity
-      * builder.tintIs(true);状态栏是否可修改并且填充系统状态栏
-      * builder.tintColor(color);状态栏颜色
+      * builder.tintStateBarColor(color);状态栏颜色(设置该颜色，沉浸状态栏即生效)
       * builder.isSystemStatusBarPaddingTop();是否布局距离顶部状态栏高度
       * builder.setStatusBarFullTransparent();设置状态栏全透明与tintIs一样都有填充状态栏功能两者不可同时使用，同时使用只会显示tintIs
       * builder.setHalfTransparent();设置状态栏半透明
