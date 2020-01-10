@@ -34,6 +34,8 @@ public abstract class WISERFragment<B extends IWISERBiz> extends Fragment implem
 
 	private Unbinder		unbinder;
 
+	private View			view;
+
 	protected abstract WISERBuilder build(WISERBuilder builder);
 
 	protected abstract void initData(Bundle savedInstanceState);
@@ -48,6 +50,8 @@ public abstract class WISERFragment<B extends IWISERBiz> extends Fragment implem
 		WISERHelper.getBizManage().attach(bizModel);
 		// 填充视图
 		View view = build(mWiserBuilder).createView();
+
+		setFragmentView(view);
 
 		// 初始化所有组件
 		unbinder = ButterKnife.bind(this, view);
@@ -74,6 +78,14 @@ public abstract class WISERFragment<B extends IWISERBiz> extends Fragment implem
 
 	public WISERBuilder builder() {
 		return mWiserBuilder;
+	}
+
+	private void setFragmentView(View view){
+		this.view = view;
+	}
+
+	public View getFragmentView() {
+		return view;
 	}
 
 	// 获取Adapter实例
@@ -174,6 +186,7 @@ public abstract class WISERFragment<B extends IWISERBiz> extends Fragment implem
 	 * 清除引用
 	 */
 	public void detach() {
+		view = null;
 		if (mWiserBuilder != null) mWiserBuilder.detach();
 		mWiserBuilder = null;
 		bizModel = null;
