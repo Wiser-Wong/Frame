@@ -1,17 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/tv_align_text"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
-
-    <TextView
-        android:id="@+id/tv_align_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@color/gold"
-        android:layout_margin="10dp"
-        android:padding="10dp"
-        android:textSize="20dp"
-        android:text="ddddddd"/>
-
-</LinearLayout>
+    android:background="@color/gold"
+    android:layout_margin="10dp"
+    android:padding="10dp"
+    android:textSize="20sp"
+    android:text="ddddddd"/>

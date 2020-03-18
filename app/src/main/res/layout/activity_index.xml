@@ -28,15 +28,15 @@
                     android:background="#ffffff"
                     android:orientation="vertical">
 
-                    <com.wiser.library.view.AlignTextLayoutView
-                        android:id="@+id/align_view"
+                    <com.wiser.library.view.irregular.IrregularLayout
+                        android:id="@+id/il_view"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        app:alignLayoutItemId="@layout/align_item"
-                        app:alignLayoutItemMargins="12dp"
-                        app:alignLayoutItemTextId="@+id/tv_align_text"
-                        app:alignLayoutLineMargins="12dp" />
+                        app:il_isFillSurplusWidth="false"
+                        app:il_layoutId="@layout/align_item"
+                        app:il_horizontalSpacing="7dp"
+                        app:il_verticalSpacing="7dp"/>
 
                     <com.wiser.library.view.shadow.ShadowContainer
                         android:layout_width="match_parent"

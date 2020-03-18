@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="IrregularLayout">
+        <attr name="il_layoutId" format="reference" />
+        <attr name="il_isFillSurplusWidth" format="boolean" />
+        <attr name="il_horizontalSpacing" format="dimension"/>
+        <attr name="il_verticalSpacing" format="dimension"/>
+    </declare-styleable>
+</resources>

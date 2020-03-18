@@ -5,6 +5,7 @@ import javax.net.ssl.SSLSocketFactory;
 
 import com.wiser.library.helper.WISERHelper;
 import com.wiser.library.util.WISERCheck;
+import com.wiser.library.util.WISERSSLSocketFactory;
 import com.wiser.library.util.WISERSSLHttpsAuth;
 
 import android.support.annotation.RawRes;
@@ -51,5 +52,17 @@ public class WISERHttpManage {
 		// 自签证书
 		SSLSocketFactory sslSocketFactory = WISERSSLHttpsAuth.getSSLSocketFactoryForRaw(fileId);
 		if (sslSocketFactory != null) builder.sslSocketFactory(sslSocketFactory).hostnameVerifier(WISERSSLHttpsAuth.getHostnameVerifier());
+	}
+
+	/**
+	 * 初始化自签名
+	 *
+	 * @param builder
+	 *            OkHttpBuilder
+	 */
+	public void initSSLSocketFactory(OkHttpClient.Builder builder) {
+		if (builder == null) return;
+		// 验证
+		WISERSSLHttpsAuth.sslHttpsAuth(builder);
 	}
 }
