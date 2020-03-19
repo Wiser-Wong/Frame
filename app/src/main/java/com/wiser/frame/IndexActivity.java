@@ -13,10 +13,12 @@ import com.wiser.library.pager.banner.BannerHolder;
 import com.wiser.library.pager.banner.BannerPagerView;
 import com.wiser.library.util.WISERDate;
 import com.wiser.library.util.WISERTextView;
-import com.wiser.library.view.AlignTextLayoutView;
 import com.wiser.library.view.choice.ChoiceIrregularLayout;
 import com.wiser.library.view.choice.OnChoiceAdapter;
 import com.wiser.library.view.choice.OnChoiceListener;
+import com.wiser.library.view.irregular.IrregularLayout;
+import com.wiser.library.view.irregular.OnIrregularAdapter;
+import com.wiser.library.view.irregular.OnItemClickListener;
 import com.wiser.library.view.marquee.MarqueeAdapter;
 import com.wiser.library.view.marquee.MarqueeView;
 import com.wiser.library.zxing.WISERQRCode;
@@ -42,13 +44,13 @@ import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class IndexActivity extends WISERActivity<IndexBiz> implements WISERRVAdapter.OnFooterCustomListener, AlignTextLayoutView.OnAlignItemListener {
+public class IndexActivity extends WISERActivity<IndexBiz> implements WISERRVAdapter.OnFooterCustomListener, OnItemClickListener<String> {
 
 	@BindView(R.id.tv_name) TextView								tvName;
 
 	@BindView(R.id.iv_qr) ImageView									ivQR;
 
-	@BindView(R.id.align_view) AlignTextLayoutView					alignLayoutView;
+	@BindView(R.id.il_view) IrregularLayout<String>					irregularLayout;
 
 	@BindView(R.id.marquee) MarqueeView<IndexModel>					marqueeView;
 
@@ -122,7 +124,14 @@ public class IndexActivity extends WISERActivity<IndexBiz> implements WISERRVAda
 		list.add("222w2");
 		list.add("22eeeee22");
 
-		alignLayoutView.setData(list).setOnAlignItemListener(this);
+		irregularLayout.setOnItemClickListener(this);
+		irregularLayout.setOnIrregularAdapter(new OnIrregularAdapter<String>() {
+			@Override
+			public void onCreateItemView(View itemView, int position, String s) {
+				((TextView)itemView.findViewById(R.id.tv_align_text)).setText(s);
+			}
+		});
+		irregularLayout.setItems(list);
 
 		// 存储数据
 		MConfig mConfig = new MConfig(this);
@@ -165,16 +174,16 @@ public class IndexActivity extends WISERActivity<IndexBiz> implements WISERRVAda
 		// WISERDate.DATE_HZ,true));
 
 		choiceIrregularLayout.setOnChoiceListener(new OnChoiceListener<IndexModel>() {
-			@Override
-			public void onChoiceItemClick(ViewGroup viewGroup, View view, int position, IndexModel indexModel) {
+
+			@Override public void onChoiceItemClick(ViewGroup viewGroup, View view, int position, IndexModel indexModel) {
 				indexModel.isCheck = !indexModel.isCheck;
 				if (viewGroup.equals(choiceIrregularLayout)) choiceIrregularLayout.notifyItemPositionData(position, indexModel);
 			}
 		});
 
 		choiceIrregularLayout.setChoiceAdapter(new OnChoiceAdapter<IndexModel>() {
-			@Override
-			public void onCreateItemView(View itemView, int position, IndexModel indexModel) {
+
+			@Override public void onCreateItemView(View itemView, int position, IndexModel indexModel) {
 				if (indexModel == null) return;
 				TextView tvChoiceName = itemView.findViewById(R.id.tv_align_text);
 				if (indexModel.isCheck) {
@@ -355,10 +364,7 @@ public class IndexActivity extends WISERActivity<IndexBiz> implements WISERRVAda
 		WISERHelper.toast().show(s);
 	}
 
-	@Override public void onItemClick(View view, int position, String text) {
-		// WISERHelper.toast().show(text);
-		new MToast().show(text);
-
-		// new UiManage().showLoading(true);
+	@Override public void onItemClick(ViewGroup viewGroup, View view, int position, String s) {
+		showT(s);
 	}
 }

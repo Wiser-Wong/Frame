@@ -12,6 +12,7 @@ import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
 
 import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSession;
 import javax.net.ssl.SSLSocketFactory;
@@ -22,6 +23,8 @@ import javax.net.ssl.X509TrustManager;
 import android.annotation.SuppressLint;
 
 import com.wiser.library.helper.WISERHelper;
+
+import okhttp3.OkHttpClient;
 
 /**
  * @author Wiser
@@ -170,6 +173,38 @@ public class WISERSSLHttpsAuth {
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	/**
+	 * 验证
+	 *
+	 * @param builder
+	 */
+	public static void sslHttpsAuth(OkHttpClient.Builder builder) {
+		KeyStore trustStore;
+		try {
+			trustStore = KeyStore.getInstance(KeyStore.getDefaultType());
+			trustStore.load(null, null);
+			WISERSSLSocketFactory ssl = new WISERSSLSocketFactory(KeyStore.getInstance(KeyStore.getDefaultType()));
+			HostnameVerifier hostnameVerifier = new HostnameVerifier() {
+
+				@Override public boolean verify(String hostname, SSLSession session) {
+					return HttpsURLConnection.getDefaultHostnameVerifier().verify(hostname, session);
+				}
+			};
+
+			builder.sslSocketFactory(ssl.getSSLContext().getSocketFactory(), ssl.getTrustManager()).hostnameVerifier(hostnameVerifier);
+		} catch (KeyStoreException e) {
+			e.printStackTrace();
+		} catch (CertificateException e) {
+			e.printStackTrace();
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (KeyManagementException e) {
+			e.printStackTrace();
+		}
 	}
 
 }
