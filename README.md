@@ -9,16 +9,17 @@
 	     WISERHelper.newBind().setWiserBind(new MyBind()).Inject(this, BuildConfig.DEBUG);  
 	     setWiserBind()方法扩展自己的Bind类 如果不需要可直接初始化WiserFrame架构的Bind,然后去掉该方法就可以了。
 	     
-   * 需要在自己的app module的build.gradle中注入butterknife依赖库：
+   * 需要在自己的app module的build.gradle中注入butterknife依赖库：  
+             
              dependencies{
-             implementation "com.jakewharton:butterknife:8.8.1"
-             annotationProcessor "com.jakewharton:butterknife-compiler:8.8.1"
+                 implementation "com.jakewharton:butterknife:8.8.1"
+                 annotationProcessor "com.jakewharton:butterknife-compiler:8.8.1"
              }
              或
              apply plugin: 'kotlin-kapt'
              dependencies{
-             implementation "com.jakewharton:butterknife:8.8.1"
-             kapt "com.jakewharton:butterknife-compiler:8.8.1"
+                 implementation "com.jakewharton:butterknife:8.8.1"
+                 kapt "com.jakewharton:butterknife-compiler:8.8.1"
              }
 
    * 项目下的build.gradle配置
