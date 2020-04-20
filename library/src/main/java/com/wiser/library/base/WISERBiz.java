@@ -106,7 +106,7 @@ public class WISERBiz<U> implements IWISERBiz {
 	 */
 	protected <D> Observable<D> httpObservableThread(Observable<D> observable) {
 		if (observable != null) {
-			return observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+			return observable.subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread());
 		}
 		return null;
 	}

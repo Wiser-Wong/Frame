@@ -18,8 +18,8 @@ public class IndexDialogFragment extends WISERDialogFragment<IndexDialogFragment
 
 	@BindView(R.id.tv_dialog) TextView	textView;
 
-	@BindView(R.id.smart_page)
-	SmartPageView smartPageView;
+//	@BindView(R.id.smart_page)
+//	SmartPageView smartPageView;
 
 	private boolean						isClose = true;
 
@@ -29,11 +29,11 @@ public class IndexDialogFragment extends WISERDialogFragment<IndexDialogFragment
 
 	@Override protected WISERBuilder build(WISERBuilder builder) {
 		builder.layoutId(R.layout.fragment_dialog);
-		builder.recycleView().recycleViewId(R.id.dialog_rlv);
-		builder.recycleView().recycleViewLinearManager(LinearLayoutManager.VERTICAL, null);
-		builder.recycleView().recycleAdapter(new IndexAdapter(this));
-		builder.isRootLayoutRefresh(true, false);
-		builder.recycleView().isFooter(true);
+//		builder.recycleView().recycleViewId(R.id.dialog_rlv);
+//		builder.recycleView().recycleViewLinearManager(LinearLayoutManager.VERTICAL, null);
+//		builder.recycleView().recycleAdapter(new IndexAdapter(this));
+//		builder.isRootLayoutRefresh(true, false);
+//		builder.recycleView().isFooter(true);
 		return builder;
 	}
 
@@ -43,12 +43,12 @@ public class IndexDialogFragment extends WISERDialogFragment<IndexDialogFragment
 		}
 //		WISERHelper.display().commitChildReplace(this,R.id.dialog_content,new IndexFragment());
 //		biz().addAdapterData();
-		smartPageView.setPage(getChildFragmentManager(),new SmartTabInfo("测试1", IndexFragment.class, null), new SmartTabInfo("测试2", SecondFragment.class, null), new SmartTabInfo("测试3", ThreeFragment.class, null));
-		smartPageView.setOffscreenPageLimit(3);
+//		smartPageView.setPage(getChildFragmentManager(),new SmartTabInfo("测试1", IndexFragment.class, null), new SmartTabInfo("测试2", SecondFragment.class, null), new SmartTabInfo("测试3", ThreeFragment.class, null));
+//		smartPageView.setOffscreenPageLimit(3);
 	}
 
 	@Override protected int dialogWeight() {
-		return CENTER;
+		return BOTTOM;
 	}
 
 	@Override protected int dialogTheme() {

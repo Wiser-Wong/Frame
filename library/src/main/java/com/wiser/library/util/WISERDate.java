@@ -337,6 +337,32 @@ public class WISERDate {
 	}
 
 	/**
+	 * 获取两个日期之间的间隔天数
+	 *
+	 * @param start
+	 *            long
+	 * @param end
+	 *            long
+	 * @return
+	 */
+	public static int daysBetweenForDate(long start, int end) {
+		long betweenDays = (end - start) / (1000 * 3600 * 24);
+		return Integer.parseInt(String.valueOf(betweenDays));
+	}
+
+	/**
+	 * 获取两个日期之间的间隔天数
+	 *
+	 * @param limit
+	 *            long 间隔的长度
+	 * @return
+	 */
+	public static int daysBetweenForDate(long limit) {
+		long betweenDays = limit / (1000 * 3600 * 24);
+		return Integer.parseInt(String.valueOf(betweenDays));
+	}
+
+	/**
 	 * 根据long类型转时间类型字符串
 	 *
 	 * @param mill
@@ -376,6 +402,29 @@ public class WISERDate {
 		}
 		return dateStr;
 	}
+
+	/**
+	 * 根据long类型获取时间字符串
+	 *
+	 * @param mill long时间
+	 * @param pattern 模板
+	 * @return
+	 */
+	public static String getTimes(long mill,String pattern) {
+		Date date = new Date(mill);
+		String dateStr = "";
+		try {
+			SimpleDateFormat sdf = new SimpleDateFormat(pattern, Locale.CHINA);
+			sdf.setTimeZone(timezone);
+			// 进行格式化
+			dateStr = sdf.format(date);
+			return dateStr;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return dateStr;
+	}
+
 
 	/**
 	 * 根据long类型转时分秒类型字符串

@@ -1,6 +1,9 @@
 package com.wiser.frame;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import com.bumptech.glide.Glide;
@@ -198,6 +201,21 @@ public class IndexActivity extends WISERActivity<IndexBiz> implements WISERRVAda
 		});
 
 		choiceIrregularLayout.setItems(biz().getIndexModels());
+
+//		WISERHelper.toast().show(WISERDate.getDateStrForLong(27647527 - WISERDate.getCurrentTimestamp(),WISERDate.DATE_HZ,true));
+		WISERHelper.toast().show(WISERDate.getCurrentDateStr(WISERDate.DATE_HZ,true));
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		Date curDate = null;
+		Date endDate= null;
+		try {
+			curDate = df.parse("2020-4-16 00:00:00");
+			endDate = df.parse("2020-5-16 00:00:00");
+			long diff = endDate.getTime() - curDate.getTime();
+			System.out.println(WISERDate.getTimes(27647527,"HH:mm:ss"));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+
 	}
 
 	@Override public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {

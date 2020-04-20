@@ -1,12 +1,5 @@
 package com.wiser.library.tab.top;
 
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-
-import com.wiser.library.R;
-import com.wiser.library.helper.WISERHelper;
-import com.wiser.library.view.smart.SmartTabLayout;
-
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.support.annotation.NonNull;
@@ -15,6 +8,10 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.View;
+
+import com.wiser.library.R;
+import com.wiser.library.helper.WISERHelper;
+import com.wiser.library.view.smart.SmartTabLayout;
 
 /**
  * @author Wiser
