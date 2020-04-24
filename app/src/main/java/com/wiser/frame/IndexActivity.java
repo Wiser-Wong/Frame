@@ -105,12 +105,12 @@ public class IndexActivity extends WISERActivity<IndexBiz> implements WISERRVAda
 
 		marquee();
 
-		WISERHelper.permissionManage().requestPermission(this, 11, Manifest.permission.CAMERA, new IWISERPermissionCallBack() {
-
-			@Override public void hadPermissionResult() {
-				WISERHelper.toast().show("请求权限成功");
-			}
-		});
+//		WISERHelper.permissionManage().requestPermission(this, 11, Manifest.permission.CAMERA, new IWISERPermissionCallBack() {
+//
+//			@Override public void hadPermissionResult() {
+//				WISERHelper.toast().show("请求权限成功");
+//			}
+//		});
 
 		WISERTextView.textformatSpan(tvName, new String[] { "我试试", "顶顶顶顶", "对对对", "的嘎嘎嘎" }, new int[] { 1, 3 }, Color.YELLOW, Color.BLUE, new WISERTextView.SpanClickCallBack() {
 
@@ -216,12 +216,20 @@ public class IndexActivity extends WISERActivity<IndexBiz> implements WISERRVAda
 			e.printStackTrace();
 		}
 
+		WISERHelper.permissionManage().requestPermissions(this, 11111, new String[]{ Manifest.permission.CAMERA, Manifest.permission.READ_PHONE_STATE,Manifest.permission.SEND_SMS,Manifest.permission.READ_EXTERNAL_STORAGE}, new IWISERPermissionCallBack() {
+			@Override
+			public void hadPermissionResult() {
+				WISERHelper.toast().show("请求多个权限成功了");
+			}
+		});
+
 	}
 
 	@Override public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
 		super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 		switch (requestCode) {
 			case 11:
+			case 11111:
 				if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 					WISERHelper.permissionManage().onPermission(requestCode);
 				} else {
