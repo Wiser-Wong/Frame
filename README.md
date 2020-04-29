@@ -28,7 +28,7 @@
 	     
    * app目录下build.gradle配置
    
-	     dependencies { implementation 'com.github.Wiser-Wong:Frame:1.7.6' }
+	     dependencies { implementation 'com.github.Wiser-Wong:Frame:1.7.8' }
      
 ## 使用说明
  
