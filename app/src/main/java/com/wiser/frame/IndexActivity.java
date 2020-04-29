@@ -70,7 +70,7 @@ public class IndexActivity extends WISERActivity<IndexBiz> implements WISERRVAda
 		builder.layoutErrorId(R.layout.view_error);
 		builder.layoutLoadingId(R.layout.view_loading);
 		builder.recycleView().recycleViewId(R.id.home_rlv);
-		builder.isSystemStatusBarPaddingTop();
+//		builder.isSystemStatusBarPaddingTop();
 		// builder.setFullScreenToggle(true);
 		// builder.removeStateBar();
 		// builder.hideVirtualKey();
@@ -87,8 +87,8 @@ public class IndexActivity extends WISERActivity<IndexBiz> implements WISERRVAda
 		// builder.setProgressBackgroundColorSchemeColor(Color.BLACK);
 		// builder.setColorSchemeColors(getResources().getColor(R.color.colorAccent),getResources().getColor(R.color.cpv_default_color),getResources().getColor(R.color.design_default_color_primary));
 		// builder.tintFitsSystem(false);
-		// builder.setStatusBarFullTransparent();
-		builder.tintStateBarColor(getResources().getColor(R.color.red));
+		 builder.setStatusBarFullTransparent();
+//		builder.tintStateBarColor(getResources().getColor(R.color.red));
 		builder.swipeBack(true);
 		return builder;
 	}
