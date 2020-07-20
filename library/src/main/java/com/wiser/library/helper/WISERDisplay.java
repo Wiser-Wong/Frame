@@ -688,6 +688,14 @@ public class WISERDisplay implements IWISERDisplay {
 		return "";
 	}
 
+	@Override
+	public void intentPick(String action,String type,int requestCode) {
+		if (activity() == null) return;
+		Intent intent = new Intent(action);
+		intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, type);
+		activity().startActivityForResult(intent, requestCode);
+	}
+
 	/**
 	 * 跳转相册
 	 *
@@ -696,8 +704,29 @@ public class WISERDisplay implements IWISERDisplay {
 	 */
 	@Override public void intentPhoto(int requestCode) {
 		if (activity() == null) return;
-		Intent intent = new Intent(Intent.ACTION_PICK, null);
+		Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
 		intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
+		activity().startActivityForResult(intent, requestCode);
+	}
+
+	@Override
+	public void intentVideo(int requestCode) {
+		if (activity() == null) return;
+		Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+		intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "video/*");
+		activity().startActivityForResult(intent, requestCode);
+	}
+
+	@Override
+	public void intentVideoAndPhoto(int requestCode) {
+		if (activity() == null) return;
+		Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+		if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT){
+			intent.setType("*/*");
+			intent.putExtra(Intent.EXTRA_MIME_TYPES, new String[]{"video/*", "image/*"});
+		}else {
+			intent.setType("video/*;image/*");
+		}
 		activity().startActivityForResult(intent, requestCode);
 	}
 

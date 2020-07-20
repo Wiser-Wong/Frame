@@ -779,12 +779,40 @@ public interface IWISERDisplay {
 	String intentCamera(String outPath, String authority, int requestCode);
 
 	/**
-	 * 跳转相册
+	 * 跳转选择
+	 *
+	 * @param action
+	 * 			  参数
+	 * @param type
+	 *   		  参数
+	 * @param requestCode
+	 *            请求码
+	 */
+	void intentPick(String action,String type,int requestCode);
+
+	/**
+	 * 跳转只有相册
 	 *
 	 * @param requestCode
 	 *            请求码
 	 */
 	void intentPhoto(int requestCode);
+
+	/**
+	 * 跳转只有视频
+	 *
+	 * @param requestCode
+	 *            请求码
+	 */
+	void intentVideo(int requestCode);
+
+	/**
+	 * 跳转视频和相册
+	 *
+	 * @param requestCode
+	 *            请求码
+	 */
+	void intentVideoAndPhoto(int requestCode);
 
 	/**
 	 * 截图方法

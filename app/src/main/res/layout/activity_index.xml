@@ -27,6 +27,12 @@
                     android:layout_height="match_parent"
                     android:background="#ffffff"
                     android:orientation="vertical">
+                    
+                    <com.wiser.library.view.roundedimage.RoundedImageView
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:src="@mipmap/scan_photo"
+                        app:riv_oval="true"/>
 
                     <com.wiser.library.view.irregular.IrregularLayout
                         android:id="@+id/il_view"

@@ -223,6 +223,9 @@ public class IndexActivity extends WISERActivity<IndexBiz> implements WISERRVAda
 			}
 		});
 
+		adapter().setItems(biz().indexModels);
+
+		WISERHelper.toast().show(WISERDate.getCurrentDay());
 	}
 
 	@Override public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {

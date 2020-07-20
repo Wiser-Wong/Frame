@@ -7,6 +7,7 @@ import com.wiser.library.helper.WISERHelper;
 import android.content.Context;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
+import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
@@ -36,6 +37,14 @@ public class WISERInput {
 	 */
 	@RequiresApi(api = Build.VERSION_CODES.KITKAT) public void hideSoftInput() {
 		manager.hideSoftInputFromWindow(Objects.requireNonNull(WISERHelper.getActivityManage().getCurrentActivity().getCurrentFocus()).getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+	}
+
+	/**
+	 * 隐藏软键盘
+	 */
+	public void hideSoftInput(View view) {
+		if (view == null) return;
+		manager.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
 	}
 
 	public void hideSoftInput(EditText editText) {

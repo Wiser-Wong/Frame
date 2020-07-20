@@ -547,6 +547,51 @@ public class WISERDate {
 	}
 
 	/**
+	 * 得到现在年
+	 *
+	 * @return
+	 */
+	public static String getCurrentYear() {
+		Date currentTime = new Date();
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		formatter.setTimeZone(timezone);
+		String dateString = formatter.format(currentTime);
+		String hour;
+		hour = dateString.substring(0, 4);
+		return hour;
+	}
+
+	/**
+	 * 得到现在月
+	 *
+	 * @return
+	 */
+	public static String getCurrentMonth() {
+		Date currentTime = new Date();
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		formatter.setTimeZone(timezone);
+		String dateString = formatter.format(currentTime);
+		String hour;
+		hour = dateString.substring(5, 7);
+		return hour;
+	}
+
+	/**
+	 * 得到现在日
+	 *
+	 * @return
+	 */
+	public static String getCurrentDay() {
+		Date currentTime = new Date();
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		formatter.setTimeZone(timezone);
+		String dateString = formatter.format(currentTime);
+		String hour;
+		hour = dateString.substring(8, 10);
+		return hour;
+	}
+
+	/**
 	 * 得到现在小时
 	 * 
 	 * @return
