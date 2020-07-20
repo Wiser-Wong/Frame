@@ -479,6 +479,18 @@ public interface IWISERDisplay {
 	void commitChildReplace(Fragment srcFragment, @IdRes int id, Fragment fragment);
 
 	/**
+	 * @param srcFragment
+	 *            参数
+	 * @param id
+	 *            参数
+	 * @param fragment
+	 *            参数
+	 * @param tag
+	 * 			  参数
+	 */
+	void commitChildReplace(Fragment srcFragment, @IdRes int id, Fragment fragment,String tag);
+
+	/**
 	 * @param id
 	 *            参数
 	 * @param fragment

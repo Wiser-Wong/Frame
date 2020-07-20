@@ -42,6 +42,7 @@ public abstract class WISERFragment<B extends IWISERBiz> extends Fragment implem
 
 	@Nullable @Override public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
+		initCreateStart(savedInstanceState);
 		// 创建构建类
 		mWiserBuilder = new WISERBuilder(this, inflater);
 		// 创建Biz储存对象
@@ -52,6 +53,8 @@ public abstract class WISERFragment<B extends IWISERBiz> extends Fragment implem
 		View view = build(mWiserBuilder).createView();
 
 		setFragmentView(view);
+
+		initCreateViewAfter(savedInstanceState);
 
 		// 初始化所有组件
 		unbinder = ButterKnife.bind(this, view);
@@ -65,6 +68,14 @@ public abstract class WISERFragment<B extends IWISERBiz> extends Fragment implem
 		initData(getArguments());
 		initAfterData(savedInstanceState);
 		return view;
+	}
+
+	public void initCreateStart(Bundle savedInstanceState){
+
+	}
+
+	public void initCreateViewAfter(Bundle savedInstanceState){
+
 	}
 
 	public void initAfterData(Bundle savedInstanceState) {

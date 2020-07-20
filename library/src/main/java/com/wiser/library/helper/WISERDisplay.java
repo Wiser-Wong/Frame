@@ -1,12 +1,5 @@
 package com.wiser.library.helper;
 
-import java.io.File;
-
-import javax.inject.Inject;
-
-import com.wiser.library.base.WISERActivity;
-import com.wiser.library.util.WISERCheck;
-
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -25,7 +18,7 @@ import android.provider.Settings;
 import android.support.annotation.AnimRes;
 import android.support.annotation.AnimatorRes;
 import android.support.annotation.IdRes;
-import android.support.annotation.Nullable;
+import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -33,7 +26,12 @@ import android.support.v4.content.FileProvider;
 import android.util.Pair;
 import android.view.View;
 
-import org.jetbrains.annotations.NotNull;
+import com.wiser.library.base.WISERActivity;
+import com.wiser.library.util.WISERCheck;
+
+import java.io.File;
+
+import javax.inject.Inject;
 
 /**
  * @author Wiser
@@ -300,7 +298,7 @@ public class WISERDisplay implements IWISERDisplay {
 	}
 
 	@Override public void commitAddAnim(@IdRes int id, Fragment fragment, @AnimRes @AnimatorRes int newFragmentInAnim, @AnimRes @AnimatorRes int oldFragmentOutAnim,
-			@AnimRes @AnimatorRes int oldFragmentInAnim, @AnimRes @AnimatorRes int newFragmentOutAnim) {
+										@AnimRes @AnimatorRes int oldFragmentInAnim, @AnimRes @AnimatorRes int newFragmentOutAnim) {
 		if (activity() == null) return;
 		if (fragment != null) {
 			activity().getSupportFragmentManager().beginTransaction().setCustomAnimations(newFragmentInAnim, oldFragmentOutAnim, oldFragmentInAnim, newFragmentOutAnim).add(id, fragment).commit();
@@ -322,7 +320,7 @@ public class WISERDisplay implements IWISERDisplay {
 	}
 
 	@Override public void commitAddAnim(@IdRes int id, Fragment fragment, String tag, @AnimRes @AnimatorRes int newFragmentInAnim, @AnimRes @AnimatorRes int oldFragmentOutAnim,
-			@AnimRes @AnimatorRes int oldFragmentInAnim, @AnimRes @AnimatorRes int newFragmentOutAnim) {
+										@AnimRes @AnimatorRes int oldFragmentInAnim, @AnimRes @AnimatorRes int newFragmentOutAnim) {
 		if (activity() == null) return;
 		if (fragment != null) {
 			activity().getSupportFragmentManager().beginTransaction().setCustomAnimations(newFragmentInAnim, oldFragmentOutAnim, oldFragmentInAnim, newFragmentOutAnim).add(id, fragment, tag).commit();
@@ -344,7 +342,7 @@ public class WISERDisplay implements IWISERDisplay {
 	}
 
 	@Override public void commitReplaceAnim(@IdRes int id, Fragment fragment, @AnimRes @AnimatorRes int newFragmentInAnim, @AnimRes @AnimatorRes int oldFragmentOutAnim,
-			@AnimRes @AnimatorRes int oldFragmentInAnim, @AnimRes @AnimatorRes int newFragmentOutAnim) {
+											@AnimRes @AnimatorRes int oldFragmentInAnim, @AnimRes @AnimatorRes int newFragmentOutAnim) {
 		if (activity() == null) return;
 		if (fragment != null) {
 			activity().getSupportFragmentManager().beginTransaction().setCustomAnimations(newFragmentInAnim, oldFragmentOutAnim, oldFragmentInAnim, newFragmentOutAnim).replace(id, fragment).commit();
@@ -366,7 +364,7 @@ public class WISERDisplay implements IWISERDisplay {
 	}
 
 	@Override public void commitReplaceAnim(@IdRes int id, Fragment fragment, String tag, @AnimRes @AnimatorRes int newFragmentInAnim, @AnimRes @AnimatorRes int oldFragmentOutAnim,
-			@AnimRes @AnimatorRes int oldFragmentInAnim, @AnimRes @AnimatorRes int newFragmentOutAnim) {
+											@AnimRes @AnimatorRes int oldFragmentInAnim, @AnimRes @AnimatorRes int newFragmentOutAnim) {
 		if (activity() == null) return;
 		if (fragment != null) {
 			activity().getSupportFragmentManager().beginTransaction().setCustomAnimations(newFragmentInAnim, oldFragmentOutAnim, oldFragmentInAnim, newFragmentOutAnim).replace(id, fragment, tag)
@@ -385,26 +383,35 @@ public class WISERDisplay implements IWISERDisplay {
 		if (activity() == null) return;
 		if (fragment == null) return;
 		if (srcFragment == null) return;
-		srcFragment.getChildFragmentManager().beginTransaction().replace(id, fragment, fragment.getClass().getName()).setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+		srcFragment.getChildFragmentManager().beginTransaction().replace(id, fragment).setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+				.commitAllowingStateLoss();
+	}
+
+	@Override
+	public void commitChildReplace(Fragment srcFragment, int id, Fragment fragment, String tag) {
+		if (activity() == null) return;
+		if (fragment == null) return;
+		if (srcFragment == null) return;
+		srcFragment.getChildFragmentManager().beginTransaction().replace(id, fragment, tag).setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
 				.commitAllowingStateLoss();
 	}
 
 	@Override public void commitBackStack(@IdRes int id, Fragment fragment) {
 		if (activity() == null) return;
 		if (fragment == null) return;
-		activity().getSupportFragmentManager().beginTransaction().add(id, fragment, fragment.getClass().getName()).addToBackStack(fragment.getClass().getName())
+		activity().getSupportFragmentManager().beginTransaction().add(id, fragment).addToBackStack(null)
 				.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).commitAllowingStateLoss();
 	}
 
-	@Override public void commitBackStack(int id, Fragment fragment, String tag) {
+	@Override public void commitBackStack(@IdRes int id, Fragment fragment, String tag) {
 		if (activity() == null) return;
 		if (fragment == null) return;
-		activity().getSupportFragmentManager().beginTransaction().add(id, fragment, tag).addToBackStack(fragment.getClass().getName()).setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+		activity().getSupportFragmentManager().beginTransaction().add(id, fragment, tag).addToBackStack(tag).setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
 				.commitAllowingStateLoss();
 	}
 
 	@Override public void commitBackStackAddAnim(@IdRes int id, Fragment fragment, String tag, @AnimRes @AnimatorRes int newFragmentInAnim, @AnimRes @AnimatorRes int oldFragmentOutAnim,
-			@AnimRes @AnimatorRes int oldFragmentInAnim, @AnimRes @AnimatorRes int newFragmentOutAnim) {
+												 @AnimRes @AnimatorRes int oldFragmentInAnim, @AnimRes @AnimatorRes int newFragmentOutAnim) {
 		if (activity() == null) return;
 		if (fragment == null) return;
 		activity().getSupportFragmentManager().beginTransaction().setCustomAnimations(newFragmentInAnim, oldFragmentOutAnim, oldFragmentInAnim, newFragmentOutAnim).add(id, fragment, tag)
@@ -483,13 +490,13 @@ public class WISERDisplay implements IWISERDisplay {
 		}
 	}
 
-	@Override public void popBackStack(@NotNull Class clazz) {
+	@Override public void popBackStack(@NonNull Class clazz) {
 		if (this.activity() != null) {
 			this.activity().getSupportFragmentManager().popBackStackImmediate(clazz.getName(), 0);
 		}
 	}
 
-	@Override public void popBackStack(@NotNull String clazzName) {
+	@Override public void popBackStack(@NonNull String clazzName) {
 		if (this.activity() != null) {
 			this.activity().getSupportFragmentManager().popBackStackImmediate(clazzName, 0);
 		}

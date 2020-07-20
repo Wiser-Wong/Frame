@@ -28,7 +28,7 @@
 	     
    * app目录下build.gradle配置
    
-	     dependencies { implementation 'com.github.Wiser-Wong:Frame:1.7.6' }
+	     dependencies { implementation 'com.github.Wiser-Wong:Frame:1.7.8' }
      
 ## 使用说明
  
@@ -169,7 +169,7 @@
         public class MConfig extends WISERProperties {
 
 		public MConfig(@NonNull Context context) {
-			super(context);
+			super(context,"file_name");
 		}
 
 		@Override public int initType() {
@@ -178,6 +178,8 @@
 
 		@Property("name") public String name;
          }
+	    MConfig.name = "你好"；
+	    MConfig.commit();
  ### 图片加载 Glide 不熟悉可查阅 Glide文档或者源码了解
  
  ### 轮播图
