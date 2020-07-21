@@ -11,6 +11,7 @@ import java.util.TimeZone;
 import org.apache.commons.lang3.StringUtils;
 
 import android.annotation.SuppressLint;
+import android.text.format.Time;
 
 /**
  * @author Wiser
@@ -634,6 +635,49 @@ public class WISERDate {
 		String min;
 		min = dateString.substring(17, 19);
 		return min;
+	}
+
+	/**
+	 * 判断当前系统时间是否在特定时间的段内
+	 *
+	 * @param beginHour 开始的小时，例如5
+	 * @param beginMin 开始小时的分钟数，例如00
+	 * @param endHour 结束小时，例如 8
+	 * @param endMin 结束小时的分钟数，例如00
+	 * @return true表示在范围内，否则false
+	 */
+	public static boolean isCurrentInTimeScope(int beginHour, int beginMin, int endHour, int endMin) {
+		boolean result;// 结果
+		final long aDayInMillis = 1000 * 60 * 60 * 24;// 一天的全部毫秒数
+		final long currentTimeMillis = System.currentTimeMillis();// 当前时间
+
+		Time now = new Time();// 注意这里导入的时候选择android.text.format.Time类,而不是java.sql.Time类
+		now.set(currentTimeMillis);
+
+		Time startTime = new Time();
+		startTime.set(currentTimeMillis);
+		startTime.hour = beginHour;
+		startTime.minute = beginMin;
+
+		Time endTime = new Time();
+		endTime.set(currentTimeMillis);
+		endTime.hour = endHour;
+		endTime.minute = endMin;
+
+		if (!startTime.before(endTime)) {
+			// 跨天的特殊情况（比如22:00-8:00）
+			startTime.set(startTime.toMillis(true) - aDayInMillis);
+			result = !now.before(startTime) && !now.after(endTime); // startTime <= now <= endTime
+			Time startTimeInThisDay = new Time();
+			startTimeInThisDay.set(startTime.toMillis(true) + aDayInMillis);
+			if (!now.before(startTimeInThisDay)) {
+				result = true;
+			}
+		} else {
+			// 普通情况(比如 8:00 - 14:00)
+			result = !now.before(startTime) && !now.after(endTime); // startTime <= now <= endTime
+		}
+		return result;
 	}
 
 }
